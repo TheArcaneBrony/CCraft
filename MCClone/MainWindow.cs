@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using OpenTK;
 using OpenTK.Graphics;
@@ -15,7 +16,7 @@ namespace MCClone
     
     class MainWindow : GameWindow
     {
-        Dictionary<Tuple<double,double>, Block> storage = new Dictionary<Tuple<double,double>, Block>();
+        Dictionary<Tuple<double,double>, Block> blockStorage = new Dictionary<Tuple<double,double>, Block>();
         double[,] ceil = new double[100,100];
         bool focussed = true;
         int centerX, centerY;
@@ -56,6 +57,15 @@ namespace MCClone
             centerX = ClientRectangle.Width / 2;
             centerY = ClientRectangle.Height / 2;
             Mouse.Move += Mouse_Move;
+            for (double x = -100; x < 100; x += 1)
+            {
+                for (double z = -100; z < 100; z += 1)
+                {
+                    var blockPos = new Tuple<double, double>(x, z);
+                    if (!blockStorage.ContainsKey(blockPos)) blockStorage.Add(blockPos, new Block());
+                    blockStorage[blockPos].Y = new Random((int)x*256+(int)z*16).Next(-100,100);
+                }
+            }
 
         }
         protected override void OnUpdateFrame(FrameEventArgs e)
@@ -63,7 +73,7 @@ namespace MCClone
             cyv -= 0.005;
             if (cyv < -0.25) cyv = -0.25;
             var pos = new Tuple<double, double>((int)cx, (int)cz);
-            if (storage.ContainsKey(pos) && storage[pos].Y > (cy-2.1) && cyv < 0) cyv = 0;
+            if (blockStorage.ContainsKey(pos) && blockStorage[pos].Y > (cy-2.1) && cyv < 0) cyv = 0;
             cy += cyv;
 
 
@@ -86,6 +96,10 @@ namespace MCClone
                 if (keyState.IsKeyDown(Key.D)) cz += 0.1;
                 if (keyState.IsKeyDown(Key.ShiftLeft)) cy -= 0.1;
                 if (keyState.IsKeyDown(Key.Space)) cyv = 0.1;
+                if (keyState.IsKeyDown(Key.R))
+                {
+                    cx = 0; cy = 100; cz = 0;
+                }
                     //cy += 0.1;
             } else
             {
@@ -136,23 +150,27 @@ namespace MCClone
 
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref modelview);
-
+            foreach (var block in blockStorage)
+            {
+                renderCube(block.Key.Item1, block.Value.Y, block.Key.Item2);
+            }
             for (double x = -10; x < 10; x+=1)
             {
-                for (double z = -10; z < 10; z+=1)
+                for (double z = -10; z < 10; z += 1)
                 {
-                    renderCube(x, x+ z, z);
+                    renderCube(x, blockStorage[new Tuple<double, double>(x, z)].Y, z);
                 }
             }
-           /* renderCube(0, 0, 0);
-            renderCube(1, 0, 0);
-            renderCube(1, 0, 1);
-            renderCube(0, 0, 1);
-            renderCube(-1, 0, 1);
-            renderCube(-1, 0, 0);
-            renderCube(-1, 0, -1);
-            renderCube(1, 0, -1);*/
             
+            /* renderCube(0, 0, 0);
+             renderCube(1, 0, 0);
+             renderCube(1, 0, 1);
+             renderCube(0, 0, 1);
+             renderCube(-1, 0, 1);
+             renderCube(-1, 0, 0);
+             renderCube(-1, 0, -1);
+             renderCube(1, 0, -1);*/
+
 
             GL.Begin(BeginMode.Points);
             GL.Color3(1f, 1f, 1f);
@@ -163,8 +181,8 @@ namespace MCClone
         void renderCube(double x, double y, double z)
         {
             var blockPos = new Tuple<double, double>(x, z);
-            if (!storage.ContainsKey(blockPos)) storage.Add(blockPos, new Block());
-            storage[blockPos].Y = y;
+            if (!blockStorage.ContainsKey(blockPos)) blockStorage.Add(blockPos, new Block());
+            blockStorage[blockPos].Y = y;
             GL.Begin(BeginMode.Quads);
             //top
             GL.Color3(1.0f, 1.0f, 0.0f);
@@ -172,6 +190,12 @@ namespace MCClone
             GL.Vertex3(1.0f + x, 1.0f + y, 0.0f + z);
             GL.Vertex3(1.0f + x, 1.0f + y, 1.0f + z);
             GL.Vertex3(0.0f + x, 1.0f + y, 1.0f + z);
+            //bottom
+            GL.Color3(1.0f, 1.0f, 1.0f);
+            GL.Vertex3(0.0f + x, 0.0f + y, 0.0f + z);
+            GL.Vertex3(1.0f + x, 0.0f + y, 0.0f + z);
+            GL.Vertex3(1.0f + x, 0.0f + y, 1.0f + z);
+            GL.Vertex3(0.0f + x, 0.0f + y, 1.0f + z);
             //left
             GL.Color3(1.0f, 0.0f, 0.0f);
             GL.Vertex3(0.0f + x, 1.0f + y, 0.0f + z);
@@ -179,13 +203,19 @@ namespace MCClone
             GL.Vertex3(1.0f + x, 0.0f + y, 0.0f + z);
             GL.Vertex3(0.0f + x, 0.0f + y, 0.0f + z);
             //right
+            GL.Color3(1.0f, 0.0f, 0.0f);
+            GL.Vertex3(1.0f + x, 1.0f + y, 0.0f + z);
+            GL.Vertex3(.0f + x, 1.0f + y, 0.0f + z);
+            GL.Vertex3(.0f + x, 0.0f + y, 0.0f + z);
+            GL.Vertex3(1.0f + x, 0.0f + y, 0.0f + z);
+            //front
             GL.Color3(0.0f, 1.0f, 1.0f);
             GL.Vertex3(0.0f + x, 1.0f + y, 0.0f + z);
             GL.Vertex3(0.0f + x, 1.0f + y, 1.0f + z);
             GL.Vertex3(0.0f + x, 0.0f + y, 1.0f + z);
             GL.Vertex3(0.0f + x, 0.0f + y, 0.0f + z);
             GL.End();
-            ceil[(int)x+50, (int)z+50] = y;
+            
         }
     }
     public class Block
