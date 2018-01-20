@@ -1,0 +1,9 @@
+C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\bin\Release\MCClone.exe.config
+C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\bin\Release\MCClone.exe
+C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\bin\Release\MCClone.pdb
+C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\bin\Release\OpenTK.dll
+C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\bin\Release\OpenTK.xml
+C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\obj\Release\MCClone.csproj.CoreCompileInputs.cache
+C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\obj\Release\MCClone.exe
+C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\obj\Release\MCClone.pdb
+C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\obj\Release\MCClone.csprojResolveAssemblyReference.cache
