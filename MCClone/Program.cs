@@ -13,7 +13,10 @@ namespace MCClone
     {
         static void Main(string[] args)
         {
-            new MainWindow().Run(60);
+            Console.WriteLine("Controls:\nW: X+\nS: X-\nD: Z+\nA: Z-\nQ: Brightness down\nE: Brightness up\nSpace: Jump/fly\nShift: Descend\nR: Go to 0/100/0");
+            Console.ReadKey();
+            Console.Write("\b ");
+            new MainWindow().Run(120);
         }
     }
 }
