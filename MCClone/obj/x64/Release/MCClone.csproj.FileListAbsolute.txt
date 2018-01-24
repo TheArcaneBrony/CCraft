@@ -1,0 +1,6 @@
+C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\bin\x64\Release\MCClone.exe.config
+C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\bin\x64\Release\MCClone.exe
+C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\bin\x64\Release\OpenTK.dll
+C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\bin\x64\Release\OpenTK.xml
+C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\obj\x64\Release\MCClone.csproj.CoreCompileInputs.cache
+C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\obj\x64\Release\MCClone.exe

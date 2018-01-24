@@ -120,7 +120,7 @@ namespace MCClone
                             while (threadCount > 6) Thread.Sleep(100);
                             threadCount++;
                             childThread.Start();
-                            Thread.Sleep(10);
+                            Thread.Sleep(25);
                         }
                     }
                     while (threadCount > 16) Thread.Sleep(1000);
@@ -142,7 +142,7 @@ namespace MCClone
                     HandleKeyboard();
                     player = new Player(cx, cy, cz);
                     player.CPos = new Vector3((float)cx, (float)cy + 2, (float)cz);
-                    player.CFPt = new Vector3((float)(cx + Math.Cos(RadToDeg(clx)) * 360), (float)(cy + 2 + Math.Sin(RadToDeg(cly)) * 360) * 2, (float)(cz + Math.Sin(RadToDeg(clx)) * 360));
+                    player.CFPt = new Vector3((float)(cx + Math.Cos(DegToRad(clx)) * 360), (float)(cy + 2 + Math.Sin(DegToRad(cly)) * 360) * 2, (float)(cz + Math.Sin(DegToRad(clx)) * 360));
                     Thread.Sleep(1000 / 120);
                     if (running == false) break;
                 }
@@ -196,7 +196,7 @@ namespace MCClone
             }
             else
             {
-                var clxt = RadToDeg(clx);
+                var clxt = DegToRad(clx);
                 if (keyState.IsKeyDown(Key.F)) flying = false;
                 if (keyState.IsKeyDown(Key.W)) cx += 0.1;
                 if (keyState.IsKeyDown(Key.A)) cz -= 0.1;
@@ -228,6 +228,7 @@ namespace MCClone
             Title = $"(Vsync: {VSync}) FPS: {1f / e.Time:0} ({(e.Time * 1000 + "00000000000").Substring(0, 5)} ms)| {cx}/{cy}/{cz} | {clx}/{cly} | {threadCount} {progress}";
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             Matrix4 modelview = Matrix4.LookAt(player.CPos, player.CFPt, Vector3.UnitY);
+            
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref modelview);
             
@@ -253,21 +254,29 @@ namespace MCClone
                 }
             }
             RenderCube(new Block(0, 200, 0));
-
+            GL.Begin(PrimitiveType.Points);
+            //GL.Color3();
+           /* for (double x = 0; x < 100; x += 0.001) {
+                var y = Math.Sinh(x);
+                GL.Color3(x / 100, Math.Sin(x), Math.Cos(x));
+              //  GL.Color3(1.0f * brightness, 1.0f * brightness, 0.0f * brightness);
+                GL.Vertex3(x, y, 0);
+                
+            }*/
+            GL.End();
             GL.Begin(PrimitiveType.Points);
             GL.Color3(1f, 1f, 1f);
-            GL.Vertex3((float)(cx + Math.Cos((clx / 360)) * 360), (float)(cy + 2 + Math.Sin((cly / 360)) * 480) * 2, (float)(cz + Math.Sin((clx / 360)) * 360));
+            GL.Vertex3(player.CFPt);
             GL.End();
             SwapBuffers();
         }
-        static void dot(double x, double z)
+        static void dot(double x, double y)
         {
-            double y = 10;
+            double z = 100;
             GL.Begin(PrimitiveType.Points);
             GL.Color3(1.0f * brightness, 1.0f * brightness, 0.0f * brightness);
             GL.Vertex3(0.5f + x, 1.0f + y, 0.5f + z);
             GL.End();
-            GL.Begin(PrimitiveType.Quads);
         }
         static void RenderCube(Block block)
         {
@@ -334,9 +343,9 @@ namespace MCClone
             }
             GL.End();
         }
-        public static double RadToDeg(double rad)
+        public static double DegToRad(double rad)
         {
-            return Math.PI * rad / 180;
+            return Math.PI * (int)rad / 180;
         }
     }
     public class Block
