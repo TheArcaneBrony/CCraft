@@ -20,8 +20,9 @@ namespace MCClone
         bool focussed = true;
         int centerX, centerY;
         double cxv = 0, cyv = 0, czv = 0;
-        static bool fly = false;
+        static bool flying = false;
         static List<Block> bsarr = new List<Block>();
+        static Player player;
 
         public static void GenerateLine(Dictionary<Tuple<double, double>, Block> blockStorage, double x, double z)
         {
@@ -32,29 +33,33 @@ namespace MCClone
                 {
                     if (running)
                     {
-                        
-                        bsarr.Add(new Block((16 * x) + xt, (int)(Math.Sin((16 * x + xt) / 20) * 10 + Math.Sin((16 * z + zt) / 30) * 10), (16 * z) + zt));
-                      //  var blockPos = new Tuple<double, double>((16 * x) + xt, (16 * z) + zt);
-                       /* while (!blockStorage.ContainsKey(blockPos))
+                        double bx = (16 * x) + xt, by = (int)(Math.Sin((16 * x + xt) / 20) * 10 + Math.Sin((16 * z + zt) / 30) * 10), bz = (16 * z) + zt;
+                        lock (bsarr)
                         {
-                            try
-                            {
-                                // Console.Write("\nR: " + (16 * x) + xt + "/" + (16 * z) + zt);
-                          //      blockPos = new Tuple<double, double>((16 * x) + xt, (16 * z) + zt);
-                            //    if (!blockStorage.ContainsKey(blockPos)) blockStorage.Remove(blockPos);
-                             //   blockStorage.Add(blockPos, new Block((16 * x) + xt, (int)(Math.Sin((16 * x + xt) / 20) * 10 + Math.Sin((16 * z + zt) / 30) * 10), (16 * z) + zt));
-                                //blockStorage[blockPos].Y = (int)(Math.Sin((16 * x + xt) / 20) * 2 + Math.Sin((16 * z + zt) / 30) * 5);
-                                //blockStorage[blockPos].Y = 2;
-                            }
-                            catch (Exception)
-                            {
-                                Console.WriteLine("E: " + (16 * x) + xt + "/" + (16 * z) + zt + " " + blockStorage.ContainsKey(blockPos));
-                                //throw;
-//Thread.Sleep(100);
-                            }
+                            bsarr.Add(new Block(bx, by, bz));
+                        }
+                        //    Thread.Sleep(2);
+                        //  var blockPos = new Tuple<double, double>((16 * x) + xt, (16 * z) + zt);
+                        /* while (!blockStorage.ContainsKey(blockPos))
+                         {
+                             try
+                             {
+                                 // Console.Write("\nR: " + (16 * x) + xt + "/" + (16 * z) + zt);
+                           //      blockPos = new Tuple<double, double>((16 * x) + xt, (16 * z) + zt);
+                             //    if (!blockStorage.ContainsKey(blockPos)) blockStorage.Remove(blockPos);
+                              //   blockStorage.Add(blockPos, new Block((16 * x) + xt, (int)(Math.Sin((16 * x + xt) / 20) * 10 + Math.Sin((16 * z + zt) / 30) * 10), (16 * z) + zt));
+                                 //blockStorage[blockPos].Y = (int)(Math.Sin((16 * x + xt) / 20) * 2 + Math.Sin((16 * z + zt) / 30) * 5);
+                                 //blockStorage[blockPos].Y = 2;
+                             }
+                             catch (Exception)
+                             {
+                                 Console.WriteLine("E: " + (16 * x) + xt + "/" + (16 * z) + zt + " " + blockStorage.ContainsKey(blockPos));
+                                 //throw;
+ //Thread.Sleep(100);
+                             }
 
-                            Thread.Sleep(0);
-                        }*/
+                             Thread.Sleep(0);
+                         }*/
                         //Console.WriteLine((xt + "").PadLeft(6) + " | " + (z + "").PadLeft(6));
                         //Thread.Sleep(1);
                         // Thread.Sleep(new TimeSpan(15000));
@@ -98,7 +103,6 @@ namespace MCClone
         {
             CursorVisible = false;
             GL.Enable(EnableCap.DepthTest);
-            GL.RenderMode(RenderingMode.Render);
             centerX = ClientRectangle.Width / 2;
             centerY = ClientRectangle.Height / 2;
             Mouse.Move += Mouse_Move;
@@ -113,78 +117,91 @@ namespace MCClone
                             Console.Title = x + "";
                             Thread childThread = new Thread(new ThreadStart(() => GenerateLine(blockStorage, x, z)));
                             childThread.Name = x + " - " + z;
-                            while (threadCount > 16) Thread.Sleep(100);
+                            while (threadCount > 6) Thread.Sleep(100);
                             threadCount++;
                             childThread.Start();
-                            Thread.Sleep(50);
-                            // childThread.Join();
+                            Thread.Sleep(10);
                         }
-
                     }
-                    while (threadCount > 16) Thread.Sleep(10);
-
+                    while (threadCount > 16) Thread.Sleep(1000);
                 }
             }));
             worldGen.Start();
-
+            player = new Player(cx, cy, cz);
             progress = "";
             Thread.Sleep(1);
             Thread kbdLogic = new Thread(new ThreadStart(() =>
             {
                 while (true)
                 {
-                    cyv -= 0.005;
-                    if (cyv < -0.5) cyv = -0.45;
+                    if (!flying) cyv -= 0.005;
+                    if (cyv < -0.45) cyv = -0.45;
                     var pos = new Tuple<double, double>((int)cx, (int)cz);
                     if (blockStorage.ContainsKey(pos) && blockStorage[pos].Y > (cy - 2.1) && cyv < 0) cyv = 0;
-                    cy += cyv;
+                    if (!flying) cy += cyv;
                     HandleKeyboard();
-                    Thread.Sleep(1000 / (120));
+                    player = new Player(cx, cy, cz);
+                    player.CPos = new Vector3((float)cx, (float)cy + 2, (float)cz);
+                    player.CFPt = new Vector3((float)(cx + Math.Cos(RadToDeg(clx)) * 360), (float)(cy + 2 + Math.Sin(RadToDeg(cly)) * 360) * 2, (float)(cz + Math.Sin(RadToDeg(clx)) * 360));
+                    Thread.Sleep(1000 / 120);
                     if (running == false) break;
-
                 }
                 Exit();
             }));
             kbdLogic.Start();
-            //blockRender.Start();
         }
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
-            
+            GL.ClearColor(0.1f * (float)brightness * (float)e.Time, 0.5f * (float)brightness, 0.7f * (float)brightness, 0.0f);
+
         }
         private void HandleKeyboard()
         {
             var keyState = Keyboard.GetState();
             if (keyState.IsKeyDown(Key.Escape))
             {
-               // Exit();
                 running = false;
             }
             if (!keyState.IsKeyDown(Key.LControl))
             {
+                if (keyState.IsKeyDown(Key.W))
+                {
+                    cx += Math.Cos(clxt);
+                    cz += Math.Sin(clxt);
+                }
+                if (keyState.IsKeyDown(Key.A))
+                {
+                    cx -= Math.Cos(clxt + 90);
+                    cz -= Math.Sin(clxt + 90);
+                }
+                if (keyState.IsKeyDown(Key.S))
+                {
+                    cx -= Math.Cos(clxt);
+                    cz -= Math.Sin(clxt);
+                }
+                if (keyState.IsKeyDown(Key.D))
+                {
+                    cx += Math.Cos(clxt + 90);
+                    cz += Math.Sin(clxt + 90);
+                }
+                if (keyState.IsKeyDown(Key.ShiftLeft)) cy -= 0.1;
+                if (keyState.IsKeyDown(Key.Space)) if (flying) cy += 0.1; else cyv = 0.1;
+                if (keyState.IsKeyDown(Key.R))
+                {
+                    cx = 0; cy = 100 * 2; cz = 0;
+                }
+                if (keyState.IsKeyDown(Key.Q)) brightness -= 0.01;
+                if (keyState.IsKeyDown(Key.E)) brightness += 0.01;
+                if (keyState.IsKeyDown(Key.F)) flying = true;
+            }
+            else
+            {
+                var clxt = RadToDeg(clx);
+                if (keyState.IsKeyDown(Key.F)) flying = false;
                 if (keyState.IsKeyDown(Key.W)) cx += 0.1;
                 if (keyState.IsKeyDown(Key.A)) cz -= 0.1;
                 if (keyState.IsKeyDown(Key.S)) cx -= 0.1;
                 if (keyState.IsKeyDown(Key.D)) cz += 0.1;
-                /* if (keyState.IsKeyDown(Key.W)) cx += Math.Cos((clx / 360));
-                 if (keyState.IsKeyDown(Key.A)) cz -= Math.Sin((clx / 360));
-                 if (keyState.IsKeyDown(Key.S)) cx -= Math.Cos((clx / 360));
-                 if (keyState.IsKeyDown(Key.D)) cz += Math.Sin((clx / 360));*/
-                if (keyState.IsKeyDown(Key.ShiftLeft)) cy -= 0.1;
-                if (keyState.IsKeyDown(Key.Space)) cyv = 0.1;
-                if (keyState.IsKeyDown(Key.R))
-                {
-                    cx = 0; cy = 100*2; cz = 0;
-                }
-                if (keyState.IsKeyDown(Key.Q)) brightness -= 0.01;
-                if (keyState.IsKeyDown(Key.E)) brightness += 0.01;
-            }
-            else
-            {
-                if (keyState.IsKeyDown(Key.W)) clx += 0.1;
-                if (keyState.IsKeyDown(Key.S)) clx -= 0.1;
-                if (keyState.IsKeyDown(Key.ShiftLeft)) cly -= 0.1;
-                if (keyState.IsKeyDown(Key.Space)) cly += 0.1;
             }
         }
         private void Mouse_Move(object sender, MouseMoveEventArgs e)
@@ -196,23 +213,24 @@ namespace MCClone
                 Point center = new Point(centerX, centerY);
                 Point mousePos = PointToScreen(center);
                 OpenTK.Input.Mouse.SetPosition(mousePos.X, mousePos.Y);
-                clx += x;
-                cly += y;
-                if (cly > 512) cly = 512;
-                if (cly < -512) cly = -512;
-                //clx %= 360;
+                clxt += x;
+                clyt += y;
+                if (clyt > 90) clyt = 90;
+                if (clyt < -90) clyt = -90;
+                cly = clyt;
+              //  clxt %= 360;
+                clx = clxt; // -180
             }
         }
-        double cx = 0, cy = 100, cz = 0, clx = 0, cly = 0;
+        double cx = 0, cy = 100, cz = 0, clx = 0, cly = 0, clxt = 0, clyt = 0;
         protected override void OnRenderFrame(FrameEventArgs e)
         {
-            Title = $"(Vsync: {VSync}) FPS: {1f / e.Time:0} ({(e.Time*1000+"00000000000").Substring(0,5)} ms)| {cx}/{cy}/{cz} | {clx}/{cly} | {threadCount} {progress}";
+            Title = $"(Vsync: {VSync}) FPS: {1f / e.Time:0} ({(e.Time * 1000 + "00000000000").Substring(0, 5)} ms)| {cx}/{cy}/{cz} | {clx}/{cly} | {threadCount} {progress}";
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            Matrix4 modelview = Matrix4.LookAt(new Vector3((float)cx, (float)cy + 2, (float)cz), new Vector3((float)(cx + Math.Cos((clx / 360)) * 360), (float)(cy + 2 + Math.Sin((cly / 360)) * 480) * 2, (float)(cz + Math.Sin((clx / 360)) * 360)), Vector3.UnitY);
+            Matrix4 modelview = Matrix4.LookAt(player.CPos, player.CFPt, Vector3.UnitY);
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref modelview);
-            GL.ClearColor(0.1f * (float)brightness * (float)e.Time, 0.5f * (float)brightness, 0.7f * (float)brightness, 0.0f);
-
+            
             /*for (int x = (int)cx - renderDistance; x < (int)cx + renderDistance; x++)
             {
                 for (int z = (int)cz - renderDistance; z < (int)cz + renderDistance; z++)
@@ -220,17 +238,21 @@ namespace MCClone
                     var blockPos = new Tuple<double, double>((int)x, (int)z);
                     if (blockStorage.ContainsKey(blockPos))
                     {
-                        renderCube(x, blockStorage[blockPos].Y, z);
+                        RenderCube(x, blockStorage[blockPos].Y, z);
                     }
 
                 }
             }*/
-            var bs = bsarr.ToArray();
-            foreach (Block block in bs)
+            for (int i = 0; i < bsarr.Count; i++)
             {
-                renderCube(block);
+                lock (bsarr)
+                {
+                    Block block = bsarr[i];
+                    if (cx - renderDistance <= block.X && block.X <= cx + renderDistance && cz - renderDistance <= block.Z && block.Z <= cz + renderDistance)
+                        RenderCube(block);
+                }
             }
-            renderCube(new Block(0, 200, 0));
+            RenderCube(new Block(0, 200, 0));
 
             GL.Begin(PrimitiveType.Points);
             GL.Color3(1f, 1f, 1f);
@@ -238,98 +260,90 @@ namespace MCClone
             GL.End();
             SwapBuffers();
         }
-        static void renderCube(double x, double y, double z)
+        static void dot(double x, double z)
         {
-            
-            GL.Begin(PrimitiveType.Quads);
-            //top
+            double y = 10;
+            GL.Begin(PrimitiveType.Points);
             GL.Color3(1.0f * brightness, 1.0f * brightness, 0.0f * brightness);
-            GL.Vertex3(0.0f + x, 1.0f + y, 0.0f + z);
-            GL.Vertex3(1.0f + x, 1.0f + y, 0.0f + z);
-            GL.Vertex3(1.0f + x, 1.0f + y, 1.0f + z);
-            GL.Vertex3(0.0f + x, 1.0f + y, 1.0f + z);
-            //bottom
-            GL.Color3(1.0f * brightness, 1.0f * brightness, 1.0f * brightness);
-            GL.Vertex3(0.0f + x, 0.0f + y, 0.0f + z);
-            GL.Vertex3(1.0f + x, 0.0f + y, 0.0f + z);
-            GL.Vertex3(1.0f + x, 0.0f + y, 1.0f + z);
-            GL.Vertex3(0.0f + x, 0.0f + y, 1.0f + z);
-            //left
-            GL.Color3(1.0f * brightness, 0.0f * brightness, 0.0f * brightness);
-            GL.Vertex3(0.0f + x, 1.0f + y, 0.0f + z);
-            GL.Vertex3(1.0f + x, 1.0f + y, 0.0f + z);
-            GL.Vertex3(1.0f + x, 0.0f + y, 0.0f + z);
-            GL.Vertex3(0.0f + x, 0.0f + y, 0.0f + z);
-            //right
-            GL.Color3(1.0f * brightness, 0.5f * brightness, 0.0f * brightness);
-            GL.Vertex3(0.0f + x, 1.0f + y, 1.0f + z);
-            GL.Vertex3(1.0f + x, 1.0f + y, 1.0f + z);
-            GL.Vertex3(1.0f + x, 0.0f + y, 1.0f + z);
-            GL.Vertex3(0.0f + x, 0.0f + y, 1.0f + z);
-            //front
-            GL.Color3(0.0f * brightness, 1.0f * brightness, 1.0f * brightness);
-            GL.Vertex3(0.0f + x, 1.0f + y, 0.0f + z);
-            GL.Vertex3(0.0f + x, 1.0f + y, 1.0f + z);
-            GL.Vertex3(0.0f + x, 0.0f + y, 1.0f + z);
-            GL.Vertex3(0.0f + x, 0.0f + y, 0.0f + z);
-            //back
-            GL.Color3(0.0f * brightness, 0.0f * brightness, 1.0f * brightness);
-            GL.Vertex3(0.0f + x, 1.0f + y, 0.0f + z);
-            GL.Vertex3(0.0f + x, 1.0f + y, -1.0f + z);
-            GL.Vertex3(0.0f + x, 0.0f + y, -1.0f + z);
-            GL.Vertex3(0.0f + x, 0.0f + y, 0.0f + z);
+            GL.Vertex3(0.5f + x, 1.0f + y, 0.5f + z);
             GL.End();
+            GL.Begin(PrimitiveType.Quads);
         }
-            static void renderCube(Block block)
-            {
+        static void RenderCube(Block block)
+        {
             double x = block.X;
             double y = block.Y;
             double z = block.Z;
-                GL.Begin(BeginMode.Quads);
+            GL.Begin(PrimitiveType.Quads);
+
+            if (player.Y > y)
+            {
                 //top
                 GL.Color3(1.0f * brightness, 1.0f * brightness, 0.0f * brightness);
                 GL.Vertex3(0.0f + x, 1.0f + y, 0.0f + z);
                 GL.Vertex3(1.0f + x, 1.0f + y, 0.0f + z);
                 GL.Vertex3(1.0f + x, 1.0f + y, 1.0f + z);
                 GL.Vertex3(0.0f + x, 1.0f + y, 1.0f + z);
+            }
+            else
+            {
                 //bottom
                 GL.Color3(1.0f * brightness, 1.0f * brightness, 1.0f * brightness);
                 GL.Vertex3(0.0f + x, 0.0f + y, 0.0f + z);
                 GL.Vertex3(1.0f + x, 0.0f + y, 0.0f + z);
                 GL.Vertex3(1.0f + x, 0.0f + y, 1.0f + z);
                 GL.Vertex3(0.0f + x, 0.0f + y, 1.0f + z);
+
+            }
+
+            if (player.Z < z)
+            {
                 //left
                 GL.Color3(1.0f * brightness, 0.0f * brightness, 0.0f * brightness);
                 GL.Vertex3(0.0f + x, 1.0f + y, 0.0f + z);
                 GL.Vertex3(1.0f + x, 1.0f + y, 0.0f + z);
                 GL.Vertex3(1.0f + x, 0.0f + y, 0.0f + z);
                 GL.Vertex3(0.0f + x, 0.0f + y, 0.0f + z);
+
+            }
+            else
+            {
                 //right
                 GL.Color3(1.0f * brightness, 0.5f * brightness, 0.0f * brightness);
                 GL.Vertex3(0.0f + x, 1.0f + y, 1.0f + z);
                 GL.Vertex3(1.0f + x, 1.0f + y, 1.0f + z);
                 GL.Vertex3(1.0f + x, 0.0f + y, 1.0f + z);
                 GL.Vertex3(0.0f + x, 0.0f + y, 1.0f + z);
+            }
+            if(player.X < x)
+            {
                 //front
                 GL.Color3(0.0f * brightness, 1.0f * brightness, 1.0f * brightness);
                 GL.Vertex3(0.0f + x, 1.0f + y, 0.0f + z);
                 GL.Vertex3(0.0f + x, 1.0f + y, 1.0f + z);
                 GL.Vertex3(0.0f + x, 0.0f + y, 1.0f + z);
                 GL.Vertex3(0.0f + x, 0.0f + y, 0.0f + z);
+            } else
+            {
                 //back
                 GL.Color3(0.0f * brightness, 1.0f * brightness, 1.0f * brightness);
-                GL.Vertex3(0.0f + x, 1.0f + y, 0.0f + z);
-                GL.Vertex3(0.0f + x, 1.0f + y, 1.0f + z);
-                GL.Vertex3(0.0f + x, 0.0f + y, 1.0f + z);
-                GL.Vertex3(0.0f + x, 0.0f + y, 0.0f + z);
-                GL.End();
-
+                GL.Vertex3(1.0f + x, 1.0f + y, 0.0f + z);
+                GL.Vertex3(1.0f + x, 1.0f + y, 1.0f + z);
+                GL.Vertex3(1.0f + x, 0.0f + y, 1.0f + z);
+                GL.Vertex3(1.0f + x, 0.0f + y, 0.0f + z);
             }
+            GL.End();
         }
+        public static double RadToDeg(double rad)
+        {
+            return Math.PI * rad / 180;
+        }
+    }
     public class Block
     {
-        public Block() {}
-        public Block(double X,double Y,double Z) {
+        public Block() { }
+        public Block(double X, double Y, double Z)
+        {
             this.X = X;
             this.Y = Y;
             this.Z = Z;
@@ -338,4 +352,21 @@ namespace MCClone
         public double Y { get; set; }
         public double Z { get; set; }
     }
+    public class Player
+    {
+        public Player() { }
+        public Player(double X, double Y, double Z)
+        {
+            this.X = X;
+            this.Y = Y;
+            this.Z = Z;
+        }
+        public double X { get; set; }
+        public double Y { get; set; }
+        public double Z { get; set; }
+        public Vector3 CPos { get; set; }
+        public Vector3 CFPt { get; set; }
+        
+    }
+    
 }
