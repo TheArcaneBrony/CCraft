@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Threading;
+using System.Threading.Tasks;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -11,90 +13,62 @@ namespace MCClone
 {
     class MainWindow : GameWindow
     {
-        static bool running = true;
-        static int threadCount = 1;
-        string progress = "";
-        int renderDistance = 128 * 2;
-        static double brightness = 1 / 1;
-        static Dictionary<Tuple<double, double>, Block> blockStorage = new Dictionary<Tuple<double, double>, Block>();
-        bool focussed = true;
-        int centerX, centerY;
-        double cxv = 0, cyv = 0, czv = 0;
-        static bool flying = false;
+        static bool running = true, flying = false, focussed = true;
+        static string progress = "", log = "";
+        static int renderDistance = 128 * 2, centerX, centerY, threadCount = 1;
+        static double brightness = 1 / 1, cxv = 0, cyv = 0, czv = 0, cx = 0, cy = 100, cz = 0, clx = 0, cly = 0, clxt = 0, clyt = 0;
         static List<Block> bsarr = new List<Block>();
         static Player player;
-
-        public static void GenerateLine(Dictionary<Tuple<double, double>, Block> blockStorage, double x, double z)
+        
+        public static void GenerateChunk(double x, double z)
         {
-            Console.WriteLine("S: " + Thread.CurrentThread.Name);
-            for (double xt = 0; xt < 16; xt++)
+
+            /*Console.SetCursorPosition((int)x+16, (int)z + 16);
+            Console.Write("█");
+            log += ("S: " + Thread.CurrentThread.Name + "\n");*/
+            threadCount++;
+            try
             {
-                for (double zt = 0; zt < 16; zt += 1)
+                for (double xt = 0; xt < 16; xt++)
                 {
-                    if (running)
+                    double bx = 16 * x + xt;
+                    for (double zt = 0; zt < 16; zt += 1)
                     {
-                        double bx = (16 * x) + xt, by = (int)(Math.Sin((16 * x + xt) / 20) * 10 + Math.Sin((16 * z + zt) / 30) * 10), bz = (16 * z) + zt;
-                        lock (bsarr)
+                        double bz = 16 * z + zt, by = (int)(Math.Sin(DegToRad(bx)) * 10 + Math.Sin(DegToRad(bz)) * 10);
+                        Block blk = new Block(bx, by, bz);
+                        if (!bsarr.Contains(blk))
                         {
-                            bsarr.Add(new Block(bx, by, bz));
+                            lock (bsarr)
+                            {
+                                bsarr.Add(blk);
+                            }
                         }
-                        //    Thread.Sleep(2);
-                        //  var blockPos = new Tuple<double, double>((16 * x) + xt, (16 * z) + zt);
-                        /* while (!blockStorage.ContainsKey(blockPos))
-                         {
-                             try
-                             {
-                                 // Console.Write("\nR: " + (16 * x) + xt + "/" + (16 * z) + zt);
-                           //      blockPos = new Tuple<double, double>((16 * x) + xt, (16 * z) + zt);
-                             //    if (!blockStorage.ContainsKey(blockPos)) blockStorage.Remove(blockPos);
-                              //   blockStorage.Add(blockPos, new Block((16 * x) + xt, (int)(Math.Sin((16 * x + xt) / 20) * 10 + Math.Sin((16 * z + zt) / 30) * 10), (16 * z) + zt));
-                                 //blockStorage[blockPos].Y = (int)(Math.Sin((16 * x + xt) / 20) * 2 + Math.Sin((16 * z + zt) / 30) * 5);
-                                 //blockStorage[blockPos].Y = 2;
-                             }
-                             catch (Exception)
-                             {
-                                 Console.WriteLine("E: " + (16 * x) + xt + "/" + (16 * z) + zt + " " + blockStorage.ContainsKey(blockPos));
-                                 //throw;
- //Thread.Sleep(100);
-                             }
-
-                             Thread.Sleep(0);
-                         }*/
-                        //Console.WriteLine((xt + "").PadLeft(6) + " | " + (z + "").PadLeft(6));
-                        //Thread.Sleep(1);
-                        // Thread.Sleep(new TimeSpan(15000));
-                        //   progress = " | " + ((xt + "").PadLeft(6) + " | " + (z + "").PadLeft(6));
-                        // Console.Title = blockStorage.Count + progress;
+                        
                     }
-
-
+                    
                 }
-                //Thread.Sleep(15);
             }
-            Console.WriteLine("X: " + Thread.CurrentThread.Name);
+            catch (Exception)
+            {
+
+                throw;
+            }
+           
+            log += ("X: " + Thread.CurrentThread.Name + "\n");
             threadCount--;
         }
 
-        public MainWindow()
-    : base(1280, // initial width
-        720, // initial height
-        GraphicsMode.Default,
-        "♥ Fikou/Emma ♥",  // initial title
-        GameWindowFlags.Default,
-        DisplayDevice.Default,
-        4, // OpenGL major version
-        0, // OpenGL minor version
-        GraphicsContextFlags.ForwardCompatible)
+        public MainWindow() : base(1280, 720, GraphicsMode.Default, "♥ Fikou/Emma ♥", GameWindowFlags.Default, DisplayDevice.Default, 4, 0, GraphicsContextFlags.ForwardCompatible)
         {
             Title += ": OpenGL Version: " + GL.GetString(StringName.Version);
-            VSync = VSyncMode.Off;
+            
         }
         protected override void OnResize(EventArgs e)
         {
             GL.Viewport(ClientRectangle.X, ClientRectangle.Y, ClientRectangle.Width, ClientRectangle.Height);
             centerX = ClientRectangle.Width / 2;
             centerY = ClientRectangle.Height / 2;
-            Matrix4 projection = Matrix4.CreatePerspectiveFieldOfView((float)Math.PI / 4/* 0.9f*/, Width / (float)Height, 1.0f, 6400f);
+            Matrix4 projection = Matrix4.CreatePerspectiveFieldOfView((float)Math.PI / 4/* 0.9f*/, Width / (float)Height, 1.0f, 64000f);
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadMatrix(ref projection);
         }
@@ -106,26 +80,37 @@ namespace MCClone
             centerX = ClientRectangle.Width / 2;
             centerY = ClientRectangle.Height / 2;
             Mouse.Move += Mouse_Move;
-            Thread worldGen = new Thread(new ThreadStart(() =>
+            Thread worldGen = new Thread(() =>
             {
-                for (double x = -8; x < 8; x += 1)
+                for (double x = -16; x < 16; x += 1)
                 {
-                    for (double z = -8; z < 8; z++)
+                    Thread worldGen2 = new Thread(() =>
                     {
-                        if (running)
+                        double xt = x;
+                        for (double z = -16; z < 16; z++)
                         {
-                            Console.Title = x + "";
-                            Thread childThread = new Thread(new ThreadStart(() => GenerateLine(blockStorage, x, z)));
-                            childThread.Name = x + " - " + z;
-                            while (threadCount > 6) Thread.Sleep(100);
-                            threadCount++;
-                            childThread.Start();
-                            Thread.Sleep(25);
+                            
+                            //Console.Title = x + "";
+
+                           // while (threadCount > 1) Thread.Sleep(100);
+                            Thread.Sleep(13);
+                            var success = false;
+                            while (!success)
+                            {
+                                Thread childThread = new Thread(() => GenerateChunk(xt, z));
+                                childThread.Name = x + " - " + z; childThread.Start();
+                                success = childThread.Join(10000);
+
+                            }
                         }
-                    }
-                    while (threadCount > 16) Thread.Sleep(1000);
+                    });
+                    while (threadCount > 9) Thread.Sleep(100);
+
+                    worldGen2.Start();
+                    worldGen2.Join(130);
                 }
-            }));
+                VSync = VSyncMode.Off;
+            });
             worldGen.Start();
             player = new Player(cx, cy, cz);
             progress = "";
@@ -134,10 +119,11 @@ namespace MCClone
             {
                 while (true)
                 {
+                //    Console.Write(log);
+                    log = "";
                     if (!flying) cyv -= 0.005;
                     if (cyv < -0.45) cyv = -0.45;
-                    var pos = new Tuple<double, double>((int)cx, (int)cz);
-                    if (blockStorage.ContainsKey(pos) && blockStorage[pos].Y > (cy - 2.1) && cyv < 0) cyv = 0;
+                    if (bsarr.Contains(new Block((int)cx, (int)cy, (int)cz)) && cyv < 0) cyv = 0;
                     if (!flying) cy += cyv;
                     HandleKeyboard();
                     player = new Player(cx, cy, cz);
@@ -149,11 +135,33 @@ namespace MCClone
                 Exit();
             }));
             kbdLogic.Start();
+            Thread.Sleep(10);
+            Thread consoleInput = new Thread(() =>
+            {
+                while (true)
+                {
+                    string input = Console.ReadLine();
+                    string command = input.Split(' ')[0];
+                    string[] args = input.Remove(0, input.Split(' ')[0].Length+1).Split(' ');
+                    Console.WriteLine("\"" + command + "\" " + "\"" + args[0] + "\" " + "\"" + args[1] + "\" " + "\"" + args[2] + "\" ");
+                    switch(command)
+                    {
+                        case "tp":
+                            cx = double.Parse(args[0]);
+                            cy = double.Parse(args[1]);
+                            cz = double.Parse(args[2]);
+                            break;
+                        default:
+                            break;
+                    }
+                    if (running == false) break;
+                }
+            });
+            consoleInput.Start();
         }
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             GL.ClearColor(0.1f * (float)brightness * (float)e.Time, 0.5f * (float)brightness, 0.7f * (float)brightness, 0.0f);
-
         }
         private void HandleKeyboard()
         {
@@ -161,28 +169,31 @@ namespace MCClone
             if (keyState.IsKeyDown(Key.Escape))
             {
                 running = false;
+                Thread.Sleep(100);
+                Exit();
+                Environment.Exit(0);
             }
             if (!keyState.IsKeyDown(Key.LControl))
             {
                 if (keyState.IsKeyDown(Key.W))
                 {
-                    cx += Math.Cos(clxt);
-                    cz += Math.Sin(clxt);
+                    cx += Math.Cos(DegToRad(clx));
+                    cz += Math.Sin(DegToRad(clx));
                 }
                 if (keyState.IsKeyDown(Key.A))
                 {
-                    cx -= Math.Cos(clxt + 90);
-                    cz -= Math.Sin(clxt + 90);
+                    cx -= Math.Cos(DegToRad(clx + 90));
+                    cz -= Math.Sin(DegToRad(clx + 90));
                 }
                 if (keyState.IsKeyDown(Key.S))
                 {
-                    cx -= Math.Cos(clxt);
-                    cz -= Math.Sin(clxt);
+                    cx -= Math.Cos(DegToRad(clx));
+                    cz -= Math.Sin(DegToRad(clx));
                 }
                 if (keyState.IsKeyDown(Key.D))
                 {
-                    cx += Math.Cos(clxt + 90);
-                    cz += Math.Sin(clxt + 90);
+                    cx += Math.Cos(DegToRad(clx + 90));
+                    cz += Math.Sin(DegToRad(clx + 90));
                 }
                 if (keyState.IsKeyDown(Key.ShiftLeft)) cy -= 0.1;
                 if (keyState.IsKeyDown(Key.Space)) if (flying) cy += 0.1; else cyv = 0.1;
@@ -196,7 +207,6 @@ namespace MCClone
             }
             else
             {
-                var clxt = DegToRad(clx);
                 if (keyState.IsKeyDown(Key.F)) flying = false;
                 if (keyState.IsKeyDown(Key.W)) cx += 0.1;
                 if (keyState.IsKeyDown(Key.A)) cz -= 0.1;
@@ -218,14 +228,13 @@ namespace MCClone
                 if (clyt > 90) clyt = 90;
                 if (clyt < -90) clyt = -90;
                 cly = clyt;
-              //  clxt %= 360;
-                clx = clxt; // -180
+                clx = clxt - 180;
+              //  Console.Title = $"RX: {DegToRad(clx)} | RY: {DegToRad(cly)}";
             }
         }
-        double cx = 0, cy = 100, cz = 0, clx = 0, cly = 0, clxt = 0, clyt = 0;
         protected override void OnRenderFrame(FrameEventArgs e)
         {
-            Title = $"(Vsync: {VSync}) FPS: {1f / e.Time:0} ({(e.Time * 1000 + "00000000000").Substring(0, 5)} ms)| {cx}/{cy}/{cz} | {clx}/{cly} | {threadCount} {progress}";
+            Title = $"FPS: {1f / e.Time:0} ({(e.Time * 1000 + "00000000000").Substring(0, 5)} ms) ({threadCount} thr) | {cx}/{cy}/{cz} | {clx}/{cly} | {bsarr.Count}";
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             Matrix4 modelview = Matrix4.LookAt(player.CPos, player.CFPt, Vector3.UnitY);
             
@@ -345,7 +354,8 @@ namespace MCClone
         }
         public static double DegToRad(double rad)
         {
-            return Math.PI * (int)rad / 180;
+            return (Math.PI/180)*rad;
+            
         }
     }
     public class Block
