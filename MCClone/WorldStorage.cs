@@ -7,26 +7,27 @@ using System.Threading.Tasks;
 
 namespace MCClone
 {
-    class WorldStorage
-    {
-    }
     public class Chunk
     {
-        public Chunk() { }
+        public Chunk() { Blocks = new List<Block>();  }
         public Chunk(double X, double Z)
         {
             this.X = X;
             this.Z = Z;
+            this.Blocks = new List<Block>();
         }
+        public Chunk(double X, double Z, List<Block> Blocks)
+        {
+            this.X = X;
+            this.Z = Z;
+            this.Blocks = Blocks;
+        }
+
         public double X { get; set; }
         public double Z { get; set; }
         public double XS { get; set; }
         public double ZS { get; set; }
-        public List<Block> Blocks = new List<Block>();
-        public void Generate()
-        {
-           
-        }
+        public List<Block> Blocks { get; set; }
     }
     public class Block
     {

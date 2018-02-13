@@ -24,8 +24,6 @@ namespace MCClone
         public double ZV { get; set; }
         public double LX { get; set; }
         public double LY { get; set; }
-        public double LXt { get; set; }
-        public double LYt { get; set; }
         public bool Flying { get; set; }
         public Vector3 CPos { get; set; }
         public Vector3 CFPt { get; set; }

@@ -15,16 +15,14 @@ namespace MCClone
     {
         public static bool running = true, focussed = true;
         public static string progress = "", log = "";
-        public static int renderDistance = 128 * 2, centerX, centerY, threadCount = 1;
-        public static double brightness = 1;
+        public static int renderDistance = 5, centerX, centerY, threadCount = 1;
+        public static double brightness = 1, LYt = 0, LXt = 0;
         public static List<Chunk> chunkList = new List<Chunk>();
         public static List<int> dispLists = new List<int>();
         public static Player player;
-        
         public MainWindow() : base(1280, 720, GraphicsMode.Default, "♥ Fikou/Emma ♥", GameWindowFlags.Default, DisplayDevice.Default, 4, 0, GraphicsContextFlags.ForwardCompatible)
         {
-            
-            Title += ": OpenGL Version: " + GL.GetString(StringName.Version);
+            Title += " | GL Ver: " + GL.GetString(StringName.Version);
         }
         protected override void OnResize(EventArgs e)
         {
@@ -44,7 +42,7 @@ namespace MCClone
             centerY = ClientRectangle.Height / 2;
             Mouse.Move += Mouse_Move;
             TerrainGen.GenTerrain(chunkList);
-            player = new Player(0, 100, 0);
+            player = new Player(0, 200, 0);
             progress = "";
             Thread.Sleep(1);
             Thread kbdLogic = new Thread(new ThreadStart(() =>
@@ -52,21 +50,14 @@ namespace MCClone
                 while (true)
                 {
                     log = "";
-                    if (!player.Flying) player.YV -= 0.005;
-                    if (player.YV < -0.45) player.YV = -0.45;
-                  //  if (bsarr.Contains(new Block((int)cx, (int)cy, (int)cz)) && cyv < 0) cyv = 0;
-                    if (!player.Flying) player.Y += player.YV;
+                    Input.Tick();
                     Input.HandleKeyboard();
-                    
-                    player.CPos = new Vector3((float)player.X, (float)player.Y + 2, (float)player.Z);
-                    player.CFPt = new Vector3((float)(player.X + Math.Cos(Util.DegToRad(player.LX)) * 360), (float)(player.Y + 2 + Math.Sin(Util.DegToRad(player.LY)) * 360) * 2, (float)(player.Z + Math.Sin(Util.DegToRad(player.LX)) * 360));
                     Thread.Sleep(1000 / 120);
                     if (running == false) break;
                 }
                 Exit();
             }));
             kbdLogic.Start();
-            Thread.Sleep(10);
             Thread consoleInput = new Thread(() =>
             {
                 while (true)
@@ -74,13 +65,15 @@ namespace MCClone
                     string input = Console.ReadLine();
                     string command = input.Split(' ')[0];
                     string[] args = input.Remove(0, input.Split(' ')[0].Length+1).Split(' ');
-                    Console.WriteLine("\"" + command + "\" " + "\"" + args[0] + "\" " + "\"" + args[1] + "\" " + "\"" + args[2] + "\" ");
                     switch(command)
                     {
                         case "tp":
                             player.X = double.Parse(args[0]);
                             player.Y = double.Parse(args[1]);
                             player.Z = double.Parse(args[2]);
+                            break;
+                        case "render":
+                            renderDistance = int.Parse(args[0]);
                             break;
                         default:
                             break;
@@ -89,7 +82,6 @@ namespace MCClone
                 }
             });
             consoleInput.Start();
-            
         }
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
@@ -105,12 +97,12 @@ namespace MCClone
                 Point center = new Point(centerX, centerY);
                 Point mousePos = PointToScreen(center);
                 OpenTK.Input.Mouse.SetPosition(mousePos.X, mousePos.Y);
-                player.LXt += x;
-                player.LYt += y;
-                if (player.LYt > 90) player.LYt = 90;
-                if (player.LYt < -90) player.LYt = -90;
-                player.LY = player.LYt;
-                player.LX = player.LXt - 180;
+                LXt += x;
+                LYt += y;
+                if (LYt > 90) LYt = 90;
+                if (LYt < -90) LYt = -90;
+                player.LY = LYt;
+                player.LX = LXt - 180;
             }
         }
         protected override void OnRenderFrame(FrameEventArgs e)
@@ -122,57 +114,31 @@ namespace MCClone
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref modelview);
 
-            /*for (int x = (int)cx - renderDistance; x < (int)cx + renderDistance; x++)
+            for (int ch = 0; ch < chunkList.Count; ch++)
             {
-                for (int z = (int)cz - renderDistance; z < (int)cz + renderDistance; z++)
+                Chunk cch = chunkList[ch];
+                if((player.X / 16)+renderDistance > cch.X & (player.X / 16) - renderDistance < cch.X & (player.Z / 16) + renderDistance > cch.Z & (player.Z / 16) - renderDistance < cch.Z)
+                for (int bl = 0; bl < cch.Blocks.Count; bl++)
                 {
-                    var blockPos = new Tuple<double, double>((int)x, (int)z);
-                    if (blockStorage.ContainsKey(blockPos))
-                    {
-                        RenderCube(x, blockStorage[blockPos].Y, z);
-                    }
-
-                }
-            }*/
-
-            for (int i = 0; i < chunkList.Count; i++)
-            {
-                Chunk CurrChunk = chunkList[i];
-             //   if (cx - renderDistance <= CurrChunk.X && CurrChunk.X <= cx + renderDistance && cz - renderDistance <= CurrChunk.Z && CurrChunk.Z <= cz + renderDistance)
-                    for (int j = 0; i < CurrChunk.Blocks.Count; i++)
-                {
-                  /*  lock (chunkList)
-                    {*/
-                        Block block = CurrChunk.Blocks[j];
-                      //  if (cx - renderDistance <= block.X && block.X <= cx + renderDistance && cz - renderDistance <= block.Z && block.Z <= cz + renderDistance)
-                            RenderCube(new Block(CurrChunk.X * 16 + block.X, block.Y + CurrChunk.X, CurrChunk.Z * 16 + block.Z));
-                    //Console.Write($"{CurrChunk.X} ");
-                   // }
-                    Thread.Sleep(0);
+                    Block cbl = cch.Blocks[bl];
+                    RenderCube(new Block(cbl.X + 16 * cch.X, cbl.Y, cbl.Z + 16 * cch.Z));
                 }
             }
-            
-            /*lock (dispLists)
-            {
-                foreach (var list in dispLists)
-                {
-
-                    GL.CallList(list);
-                }
-            }*/
 
             RenderCube(new Block(0, 200, 0));
             
             
-            GL.Begin(PrimitiveType.Points);
+            GL.Begin(PrimitiveType.Lines);
             //GL.Color3();
-           /* for (double x = 0; x < 100; x += 0.001) {
-                var y = Math.Sinh(x);
-                GL.Color3(x / 100, Math.Sin(x), Math.Cos(x));
-              //  GL.Color3(1.0f * brightness, 1.0f * brightness, 0.0f * brightness);
-                GL.Vertex3(x, y, 0);
-                
-            }*/
+            /* for (double x = 0; x < 100; x += 0.001) {
+                 var y = Math.Sinh(x);
+                 GL.Color3(x / 100, Math.Sin(x), Math.Cos(x));
+               //  GL.Color3(1.0f * brightness, 1.0f * brightness, 0.0f * brightness);
+                 GL.Vertex3(x, y, 0);
+
+             }*/
+            GL.Vertex3(player.CPos);
+            GL.Vertex3(player.CFPt);
             GL.End();
             GL.Begin(PrimitiveType.Points);
             GL.Color3(1f, 1f, 1f);
