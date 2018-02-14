@@ -22,9 +22,7 @@ namespace MCClone
         public static Player player;
         public MainWindow() : base(1280, 720, GraphicsMode.Default, "♥ Fikou/Emma ♥", GameWindowFlags.Default, DisplayDevice.Default, 4, 0, GraphicsContextFlags.ForwardCompatible)
         {
-            Title += " | GL Ver: " + GL.GetString(StringName.Version);
-            
-        }
+            Title += " | GL Ver: " + GL.GetString(StringName.Version);-        }
         protected override void OnResize(EventArgs e)
         {
             GL.Viewport(ClientRectangle.X, ClientRectangle.Y, ClientRectangle.Width, ClientRectangle.Height);
