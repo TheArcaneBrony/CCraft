@@ -15,7 +15,7 @@ namespace MCClone
     {
         public static bool running = true, focussed = true;
         public static string progress = "", log = "";
-        public static int renderDistance = 5, centerX, centerY, threadCount = 1;
+        public static int renderDistance = 8, centerX, centerY, threadCount = 1;
         public static double brightness = 1, LYt = 0, LXt = 0;
         public static List<Chunk> chunkList = new List<Chunk>();
         public static List<int> dispLists = new List<int>();
@@ -23,6 +23,7 @@ namespace MCClone
         public MainWindow() : base(1280, 720, GraphicsMode.Default, "♥ Fikou/Emma ♥", GameWindowFlags.Default, DisplayDevice.Default, 4, 0, GraphicsContextFlags.ForwardCompatible)
         {
             Title += " | GL Ver: " + GL.GetString(StringName.Version);
+            
         }
         protected override void OnResize(EventArgs e)
         {
@@ -36,13 +37,16 @@ namespace MCClone
         [MTAThread]
         protected async override void OnLoad(EventArgs e)
         {
+            VSync = VSyncMode.On;
             CursorVisible = false;
             GL.Enable(EnableCap.DepthTest);
             centerX = ClientRectangle.Width / 2;
             centerY = ClientRectangle.Height / 2;
             Mouse.Move += Mouse_Move;
             TerrainGen.GenTerrain(chunkList);
-            player = new Player(0, 200, 0);
+            player = new Player(0, 20, 0);
+            player.Flying = true;
+            player.Name = "TheArcaneBrony";
             progress = "";
             Thread.Sleep(1);
             Thread kbdLogic = new Thread(new ThreadStart(() =>
@@ -62,26 +66,37 @@ namespace MCClone
             {
                 while (true)
                 {
-                    string input = Console.ReadLine();
-                    string command = input.Split(' ')[0];
-                    string[] args = input.Remove(0, input.Split(' ')[0].Length+1).Split(' ');
-                    switch(command)
+                    try
                     {
-                        case "tp":
-                            player.X = double.Parse(args[0]);
-                            player.Y = double.Parse(args[1]);
-                            player.Z = double.Parse(args[2]);
-                            break;
-                        case "render":
-                            renderDistance = int.Parse(args[0]);
-                            break;
-                        default:
-                            break;
+                        string input = Console.ReadLine();
+                        string command = input.Split(' ')[0];
+                        string[] args = input.Remove(0, input.Split(' ')[0].Length + 1).Split(' ');
+                        switch (command)
+                        {
+                            case "tp":
+                                player.X = double.Parse(args[0]);
+                                player.Y = double.Parse(args[1]);
+                                player.Z = double.Parse(args[2]);
+                                break;
+                            case "render":
+                                renderDistance = int.Parse(args[0]);
+                                break;
+                            default:
+                                break;
+                        }
+                        if (running == false) break;
                     }
-                    if (running == false) break;
+                    catch
+                    {
+
+                    }
                 }
             });
             consoleInput.Start();
+            if(player.Name == "TheSkulledFox")
+            {
+                brightness = 0.5;
+            }
         }
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
@@ -107,7 +122,7 @@ namespace MCClone
         }
         protected override void OnRenderFrame(FrameEventArgs e)
         {
-            Title = $"FPS: {1f / e.Time:0} ({(e.Time * 1000 + "00000000000").Substring(0, 5)} ms) ({threadCount} th) | {player.X}/{player.Y}/{player.Z} | {player.LX}/{player.LY} | {chunkList.Count} | {dispLists.Count}";
+            Title = $"FPS: {1f / e.Time:0} ({(e.Time * 1000 + "00000000000").Substring(0, 5)} ms) | {player.X}/{player.Y}/{player.Z} | {player.LX}/{player.LY} | {chunkList.Count} | User: {player.Name}";
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             Matrix4 modelview = Matrix4.LookAt(player.CPos, player.CFPt, Vector3.UnitY);
             
@@ -127,7 +142,6 @@ namespace MCClone
 
             RenderCube(new Block(0, 200, 0));
             
-            
             GL.Begin(PrimitiveType.Lines);
             //GL.Color3();
             /* for (double x = 0; x < 100; x += 0.001) {
@@ -137,6 +151,7 @@ namespace MCClone
                  GL.Vertex3(x, y, 0);
 
              }*/
+            GL.Color3(Math.Sin(Util.DegToRad(player.X)), Math.Sin(Util.DegToRad(player.Y)), Math.Sin(Util.DegToRad(player.Z)));
             GL.Vertex3(player.CPos);
             GL.Vertex3(player.CFPt);
             GL.End();
@@ -159,7 +174,6 @@ namespace MCClone
             double x = block.X;
             double y = block.Y;
             double z = block.Z;
-
             GL.Begin(PrimitiveType.Quads);
             if (player.Y > y)
             {
@@ -178,9 +192,7 @@ namespace MCClone
                 GL.Vertex3(1.0f + x, 0.0f + y, 0.0f + z);
                 GL.Vertex3(1.0f + x, 0.0f + y, 1.0f + z);
                 GL.Vertex3(0.0f + x, 0.0f + y, 1.0f + z);
-
             }
-
             if (player.Z < z)
             {
                 //left
@@ -189,7 +201,6 @@ namespace MCClone
                 GL.Vertex3(1.0f + x, 1.0f + y, 0.0f + z);
                 GL.Vertex3(1.0f + x, 0.0f + y, 0.0f + z);
                 GL.Vertex3(0.0f + x, 0.0f + y, 0.0f + z);
-
             }
             else
             {
@@ -220,6 +231,4 @@ namespace MCClone
             GL.End();
         }
     }
-    
-    
 }

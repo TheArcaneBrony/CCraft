@@ -22,7 +22,6 @@ namespace MCClone
             this.Z = Z;
             this.Blocks = Blocks;
         }
-
         public double X { get; set; }
         public double Z { get; set; }
         public double XS { get; set; }

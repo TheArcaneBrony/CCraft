@@ -29,9 +29,8 @@ namespace MCClone
                                 {
                                     for (double z2 = 0; z2 < 16; z2++)
                                     {
-                                        //  double by = /*(int)*/(Math.Sin(Util.DegToRad(x * x2)) * 10 + Math.Sin(Util.DegToRad(z * z2)) * 10);
-                                       // Block blk = new Block(x2, 10, z2);
-                                            blocks.Add(new Block(x2, 10, z2));
+                                          double by = (int)((Math.Sin(Util.DegToRad(x * 16 + x2)) * 25 + Math.Sin(Util.DegToRad(z * 16 + z2)) * 10)*0.5);
+                                            blocks.Add(new Block(x2, by, z2));
                                     }
                                 }
                                 
