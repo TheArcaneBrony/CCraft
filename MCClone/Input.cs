@@ -13,12 +13,14 @@ namespace MCClone
     {
         public static void HandleKeyboard()
         {
-            var player = MainWindow.player;
+            var player = MainWindow.world.Player;
 
             var keyState = Keyboard.GetState();
             if (keyState.IsKeyDown(Key.Escape))
             {
                 MainWindow.running = false;
+                DiscordRpc.ClearPresence();
+                DiscordRpc.Shutdown();
                 Thread.Sleep(100);
                 Environment.Exit(0);
             }
@@ -61,14 +63,16 @@ namespace MCClone
         }
         public static void Tick()
         {
-            var player = MainWindow.player;
+            var player = MainWindow.world.Player;
             if (!player.Flying) player.YV -= 0.005;
             if (player.YV < -0.45) player.YV = -0.45;
+
             //  if (bsarr.Contains(new Block((int)cx, (int)cy, (int)cz)) && cyv < 0) cyv = 0;
+            //if()
             if (!player.Flying) player.Y += player.YV;
 
             player.CPos = new Vector3((float)player.X, (float)player.Y + 2, (float)player.Z);
-            player.CFPt = new Vector3((float)(player.X + Math.Cos(Util.DegToRad(player.LX)) * 360), (float)(player.Y + 2 + Math.Sin(Util.DegToRad(player.LY)) * 360) * 2, (float)(player.Z + Math.Sin(Util.DegToRad(player.LX)) * 360));
+            player.CFPt = new Vector3((float)(player.X + Math.Cos(Util.DegToRad(player.LX)) * 360), (float)(player.Y + 2 + Math.Sin(Util.DegToRad(player.LY)) * 360), (float)(player.Z + Math.Sin(Util.DegToRad(player.LX)) * 360));
         }
     }
 }

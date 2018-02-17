@@ -1,4 +1,5 @@
 ﻿using OpenTK;
+using System;
 
 namespace MCClone
 {
@@ -22,6 +23,6 @@ namespace MCClone
         public bool Flying { get; set; }
         public Vector3 CPos { get; set; }
         public Vector3 CFPt { get; set; }
-        public string Name { get; set; }
+        public string Name { get; set; } = "Player_" + new Random().Next(0, 9999);
     }
 }

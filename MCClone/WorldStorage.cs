@@ -9,12 +9,11 @@ namespace MCClone
 {
     public class Chunk
     {
-        public Chunk() { Blocks = new List<Block>();  }
+        public Chunk() { }
         public Chunk(double X, double Z)
         {
             this.X = X;
             this.Z = Z;
-            this.Blocks = new List<Block>();
         }
         public Chunk(double X, double Z, List<Block> Blocks)
         {
@@ -40,5 +39,23 @@ namespace MCClone
         public double X { get; set; }
         public double Y { get; set; }
         public double Z { get; set; }
+    }
+    public class World
+    {
+        public World() { }
+        public World(double SpawnX, double SpawnY, double SpawnZ)
+        {
+            this.SpawnX = SpawnX;
+            this.SpawnY = SpawnY;
+            this.SpawnZ = SpawnZ;
+        }
+        public string Name { get; set; } = "SP_DEV";
+        public double SpawnX { get; set; } = 0;
+        public double SpawnY { get; set; } = 10;
+        public double SpawnZ { get; set; } = 0;
+        public Player Player { get; set; } = new Player();
+        public List<Player> onlinePlayers { get; set; } = new List<Player>();
+        public List<Chunk> Chunks { get; set; } = new List<Chunk>();
+        public int BlockCount { get; set; } = 0;
     }
 }

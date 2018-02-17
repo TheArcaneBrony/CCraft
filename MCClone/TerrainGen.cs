@@ -9,7 +9,6 @@ namespace MCClone
 {
     class TerrainGen
     {
-
         public static void GenTerrain(List<Chunk> chunkList)
         {
             Thread TGThread = new Thread(() =>
@@ -18,33 +17,37 @@ namespace MCClone
                 {
                     for (double z = -16; z < 16; z++)
                     {
-                        List<Block> blocks = new List<Block>();
-                        var success = false;
-                        while (!success)
-                        {
-                            Thread childThread = new Thread(() =>
-                            {
-                                
-                                for (double x2 = 0; x2 < 16; x2++)
-                                {
-                                    for (double z2 = 0; z2 < 16; z2++)
-                                    {
-                                          double by = (int)((Math.Sin(Util.DegToRad(x * 16 + x2)) * 25 + Math.Sin(Util.DegToRad(z * 16 + z2)) * 10)*0.5);
-                                            blocks.Add(new Block(x2, by, z2));
-                                    }
-                                }
-                                
-                            });
-                            childThread.Name = x + " - " + z; childThread.Start();
-                            success = childThread.Join(500);
-                        }
-                            chunkList.Add(new Chunk(x,z,blocks));
-                        // Console.Write($"\n{x} | {z}");
-
+                    Chunk chunk = new Chunk(x, z, new List<Block>());
+                        chunkList.Add(chunk);
                     }
+                }
+                for (int i = 0; i < chunkList.Count -1; i++)
+                {
+                    
+                        Thread childThread = new Thread(() =>
+                        {
+                            int ti = i;
+                            lock (chunkList)
+                                for (double x2 = 0; x2 < 16; x2++)
+                            {
+                                for (double z2 = 0; z2 < 16; z2++)
+                                {
+                                    
+                                        double by = Math.Abs((int)((Math.Sin(Util.DegToRad(chunkList[ti].X * 16 + x2)) * 25 + Math.Sin(Util.DegToRad(chunkList[ti].Z * 16 + z2)) * 10) * 0.25));
+                                        by = Math.Max(by, 1);
+                                        for (int y = 0; y < by; y++)
+                                    {
+                                        
+                                        chunkList[ti].Blocks.Add(new Block(x2, y, z2));
+                                    }
+
+                                }
+                                }
+                        });
+                        childThread.Start();
+                    Thread.Sleep(10);
                 }
             }); TGThread.Start();
         }
-
     }
 }

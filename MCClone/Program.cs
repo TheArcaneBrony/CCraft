@@ -12,9 +12,11 @@ namespace MCClone
 {
     class Program
     {
+        public static string[] args;
         [MTAThread]
         static void Main(string[] args)
         {
+            Program.args = args;
             for (int i = 0; i < 2000; i++)
             {
                 Console.Write("H4PPY W0R1D! ");
@@ -27,6 +29,7 @@ namespace MCClone
                 Thread.Sleep(50);
                 Console.Write("\r" + new string(' ', i + 5) + "\r" + new string('.', i));
             }
+            Console.Write("\r \n");
             var EH = new DiscordRpc.EventHandlers();
             DiscordRpc.Initialize("333608929575698442", ref EH, true, "");
             var PR = new DiscordRpc.RichPresence() { details = "Developing", state = "Just debugging ;)", startTimestamp = (int)(DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds, smallImageKey = "test1", smallImageText = "testing"};
