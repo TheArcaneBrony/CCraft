@@ -27,25 +27,33 @@ namespace MCClone
                         Thread childThread = new Thread(() =>
                         {
                             int ti = i;
-                            lock (chunkList)
+                            //lock (chunkList)
                                 for (double x2 = 0; x2 < 16; x2++)
                             {
                                 for (double z2 = 0; z2 < 16; z2++)
                                 {
                                     
-                                        double by = Math.Abs((int)((Math.Sin(Util.DegToRad(chunkList[ti].X * 16 + x2)) * 25 + Math.Sin(Util.DegToRad(chunkList[ti].Z * 16 + z2)) * 10) * 0.25));
+                                        double by = Math.Abs((int)((Math.Sin(Util.DegToRad(chunkList[ti].X * 16 + x2)) * 25 + Math.Sin(Util.DegToRad(chunkList[ti].Z * 16 + z2)) * 10) * 1.25));
                                         by = Math.Max(by, 1);
-                                        for (int y = 0; y < by; y++)
+                                        for (int y = (int)by-1; y < by; y++)
                                     {
-                                        
-                                        chunkList[ti].Blocks.Add(new Block(x2, y, z2));
-                                    }
+                                        try
+                                        {
+                                            chunkList[ti].Blocks.Add(new Block(x2, y, z2));
+                                        }
+                                        catch (Exception)
+                                        {
+                                            Thread.Sleep(1000);
 
+                                        }
+                                        Thread.Sleep(0);
+                                    }
                                 }
                                 }
                         });
+                    
                         childThread.Start();
-                    Thread.Sleep(10);
+                    Thread.Sleep(50);
                 }
             }); TGThread.Start();
         }

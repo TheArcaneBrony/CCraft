@@ -48,9 +48,9 @@ namespace MCClone
                 }
                 if (keyState.IsKeyDown(Key.ShiftLeft)) player.Y -= 0.1;
                 if (keyState.IsKeyDown(Key.Space)) if (player.Flying) player.Y += 0.1; else player.YV = 0.1;
-               /* if (keyState.IsKeyDown(Key.Q)) MainWindow.brightness -= 0.01;
+                if (keyState.IsKeyDown(Key.Q)) MainWindow.brightness -= 0.01;
                 if (keyState.IsKeyDown(Key.E)) MainWindow.brightness += 0.01;
-                if (keyState.IsKeyDown(Key.F)) player.Flying = true;*/
+                if (keyState.IsKeyDown(Key.F)) player.Flying = true;
             }
             else
             {

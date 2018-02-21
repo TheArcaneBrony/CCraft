@@ -15,10 +15,11 @@ namespace MCClone
     {
         public static bool running = true, focussed = true;
         public static string progress = "", log = "";
-        public static int renderDistance = 8, centerX, centerY, threadCount = 1, RenderErrors = 0;
+        public static int renderDistance = 6, centerX, centerY, threadCount = 1, RenderErrors = 0;
         public static double brightness = 1, LYt = 0, LXt = 0;
-        public static World world = new World(0, 20, 0);
-        public static string ver = "v0.06a_0000000169";
+        public static World world = new World(-256, 50, -256);
+        public static string ver = "v0.06a_00196";
+        public static int RenderedChunks = 0;
         
         float prevx, prevy;
         float xangle, yangle;
@@ -28,7 +29,7 @@ namespace MCClone
         public MainWindow() : base(1280, 720, GraphicsMode.Default, "♥ Fikou/Emma ♥", GameWindowFlags.Default, DisplayDevice.Default, 4, 0, GraphicsContextFlags.ForwardCompatible)
         {
             Title += " | GL Ver: " + GL.GetString(StringName.Version);
-            
+            VSync = VSyncMode.Off;
         }
         protected override void OnResize(EventArgs e)
         {
@@ -43,17 +44,19 @@ namespace MCClone
         protected async override void OnLoad(EventArgs e)
         {
             Console.WriteLine($"Logged in as {Util.GetGameArg("username")} with password {Util.GetGameArg("password")}\n");
-            VSync = VSyncMode.On;
             CursorVisible = false;
-            GL.Enable(EnableCap.DepthTest);
+           // GL.Enable(EnableCap.DepthTest);
             centerX = ClientRectangle.Width / 2;
             centerY = ClientRectangle.Height / 2;
+
+            Point center = new Point(centerX, centerY);
+            Point mousePos = PointToScreen(center);
+            OpenTK.Input.Mouse.SetPosition(mousePos.X, mousePos.Y);
             Mouse.Move += Mouse_Move;
             TerrainGen.GenTerrain(world.Chunks);
-            world.Player = new Player(-286, 20, 0);
+            world.Player = new Player(world.SpawnX, world.SpawnY, world.SpawnZ);
             world.Player.Flying = true;
             world.Player.Name = Util.GetGameArg("username");
-            //if (Util.GetGameArg("username") == "TheSkulledFox" && Util.GetGameArg("password") == "LittleFikouAndTheFox154") world.Player.Name = "TheSkulledFox";
             progress = "";
             Thread.Sleep(1);
             Thread kbdLogic = new Thread(new ThreadStart(() =>
@@ -107,7 +110,7 @@ namespace MCClone
                 {
                         world.BlockCount = 0;
                         foreach (Chunk chunk in world.Chunks) world.BlockCount += chunk.Blocks.Count;
-                    Thread.Sleep(250);
+                    Thread.Sleep(500);
                 }
             });
             statCollector.Start();
@@ -159,16 +162,17 @@ namespace MCClone
         }
         protected override void OnRenderFrame(FrameEventArgs e)
         {
-            Title = $"The Arcane Brony's MC Clone {ver} | FPS: {1f / e.Time:0} ({(e.Time * 1000 + "00000000000").Substring(0, 5)} ms) | {world.Player.X}/{world.Player.Y}/{world.Player.Z} | {world.Player.LX}/{world.Player.LY} | {world.BlockCount} | RE: {RenderErrors} | User: {world.Player.Name}";
+            Title = $"The Arcane Brony's MC Clone {ver} | FPS: {1f / e.Time:0} ({(e.Time * 1000 + "00000000000").Substring(0, 5)} ms) | {world.Player.X}/{world.Player.Y}/{world.Player.Z} | {world.Player.LX}/{world.Player.LY} | {world.BlockCount} | RE: {RenderErrors} | User: {world.Player.Name} | {RenderedChunks/256}/{world.Chunks.Count}";
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             Matrix4 modelview = Matrix4.LookAt(world.Player.CPos, world.Player.CFPt, Vector3.UnitY);
             
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref modelview);
 
-           
-                for (int ch = 0; ch < world.Chunks.Count; ch++)
+            RenderedChunks = 0;
+            for (int ch = 0; ch < world.Chunks.Count; ch++)
                 {
+                
                     Chunk cch = world.Chunks[ch];
                     if ((world.Player.X / 16) + renderDistance > cch.X & (world.Player.X / 16) - renderDistance < cch.X & (world.Player.Z / 16) + renderDistance > cch.Z & (world.Player.Z / 16) - renderDistance < cch.Z)
                         for (int bl = 0; bl < cch.Blocks.Count; bl++)
@@ -176,25 +180,34 @@ namespace MCClone
                             Block cbl = cch.Blocks[bl];
                         try
                         {
-                            RenderCube(world, cch, new Block(cbl.X + 16 * cch.X, cbl.Y, cbl.Z + 16 * cch.Z));
+                            RenderCube(world, cch, new Block(cbl.X + 16 * cch.X, cbl.Y, cbl.Z + 16 * cch.Z), cbl);
                         }
                         catch
                         {
                             RenderErrors++;
                         }
+                        RenderedChunks++;
                     }
+                
                 }
+          /*  for (double i = 0; i < 400; i+=1.00)
+            {
+                for (double j = 0; j < 400; j+=1.00)
+                {
+                    Dot(i, (int)(( Math.Sin(Util.DegToRad(i*6)*3) + Math.Cos(j-Util.DegToRad(i*36)))*10), j);
+                }
+            }*/
             
-            RenderCube(new Block(0, 200, 0));
+           // RenderCube(new Block(0, 200, 0));
             GL.Begin(PrimitiveType.Points);
             GL.Color3(1f, 1f, 1f);
             GL.Vertex3(world.Player.CFPt);
+            GL.Vertex3(world.Player.CPos);
             GL.End();
             SwapBuffers();
         }
-        static void Dot(double x, double y)
+        static void Dot(double x, double y, double z)
         {
-            double z = 100;
             GL.Begin(PrimitiveType.Points);
             GL.Color3(1.0f * brightness, 1.0f * brightness, 0.0f * brightness);
             GL.Vertex3(0.5f + x, 1.0f + y, 0.5f + z);
@@ -263,14 +276,28 @@ namespace MCClone
             }
             GL.End();
         }
-        static void RenderCube(World world, Chunk chunk, Block block)
+        static void RenderCube(World world, Chunk chunk, Block block, Block rBlock)
         {
             double x = block.X;
             double y = block.Y;
             double z = block.Z;
             GL.Begin(PrimitiveType.Quads);
-            if (world.Player.X / 16 == chunk.X) return;
-            if (world.Player.Y > y)
+            bool render = true;
+            bool top = true, bottom = true, left = true, right = true, back = true, front = true;
+            if (world.Player.Y + 2 - y > 16 * renderDistance) render = false;
+            if (world.Player.Y + 2 < y) {
+                top = false;
+                bottom = true;
+                    }
+            foreach (Block blk in chunk.Blocks)
+            {
+                if (blk.X == rBlock.X && blk.Y == rBlock.Y + 3 && blk.Z == rBlock.Z) render = false;
+            }
+            if (!render) {
+                Dot(x, y, z);
+                return;
+            }
+            if (top)
             {
                 //top
                 
@@ -280,7 +307,7 @@ namespace MCClone
                 GL.Vertex3(1 + x, 1 + y, 1 + z);
                 GL.Vertex3(x, 1 + y, 1 + z);
             }
-            else
+            if(bottom)
             {
                 //bottom
                 GL.Color3(brightness, brightness, brightness);

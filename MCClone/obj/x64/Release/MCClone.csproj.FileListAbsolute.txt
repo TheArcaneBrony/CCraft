@@ -5,3 +5,6 @@ C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\bin\x64\Release\OpenTK.xm
 C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\obj\x64\Release\MCClone.csproj.CoreCompileInputs.cache
 C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\obj\x64\Release\MCClone.exe
 C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\obj\x64\Release\MCClone.csprojResolveAssemblyReference.cache
+C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\bin\x64\Release\discord-rpc.dll
+C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\bin\x64\Release\send-presence.exe
+C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\obj\x64\Release\MCClone.csproj.CopyComplete
