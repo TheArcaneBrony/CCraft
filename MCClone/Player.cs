@@ -15,12 +15,15 @@ namespace MCClone
         public double X { get; set; }
         public double Y { get; set; }
         public double Z { get; set; }
+        public int CX { get { return (int)this.X/16; } }
+        public int CZ { get { return (int)this.Z / 16; } }
         public double XV { get; set; }
         public double YV { get; set; }
         public double ZV { get; set; }
         public double LX { get; set; }
         public double LY { get; set; }
         public bool Flying { get; set; }
+
         public Vector3 CPos { get; set; }
         public Vector3 CFPt { get; set; }
         public string Name { get; set; } = "Player_" + new Random().Next(0, 9999);

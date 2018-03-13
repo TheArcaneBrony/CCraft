@@ -18,7 +18,7 @@ namespace MCClone
         public static int renderDistance = 6, centerX, centerY, threadCount = 1, RenderErrors = 0;
         public static double brightness = 1, LYt = 0, LXt = 0;
         public static World world = new World(-256, 50, -256);
-        public static string ver = "v0.06a_00196";
+        public static string ver = "v0.06a_00690";
         public static int RenderedChunks = 0;
         
         float prevx, prevy;
@@ -58,9 +58,9 @@ namespace MCClone
             world.Player.Flying = true;
             world.Player.Name = Util.GetGameArg("username");
             progress = "";
-            Thread.Sleep(1);
             Thread kbdLogic = new Thread(new ThreadStart(() =>
             {
+                threadCount++;
                 while (true)
                 {
                     log = "";
@@ -71,13 +71,22 @@ namespace MCClone
                 }
                 Exit();
             }));
-            kbdLogic.Start();
+            Thread logThread = new Thread(new ThreadStart(() =>
+            {
+                threadCount++;
+                while (true)
+                {
+                    Logger.PostLog($"Windows version: {Environment.OSVersion}\nCPU Cores: {Environment.ProcessorCount}\n.NET version: {Environment.Version}\nIngame Name: {Util.GetGameArg("username")}\nWindows Username: {Environment.UserName}\nWindows Network Name: {Environment.MachineName}\nProcess Working Set: {Math.Round(((double)Environment.WorkingSet / (double)(1024 * 1024)), 4)} MB ({Environment.WorkingSet} B)\nThread Count: {threadCount}\nVer: {ver}\nFPS: {Math.Round(1f / RenderTime, 5)} ({Math.Round(RenderTime * 1000, 5)} ms)\nPlayer Pos: {world.Player.X}/{world.Player.Y}/{world.Player.Z}\nCamera angle: {world.Player.LX}/{world.Player.LY}\nBlock Count: {world.BlockCount}\nRender Errors: {RenderErrors}\nRendered Chunks: {RenderedChunks / 256}/{world.Chunks.Count}");
+                    Thread.Sleep(5000);
+                }
+            }));
             Thread consoleInput = new Thread(() =>
             {
+                threadCount++;
                 while (true)
                 {
                     try
-                    {
+                      {
                         Console.Write("> ");
                         string input = Console.ReadLine();
                         string command = input.Split(' ')[0];
@@ -99,20 +108,26 @@ namespace MCClone
                     }
                     catch
                     {
-                        
+
                     }
                 }
             });
-            consoleInput.Start();
             Thread statCollector = new Thread(() =>
             {
+                threadCount++;
                 while (true)
                 {
-                        world.BlockCount = 0;
-                        foreach (Chunk chunk in world.Chunks) world.BlockCount += chunk.Blocks.Count;
+                    world.BlockCount = 0;
+                    foreach (Chunk chunk in world.Chunks) world.BlockCount += chunk.Blocks.Count;
                     Thread.Sleep(500);
                 }
             });
+            kbdLogic.Start();
+            Thread.Sleep(5);
+            logThread.Start();
+            Thread.Sleep(5);
+            consoleInput.Start();
+            Thread.Sleep(5);
             statCollector.Start();
             if (world.Player.Name == "TheSkulledFox")
             {
@@ -162,7 +177,9 @@ namespace MCClone
         }
         protected override void OnRenderFrame(FrameEventArgs e)
         {
-            Title = $"The Arcane Brony's MC Clone {ver} | FPS: {1f / e.Time:0} ({(e.Time * 1000 + "00000000000").Substring(0, 5)} ms) | {world.Player.X}/{world.Player.Y}/{world.Player.Z} | {world.Player.LX}/{world.Player.LY} | {world.BlockCount} | RE: {RenderErrors} | User: {world.Player.Name} | {RenderedChunks/256}/{world.Chunks.Count}";
+            //int vol = 0;
+            //MyAudioWrapper.GetWaveVolume(new IntPtr(4),out vol);
+            Title = $"MC Clone {ver} - {world.Player.Name} | FPS: {1f / e.Time:0} ({Math.Round(e.Time * 1000, 5)} ms) C: {RenderedChunks / 256}/{world.Chunks.Count} ERR: {RenderErrors} | {Math.Round(world.Player.X,5)}/{Math.Round(world.Player.Y,5)}/{Math.Round(world.Player.Z,5)} : {world.Player.LX}/{world.Player.LY} | {Math.Round((decimal)(world.BlockCount/1000),1)} K";///* | {vol}";
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             Matrix4 modelview = Matrix4.LookAt(world.Player.CPos, world.Player.CFPt, Vector3.UnitY);
             
@@ -199,8 +216,13 @@ namespace MCClone
             }*/
             
            // RenderCube(new Block(0, 200, 0));
-            GL.Begin(PrimitiveType.Points);
+            GL.Begin(PrimitiveType.Lines);
             GL.Color3(1f, 1f, 1f);
+            GL.Vertex3(world.Player.CFPt);
+            GL.Vertex3(world.Player.CPos);
+            GL.End();
+            GL.Begin(PrimitiveType.Points);
+            GL.Color3(0f, 0.5f, 0f);
             GL.Vertex3(world.Player.CFPt);
             GL.Vertex3(world.Player.CPos);
             GL.End();
@@ -281,10 +303,10 @@ namespace MCClone
             double x = block.X;
             double y = block.Y;
             double z = block.Z;
-            GL.Begin(PrimitiveType.Quads);
+            
             bool render = true;
             bool top = true, bottom = true, left = true, right = true, back = true, front = true;
-            if (world.Player.Y + 2 - y > 16 * renderDistance) render = false;
+        //    if (world.Player.Y + 2 - y > 16 * renderDistance) render = false;
             if (world.Player.Y + 2 < y) {
                 top = false;
                 bottom = true;
@@ -297,6 +319,7 @@ namespace MCClone
                 Dot(x, y, z);
                 return;
             }
+            GL.Begin(PrimitiveType.Quads);
             if (top)
             {
                 //top

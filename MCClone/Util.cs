@@ -1,7 +1,9 @@
-﻿using OpenTK.Graphics.ES20;
+﻿using NAudio.Wave;
+using OpenTK.Graphics.ES20;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,5 +22,31 @@ namespace MCClone
                 return Program.args[test + 1];
             else return "null";
         }
+        
     }
+    public class MyAudioWrapper
+    {
+        [DllImport("winmm.dll", EntryPoint = "waveOutGetVolume")]
+        public static extern void GetWaveVolume(IntPtr devicehandle, out int Volume);
+
+    }
+    class PCMPlayer
+    {
+        private WaveFormat waveFormat=new WaveFormat(8000,32,1);
+    private BufferedWaveProvider bufferedWaveProvider;
+
+    public PCMPlayer()
+    {
+        bufferedWaveProvider = new BufferedWaveProvider(waveFormat);
+    }
+
+    public void AddSamples(byte[] array)
+    {
+        bufferedWaveProvider.AddSamples(array, 0, array.Length);
+        WaveOut waveout = new WaveOut();
+        waveout.Init(bufferedWaveProvider);
+           
+        waveout.Play();
+    }
+}
 }

@@ -10,3 +10,5 @@ C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\obj\x64\Debug\MCClone.csp
 C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\bin\x64\Debug\discord-rpc.dll
 C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\bin\x64\Debug\send-presence.exe
 C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\obj\x64\Debug\MCClone.csproj.CopyComplete
+C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\bin\x64\Debug\NAudio.dll
+C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\bin\x64\Debug\NAudio.xml

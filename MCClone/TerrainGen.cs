@@ -13,6 +13,7 @@ namespace MCClone
         {
             Thread TGThread = new Thread(() =>
             {
+                MainWindow.threadCount++;
                 for (double x = -16; x < 16; x++)
                 {
                     for (double z = -16; z < 16; z++)
@@ -23,24 +24,26 @@ namespace MCClone
                 }
                 for (int i = 0; i < chunkList.Count -1; i++)
                 {
-                    
-                        Thread childThread = new Thread(() =>
+
+                    Thread childThread = new Thread(() =>
+                    {
+                        MainWindow.threadCount++;
+                        int ti = i;
+                        //lock (chunkList)
+                        for (double x2 = 0; x2 < 16; x2++)
+                    {
+                        for (double z2 = 0; z2 < 16; z2++)
                         {
-                            int ti = i;
-                            //lock (chunkList)
-                                for (double x2 = 0; x2 < 16; x2++)
+
+                            double by = Math.Abs((int)((Math.Sin(Util.DegToRad(chunkList[ti].X * 16 + x2)) * 25 + Math.Sin(Util.DegToRad(chunkList[ti].Z * 16 + z2)) * 10) * 1.25));
+                            by = Math.Max(by, 1);
+                            for (int y = (int)by - 1; y < by; y++)
                             {
-                                for (double z2 = 0; z2 < 16; z2++)
+                                try
                                 {
-                                    
-                                        double by = Math.Abs((int)((Math.Sin(Util.DegToRad(chunkList[ti].X * 16 + x2)) * 25 + Math.Sin(Util.DegToRad(chunkList[ti].Z * 16 + z2)) * 10) * 1.25));
-                                        by = Math.Max(by, 1);
-                                        for (int y = (int)by-1; y < by; y++)
-                                    {
-                                        try
-                                        {
-                                            chunkList[ti].Blocks.Add(new Block(x2, y, z2));
-                                        }
+                                    chunkList[ti].Blocks.Add(new Block(x2, y, z2));
+                                    //chunkList[ti].Blocks2.Add(new Double[{ x2, y, z2 }]() ,new Block(x2, y, z2));
+                                       }
                                         catch (Exception)
                                         {
                                             Thread.Sleep(1000);
@@ -50,11 +53,13 @@ namespace MCClone
                                     }
                                 }
                                 }
-                        });
+                        MainWindow.threadCount--;
+                    });
                     
                         childThread.Start();
                     Thread.Sleep(50);
                 }
+                MainWindow.threadCount--;
             }); TGThread.Start();
         }
     }

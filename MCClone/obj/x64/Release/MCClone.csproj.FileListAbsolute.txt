@@ -8,3 +8,5 @@ C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\obj\x64\Release\MCClone.c
 C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\bin\x64\Release\discord-rpc.dll
 C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\bin\x64\Release\send-presence.exe
 C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\obj\x64\Release\MCClone.csproj.CopyComplete
+C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\bin\x64\Release\NAudio.dll
+C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\bin\x64\Release\NAudio.xml

@@ -24,12 +24,16 @@ namespace MCClone
                 Thread.Sleep(100);
                 Environment.Exit(0);
             }
-            if (!keyState.IsKeyDown(Key.LControl))
-            {
+           
                 if (keyState.IsKeyDown(Key.W))
                 {
                     player.X += Math.Cos(Util.DegToRad(player.LX));
                     player.Z += Math.Sin(Util.DegToRad(player.LX));
+                if (!keyState.IsKeyDown(Key.LControl))
+                {
+                    player.X += Math.Cos(Util.DegToRad(player.LX));
+                    player.Z += Math.Sin(Util.DegToRad(player.LX));
+                }
                 }
                 if (keyState.IsKeyDown(Key.A))
                 {
@@ -51,15 +55,8 @@ namespace MCClone
                 if (keyState.IsKeyDown(Key.Q)) MainWindow.brightness -= 0.01;
                 if (keyState.IsKeyDown(Key.E)) MainWindow.brightness += 0.01;
                 if (keyState.IsKeyDown(Key.F)) player.Flying = true;
-            }
-            else
-            {
-                if (keyState.IsKeyDown(Key.F)) player.Flying = false;
-                if (keyState.IsKeyDown(Key.W)) player.X += 0.1;
-                if (keyState.IsKeyDown(Key.A)) player.Z -= 0.1;
-                if (keyState.IsKeyDown(Key.S)) player.X -= 0.1;
-                if (keyState.IsKeyDown(Key.D)) player.Z += 0.1;
-            }
+                if (keyState.IsKeyDown(Key.F)&&keyState.IsKeyDown(Key.LControl)) player.Flying = false;
+            
         }
         public static void Tick()
         {
@@ -69,6 +66,7 @@ namespace MCClone
 
             //  if (bsarr.Contains(new Block((int)cx, (int)cy, (int)cz)) && cyv < 0) cyv = 0;
             //if()
+            //if (MainWindow.world.Chunks)
             if (!player.Flying) player.Y += player.YV;
 
             player.CPos = new Vector3((float)player.X, (float)player.Y + 2, (float)player.Z);
