@@ -1,9 +1,0 @@
-C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\bin\Debug\MCClone.exe.config
-C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\bin\Debug\MCClone.exe
-C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\bin\Debug\MCClone.pdb
-C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\bin\Debug\OpenTK.dll
-C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\obj\Debug\MCClone.csprojResolveAssemblyReference.cache
-C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\obj\Debug\MCClone.csproj.CoreCompileInputs.cache
-C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\obj\Debug\MCClone.exe
-C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\obj\Debug\MCClone.pdb
-C:\Users\The Arcane Brony\source\repos\MCClone\MCClone\bin\Debug\OpenTK.xml
