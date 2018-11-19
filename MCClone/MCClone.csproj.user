@@ -12,6 +12,6 @@
     <VerifyUploadedFiles>false</VerifyUploadedFiles>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <StartArguments>-username TheArcaneBrony -password DebugPass</StartArguments>
+    <StartArguments>-username TheArcaneBrony -password DebugPass -nodisclaimer</StartArguments>
   </PropertyGroup>
 </Project>
