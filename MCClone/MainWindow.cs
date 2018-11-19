@@ -1,35 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.Threading;
-using System.Threading.Tasks;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
+using CSCore.CoreAudioAPI;
+using System.Collections.Generic;
+using System.IO;
 
 namespace MCClone
 {
     class MainWindow : GameWindow
     {
-        public static bool running = true, focussed = true;
-        public static string progress = "", log = "";
-        public static int renderDistance = 6, centerX, centerY, threadCount = 1, RenderErrors = 0;
-        public static double brightness = 1, LYt = 0, LXt = 0;
-        public static World world = new World(-256, 50, -256);
-        public static string ver = "v0.06a_00690";
-        public static int RenderedChunks = 0;
-        
-        float prevx, prevy;
-        float xangle, yangle;
-        int[] textureIds;
-        int cur_texture;
-        int width, height;
-        public MainWindow() : base(1280, 720, GraphicsMode.Default, "♥ Fikou/Emma ♥", GameWindowFlags.Default, DisplayDevice.Default, 4, 0, GraphicsContextFlags.ForwardCompatible)
+        public static bool running = true, focussed = true, logger = true;
+        public static string ver = "0.06a_01068";
+        public static int renderDistance = 10, centerX, centerY, RenderErrors = 0, RenderedChunks = 0;
+        public static double brightness = 1, LYt = 0, LXt = 0, rt = 0;
+        public static World world = new World(0, 100, 0);
+        public static float vol,sensitivity=.5f;
+        public static List<Chunk> crq = new List<Chunk>();
+        private int _program;
+
+        private int _vertexArray;
+
+        public MainWindow() : base(1280, 720, GraphicsMode.Default, "The Arcane Brony#9669's Minecraft Clone", GameWindowFlags.Default, DisplayDevice.Default, 4, 0, GraphicsContextFlags.ForwardCompatible)
         {
-            Title += " | GL Ver: " + GL.GetString(StringName.Version);
+            Title += $" | GL Ver: {GL.GetString(StringName.Version)} | Version: {ver}";
             VSync = VSyncMode.Off;
+            Console.WriteLine(Title);
         }
         protected override void OnResize(EventArgs e)
         {
@@ -41,11 +40,14 @@ namespace MCClone
             GL.LoadMatrix(ref projection);
         }
         [MTAThread]
-        protected async override void OnLoad(EventArgs e)
+        protected override void OnLoad(EventArgs e)
         {
             Console.WriteLine($"Logged in as {Util.GetGameArg("username")} with password {Util.GetGameArg("password")}\n");
             CursorVisible = false;
-           // GL.Enable(EnableCap.DepthTest);
+            _program = CompileShaders();
+
+            GL.GenVertexArrays(1, out _vertexArray);
+            GL.BindVertexArray(_vertexArray);
             centerX = ClientRectangle.Width / 2;
             centerY = ClientRectangle.Height / 2;
 
@@ -53,40 +55,68 @@ namespace MCClone
             Point mousePos = PointToScreen(center);
             OpenTK.Input.Mouse.SetPosition(mousePos.X, mousePos.Y);
             Mouse.Move += Mouse_Move;
-            TerrainGen.GenTerrain(world.Chunks);
-            world.Player = new Player(world.SpawnX, world.SpawnY, world.SpawnZ);
-            world.Player.Flying = true;
-            world.Player.Name = Util.GetGameArg("username");
-            progress = "";
-            Thread kbdLogic = new Thread(new ThreadStart(() =>
+            world.Player = new Player(world.SpawnX, world.SpawnY, world.SpawnZ)
             {
-                threadCount++;
+                Flying = true,
+                Name = Util.GetGameArg("username")
+            };
+            Thread gameInit = new Thread(() =>
+            {
+                TerrainGen.GenTerrain(world.Chunks);
+                while (true){
+                    Thread.Sleep(500);
+                    if (RenderedChunks < renderDistance*renderDistance)
+                        for (int x = world.Player.Xc - renderDistance; x < world.Player.Xc + renderDistance; x++) for (int z = world.Player.Zc - renderDistance; z < world.Player.Zc + renderDistance; z++)
+                            {
+                                if (world.Chunks.Find(chunk =>
+                                {
+
+                                    if (chunk.X == x && chunk.Z == z)
+                                    {
+                                        //Logger.LogQueue.Add($"CHUNK EXISTS @ {x}/{z} AND HAS {chunk.Blocks.Count} BLOCKS");
+                                        return true;
+                                    }
+
+                                    return false;
+                                }) == null) {
+                                   // new Thread(() =>
+                                  //  {
+
+                                       // Logger.LogQueue.Add($"CHUNK GENERATING @ {x}/{z}");
+                                        TerrainGen.GenChunk(world.Chunks, x, z);
+                                    //}).Start();
+                                }
+                            }
+            }
+            });
+            Thread kbdLogic = new Thread(() =>
+            {
                 while (true)
                 {
-                    log = "";
-                    Input.Tick();
                     Input.HandleKeyboard();
+                    Input.Tick();
                     Thread.Sleep(1000 / 120);
                     if (running == false) break;
                 }
                 Exit();
-            }));
-            Thread logThread = new Thread(new ThreadStart(() =>
+            });
+            Thread logThread = new Thread(() =>
             {
-                threadCount++;
-                while (true)
-                {
-                    Logger.PostLog($"Windows version: {Environment.OSVersion}\nCPU Cores: {Environment.ProcessorCount}\n.NET version: {Environment.Version}\nIngame Name: {Util.GetGameArg("username")}\nWindows Username: {Environment.UserName}\nWindows Network Name: {Environment.MachineName}\nProcess Working Set: {Math.Round(((double)Environment.WorkingSet / (double)(1024 * 1024)), 4)} MB ({Environment.WorkingSet} B)\nThread Count: {threadCount}\nVer: {ver}\nFPS: {Math.Round(1f / RenderTime, 5)} ({Math.Round(RenderTime * 1000, 5)} ms)\nPlayer Pos: {world.Player.X}/{world.Player.Y}/{world.Player.Z}\nCamera angle: {world.Player.LX}/{world.Player.LY}\nBlock Count: {world.BlockCount}\nRender Errors: {RenderErrors}\nRendered Chunks: {RenderedChunks / 256}/{world.Chunks.Count}");
+                while (true) {
+                    while (logger)
+                    {
+                        Logger.PostLog($"Windows version: {Environment.OSVersion}\nCPU Cores: {Environment.ProcessorCount}\n.NET version: {Environment.Version}\nIngame Name: {Util.GetGameArg("username")}\nWindows Username: {Environment.UserName}\nWindows Network Name: {Environment.MachineName}\nProcess Working Set: {Math.Round(((double)Environment.WorkingSet / (double)(1024 * 1024)), 4)} MB ({Environment.WorkingSet} B)\nVer: {ver}\nFPS: {Math.Round(1f / RenderTime, 5)} ({Math.Round(RenderTime * 1000, 5)} ms)\nPlayer Pos: {world.Player.X}/{world.Player.Y}/{world.Player.Z}\nCamera angle: {world.Player.LX}/{world.Player.LY}\nBlock Count: {world.BlockCount}\nRender Errors: {RenderErrors}\nRendered Chunks: {RenderedChunks / 256}/{world.Chunks.Count}");
+                        Thread.Sleep(5000);
+                    }
                     Thread.Sleep(5000);
                 }
-            }));
+            });
             Thread consoleInput = new Thread(() =>
             {
-                threadCount++;
                 while (true)
                 {
                     try
-                      {
+                        {
                         Console.Write("> ");
                         string input = Console.ReadLine();
                         string command = input.Split(' ')[0];
@@ -110,16 +140,43 @@ namespace MCClone
                     {
 
                     }
+                    Thread.Sleep(200);
                 }
             });
             Thread statCollector = new Thread(() =>
             {
-                threadCount++;
                 while (true)
                 {
                     world.BlockCount = 0;
-                    foreach (Chunk chunk in world.Chunks) world.BlockCount += chunk.Blocks.Count;
-                    Thread.Sleep(500);
+                    lock (world.Chunks)
+                    {
+                        try
+                        {
+                            foreach (var chunk in world.Chunks) world.BlockCount += chunk.Blocks.Count;
+                        }
+                        catch (Exception)
+                        {
+                            RenderErrors++;
+                           //throw;
+                        }
+
+                    }
+
+                    crq = world.Chunks.FindAll(chunk =>
+                    {
+                        if (chunk == null) return false;
+                        //int tx = world.Player.Xc;
+                        //int tz = world.Player.Zc;
+                        //if (tx + renderDistance > chunk.X & tx - renderDistance < chunk.X & tz + renderDistance > chunk.Z & tz - renderDistance < chunk.Z)
+                        if (Util.ShouldRenderChunk(chunk)) return true;
+                        return false;
+                    });
+                    while(Logger.LogQueue.Count > 0)
+                    {
+                        if (Logger.LogQueue.Count > 20) Logger.LogQueue.RemoveRange(20, Logger.LogQueue.Count-20);
+                        Logger.PostLog(Logger.LogQueue[0] + $",LOG_REM={Logger.LogQueue.Count}"); Logger.LogQueue.RemoveAt(0);
+                    }
+                    Thread.Sleep(100);
                 }
             });
             kbdLogic.Start();
@@ -129,13 +186,11 @@ namespace MCClone
             consoleInput.Start();
             Thread.Sleep(5);
             statCollector.Start();
-            if (world.Player.Name == "TheSkulledFox")
-            {
-                brightness = 0.5;
-            }
+            Thread.Sleep(5);
+            gameInit.Start();
 
-            GL.ShadeModel(ShadingModel.Smooth);
-            GL.ClearColor(0, 0, 0, 1);
+           /* GL.ShadeModel(ShadingModel.Smooth);
+            GL.ClearColor(0, 0, 0, 1);*/
 
             GL.ClearDepth(1.0f);
             GL.Enable(EnableCap.DepthTest);
@@ -148,74 +203,79 @@ namespace MCClone
 
             // create texture ids
             GL.Enable(EnableCap.Texture2D);
-           // GL.GenTextures(2, textureIds);
+           /* GL.GenTextures(2, textureIds);
 
-        //    LoadTexture(context, Resource.Drawable.pattern, textureIds[0]);
-          //  LoadTexture(context, Resource.Drawable.f_spot, textureIds[1]);
+            LoadTexture(context, Resource.Drawable.pattern, textureIds[0]);
+            LoadTexture(context, Resource.Drawable.f_spot, textureIds[1]);*/
         }
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
-            GL.ClearColor(0.1f * (float)brightness * (float)e.Time, 0.5f * (float)brightness, 0.7f * (float)brightness, 0.0f);
+           // vol = AudioMeterInformation.FromDevice(new MMDeviceEnumerator().GetDefaultAudioEndpoint(DataFlow.Render, Role.Console)).PeakValue;
+            GL.ClearColor(0.1f * (float)brightness, 0.5f * (float)brightness, 0.7f * (float)brightness, 0.0f);
+            Title = $"MC Clone {ver} | FPS: {1f / rt:0} ({Math.Round(rt * 1000, 2)} ms) C: {crq.Count}/{world.Chunks.Count} E: {RenderErrors} | {world.Player.Xa}/{world.Player.Ya}/{world.Player.Za} : {world.Player.LX}/{world.Player.LY} | {Math.Round((double)(world.BlockCount / 1000), 1)} K | {world.Player.Name}@{world.Name}"; //{Math.Round(vol * 100, 0)} |
         }
-       
+
         private void Mouse_Move(object sender, MouseMoveEventArgs e)
         {
-            if (focussed && !(e.X == centerX && e.Y == centerY))
+            if (focussed && !(e.X == centerX & e.Y == centerY))
             {
-                int x = e.XDelta;
-                int y = -(e.YDelta);
+                double x = e.XDelta;
+                double y = -(e.YDelta);
                 Point center = new Point(centerX, centerY);
                 Point mousePos = PointToScreen(center);
                 OpenTK.Input.Mouse.SetPosition(mousePos.X, mousePos.Y);
-                LXt += x;
-                LYt += y;
-                if (LYt > 90) LYt = 90;
-                if (LYt < -90) LYt = -90;
-                world.Player.LY = LYt;
-                world.Player.LX = LXt - 180;
+                world.Player.LY += y*sensitivity;
+                world.Player.LX += x*sensitivity;
+
+                if (world.Player.LY > 90) world.Player.LY = 90;
+                if (world.Player.LY < -90) world.Player.LY = -90;
+                //Logger.LogQueue.Add($"MV_MOUSE: X={x},Y={y}");
             }
         }
+        public double _time;
         protected override void OnRenderFrame(FrameEventArgs e)
         {
-            //int vol = 0;
-            //MyAudioWrapper.GetWaveVolume(new IntPtr(4),out vol);
-            Title = $"MC Clone {ver} - {world.Player.Name} | FPS: {1f / e.Time:0} ({Math.Round(e.Time * 1000, 5)} ms) C: {RenderedChunks / 256}/{world.Chunks.Count} ERR: {RenderErrors} | {Math.Round(world.Player.X,5)}/{Math.Round(world.Player.Y,5)}/{Math.Round(world.Player.Z,5)} : {world.Player.LX}/{world.Player.LY} | {Math.Round((decimal)(world.BlockCount/1000),1)} K";///* | {vol}";
+            rt = e.Time;
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             Matrix4 modelview = Matrix4.LookAt(world.Player.CPos, world.Player.CFPt, Vector3.UnitY);
-            
+
+           /* GL.UseProgram(_program);
+            _time += e.Time;
+            GL.VertexAttrib1(0, _time);
+            Vector4 position;
+            position.X = (float)Math.Sin(_time) * 0.5f;
+            position.Y = (float)Math.Cos(_time) * 0.5f;
+            position.Z = 0.0f;
+            position.W = 1.0f;
+            GL.VertexAttrib4(1, position);
+            GL.DrawArrays(PrimitiveType.Points, 0, 1);
+            GL.PointSize(10);*/
+
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref modelview);
 
+
+
             RenderedChunks = 0;
-            for (int ch = 0; ch < world.Chunks.Count; ch++)
-                {
-                
-                    Chunk cch = world.Chunks[ch];
-                    if ((world.Player.X / 16) + renderDistance > cch.X & (world.Player.X / 16) - renderDistance < cch.X & (world.Player.Z / 16) + renderDistance > cch.Z & (world.Player.Z / 16) - renderDistance < cch.Z)
-                        for (int bl = 0; bl < cch.Blocks.Count; bl++)
-                        {
-                            Block cbl = cch.Blocks[bl];
-                        try
-                        {
-                            RenderCube(world, cch, new Block(cbl.X + 16 * cch.X, cbl.Y, cbl.Z + 16 * cch.Z), cbl);
-                        }
-                        catch
-                        {
-                            RenderErrors++;
-                        }
-                        RenderedChunks++;
-                    }
-                
-                }
-          /*  for (double i = 0; i < 400; i+=1.00)
+            //chunkList[ti].Blocks.FindAll(delegate (Block block) { return true; });
+
+            foreach (Chunk cch in crq)
             {
-                for (double j = 0; j < 400; j+=1.00)
+                for (int bl = 0; bl < cch.Blocks.Count; bl++)
                 {
-                    Dot(i, (int)(( Math.Sin(Util.DegToRad(i*6)*3) + Math.Cos(j-Util.DegToRad(i*36)))*10), j);
+                    Block cbl = cch.Blocks[bl];
+                    try
+                    {
+                        RenderCube(world, cch, new Block(cbl.X + 16 * cch.X, cbl.Y, cbl.Z + 16 * cch.Z), cbl);
+                    }
+                    catch
+                    {
+                        RenderErrors++;
+                    }
+
                 }
-            }*/
-            
-           // RenderCube(new Block(0, 200, 0));
+                RenderedChunks++;
+            }
             GL.Begin(PrimitiveType.Lines);
             GL.Color3(1f, 1f, 1f);
             GL.Vertex3(world.Player.CFPt);
@@ -226,6 +286,8 @@ namespace MCClone
             GL.Vertex3(world.Player.CFPt);
             GL.Vertex3(world.Player.CPos);
             GL.End();
+
+
             SwapBuffers();
         }
         static void Dot(double x, double y, double z)
@@ -235,16 +297,39 @@ namespace MCClone
             GL.Vertex3(0.5f + x, 1.0f + y, 0.5f + z);
             GL.End();
         }
-        static void RenderCube(Block block)
+        static void RenderCube(World world, Chunk chunk, Block block, Block rBlock)
         {
-            double x = block.X;
-            double y = block.Y;
-            double z = block.Z;
-            GL.Begin(PrimitiveType.Quads);
+            int x = block.X;
+            int y = block.Y;
+            int z = block.Z;
 
-            if (world.Player.Y > y)
+          //  bool render = true;
+            bool top = true, left = true, front = true;
+            //    if (world.Player.Y + 2 - y > 16 * renderDistance) render = false;
+
+            if (world.Player.Xa > x) front = false;
+            if (world.Player.Ya + 2 < y) top = false;
+            if (world.Player.Za > z) left = false;
+
+            /*    foreach (Block blk in chunk.Blocks)
+                {
+                    if (blk.X == rBlock.X && blk.Y == rBlock.Y + 3 && blk.Z == rBlock.Z) render = false;
+                }*/
+      /*      if(chunk.Blocks.Find(delegate (Block blck)
+            {
+                if (blck.X == block.X && blck.Z == block.Z && blck.Y > block.Y)
+                    return true;
+                return false;
+            }) != null) render=false;*/
+           /* if (!render) {
+                Dot(x, y, z);
+                return;
+            }*/
+            GL.Begin(PrimitiveType.Quads);
+            if (top)
             {
                 //top
+
                 GL.Color3(brightness, brightness, 0);
                 GL.Vertex3(x, 1 + y, z);
                 GL.Vertex3(1 + x, 1 + y, z);
@@ -260,7 +345,7 @@ namespace MCClone
                 GL.Vertex3(1 + x, y, 1 + z);
                 GL.Vertex3(x, y, 1 + z);
             }
-            if (world.Player.Z < z)
+            if (left)
             {
                 //left
                 GL.Color3(brightness, 0, 0);
@@ -278,7 +363,7 @@ namespace MCClone
                 GL.Vertex3(1 + x, y, 1 + z);
                 GL.Vertex3(x, y, 1 + z);
             }
-            if (world.Player.X < x)
+            if (front)
             {
                 //front
                 GL.Color3(0, brightness, brightness);
@@ -298,84 +383,28 @@ namespace MCClone
             }
             GL.End();
         }
-        static void RenderCube(World world, Chunk chunk, Block block, Block rBlock)
+        private int CompileShaders()
         {
-            double x = block.X;
-            double y = block.Y;
-            double z = block.Z;
-            
-            bool render = true;
-            bool top = true, bottom = true, left = true, right = true, back = true, front = true;
-        //    if (world.Player.Y + 2 - y > 16 * renderDistance) render = false;
-            if (world.Player.Y + 2 < y) {
-                top = false;
-                bottom = true;
-                    }
-            foreach (Block blk in chunk.Blocks)
-            {
-                if (blk.X == rBlock.X && blk.Y == rBlock.Y + 3 && blk.Z == rBlock.Z) render = false;
-            }
-            if (!render) {
-                Dot(x, y, z);
-                return;
-            }
-            GL.Begin(PrimitiveType.Quads);
-            if (top)
-            {
-                //top
-                
-                GL.Color3(brightness, brightness, 0);
-                GL.Vertex3(x, 1 + y, z);
-                GL.Vertex3(1 + x, 1 + y, z);
-                GL.Vertex3(1 + x, 1 + y, 1 + z);
-                GL.Vertex3(x, 1 + y, 1 + z);
-            }
-            if(bottom)
-            {
-                //bottom
-                GL.Color3(brightness, brightness, brightness);
-                GL.Vertex3(x, y, z);
-                GL.Vertex3(1 + x, y, z);
-                GL.Vertex3(1 + x, y, 1 + z);
-                GL.Vertex3(x, y, 1 + z);
-            }
-            if (world.Player.Z < z)
-            {
-                //left
-                GL.Color3(brightness, 0, 0);
-                GL.Vertex3(x, 1 + y, z);
-                GL.Vertex3(1 + x, 1 + y, z);
-                GL.Vertex3(1 + x, y, z);
-                GL.Vertex3(x, y, z);
-            }
-            else
-            {
-                //right
-                GL.Color3(brightness, 0.5 * brightness, 0);
-                GL.Vertex3(x, 1 + y, 1 + z);
-                GL.Vertex3(1 + x, 1 + y, 1 + z);
-                GL.Vertex3(1 + x, y, 1 + z);
-                GL.Vertex3(x, y, 1 + z);
-            }
-            if (world.Player.X < x)
-            {
-                //front
-                GL.Color3(0, brightness, brightness);
-                GL.Vertex3(0.0f + x, 1.0f + y, z);
-                GL.Vertex3(0.0f + x, 1.0f + y, 1 + z);
-                GL.Vertex3(0.0f + x, 0.0f + y, 1 + z);
-                GL.Vertex3(0.0f + x, 0.0f + y, z);
-            }
-            else
-            {
-                //back
-                GL.Color3(0, 1.0 * brightness, 1.0 * brightness);
-                GL.Vertex3(1.0f + x, 1.0f + y, 0.0f + z);
-                GL.Vertex3(1.0f + x, 1.0f + y, 1.0f + z);
-                GL.Vertex3(1.0f + x, 0.0f + y, 1.0f + z);
-                GL.Vertex3(1.0f + x, 0.0f + y, 0.0f + z);
-            }
-            GL.End();
+            var vertexShader = GL.CreateShader(ShaderType.VertexShader);
+            GL.ShaderSource(vertexShader,
+            File.ReadAllText(@"Components\Shaders\vertexShader.vert"));
+            GL.CompileShader(vertexShader);
+
+            var fragmentShader = GL.CreateShader(ShaderType.FragmentShader);
+            GL.ShaderSource(fragmentShader,
+            File.ReadAllText(@"Components\Shaders\fragmentShader.frag"));
+            GL.CompileShader(fragmentShader);
+
+            var program = GL.CreateProgram();
+            GL.AttachShader(program, vertexShader);
+            GL.AttachShader(program, fragmentShader);
+            GL.LinkProgram(program);
+
+            GL.DetachShader(program, vertexShader);
+            GL.DetachShader(program, fragmentShader);
+            GL.DeleteShader(vertexShader);
+            GL.DeleteShader(fragmentShader);
+            return program;
         }
     }
 }

@@ -1,66 +1,110 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace MCClone
 {
     class TerrainGen
     {
+        public static Random random = new Random();
         public static void GenTerrain(List<Chunk> chunkList)
         {
-            Thread TGThread = new Thread(() =>
+            for (int x = -8; x < 8; x++)
             {
-                MainWindow.threadCount++;
-                for (double x = -16; x < 16; x++)
+                for (int z = -8; z < 8; z++)
                 {
-                    for (double z = -16; z < 16; z++)
-                    {
                     Chunk chunk = new Chunk(x, z, new List<Block>());
-                        chunkList.Add(chunk);
-                    }
+                    chunkList.Add(chunk);
+                    //Thread.Sleep(0);
                 }
-                for (int i = 0; i < chunkList.Count -1; i++)
-                {
+            }
+            for (int i = 0; i < chunkList.Count - 1; i++)
+            {
+                int ti = i;
+                for (int x2 = 0; x2 < 16; x2++)
+                    for (int z2 = 0; z2 < 16; z2++)
+                    {
 
-                    Thread childThread = new Thread(() =>
-                    {
-                        MainWindow.threadCount++;
-                        int ti = i;
-                        //lock (chunkList)
-                        for (double x2 = 0; x2 < 16; x2++)
-                    {
-                        for (double z2 = 0; z2 < 16; z2++)
+                        int by = GetHeight(chunkList[ti].X * 16 + x2, chunkList[ti].Z * 16 + z2);
+                        //by = Math.Max(by, 1);
+                        for (int y = by - 1; y < by; y++)
                         {
-
-                            double by = Math.Abs((int)((Math.Sin(Util.DegToRad(chunkList[ti].X * 16 + x2)) * 25 + Math.Sin(Util.DegToRad(chunkList[ti].Z * 16 + z2)) * 10) * 1.25));
-                            by = Math.Max(by, 1);
-                            for (int y = (int)by - 1; y < by; y++)
+                            try
                             {
-                                try
-                                {
-                                    chunkList[ti].Blocks.Add(new Block(x2, y, z2));
-                                    //chunkList[ti].Blocks2.Add(new Double[{ x2, y, z2 }]() ,new Block(x2, y, z2));
-                                       }
-                                        catch (Exception)
-                                        {
-                                            Thread.Sleep(1000);
+                                chunkList[ti].Blocks.Add(new Block(x2, y, z2));
+                                
 
-                                        }
-                                        Thread.Sleep(0);
-                                    }
-                                }
-                                }
-                        MainWindow.threadCount--;
-                    });
-                    
-                        childThread.Start();
-                    Thread.Sleep(50);
+                            }
+                            catch (Exception)
+                            {
+                                Thread.Sleep(1000);
+
+                            }
+                        }
+                        Thread.Sleep(0);
+                    }
+            }
+        }
+        public static void GenChunk(List<Chunk> chunkList,int X, int Z)
+        {
+            Chunk chunk = new Chunk(X, Z, new List<Block>());
+            chunkList.Add(chunk);
+
+            for (int x2 = 0; x2 < 16; x2++)
+                for (int z2 = 0; z2 < 16; z2++)
+                {
+                    int by = GetHeight(X * 16 + x2, Z * 16 + z2);
+                   /* double py = 1;
+                    py = Cosinerp(Cosinerp(Cosinerp(Cosinerp(py, Simplex.Noise.CalcPixel2D(x2 + 16 * X, z2 + 16 * X, 1), 0.1f), Simplex.Noise.CalcPixel2D(x2 + 16 * X, z2 + 16 * X, 1), 0.1f), Simplex.Noise.CalcPixel2D(x2 + 16 * X, z2 + 16 * X, 1), 0.1f), Simplex.Noise.CalcPixel2D(x2 + 16 * X, z2 + 16 * X, 1),0.75f);
+                    int by = (int)(Math.Sin(Util.DegToRad(py))*Math.Cos(Util.DegToRad(py))*5);*/
+                    by = Math.Max(by, 0);
+                    //Thread.Sleep(1);
+                     for (int y = by - 1; y < by; y++) 
+                     {
+                         try
+                         {
+                             chunk.Blocks.Add(new Block(x2, y, z2));
+                         }
+                         catch (Exception)
+                         {
+                             Thread.Sleep(100);
+
+                         }
+                     }
                 }
-                MainWindow.threadCount--;
-            }); TGThread.Start();
+            
+        }
+        public static int GetHeight(int x, int z) => (int)Math.Abs(((Math.Sin(Util.DegToRad(x)) * 25 + Math.Sin(Util.DegToRad(z)) * 10) * 1.725));
+        public static double FinalNoise(double x, double z, double py) => Cuberp(py, py + RandomNoise() * (RandomNoise()+0.1), py + RandomNoise(), py + RandomNoise() * 2, RandomNoise());
+        public static float RandomNoise()
+        {
+            return (float) random.NextDouble();
+        }
+        public static double Lerp(double v0, double v1, float t) => v0+(v1-v0)*t;
+        public static double Cosinerp(double v0, double v1, float t)
+        {
+            double ft = t * 3.1415927;
+
+            double f = (1 - Math.Cos(ft)) * .5;
+
+            return v0 * (1 - f) + v1 * f;
+        }
+        public static double Cuberp(double y0, double y1, double y2, double y3, float mu)
+        {
+           double a0,a1,a2,a3,mu2;
+
+           mu2 = mu * mu;
+
+           a0 = y3 - y2 - y0 + y1;
+
+           a1 = y0 - y1 - a0;
+
+           a2 = y2 - y0;
+
+           a3 = y1;
+            Thread.Sleep(1);
+           return (a0 * mu * mu2 + a1 * mu2 + a2 * mu + a3);
+
         }
     }
 }

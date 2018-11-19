@@ -1,11 +1,7 @@
 ﻿using OpenTK;
 using OpenTK.Input;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace MCClone
 {
@@ -24,7 +20,7 @@ namespace MCClone
                 Thread.Sleep(100);
                 Environment.Exit(0);
             }
-           
+
                 if (keyState.IsKeyDown(Key.W))
                 {
                     player.X += Math.Cos(Util.DegToRad(player.LX));
@@ -56,12 +52,15 @@ namespace MCClone
                 if (keyState.IsKeyDown(Key.E)) MainWindow.brightness += 0.01;
                 if (keyState.IsKeyDown(Key.F)) player.Flying = true;
                 if (keyState.IsKeyDown(Key.F)&&keyState.IsKeyDown(Key.LControl)) player.Flying = false;
-            
         }
         public static void Tick()
         {
+
             var player = MainWindow.world.Player;
-            if (!player.Flying) player.YV -= 0.005;
+            player.Xa = (int)player.X;
+            player.Ya = (int)player.Y;
+            player.Za = (int)player.Z;
+            if (!player.Flying && player.InAir) player.YV -= 0.005;
             if (player.YV < -0.45) player.YV = -0.45;
 
             //  if (bsarr.Contains(new Block((int)cx, (int)cy, (int)cz)) && cyv < 0) cyv = 0;
@@ -70,7 +69,7 @@ namespace MCClone
             if (!player.Flying) player.Y += player.YV;
 
             player.CPos = new Vector3((float)player.X, (float)player.Y + 2, (float)player.Z);
-            player.CFPt = new Vector3((float)(player.X + Math.Cos(Util.DegToRad(player.LX)) * 360), (float)(player.Y + 2 + Math.Sin(Util.DegToRad(player.LY)) * 360), (float)(player.Z + Math.Sin(Util.DegToRad(player.LX)) * 360));
+            player.CFPt = new Vector3((float)(player.X + Math.Cos(Util.DegToRad(player.LX))), (float)(player.Y + 2 + Math.Sin(Util.DegToRad(player.LY))), (float)(player.Z + Math.Sin(Util.DegToRad(player.LX))));
         }
     }
 }

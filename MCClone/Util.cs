@@ -11,10 +11,7 @@ namespace MCClone
 {
     class Util
     {
-        public static double DegToRad(double deg)
-        {
-            return (Math.PI / 180) * deg;
-        }
+        public static double DegToRad(double deg) => (Math.PI * deg) / 180;
         public static string GetGameArg(string key)
         {
             int test = Array.FindIndex(Program.args, (String s) => { if (s == $"-{key}") return true; else return false; });
@@ -22,7 +19,17 @@ namespace MCClone
                 return Program.args[test + 1];
             else return "null";
         }
-        
+        public static bool ShouldRenderChunk(Chunk ch)
+        {
+            int tx = ((int)MainWindow.world.Player.X / 16);
+                int tz = ((int)MainWindow.world.Player.Z / 16);
+            int chx = ch.X, chz = ch.Z, rd = MainWindow.renderDistance;
+            if (tx + rd > chx & tx -rd < chx )
+                if (tz + rd > chz & tz -rd< chz)
+                return true;
+            return false;
+        }
+
     }
     public class MyAudioWrapper
     {
@@ -45,7 +52,7 @@ namespace MCClone
         bufferedWaveProvider.AddSamples(array, 0, array.Length);
         WaveOut waveout = new WaveOut();
         waveout.Init(bufferedWaveProvider);
-           
+
         waveout.Play();
     }
 }
