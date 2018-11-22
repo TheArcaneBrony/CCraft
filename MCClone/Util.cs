@@ -21,13 +21,19 @@ namespace MCClone
         }
         public static bool ShouldRenderChunk(Chunk ch)
         {
+            bool s1=false, s2=false;
             int tx = ((int)MainWindow.world.Player.X / 16);
                 int tz = ((int)MainWindow.world.Player.Z / 16);
             int chx = ch.X, chz = ch.Z, rd = MainWindow.renderDistance;
             if (tx + rd > chx & tx -rd < chx )
                 if (tz + rd > chz & tz -rd< chz)
-                return true;
-            return false;
+                s1=true;
+             if(MainWindow.world.Player == null)
+             {
+
+             }
+            s2 = true;
+            return s1 && s2;
         }
 
     }

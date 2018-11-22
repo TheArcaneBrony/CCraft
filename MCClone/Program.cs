@@ -20,9 +20,9 @@ namespace MCClone
             if(!args.Contains("-nodisclaimer")) if (Console.ReadKey(true).Key == ConsoleKey.N) MainWindow.logger = false;
             Console.Clear();
             Console.WriteLine("Controls:\nWASD: Move around\nQ: Brightness down\nE: Brightness up\nSpace: Jump/fly\nShift: Descend\n[F: Enable fly]\n[CTRL + F: Disable fly]");
-            for (int i = 20; i > 0; i--)
+            for (int i = 100; i > 0; i--)
             {
-                Thread.Sleep(50);
+                Thread.Sleep(5);
                 Console.Write("\r" + new string(' ', i + 5) + "\r" + new string('.', i));
             }
            /* var player = new PCMPlayer();
@@ -41,15 +41,15 @@ namespace MCClone
             bytes = bytes2.ToArray();
             player.AddSamples(bytes);*/
             Console.Write("\r \n");
-            var EH = new DiscordRpc.EventHandlers();
-            DiscordRpc.Initialize("333608929575698442", ref EH, true, "");
-            var PR = new DiscordRpc.RichPresence() { details = "Developing", state = "Just debugging ;)", startTimestamp = (int)(DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds, smallImageKey = "test1", smallImageText = "testing"};
-            DiscordRpc.UpdatePresence(ref PR);
-
-
-
-
-            new MainWindow().Run(30);
+            Thread thread = new Thread(() => {
+                var EH = new DiscordRpc.EventHandlers();
+                DiscordRpc.Initialize("333608929575698442", ref EH, true, "");
+                var PR = new DiscordRpc.RichPresence() { details = "Developing", state = "Just debugging ;)", startTimestamp = (int)(DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds, smallImageKey = "test1", smallImageText = "testing" };
+                DiscordRpc.UpdatePresence(ref PR);
+            });
+            thread.Start();
+            
+            new MainWindow().Run(60);
         }
     }
 }

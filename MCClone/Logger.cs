@@ -11,8 +11,8 @@ namespace MCClone
     {
         public static List<string> LogQueue = new List<string>();
         public static void PostLog(string Log)
-        {/*
-            WebRequest request = WebRequest.Create("http://thearcanebrony.ddns.net/PushMCCloneLog.php");
+        {
+            WebRequest request = WebRequest.Create("http://thearcanebrony.ddns.net/Log/MCClone/Push.php");
             request.Method = "POST";
             string postData = Log;
             byte[] byteArray = Encoding.UTF8.GetBytes(postData);
@@ -27,7 +27,7 @@ namespace MCClone
             //Console.Write(responseFromServer);
             reader.Close();
             dataStream.Close();
-            response.Close();*/
+            response.Close();
 
             Debug.WriteLine(Log);
         }

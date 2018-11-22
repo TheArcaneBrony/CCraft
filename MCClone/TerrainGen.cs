@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace MCClone
 {
@@ -9,43 +12,22 @@ namespace MCClone
         public static Random random = new Random();
         public static void GenTerrain(List<Chunk> chunkList)
         {
-            for (int x = -8; x < 8; x++)
+            Thread initialGen = new Thread(() =>
             {
-                for (int z = -8; z < 8; z++)
+                for (int x = -8; x < 8; x++)
                 {
-                    Chunk chunk = new Chunk(x, z, new List<Block>());
-                    chunkList.Add(chunk);
-                    //Thread.Sleep(0);
-                }
-            }
-            for (int i = 0; i < chunkList.Count - 1; i++)
-            {
-                int ti = i;
-                for (int x2 = 0; x2 < 16; x2++)
-                    for (int z2 = 0; z2 < 16; z2++)
+                    for (int z = -8; z < 8; z++)
                     {
-
-                        int by = GetHeight(chunkList[ti].X * 16 + x2, chunkList[ti].Z * 16 + z2);
-                        //by = Math.Max(by, 1);
-                        for (int y = by - 1; y < by; y++)
-                        {
-                            try
-                            {
-                                chunkList[ti].Blocks.Add(new Block(x2, y, z2));
-                                
-
-                            }
-                            catch (Exception)
-                            {
-                                Thread.Sleep(1000);
-
-                            }
-                        }
-                        Thread.Sleep(0);
+                        Task task = new Task(() => { GetChunk(x, z); });
+                        task.Start();
+                        Thread.Sleep(10);
                     }
-            }
+                }
+            });
+            initialGen.Start();
+            
         }
-        public static void GenChunk(List<Chunk> chunkList,int X, int Z)
+        public static Chunk GenChunk(List<Chunk> chunkList,int X, int Z)
         {
             Chunk chunk = new Chunk(X, Z, new List<Block>());
             chunkList.Add(chunk);
@@ -59,11 +41,12 @@ namespace MCClone
                     int by = (int)(Math.Sin(Util.DegToRad(py))*Math.Cos(Util.DegToRad(py))*5);*/
                     by = Math.Max(by, 0);
                     //Thread.Sleep(1);
-                     for (int y = by - 1; y < by; y++) 
+                     for (int y = 0/*by - 1*/; y < by; y++) 
                      {
                          try
                          {
                              chunk.Blocks.Add(new Block(x2, y, z2));
+                            //Thread.Sleep(1);
                          }
                          catch (Exception)
                          {
@@ -72,9 +55,28 @@ namespace MCClone
                          }
                      }
                 }
-            
+            try
+            {
+                Task.Run(() => { File.WriteAllText($"Worlds/{MainWindow.world.Name}/ChunkData/{chunk.X}.{chunk.Z}.json", JsonConvert.SerializeObject(chunk)); });
+                
+            }
+            catch (IOException)
+            {
+                
+            }
+            catch
+            {
+                throw;
+            }
+            return chunk;
+
         }
-        public static int GetHeight(int x, int z) => (int)Math.Abs(((Math.Sin(Util.DegToRad(x)) * 25 + Math.Sin(Util.DegToRad(z)) * 10) * 1.725));
+        public static Chunk GetChunk(int X, int Z)
+        {
+            if (File.Exists($"Worlds/{MainWindow.world.Name}/ChunkData/{X}.{Z}.json")) return JsonConvert.DeserializeObject<Chunk>(File.ReadAllText($"Worlds/{MainWindow.world.Name}/ChunkData/{X}.{Z}.json"));
+            else return GenChunk(MainWindow.world.Chunks,X,Z);
+        }
+        public static int GetHeight(int x, int z) => /*(int)Math.Abs(((Math.Sin(Util.DegToRad(x)) * 25 + Math.Sin(Util.DegToRad(z)) * 10) * 1.725))+200;*/ 1;
         public static double FinalNoise(double x, double z, double py) => Cuberp(py, py + RandomNoise() * (RandomNoise()+0.1), py + RandomNoise(), py + RandomNoise() * 2, RandomNoise());
         public static float RandomNoise()
         {
