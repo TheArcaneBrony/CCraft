@@ -5,7 +5,6 @@ namespace MCClone
 {
     public class Block
     {
-        public Block() { }
         public Block(int X, int Y, int Z)
         {
             this.X = X;
@@ -32,12 +31,9 @@ namespace MCClone
         }
         public int X { get; set; }
         public int Z { get; set; }
-        public double XS { get; set; }
-        public double ZS { get; set; }
         public List<Block> Blocks { get; set; }
-        public Dictionary<Double[],Block> Blocks2 { get; set; }
     }
-    
+
     public class World
     {
         public World() { }
@@ -54,7 +50,6 @@ namespace MCClone
         public Player Player { get; set; } = new Player();
         public List<Player> OnlinePlayers { get; set; } = new List<Player>();
         public List<Chunk> Chunks { get; set; } = new List<Chunk>();
-        
         public int BlockCount { get; set; } = 0;
     }
 }

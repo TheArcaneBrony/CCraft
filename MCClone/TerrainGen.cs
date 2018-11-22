@@ -16,11 +16,14 @@ namespace MCClone
             {
                 for (int x = -8; x < 8; x++)
                 {
-                    for (int z = -8; z < 8; z++)
+                    Task.Run(() =>
                     {
-                        new Task(() => { GetChunk(x, z); }).Start();
-                        Thread.Sleep(10);
-                    }
+                        for (int z = -8; z < 8; z++)
+                        {
+                             GenChunk(chunkList, x, z);
+                            Thread.Sleep(50);
+                        }
+                    });
                 }
             });
             initialGen.Start();
@@ -34,7 +37,7 @@ namespace MCClone
                 for (int z2 = 0; z2 < 16; z2++)
                 {
                     int by = GetHeight(X * 16 + x2, Z * 16 + z2);
-                   // by = Math.Max(by, 0);
+                    by = Math.Min(by, 0);
                     //Thread.Sleep(1);
                      for (int y = 0/*by - 1*/; y < by; y++)
                      {
@@ -45,13 +48,13 @@ namespace MCClone
                          }
                          catch (Exception)
                          {
-                             Thread.Sleep(100);
+                             Thread.Sleep(10);
                          }
                      }
                 }
             try
             {
-                Task.Run(() => { File.WriteAllText($"Worlds/{MainWindow.world.Name}/ChunkData/{chunk.X}.{chunk.Z}.json", JsonConvert.SerializeObject(chunk)); });
+               Task.Run(() => { File.WriteAllText($"Worlds/{MainWindow.world.Name}/ChunkData/{chunk.X}.{chunk.Z}.json", JsonConvert.SerializeObject(chunk)); });
             }
             catch (IOException)
             {

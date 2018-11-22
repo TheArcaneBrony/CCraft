@@ -80,11 +80,11 @@ namespace MCClone
 
                                     return false;
                                 }) == null) {
-                                   // new Thread(() =>
-                                  //  {
+                                    // new Thread(() =>
+                                    //  {
 
-                                       // Logger.LogQueue.Add($"CHUNK GENERATING @ {x}/{z}");
-                                        TerrainGen.GetChunk(x, z);
+                                    // Logger.LogQueue.Add($"CHUNK GENERATING @ {x}/{z}");
+                                    TerrainGen.GenChunk(world.Chunks, x, z);
                                     //}).Start();
                                 }
                             }
@@ -268,11 +268,11 @@ namespace MCClone
             GL.Vertex3(world.Player.CFPt);
             GL.Vertex3(world.Player.CPos);
             GL.End();
-            GL.Begin(PrimitiveType.Points);
+           /* GL.Begin(PrimitiveType.Points);
             GL.Color3(0f, 0.5f, 0f);
             GL.Vertex3(world.Player.CFPt);
             GL.Vertex3(world.Player.CPos);
-            GL.End();
+            GL.End();*/
 
 
             SwapBuffers();
