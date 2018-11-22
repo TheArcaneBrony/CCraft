@@ -18,14 +18,12 @@ namespace MCClone
                 {
                     for (int z = -8; z < 8; z++)
                     {
-                        Task task = new Task(() => { GetChunk(x, z); });
-                        task.Start();
+                        new Task(() => { GetChunk(x, z); }).Start();
                         Thread.Sleep(10);
                     }
                 }
             });
             initialGen.Start();
-            
         }
         public static Chunk GenChunk(List<Chunk> chunkList,int X, int Z)
         {
@@ -36,12 +34,9 @@ namespace MCClone
                 for (int z2 = 0; z2 < 16; z2++)
                 {
                     int by = GetHeight(X * 16 + x2, Z * 16 + z2);
-                   /* double py = 1;
-                    py = Cosinerp(Cosinerp(Cosinerp(Cosinerp(py, Simplex.Noise.CalcPixel2D(x2 + 16 * X, z2 + 16 * X, 1), 0.1f), Simplex.Noise.CalcPixel2D(x2 + 16 * X, z2 + 16 * X, 1), 0.1f), Simplex.Noise.CalcPixel2D(x2 + 16 * X, z2 + 16 * X, 1), 0.1f), Simplex.Noise.CalcPixel2D(x2 + 16 * X, z2 + 16 * X, 1),0.75f);
-                    int by = (int)(Math.Sin(Util.DegToRad(py))*Math.Cos(Util.DegToRad(py))*5);*/
-                    by = Math.Max(by, 0);
+                   // by = Math.Max(by, 0);
                     //Thread.Sleep(1);
-                     for (int y = 0/*by - 1*/; y < by; y++) 
+                     for (int y = 0/*by - 1*/; y < by; y++)
                      {
                          try
                          {
@@ -51,18 +46,15 @@ namespace MCClone
                          catch (Exception)
                          {
                              Thread.Sleep(100);
-
                          }
                      }
                 }
             try
             {
                 Task.Run(() => { File.WriteAllText($"Worlds/{MainWindow.world.Name}/ChunkData/{chunk.X}.{chunk.Z}.json", JsonConvert.SerializeObject(chunk)); });
-                
             }
             catch (IOException)
             {
-                
             }
             catch
             {
@@ -76,7 +68,7 @@ namespace MCClone
             if (File.Exists($"Worlds/{MainWindow.world.Name}/ChunkData/{X}.{Z}.json")) return JsonConvert.DeserializeObject<Chunk>(File.ReadAllText($"Worlds/{MainWindow.world.Name}/ChunkData/{X}.{Z}.json"));
             else return GenChunk(MainWindow.world.Chunks,X,Z);
         }
-        public static int GetHeight(int x, int z) => /*(int)Math.Abs(((Math.Sin(Util.DegToRad(x)) * 25 + Math.Sin(Util.DegToRad(z)) * 10) * 1.725))+200;*/ 1;
+        public static int GetHeight(int x, int z) => (int)Math.Abs(((Math.Sin(Util.DegToRad(x)) * 25 + Math.Sin(Util.DegToRad(z)) * 10) * 1.725))+200;// 1;
         public static double FinalNoise(double x, double z, double py) => Cuberp(py, py + RandomNoise() * (RandomNoise()+0.1), py + RandomNoise(), py + RandomNoise() * 2, RandomNoise());
         public static float RandomNoise()
         {

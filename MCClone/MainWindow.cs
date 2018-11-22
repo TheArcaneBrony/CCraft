@@ -16,9 +16,9 @@ namespace MCClone
         public static bool running = true, focussed = true, logger = true;
         public static string ver = "0.06a_01068";
         public static int renderDistance = 10, centerX, centerY, RenderErrors = 0, RenderedChunks = 0;
-        public static double brightness = 1, LYt = 0, LXt = 0, rt = 0;
+        public static double brightness = 1, rt = 0;
         public static World world = new World(0, 100, 0);
-        public static float vol,sensitivity=.5f;
+        public static float vol,sensitivity=.1f;
         public static List<Chunk> crq = new List<Chunk>();
         private int _program;
 
@@ -54,17 +54,18 @@ namespace MCClone
             Point center = new Point(centerX, centerY);
             Point mousePos = PointToScreen(center);
             OpenTK.Input.Mouse.SetPosition(mousePos.X, mousePos.Y);
-            Mouse.Move += Mouse_Move;
+
             world.Player = new Player(world.SpawnX, world.SpawnY, world.SpawnZ)
             {
                 Flying = true,
                 Name = Util.GetGameArg("username")
             };
+            Directory.CreateDirectory($"Worlds/{world.Name}/ChunkData/");
             Thread gameInit = new Thread(() =>
             {
                 TerrainGen.GenTerrain(world.Chunks);
                 while (true){
-                    Thread.Sleep(500);
+                    Thread.Sleep(100);
                     if (RenderedChunks < renderDistance*renderDistance)
                         for (int x = world.Player.Xc - renderDistance; x < world.Player.Xc + renderDistance; x++) for (int z = world.Player.Zc - renderDistance; z < world.Player.Zc + renderDistance; z++)
                             {
@@ -83,7 +84,7 @@ namespace MCClone
                                   //  {
 
                                        // Logger.LogQueue.Add($"CHUNK GENERATING @ {x}/{z}");
-                                        TerrainGen.GenChunk(world.Chunks, x, z);
+                                        TerrainGen.GetChunk(x, z);
                                     //}).Start();
                                 }
                             }
@@ -93,7 +94,7 @@ namespace MCClone
             {
                 while (true)
                 {
-                    Input.HandleKeyboard();
+                    Input.HandleInput();
                     Input.Tick();
                     Thread.Sleep(1000 / 120);
                     if (running == false) break;
@@ -115,12 +116,14 @@ namespace MCClone
             {
                 while (true)
                 {
+                    string command = "none";
+                    string[] args;
                     try
                         {
                         Console.Write("> ");
                         string input = Console.ReadLine();
-                        string command = input.Split(' ')[0];
-                        string[] args = input.Remove(0, input.Split(' ')[0].Length + 1).Split(' ');
+                        command = input.Split(' ')[0];
+                        args = input.Remove(0, input.Split(' ')[0].Length + 1).Split(' ');
                         switch (command)
                         {
                             case "tp":
@@ -132,13 +135,14 @@ namespace MCClone
                                 renderDistance = int.Parse(args[0]);
                                 break;
                             default:
+                                Console.WriteLine($"Invalid command: {command}");
                                 break;
                         }
                         if (running == false) break;
                     }
                     catch
                     {
-
+                        Console.WriteLine($"Invalid command or arguments: {command}");
                     }
                     Thread.Sleep(200);
                 }
@@ -215,23 +219,6 @@ namespace MCClone
             Title = $"MC Clone {ver} | FPS: {1f / rt:0} ({Math.Round(rt * 1000, 2)} ms) C: {crq.Count}/{world.Chunks.Count} E: {RenderErrors} | {world.Player.Xa}/{world.Player.Ya}/{world.Player.Za} : {world.Player.LX}/{world.Player.LY} | {Math.Round((double)(world.BlockCount / 1000), 1)} K | {world.Player.Name}@{world.Name}"; //{Math.Round(vol * 100, 0)} |
         }
 
-        private void Mouse_Move(object sender, MouseMoveEventArgs e)
-        {
-            if (focussed && !(e.X == centerX & e.Y == centerY))
-            {
-                double x = e.XDelta;
-                double y = -(e.YDelta);
-                Point center = new Point(centerX, centerY);
-                Point mousePos = PointToScreen(center);
-                OpenTK.Input.Mouse.SetPosition(mousePos.X, mousePos.Y);
-                world.Player.LY += y*sensitivity;
-                world.Player.LX += x*sensitivity;
-
-                if (world.Player.LY > 90) world.Player.LY = 90;
-                if (world.Player.LY < -90) world.Player.LY = -90;
-                //Logger.LogQueue.Add($"MV_MOUSE: X={x},Y={y}");
-            }
-        }
         public double _time;
         protected override void OnRenderFrame(FrameEventArgs e)
         {

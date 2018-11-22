@@ -48,7 +48,7 @@ namespace MCClone
                 DiscordRpc.UpdatePresence(ref PR);
             });
             thread.Start();
-            
+
             new MainWindow().Run(60);
         }
     }

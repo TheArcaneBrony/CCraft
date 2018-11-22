@@ -1,13 +1,14 @@
 ﻿using OpenTK;
 using OpenTK.Input;
 using System;
+using System.Drawing;
 using System.Threading;
 
 namespace MCClone
 {
     class Input
     {
-        public static void HandleKeyboard()
+        public static void HandleInput()
         {
             var player = MainWindow.world.Player;
 
@@ -52,10 +53,25 @@ namespace MCClone
                 if (keyState.IsKeyDown(Key.E)) MainWindow.brightness += 0.01;
                 if (keyState.IsKeyDown(Key.F)) player.Flying = true;
                 if (keyState.IsKeyDown(Key.F)&&keyState.IsKeyDown(Key.LControl)) player.Flying = false;
+            if (MainWindow.focussed && !(Mouse.GetCursorState().X == MainWindow.centerX || Mouse.GetCursorState().Y == MainWindow.centerY))
+            {
+                Console.WriteLine($"{Mouse.GetCursorState().Y - MainWindow.centerY}");
+                double x = Mouse.GetCursorState().X - MainWindow.centerX;
+                double y = -(Mouse.GetCursorState().Y - MainWindow.centerY);
+                //Point center = new Point(MainWindow.centerX, MainWindow.centerY);
+               // Point mousePos = PointToScreen(center);
+
+                OpenTK.Input.Mouse.SetPosition(MainWindow.centerX, MainWindow.centerY);
+                MainWindow.world.Player.LY += y * MainWindow.sensitivity;
+                MainWindow.world.Player.LX += x * MainWindow.sensitivity;
+
+                if (MainWindow.world.Player.LY > 90) MainWindow.world.Player.LY = 90;
+                if (MainWindow.world.Player.LY < -90) MainWindow.world.Player.LY = -90;
+                //Logger.LogQueue.Add($"MV_MOUSE: X={x},Y={y}");
+            }
         }
         public static void Tick()
         {
-
             var player = MainWindow.world.Player;
             player.Xa = (int)player.X;
             player.Ya = (int)player.Y;
