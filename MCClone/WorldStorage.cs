@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace MCClone
 {
@@ -43,7 +44,7 @@ namespace MCClone
             this.SpawnY = SpawnY;
             this.SpawnZ = SpawnZ;
         }
-        public string Name { get; set; } = "SP_DEV";
+        public string Name { get; set; } = "SP_DEV_" + Directory.GetDirectories("Worlds/").Length; //"SP_DEV";
         public double SpawnX { get; set; } = 0;
         public double SpawnY { get; set; } = 10;
         public double SpawnZ { get; set; } = 0;

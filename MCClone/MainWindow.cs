@@ -71,20 +71,23 @@ namespace MCClone
                             {
                                 if (world.Chunks.Find(chunk =>
                                 {
-
-                                    if (chunk.X == x && chunk.Z == z)
+                                    try
                                     {
-                                        //Logger.LogQueue.Add($"CHUNK EXISTS @ {x}/{z} AND HAS {chunk.Blocks.Count} BLOCKS");
-                                        return true;
+                                        if (chunk.X == x && chunk.Z == z)
+                                        {
+                                            Logger.PostLog($"CHUNK EXISTS @ {x}/{z} AND HAS {chunk.Blocks.Count} BLOCKS");
+                                            return true;
+                                        }
                                     }
+                                    catch { }
 
                                     return false;
                                 }) == null) {
                                     // new Thread(() =>
                                     //  {
 
-                                    // Logger.LogQueue.Add($"CHUNK GENERATING @ {x}/{z}");
-                                    TerrainGen.GenChunk(world.Chunks, x, z);
+                                     Logger.PostLog($"CHUNK UNLOADED @ {x}/{z}");
+                                    TerrainGen.GetChunk(world.Chunks, x, z);
                                     //}).Start();
                                 }
                             }
@@ -248,18 +251,18 @@ namespace MCClone
 
             foreach (Chunk cch in crq)
             {
-                for (int bl = 0; bl < cch.Blocks.Count; bl++)
+                Chunk chunk = cch;
+                foreach (Block bl in chunk.Blocks)
                 {
-                    Block cbl = cch.Blocks[bl];
+                    
                     try
                     {
-                        RenderCube(world, cch, new Block(cbl.X + 16 * cch.X, cbl.Y, cbl.Z + 16 * cch.Z), cbl);
+                        RenderCube(world, cch, new Block(bl.X + 16 * cch.X, bl.Y, bl.Z + 16 * cch.Z), bl);
                     }
                     catch
                     {
                         RenderErrors++;
                     }
-
                 }
                 RenderedChunks++;
             }

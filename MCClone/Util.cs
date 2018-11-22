@@ -21,7 +21,6 @@ namespace MCClone
         }
         public static bool ShouldRenderChunk(Chunk ch)
         {
-            return true;
             bool s1=false, s2=false;
             int tx = ((int)MainWindow.world.Player.X / 16);
                 int tz = ((int)MainWindow.world.Player.Z / 16);
