@@ -251,12 +251,12 @@ namespace MCClone
 
             foreach (Chunk cch in crq)
             {
-                Chunk chunk = cch;
-                foreach (Block bl in chunk.Blocks)
+                for (int i = 0; i < cch.Blocks.Count; i++)
                 {
-                    
+                    var bl = cch.Blocks[i];
                     try
                     {
+
                         RenderCube(world, cch, new Block(bl.X + 16 * cch.X, bl.Y, bl.Z + 16 * cch.Z), bl);
                     }
                     catch
@@ -300,6 +300,7 @@ namespace MCClone
             if (world.Player.Xa > x) front = false;
             if (world.Player.Ya + 2 < y) top = false;
             if (world.Player.Za > z) left = false;
+            if (chunk.Blocks.Find((Block bl) => { if(bl.X == rBlock.X && bl.Z == rBlock.Z && bl.Y == rBlock.Y+1) return true; return false; })!=null) return;
 
             /*    foreach (Block blk in chunk.Blocks)
                 {
