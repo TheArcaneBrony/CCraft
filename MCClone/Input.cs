@@ -1,7 +1,6 @@
 ﻿using OpenTK;
 using OpenTK.Input;
 using System;
-using System.Drawing;
 using System.Threading;
 
 namespace MCClone
@@ -49,13 +48,16 @@ namespace MCClone
                 }
                 if (keyState.IsKeyDown(Key.ShiftLeft)) player.Y -= 0.1;
                 if (keyState.IsKeyDown(Key.Space)) if (player.Flying) player.Y += 0.1; else player.YV = 0.1;
-                if (keyState.IsKeyDown(Key.Q)) MainWindow.brightness -= 0.01;
-                if (keyState.IsKeyDown(Key.E)) MainWindow.brightness += 0.01;
+                if (keyState.IsKeyDown(Key.Q)) MainWindow.brightness -= 0.01f;
+                if (keyState.IsKeyDown(Key.E)) MainWindow.brightness += 0.01f;
                 if (keyState.IsKeyDown(Key.F)) player.Flying = true;
                 if (keyState.IsKeyDown(Key.F)&&keyState.IsKeyDown(Key.LControl)) player.Flying = false;
+
+
+
             if (MainWindow.focussed && !(Mouse.GetCursorState().X == MainWindow.centerX || Mouse.GetCursorState().Y == MainWindow.centerY))
             {
-                Console.WriteLine($"{Mouse.GetCursorState().Y - MainWindow.centerY}");
+                //Console.WriteLine($"{Mouse.GetCursorState().Y - MainWindow.centerY}");
                 double x = Mouse.GetCursorState().X - MainWindow.centerX;
                 double y = -(Mouse.GetCursorState().Y - MainWindow.centerY);
                 //Point center = new Point(MainWindow.centerX, MainWindow.centerY);
@@ -67,6 +69,7 @@ namespace MCClone
 
                 if (MainWindow.world.Player.LY > 90) MainWindow.world.Player.LY = 90;
                 if (MainWindow.world.Player.LY < -90) MainWindow.world.Player.LY = -90;
+
                 //Logger.LogQueue.Add($"MV_MOUSE: X={x},Y={y}");
             }
         }
@@ -84,6 +87,9 @@ namespace MCClone
             //if (MainWindow.world.Chunks)
             if (!player.Flying) player.Y += player.YV;
 
+            if (MainWindow.brightness > 90) MainWindow.brightness = 90;
+            if (MainWindow.brightness < 0.1f) MainWindow.brightness = 0.1f;
+            Console.Title = $"{MainWindow.brightness}";
             player.CPos = new Vector3((float)player.X, (float)player.Y + 2, (float)player.Z);
             player.CFPt = new Vector3((float)(player.X + Math.Cos(Util.DegToRad(player.LX))), (float)(player.Y + 2 + Math.Sin(Util.DegToRad(player.LY))), (float)(player.Z + Math.Sin(Util.DegToRad(player.LX))));
         }

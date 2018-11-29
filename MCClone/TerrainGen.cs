@@ -40,8 +40,9 @@ namespace MCClone
                         //Thread.Sleep(1);
                         for (int y = by - 1; y < by; y++)
                         {
-                            chunk.Blocks.Add(new Block(x2, y, z2));
+                            chunk.Blocks.Add(new Block(x2, (UInt16)y, z2));
                         }
+
                     }
                 try
                 {
@@ -49,6 +50,7 @@ namespace MCClone
                 }
                 catch (IOException)
                 {
+                    Console.WriteLine($"Failed to save chunk: {X}/{Z}");
                 }
                 catch
                 {
@@ -56,7 +58,6 @@ namespace MCClone
                 }
             });
             return chunk;
-
         }
         public static Chunk GetChunk(List<Chunk> chunkList, int X, int Z)
         {

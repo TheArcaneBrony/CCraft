@@ -11,13 +11,13 @@ namespace MCClone
         static void Main(string[] args)
         {
             Program.args = args;
-            /*for (int i = 0; i < 2000; i++)
+            for (int i = 0; i < 2000; i++)
             {
-                Console.Write("M1N3CR4F7! ");
+                Console.Write("DOWNLOAD BOORU NAV! ");
             }
-            Console.Clear();*/
+            Console.Clear();
             Console.Write("This testing version of the game logs certain private data, such as your Windows username and pc name to identify whoever the data belongs to.\nThis is sent alongside more diagnostic info like:\n - .NET version,\n - FPS,\n - Game version\nIf you are not okay with this, press N to disable logging, although this will have negative impact on debugging if some problems arise.\n Thank you for understanding! :)\n[Press any key to continue, N to disable logging] ");
-            if(!args.Contains("-nodisclaimer")) if (Console.ReadKey(true).Key == ConsoleKey.N) MainWindow.logger = false;
+            if(!args.Contains("-nodisclaimer") && Console.ReadKey(true).Key == ConsoleKey.N) MainWindow.logger = false;
             Console.Clear();
             Console.WriteLine("Controls:\nWASD: Move around\nQ: Brightness down\nE: Brightness up\nSpace: Jump/fly\nShift: Descend\n[F: Enable fly]\n[CTRL + F: Disable fly]");
            /* for (int i = 50; i > 0; i--)

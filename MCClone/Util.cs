@@ -25,13 +25,14 @@ namespace MCClone
             int tx = ((int)MainWindow.world.Player.X / 16);
                 int tz = ((int)MainWindow.world.Player.Z / 16);
             int rd = MainWindow.renderDistance;
-            if (tx + rd > ch.X & tx -rd < ch.Z )
+            if (tx + rd > ch.X & tx -rd < ch.X )
                 if (tz + rd > ch.Z & tz -rd< ch.Z)
                 s1=true;
-             if(MainWindow.world.Player == null)
+             /*if(MainWindow.world.Player == null)
              {
 
-             }
+             }*/
+             
             s2 = true;
             return s1 && s2;
         }
