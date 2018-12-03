@@ -87,7 +87,7 @@ namespace MCClone
             //if (MainWindow.world.Chunks)
             if (!player.Flying) player.Y += player.YV;
 
-            if (MainWindow.brightness > 90) MainWindow.brightness = 90;
+            if (MainWindow.brightness > 1f) MainWindow.brightness = 1f;
             if (MainWindow.brightness < 0.1f) MainWindow.brightness = 0.1f;
             Console.Title = $"{MainWindow.brightness}";
             player.CPos = new Vector3((float)player.X, (float)player.Y + 2, (float)player.Z);

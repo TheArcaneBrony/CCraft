@@ -15,7 +15,7 @@ namespace MCClone
     {
         public static bool running = true, focussed = true, logger = true;
         public static string ver = "0.07a_00053";
-        public static int renderDistance = 10, centerX, centerY, RenderErrors = 0, RenderedChunks = 0;
+        public static UInt16 renderDistance = 10, centerX, centerY, RenderErrors = 0, RenderedChunks = 0;
         public static double rt = 0;
         public static World world = new World(0, 100, 0);
         public static float sensitivity = .1f, brightness = 1;
@@ -32,8 +32,8 @@ namespace MCClone
         protected override void OnResize(EventArgs e)
         {
             GL.Viewport(ClientRectangle.X, ClientRectangle.Y, ClientRectangle.Width, ClientRectangle.Height);
-            centerX = ClientRectangle.Width / 2;
-            centerY = ClientRectangle.Height / 2;
+            centerX = (UInt16)(ClientRectangle.Width / 2);
+            centerY = (UInt16)(ClientRectangle.Height / 2);
             Matrix4 projection = Matrix4.CreatePerspectiveFieldOfView((float)Math.PI / 4/* 0.9f*/, Width / (float)Height, 1.0f, 64000f);
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadMatrix(ref projection);
@@ -47,8 +47,8 @@ namespace MCClone
 
             GL.GenVertexArrays(1, out _vertexArray);
             GL.BindVertexArray(_vertexArray);
-            centerX = ClientRectangle.Width / 2;
-            centerY = ClientRectangle.Height / 2;
+            centerX = (ClientRectangle.Width / 2);
+            centerY = (ClientRectangle.Height / 2);
 
             Point center = new Point(centerX, centerY);
             Point mousePos = PointToScreen(center);
@@ -137,7 +137,7 @@ namespace MCClone
                                 world.Player.Z = double.Parse(args[2]);
                                 break;
                             case "render":
-                                renderDistance = int.Parse(args[0]);
+                                renderDistance = UInt16.Parse(args[0]);
                                 break;
                             default:
                                 Console.WriteLine($"Invalid command: {command}");
@@ -177,15 +177,14 @@ namespace MCClone
                         //int tx = world.Player.Xc;
                         //int tz = world.Player.Zc;
                         //if (tx + renderDistance > chunk.X & tx - renderDistance < chunk.X & tz + renderDistance > chunk.Z & tz - renderDistance < chunk.Z)
-                        if (Util.ShouldRenderChunk(chunk)) return true;
-                        return false;
+                        return Util.ShouldRenderChunk(chunk);
                     });
                     while (Logger.LogQueue.Count > 0)
                     {
                         if (Logger.LogQueue.Count > 20) Logger.LogQueue.RemoveRange(20, Logger.LogQueue.Count - 20);
                         Logger.PostLog(Logger.LogQueue[0] + $",LOG_REM={Logger.LogQueue.Count}"); Logger.LogQueue.RemoveAt(0);
                     }
-                    Thread.Sleep(100);
+                    Thread.Sleep(250);
                 }
             });
             kbdLogic.Start();
@@ -254,7 +253,7 @@ namespace MCClone
             Random rnd = new Random();
             foreach (Chunk cch in crq)
             {
-                var btr = cch.Blocks.FindAll((Block bl) => { return true; if (bl.X % 4 == rnd.Next(0,5) && bl.Z % 4 == rnd.Next(0, 5)) return true; return false; });
+                var btr = cch.Blocks.FindAll((Block bl) => { return true; /*if (bl.X % 4 == rnd.Next(0,5) && bl.Z % 4 == rnd.Next(0, 5)) return true; */return false; });
                 try
                 {
                     /*for (int i = 0; i < cch.Blocks.Count; i++)
@@ -264,7 +263,7 @@ namespace MCClone
 
                     foreach (Block bl in btr)
                     {
-                        RenderCube(world, cch, new Block(bl.X + 16 * cch.X, bl.Y, bl.Z + 16 * cch.Z), bl);
+                        RenderCube(world, cch, bl);
                     }
                 }
                 catch
@@ -294,11 +293,11 @@ namespace MCClone
             GL.Vertex3(0.5f + x, 1.0f + y, 0.5f + z);
             GL.End();
         }
-        static void RenderCube(World world, Chunk chunk, Block block, Block rBlock)
+        static void RenderCube(World world, Chunk chunk, Block block)
         {
-            int x = block.X;
+            int x = block.X + 16*chunk.X;
             UInt16 y = block.Y;
-            int z = block.Z;
+            int z = block.Z * chunk.Z;
 
             //  bool render = true;
             bool top = true, left = true, front = true;
