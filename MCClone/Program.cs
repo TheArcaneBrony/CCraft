@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace MCClone
 {
@@ -49,6 +50,9 @@ namespace MCClone
                 DiscordRpc.UpdatePresence(ref PR);
             });
             thread.Start();
+
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
 
             new MainWindow().Run(60);
         }

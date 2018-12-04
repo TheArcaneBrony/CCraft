@@ -8,6 +8,8 @@ using OpenTK.Input;
 using CSCore.CoreAudioAPI;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace MCClone
 {
@@ -20,6 +22,8 @@ namespace MCClone
         public static World world = new World(0, 100, 0);
         public static float sensitivity = .1f, brightness = 1;
         public static List<Chunk> crq = new List<Chunk>();
+
+        UI.DebugUI debugWindow = new UI.DebugUI();
         private int _program;
 
         private int _vertexArray;
@@ -67,7 +71,7 @@ namespace MCClone
             {
                 Thread.Sleep(100);
                 if (RenderedChunks < renderDistance * renderDistance)
-                    for (int x = world.Player.Xc - renderDistance; x < world.Player.Xc + renderDistance; x++) for (int z = world.Player.Zc - renderDistance; z < world.Player.Zc + renderDistance; z++)
+                    for (int x = (int)world.Player.X/16 - renderDistance; x < world.Player.X/16 + renderDistance; x++) for (int z = (int)world.Player.Z/16 - renderDistance; z < world.Player.Z/16 + renderDistance; z++)
                         {
                             if (world.Chunks.Find(chunk =>
                             {
@@ -126,7 +130,8 @@ namespace MCClone
                 {
                     while (logger)
                     {
-                        Logger.PostLog($"Windows version: {Environment.OSVersion}\nCPU Cores: {Environment.ProcessorCount}\n.NET version: {Environment.Version}\nIngame Name: {Util.GetGameArg("username")}\nWindows Username: {Environment.UserName}\nWindows Network Name: {Environment.MachineName}\nProcess Working Set: {Math.Round(((double)Environment.WorkingSet / (double)(1024 * 1024)), 4)} MB ({Environment.WorkingSet} B)\nVer: {ver}\nFPS: {Math.Round(1f / RenderTime, 5)} ({Math.Round(RenderTime * 1000, 5)} ms)\nPlayer Pos: {world.Player.X}/{world.Player.Y}/{world.Player.Z}\nCamera angle: {world.Player.LX}/{world.Player.LY}\nBlock Count: {world.BlockCount}\nRender Errors: {RenderErrors}\nRendered Chunks: {RenderedChunks / 256}/{world.Chunks.Count}");
+                        var tmp = $"Windows version: {Environment.OSVersion}\nCPU Cores: {Environment.ProcessorCount}\n.NET version: {Environment.Version}\nIngame Name: {Util.GetGameArg("username")}\nWindows Username: {Environment.UserName}\nWindows Network Name: {Environment.MachineName}\nProcess Working Set: {Math.Round(((double)Environment.WorkingSet / (double)(1024 * 1024)), 4)} MB ({Environment.WorkingSet} B)\nVer: {ver}\nFPS: {Math.Round(1f / RenderTime, 5)} ({Math.Round(RenderTime * 1000, 5)} ms)\nPlayer Pos: {world.Player.X}/{world.Player.Y}/{world.Player.Z}\nCamera angle: {world.Player.LX}/{world.Player.LY}\nBlock Count: {world.BlockCount}\nRender Errors: {RenderErrors}\nRendered Chunks: {RenderedChunks / 256}/{world.Chunks.Count}";
+                        Logger.PostLog(tmp);
                         Thread.Sleep(5000);
                     }
                     Thread.Sleep(5000);
@@ -153,6 +158,10 @@ namespace MCClone
                                 break;
                             case "render":
                                 renderDistance = UInt16.Parse(args[0]);
+                                break;
+                            case "debug":
+                                debugWindow.Show();
+
                                 break;
                             default:
                                 Console.WriteLine($"Invalid command: {command}");
@@ -235,7 +244,8 @@ namespace MCClone
         {
             // vol = AudioMeterInformation.FromDevice(new MMDeviceEnumerator().GetDefaultAudioEndpoint(DataFlow.Render, Role.Console)).PeakValue;
             GL.ClearColor(0.1f * (float)brightness, 0.5f * (float)brightness, 0.7f * (float)brightness, 0.0f);
-            Title = $"MC Clone {ver} | FPS: {1f / rt:0} ({Math.Round(rt * 1000, 2)} ms) C: {crq.Count}/{world.Chunks.Count} E: {RenderErrors} | {world.Player.Xa}/{world.Player.Ya}/{world.Player.Za} : {world.Player.LX}/{world.Player.LY} | {Math.Round((double)(world.BlockCount / 1000), 1)} K"; //{Math.Round(vol * 100, 0)} |
+            Title = $"MC Clone {ver} | FPS: {1f / rt:0} ({Math.Round(rt * 1000, 2)} ms) C: {crq.Count}/{world.Chunks.Count} E: {RenderErrors} | {world.Player.X}/{world.Player.Y}/{world.Player.Z} : {world.Player.LX}/{world.Player.LY} | {Math.Round((double)(world.BlockCount / 1000), 1)} K | {Process.GetCurrentProcess().PrivateMemorySize64} bytes used"; //{Math.Round(vol * 100, 0)} |
+
         }
 
         public double _time;
@@ -317,9 +327,9 @@ namespace MCClone
             bool top = true, left = true, front = true;
           //  if (world.Player.Y + 2 - y > 8 * renderDistance) return;
 
-            if (world.Player.Xa > x) front = false;
-            if (world.Player.Ya + 1.3 < y) top = false;
-            if (world.Player.Za > z) left = false;
+            if (world.Player.X > x) front = false;
+            if (world.Player.Y + 1.3 < y) top = false;
+            if (world.Player.Z > z) left = false;
 
 
             /*    foreach (Block blk in chunk.Blocks)

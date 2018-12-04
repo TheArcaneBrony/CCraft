@@ -19,7 +19,7 @@ namespace MCClone
                     for (int z = -8; z < 8; z++)
                     {
                         GetChunk(chunkList, x, z);
-                        //Thread.Sleep(5);
+                        Thread.Sleep(250);
                     }
                 }
             });
@@ -75,36 +75,6 @@ namespace MCClone
                 return GenChunk(chunkList, X, Z);
             }
         }
-        public static int GetHeight(int x, int z) => (int)Math.Abs(((Math.Sin(Util.DegToRad(x)) * 25 + Math.Sin(Util.DegToRad(z)) * 10) * 1.725));// 2;
-        public static double FinalNoise(double x, double z, double py) => Cuberp(py, py + RandomNoise() * (RandomNoise()+0.1), py + RandomNoise(), py + RandomNoise() * 2, RandomNoise());
-        public static float RandomNoise()
-        {
-            return (float) random.NextDouble();
-        }
-        public static double Lerp(double v0, double v1, float t) => v0+(v1-v0)*t;
-        public static double Cosinerp(double v0, double v1, float t)
-        {
-            double ft = t * 3.1415927;
-
-            double f = (1 - Math.Cos(ft)) * .5;
-
-            return v0 * (1 - f) + v1 * f;
-        }
-        public static double Cuberp(double y0, double y1, double y2, double y3, float mu)
-        {
-           double a0,a1,a2,a3,mu2;
-
-           mu2 = mu * mu;
-
-           a0 = y3 - y2 - y0 + y1;
-
-           a1 = y0 - y1 - a0;
-
-           a2 = y2 - y0;
-
-           a3 = y1;
-           return (a0 * mu * mu2 + a1 * mu2 + a2 * mu + a3);
-
-        }
+        public static int GetHeight(int x, int z) => (int)Math.Abs(((Math.Sin(Util.DegToRad(x)) * 25 + Math.Sin(Util.DegToRad(z)) * 10) * 1.2));// 2;
     }
 }

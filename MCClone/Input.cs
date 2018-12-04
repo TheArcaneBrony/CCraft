@@ -25,11 +25,11 @@ namespace MCClone
                 {
                     player.X += Math.Cos(Util.DegToRad(player.LX));
                     player.Z += Math.Sin(Util.DegToRad(player.LX));
-                if (!keyState.IsKeyDown(Key.LControl))
-                {
-                    player.X += Math.Cos(Util.DegToRad(player.LX));
-                    player.Z += Math.Sin(Util.DegToRad(player.LX));
-                }
+                    if (keyState.IsKeyDown(Key.LControl))
+                    {
+                        player.X += Math.Cos(Util.DegToRad(player.LX));
+                        player.Z += Math.Sin(Util.DegToRad(player.LX));
+                    }
                 }
                 if (keyState.IsKeyDown(Key.A))
                 {
@@ -76,9 +76,6 @@ namespace MCClone
         public static void Tick()
         {
             var player = MainWindow.world.Player;
-            player.Xa = (int)player.X;
-            player.Ya = (int)player.Y;
-            player.Za = (int)player.Z;
             if (!player.Flying && player.InAir) player.YV -= 0.005;
             if (player.YV < -0.45) player.YV = -0.45;
 
