@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
@@ -24,14 +25,14 @@ namespace MCClone
             {
                 Thread.Sleep(5);
                 Console.Write("\r" + new string(' ', i + 5) + "\r" + new string('.', i));
-            }
-           /* var player = new PCMPlayer();
+            }*/
+/*            var player = new PCMPlayer();
 
             var rand = new Random();
             var bytes = new byte[32000];
             List<Byte> bytes2 = new List<Byte>();
             rand.NextBytes(bytes);
-         /*   for (int i = 0; i < bytes.Length; i++)
+           for (int i = 0; i < bytes.Length; i++)
             {
                // byte byte = 0x100;
                 //bytes2.Add(BitConverter.GetBytes(i%255)[1]);

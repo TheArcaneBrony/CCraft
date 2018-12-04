@@ -32,6 +32,7 @@ namespace MCClone
             Task.Run(() =>
             {
                 for (int x2 = 0; x2 < 16; x2++)
+                {
                     for (int z2 = 0; z2 < 16; z2++)
                     {
                         int by = GetHeight(X * 16 + x2, Z * 16 + z2);
@@ -42,8 +43,8 @@ namespace MCClone
                         {
                             chunk.Blocks.Add(new Block(x2, (UInt16)y, z2));
                         }
-
                     }
+                }
                 try
                 {
                     Task.Run(() => { File.WriteAllText($"Worlds/{MainWindow.world.Name}/ChunkData/{chunk.X}.{chunk.Z}.json", JsonConvert.SerializeObject(chunk)); });
@@ -65,12 +66,12 @@ namespace MCClone
             {
                 Chunk ch = JsonConvert.DeserializeObject<Chunk>(File.ReadAllText($"Worlds/{MainWindow.world.Name}/ChunkData/{X}.{Z}.json"));
                 chunkList.Add(ch);
-                Logger.PostLog($"Loaded chunk {X}/{Z}");
+                Logger.LogQueue.Add($"Loaded chunk {X}/{Z}");
                 return ch;
             }
             else
             {
-                Logger.PostLog($"Generating chunk {X}/{Z}");
+                Logger.LogQueue.Add($"Generating chunk {X}/{Z}");
                 return GenChunk(chunkList, X, Z);
             }
         }

@@ -14,9 +14,9 @@ namespace MCClone
     class MainWindow : GameWindow
     {
         public static bool running = true, focussed = true, logger = true;
-        public static string ver = "0.07a_00053";
+        public static string ver = "0.07a_00134";
         public static UInt16 renderDistance = 10, centerX, centerY, RenderErrors = 0, RenderedChunks = 0;
-        public static double rt = 0;
+        public static double rt = 0, unloadDistance = 1.25;
         public static World world = new World(0, 100, 0);
         public static float sensitivity = .1f, brightness = 1;
         public static List<Chunk> crq = new List<Chunk>();
@@ -47,8 +47,8 @@ namespace MCClone
 
             GL.GenVertexArrays(1, out _vertexArray);
             GL.BindVertexArray(_vertexArray);
-            centerX = (ClientRectangle.Width / 2);
-            centerY = (ClientRectangle.Height / 2);
+            centerX = (ushort)(ClientRectangle.Width / 2);
+            centerY = (ushort)(ClientRectangle.Height / 2);
 
             Point center = new Point(centerX, centerY);
             Point mousePos = PointToScreen(center);
@@ -63,35 +63,50 @@ namespace MCClone
             Thread gameInit = new Thread(() =>
             {
                 TerrainGen.GenTerrain(world.Chunks);
-                while (true)
-                {
-                    Thread.Sleep(100);
-                    if (RenderedChunks < renderDistance * renderDistance)
-                        for (int x = world.Player.Xc - renderDistance; x < world.Player.Xc + renderDistance; x++) for (int z = world.Player.Zc - renderDistance; z < world.Player.Zc + renderDistance; z++)
+            while (true)
+            {
+                Thread.Sleep(100);
+                if (RenderedChunks < renderDistance * renderDistance)
+                    for (int x = world.Player.Xc - renderDistance; x < world.Player.Xc + renderDistance; x++) for (int z = world.Player.Zc - renderDistance; z < world.Player.Zc + renderDistance; z++)
+                        {
+                            if (world.Chunks.Find(chunk =>
                             {
-                                if (world.Chunks.Find(chunk =>
+                                try
                                 {
-                                    try
+                                    if (chunk.X == x && chunk.Z == z)
                                     {
-                                        if (chunk.X == x && chunk.Z == z)
-                                        {
                                             //Logger.PostLog($"CHUNK EXISTS @ {x}/{z} AND HAS {chunk.Blocks.Count} BLOCKS");
                                             return true;
-                                        }
                                     }
-                                    catch { }
+                                }
+                                catch { }
 
-                                    return false;
-                                }) == null)
+                                return false;
+                            }) == null)
+                            {
+                                // new Thread(() =>
+                                //  {
+
+                                //Logger.PostLog($"CHUNK UNLOADED @ {x}/{z}");
+                                TerrainGen.GetChunk(world.Chunks, x, z);
+                                //}).Start();
+                            }
+                        }
+                        world.Chunks.RemoveAll(chunk =>
+                        {
+                            try
+                            {
+                                if (chunk.X < world.Player.X / 16 - renderDistance * unloadDistance || chunk.X > world.Player.X / 16 + renderDistance * unloadDistance || chunk.Z < world.Player.Z / 16 - renderDistance * unloadDistance || chunk.Z > world.Player.Z / 16 + renderDistance * unloadDistance)
                                 {
-                                    // new Thread(() =>
-                                    //  {
-
-                                    //Logger.PostLog($"CHUNK UNLOADED @ {x}/{z}");
-                                    TerrainGen.GetChunk(world.Chunks, x, z);
-                                    //}).Start();
+                                    Logger.PostLog($"Unloading chunk at {chunk.X}/{chunk.Z}, {chunk.Blocks.Count} blocks");
+                                    //Thread.Sleep(5);
+                                    return true;
                                 }
                             }
+                            catch { }
+
+                            return false;
+                        });
                 }
             });
             Thread kbdLogic = new Thread(() =>
@@ -100,7 +115,7 @@ namespace MCClone
                 {
                     Input.HandleInput();
                     Input.Tick();
-                    Thread.Sleep(1000 / 120);
+                    Thread.Sleep(1000 / 60);
                     if (running == false) break;
                 }
                 Exit();
@@ -200,17 +215,17 @@ namespace MCClone
             /* GL.ShadeModel(ShadingModel.Smooth);
              GL.ClearColor(0, 0, 0, 1);*/
 
-            GL.ClearDepth(1.0f);
+          //  GL.ClearDepth(1.0f);
             GL.Enable(EnableCap.DepthTest);
-            GL.DepthFunc(DepthFunction.Lequal);
+         //   GL.DepthFunc(DepthFunction.Lequal);
 
             //  GL.Enable(EnableCap.CullFace);
             //  GL.CullFace(CullFaceMode.Back);
 
-            GL.Hint(HintTarget.PerspectiveCorrectionHint, HintMode.Nicest);
+         //   GL.Hint(HintTarget.PerspectiveCorrectionHint, HintMode.Nicest);
 
             // create texture ids
-            GL.Enable(EnableCap.Texture2D);
+          //  GL.Enable(EnableCap.Texture2D);
             /* GL.GenTextures(2, textureIds);
 
              LoadTexture(context, Resource.Drawable.pattern, textureIds[0]);
@@ -220,10 +235,12 @@ namespace MCClone
         {
             // vol = AudioMeterInformation.FromDevice(new MMDeviceEnumerator().GetDefaultAudioEndpoint(DataFlow.Render, Role.Console)).PeakValue;
             GL.ClearColor(0.1f * (float)brightness, 0.5f * (float)brightness, 0.7f * (float)brightness, 0.0f);
-            Title = $"MC Clone {ver} | FPS: {1f / rt:0} ({Math.Round(rt * 1000, 2)} ms) C: {crq.Count}/{world.Chunks.Count} E: {RenderErrors} | {world.Player.Xa}/{world.Player.Ya}/{world.Player.Za} : {world.Player.LX}/{world.Player.LY} | {Math.Round((double)(world.BlockCount / 1000), 1)} K | {world.Player.Name}@{world.Name}"; //{Math.Round(vol * 100, 0)} |
+            Title = $"MC Clone {ver} | FPS: {1f / rt:0} ({Math.Round(rt * 1000, 2)} ms) C: {crq.Count}/{world.Chunks.Count} E: {RenderErrors} | {world.Player.Xa}/{world.Player.Ya}/{world.Player.Za} : {world.Player.LX}/{world.Player.LY} | {Math.Round((double)(world.BlockCount / 1000), 1)} K"; //{Math.Round(vol * 100, 0)} |
         }
 
         public double _time;
+
+        Random rnd = new Random();
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             rt = e.Time;
@@ -245,12 +262,8 @@ namespace MCClone
 
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref modelview);
-
-
-
             RenderedChunks = 0;
             //chunkList[ti].Blocks.FindAll(delegate (Block block) { return true; });
-            Random rnd = new Random();
             foreach (Chunk cch in crq)
             {
                 var btr = cch.Blocks.FindAll((Block bl) => { return true; /*if (bl.X % 4 == rnd.Next(0,5) && bl.Z % 4 == rnd.Next(0, 5)) return true; */return false; });
@@ -265,12 +278,13 @@ namespace MCClone
                     {
                         RenderCube(world, cch, bl);
                     }
+
+                    RenderedChunks++;
                 }
                 catch
                 {
                     RenderErrors++;
                 }
-                RenderedChunks++;
             }
             /* GL.Begin(PrimitiveType.Lines);
              GL.Color3(1f, 1f, 1f);
@@ -297,7 +311,7 @@ namespace MCClone
         {
             int x = block.X + 16*chunk.X;
             UInt16 y = block.Y;
-            int z = block.Z * chunk.Z;
+            int z = block.Z +16* chunk.Z;
 
             //  bool render = true;
             bool top = true, left = true, front = true;
