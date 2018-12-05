@@ -18,7 +18,7 @@ namespace MCClone
         public static bool running = true, focussed = true, logger = true;
         public static string ver = "0.07a_00134";
         public static UInt16 renderDistance = 10, centerX, centerY, RenderErrors = 0, RenderedChunks = 0;
-        public static double rt = 0, unloadDistance = 1.25;
+        public static double rt = 0, unloadDistance = 1.5, genDistance = 1.4;
         public static World world = new World(0, 100, 0);
         public static float sensitivity = .1f, brightness = 1;
         public static List<Chunk> crq = new List<Chunk>();
@@ -67,11 +67,11 @@ namespace MCClone
             Thread gameInit = new Thread(() =>
             {
                 TerrainGen.GenTerrain(world.Chunks);
-            while (true)
-            {
-                Thread.Sleep(100);
-                if (RenderedChunks < renderDistance * renderDistance)
-                    for (int x = (int)world.Player.X/16 - renderDistance; x < world.Player.X/16 + renderDistance; x++) for (int z = (int)world.Player.Z/16 - renderDistance; z < world.Player.Z/16 + renderDistance; z++)
+                while (true)
+                {
+                    Thread.Sleep(100);
+                    // if (RenderedChunks < renderDistance * renderDistance)
+                    for (int x = (int)((int)world.Player.X / 16 - renderDistance * genDistance); x < world.Player.X / 16 + renderDistance * genDistance; x++) for (int z = (int)((int)world.Player.Z / 16 - renderDistance * genDistance); z < world.Player.Z / 16 + renderDistance * genDistance; z++)
                         {
                             if (world.Chunks.Find(chunk =>
                             {
@@ -79,8 +79,8 @@ namespace MCClone
                                 {
                                     if (chunk.X == x && chunk.Z == z)
                                     {
-                                            //Logger.PostLog($"CHUNK EXISTS @ {x}/{z} AND HAS {chunk.Blocks.Count} BLOCKS");
-                                            return true;
+                                        //Logger.PostLog($"CHUNK EXISTS @ {x}/{z} AND HAS {chunk.Blocks.Count} BLOCKS");
+                                        return true;
                                     }
                                 }
                                 catch { }
@@ -96,21 +96,21 @@ namespace MCClone
                                 //}).Start();
                             }
                         }
-                        world.Chunks.RemoveAll(chunk =>
+                    world.Chunks.RemoveAll(chunk =>
+                    {
+                        try
                         {
-                            try
+                            if (chunk.X < world.Player.X / 16 - renderDistance * unloadDistance || chunk.X > world.Player.X / 16 + renderDistance * unloadDistance || chunk.Z < world.Player.Z / 16 - renderDistance * unloadDistance || chunk.Z > world.Player.Z / 16 + renderDistance * unloadDistance)
                             {
-                                if (chunk.X < world.Player.X / 16 - renderDistance * unloadDistance || chunk.X > world.Player.X / 16 + renderDistance * unloadDistance || chunk.Z < world.Player.Z / 16 - renderDistance * unloadDistance || chunk.Z > world.Player.Z / 16 + renderDistance * unloadDistance)
-                                {
-                                    Logger.PostLog($"Unloading chunk at {chunk.X}/{chunk.Z}, {chunk.Blocks.Count} blocks");
+                                Logger.LogQueue.Add($"Unloading chunk at {chunk.X}/{chunk.Z}, {chunk.Blocks.Count} blocks");
                                     //Thread.Sleep(5);
                                     return true;
-                                }
                             }
-                            catch { }
+                        }
+                        catch { }
 
-                            return false;
-                        });
+                        return false;
+                    });
                 }
             });
             Thread kbdLogic = new Thread(() =>
@@ -131,7 +131,7 @@ namespace MCClone
                     while (logger)
                     {
                         var tmp = $"Windows version: {Environment.OSVersion}\nCPU Cores: {Environment.ProcessorCount}\n.NET version: {Environment.Version}\nIngame Name: {Util.GetGameArg("username")}\nWindows Username: {Environment.UserName}\nWindows Network Name: {Environment.MachineName}\nProcess Working Set: {Math.Round(((double)Environment.WorkingSet / (double)(1024 * 1024)), 4)} MB ({Environment.WorkingSet} B)\nVer: {ver}\nFPS: {Math.Round(1f / RenderTime, 5)} ({Math.Round(RenderTime * 1000, 5)} ms)\nPlayer Pos: {world.Player.X}/{world.Player.Y}/{world.Player.Z}\nCamera angle: {world.Player.LX}/{world.Player.LY}\nBlock Count: {world.BlockCount}\nRender Errors: {RenderErrors}\nRendered Chunks: {RenderedChunks / 256}/{world.Chunks.Count}";
-                        Logger.PostLog(tmp);
+                        Logger.LogQueue.Add(tmp);
                         Thread.Sleep(5000);
                     }
                     Thread.Sleep(5000);
@@ -224,17 +224,17 @@ namespace MCClone
             /* GL.ShadeModel(ShadingModel.Smooth);
              GL.ClearColor(0, 0, 0, 1);*/
 
-          //  GL.ClearDepth(1.0f);
+            //  GL.ClearDepth(1.0f);
             GL.Enable(EnableCap.DepthTest);
-         //   GL.DepthFunc(DepthFunction.Lequal);
+            //   GL.DepthFunc(DepthFunction.Lequal);
 
             //  GL.Enable(EnableCap.CullFace);
             //  GL.CullFace(CullFaceMode.Back);
 
-         //   GL.Hint(HintTarget.PerspectiveCorrectionHint, HintMode.Nicest);
+            //   GL.Hint(HintTarget.PerspectiveCorrectionHint, HintMode.Nicest);
 
             // create texture ids
-          //  GL.Enable(EnableCap.Texture2D);
+            //  GL.Enable(EnableCap.Texture2D);
             /* GL.GenTextures(2, textureIds);
 
              LoadTexture(context, Resource.Drawable.pattern, textureIds[0]);
@@ -244,7 +244,7 @@ namespace MCClone
         {
             // vol = AudioMeterInformation.FromDevice(new MMDeviceEnumerator().GetDefaultAudioEndpoint(DataFlow.Render, Role.Console)).PeakValue;
             GL.ClearColor(0.1f * (float)brightness, 0.5f * (float)brightness, 0.7f * (float)brightness, 0.0f);
-            Title = $"MC Clone {ver} | FPS: {1f / rt:0} ({Math.Round(rt * 1000, 2)} ms) C: {crq.Count}/{world.Chunks.Count} E: {RenderErrors} | {world.Player.X}/{world.Player.Y}/{world.Player.Z} : {world.Player.LX}/{world.Player.LY} | {Math.Round((double)(world.BlockCount / 1000), 1)} K | {Process.GetCurrentProcess().PrivateMemorySize64} bytes used"; //{Math.Round(vol * 100, 0)} |
+            Title = $"MC Clone {ver} | FPS: {1f / rt:0} ({Math.Round(rt * 1000, 2)} ms) C: {crq.Count}/{world.Chunks.Count} E: {RenderErrors} | {world.Player.X}/{world.Player.Y}/{world.Player.Z} : {world.Player.LX}/{world.Player.LY} | {Math.Round((double)(world.BlockCount / 1000), 1)} K | {Math.Round((double)Process.GetCurrentProcess().PrivateMemorySize64 / 1048576, 2)} MB"; //{Math.Round(vol * 100, 0)} |
 
         }
 
@@ -274,6 +274,8 @@ namespace MCClone
             GL.LoadMatrix(ref modelview);
             RenderedChunks = 0;
             //chunkList[ti].Blocks.FindAll(delegate (Block block) { return true; });
+
+            GL.Begin(PrimitiveType.Quads);
             foreach (Chunk cch in crq)
             {
                 var btr = cch.Blocks.FindAll((Block bl) => { return true; /*if (bl.X % 4 == rnd.Next(0,5) && bl.Z % 4 == rnd.Next(0, 5)) return true; */return false; });
@@ -289,6 +291,7 @@ namespace MCClone
                         RenderCube(world, cch, bl);
                     }
 
+
                     RenderedChunks++;
                 }
                 catch
@@ -296,6 +299,8 @@ namespace MCClone
                     RenderErrors++;
                 }
             }
+
+            GL.End();
             /* GL.Begin(PrimitiveType.Lines);
              GL.Color3(1f, 1f, 1f);
              GL.Vertex3(world.Player.CFPt);
@@ -319,13 +324,13 @@ namespace MCClone
         }
         static void RenderCube(World world, Chunk chunk, Block block)
         {
-            int x = block.X + 16*chunk.X;
+            int x = block.X + 16 * chunk.X;
             UInt16 y = block.Y;
-            int z = block.Z +16* chunk.Z;
+            int z = block.Z + 16 * chunk.Z;
 
             //  bool render = true;
             bool top = true, left = true, front = true;
-          //  if (world.Player.Y + 2 - y > 8 * renderDistance) return;
+            //  if (world.Player.Y + 2 - y > 8 * renderDistance) return;
 
             if (world.Player.X > x) front = false;
             if (world.Player.Y + 1.3 < y) top = false;
@@ -346,11 +351,9 @@ namespace MCClone
                  Dot(x, y, z);
                  return;
              }*/
-            GL.Begin(PrimitiveType.Quads);
             if (top)
             {
                 //top
-
                 GL.Color3(brightness, brightness, 0);
                 GL.Vertex3(x, 1 + y, z);
                 GL.Vertex3(1 + x, 1 + y, z);
@@ -397,12 +400,11 @@ namespace MCClone
             {
                 //back
                 GL.Color3(0, brightness, brightness);
-                GL.Vertex3(1+x, 1+y, z);
-                GL.Vertex3(1+x, 1+y, 1+z);
-                GL.Vertex3(1+x, y, 1+z);
-                GL.Vertex3(1+x, y, z);
+                GL.Vertex3(1 + x, 1 + y, z);
+                GL.Vertex3(1 + x, 1 + y, 1 + z);
+                GL.Vertex3(1 + x, y, 1 + z);
+                GL.Vertex3(1 + x, y, z);
             }
-            GL.End();
         }
         private int CompileShaders()
         {

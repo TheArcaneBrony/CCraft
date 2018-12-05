@@ -17,7 +17,7 @@ namespace MCClone
                 MainWindow.running = false;
                 DiscordRpc.ClearPresence();
                 DiscordRpc.Shutdown();
-                Thread.Sleep(100);
+                Thread.Sleep(50);
                 Environment.Exit(0);
             }
 
@@ -87,8 +87,8 @@ namespace MCClone
             if (MainWindow.brightness > 1f) MainWindow.brightness = 1f;
             if (MainWindow.brightness < 0.1f) MainWindow.brightness = 0.1f;
             Console.Title = $"{MainWindow.brightness}";
-            player.CPos = new Vector3((float)player.X, (float)player.Y + 2, (float)player.Z);
-            player.CFPt = new Vector3((float)(player.X + Math.Cos(Util.DegToRad(player.LX))), (float)(player.Y + 2 + Math.Sin(Util.DegToRad(player.LY))), (float)(player.Z + Math.Sin(Util.DegToRad(player.LX))));
+            player.CPos = new Vector3((float)player.X, (float)player.Y + 1.7f, (float)player.Z);
+            player.CFPt = new Vector3((float)(player.X + Math.Cos(Util.DegToRad(player.LX))), (float)(player.Y + 1.7f + Math.Sin(Util.DegToRad(player.LY))), (float)(player.Z + Math.Sin(Util.DegToRad(player.LX))));
         }
     }
 }

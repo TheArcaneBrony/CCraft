@@ -12,18 +12,18 @@ namespace MCClone
         public static Random random = new Random();
         public static void GenTerrain(List<Chunk> chunkList)
         {
-            Thread initialGen = new Thread(() =>
-            {
+        //    Thread initialGen = new Thread(() =>
+           // {
                 for (int x = -8; x < 8; x++)
                 {
                     for (int z = -8; z < 8; z++)
                     {
                         GetChunk(chunkList, x, z);
-                        Thread.Sleep(250);
+                     //   Thread.Sleep(10);
                     }
                 }
-            });
-            initialGen.Start();
+       //     });
+         //   initialGen.Start();
         }
         public static Chunk GenChunk(List<Chunk> chunkList,int X, int Z)
         {
