@@ -42,10 +42,14 @@ namespace MCClone
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadMatrix(ref projection);
         }
+        Stopwatch frameTime = new Stopwatch();
         [MTAThread]
         protected override void OnLoad(EventArgs e)
         {
+            frameTime.Start();
             Console.WriteLine($"Logged in as {Util.GetGameArg("username")} with password {Util.GetGameArg("password")}\n");
+            uint cres = 0;
+            SystemUtils.NtSetTimerResolution(9000, true, ref cres);
             CursorVisible = false;
             _program = CompileShaders();
 
@@ -238,15 +242,16 @@ namespace MCClone
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             // vol = AudioMeterInformation.FromDevice(new MMDeviceEnumerator().GetDefaultAudioEndpoint(DataFlow.Render, Role.Console)).PeakValue;
-            GL.ClearColor(0.1f * brightness, 0.5f * brightness, 0.7f * brightness, 0.0f);
-            Title = $"MC Clone {ver} | FPS: {1f / rt:0} ({Math.Round(rt * 1000, 2)} ms) C: {crq.Count}/{world.Chunks.Count} E: {RenderErrors} | {world.Player.X}/{world.Player.Y}/{world.Player.Z} : {world.Player.LX}/{world.Player.LY} | {Math.Round((double)(world.BlockCount / 1000), 1)} K | {Math.Round((double)Process.GetCurrentProcess().PrivateMemorySize64 / 1048576, 2)} MB"; //{Math.Round(vol * 100, 0)} 
+            GL.ClearColor(0.1f * brightness, 0.5f * brightness, 0.7f * brightness, 0.9f);
+            Title = $"MC Clone {ver} | FPS: {Math.Round(1000/rt, 2)} ({Math.Round(rt, 2)} ms) C: {crq.Count}/{world.Chunks.Count} E: {RenderErrors} | {world.Player.X}/{world.Player.Y}/{world.Player.Z} : {world.Player.LX}/{world.Player.LY} | {Math.Round((double)(world.BlockCount / 1000), 1)} K | {Math.Round((double)Process.GetCurrentProcess().PrivateMemorySize64 / 1048576, 2)} MB"; //{Math.Round(vol * 100, 0)} 
         }
 
         public double _time;
         
         protected override void OnRenderFrame(FrameEventArgs e)
         {
-            rt = e.Time;
+            frameTime.Restart();
+            //rt = e.Time;
            // _time += e.Time;
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             Matrix4 modelview = Matrix4.LookAt(world.Player.CPos, world.Player.CFPt, Vector3.UnitY);
@@ -305,6 +310,7 @@ namespace MCClone
              GL.End();*/
              
             SwapBuffers();
+            rt = frameTime.ElapsedMilliseconds;
         }
         static void Dot(double x, double y, double z)
         {

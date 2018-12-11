@@ -43,6 +43,11 @@ namespace MCClone
         public static extern void GetWaveVolume(IntPtr devicehandle, out int Volume);
 
     }
+    public class SystemUtils
+    {
+        [DllImport("ntdll.dll", EntryPoint = "NtSetTimerResolution")]
+        public static extern void NtSetTimerResolution(uint DesiredResolution, bool SetResolution, ref uint CurrentResolution);
+    }
     class PCMPlayer
     {
         private WaveFormat waveFormat=new WaveFormat(8000,32,1);
