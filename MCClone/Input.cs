@@ -21,47 +21,44 @@ namespace MCClone
                 Environment.Exit(0);
             }
 
-                if (keyState.IsKeyDown(Key.W))
+            if (keyState.IsKeyDown(Key.W))
+            {
+                player.X += Math.Cos(Util.DegToRad(player.LX));
+                player.Z += Math.Sin(Util.DegToRad(player.LX));
+                if (keyState.IsKeyDown(Key.LControl))
                 {
                     player.X += Math.Cos(Util.DegToRad(player.LX));
                     player.Z += Math.Sin(Util.DegToRad(player.LX));
-                    if (keyState.IsKeyDown(Key.LControl))
-                    {
-                        player.X += Math.Cos(Util.DegToRad(player.LX));
-                        player.Z += Math.Sin(Util.DegToRad(player.LX));
-                    }
                 }
-                if (keyState.IsKeyDown(Key.A))
-                {
-                    player.X -= Math.Cos(Util.DegToRad(player.LX + 90));
-                    player.Z -= Math.Sin(Util.DegToRad(player.LX + 90));
-                }
-                if (keyState.IsKeyDown(Key.S))
-                {
-                    player.X -= Math.Cos(Util.DegToRad(player.LX));
-                    player.Z -= Math.Sin(Util.DegToRad(player.LX));
-                }
-                if (keyState.IsKeyDown(Key.D))
-                {
-                    player.X += Math.Cos(Util.DegToRad(player.LX + 90));
-                    player.Z += Math.Sin(Util.DegToRad(player.LX + 90));
-                }
-                if (keyState.IsKeyDown(Key.ShiftLeft)) player.Y -= 0.1;
-                if (keyState.IsKeyDown(Key.Space)) if (player.Flying) player.Y += 0.1; else player.YV = 0.1;
-                if (keyState.IsKeyDown(Key.Q)) MainWindow.brightness -= 0.01f;
-                if (keyState.IsKeyDown(Key.E)) MainWindow.brightness += 0.01f;
-                if (keyState.IsKeyDown(Key.F)) player.Flying = true;
-                if (keyState.IsKeyDown(Key.F)&&keyState.IsKeyDown(Key.LControl)) player.Flying = false;
-
-
-
+            }
+            if (keyState.IsKeyDown(Key.A))
+            {
+                player.X -= Math.Cos(Util.DegToRad(player.LX + 90));
+                player.Z -= Math.Sin(Util.DegToRad(player.LX + 90));
+            }
+            if (keyState.IsKeyDown(Key.S))
+            {
+                player.X -= Math.Cos(Util.DegToRad(player.LX));
+                player.Z -= Math.Sin(Util.DegToRad(player.LX));
+            }
+            if (keyState.IsKeyDown(Key.D))
+            {
+                player.X += Math.Cos(Util.DegToRad(player.LX + 90));
+                player.Z += Math.Sin(Util.DegToRad(player.LX + 90));
+            }
+            if (keyState.IsKeyDown(Key.ShiftLeft)) player.Y -= 0.1;
+            if (keyState.IsKeyDown(Key.Space)) if (player.Flying) player.Y += 0.1; else player.YV = 0.1;
+            if (keyState.IsKeyDown(Key.Q)) MainWindow.brightness -= 0.01f;
+            if (keyState.IsKeyDown(Key.E)) MainWindow.brightness += 0.01f;
+            if (keyState.IsKeyDown(Key.F)) player.Flying = true;
+            if (keyState.IsKeyDown(Key.F) && keyState.IsKeyDown(Key.LControl)) player.Flying = false;
             if (MainWindow.focussed && !(Mouse.GetCursorState().X == MainWindow.centerX || Mouse.GetCursorState().Y == MainWindow.centerY))
             {
                 //Console.WriteLine($"{Mouse.GetCursorState().Y - MainWindow.centerY}");
                 double x = Mouse.GetCursorState().X - MainWindow.centerX;
                 double y = -(Mouse.GetCursorState().Y - MainWindow.centerY);
                 //Point center = new Point(MainWindow.centerX, MainWindow.centerY);
-               // Point mousePos = PointToScreen(center);
+                // Point mousePos = PointToScreen(center);
 
                 OpenTK.Input.Mouse.SetPosition(MainWindow.centerX, MainWindow.centerY);
                 MainWindow.world.Player.LY += y * MainWindow.sensitivity;
