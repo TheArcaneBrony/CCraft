@@ -9,14 +9,13 @@ namespace MCClone
 {
     class TerrainGen
     {
-        public static Random random = new Random();
         public static void GenTerrain(List<Chunk> chunkList)
         {
         //    Thread initialGen = new Thread(() =>
            // {
-                for (int x = -8; x < 8; x++)
+                for (int x = -16; x < 16; x++)
                 {
-                    for (int z = -8; z < 8; z++)
+                    for (int z = -16; z < 16; z++)
                     {
                         GetChunk(chunkList, x, z);
                      //   Thread.Sleep(10);
@@ -27,37 +26,38 @@ namespace MCClone
         }
         public static Chunk GenChunk(List<Chunk> chunkList,int X, int Z)
         {
-            Chunk chunk = new Chunk(X, Z, new List<Block>());
+            Chunk chunk = new Chunk(X, Z);
             chunkList.Add(chunk);
-            Task.Run(() =>
+            /*Task.Run(() =>
             {
-                for (int x2 = 0; x2 < 16; x2++)
+                
+            });*/
+            for (byte x2 = 0; x2 < 0x10; x2++)
+            {
+                for (byte z2 = 0; z2 < 0x10; z2++)
                 {
-                    for (int z2 = 0; z2 < 16; z2++)
+                    UInt16 by = GetHeight(X * 16 + x2, Z * 16 + z2);
+                    by = Math.Max(by, (UInt16)1);
+                    // int by = 2;
+                    //Thread.Sleep(1);
+                    for (UInt16 y = (UInt16)(by - 1); y < by; y++)
                     {
-                        int by = GetHeight(X * 16 + x2, Z * 16 + z2);
-                        by = Math.Max(by, 1);
-                        // int by = 2;
-                        //Thread.Sleep(1);
-                        for (int y = by - 1; y < by; y++)
-                        {
-                            chunk.Blocks.Add(new Block(x2, (UInt16)y, z2));
-                        }
+                        chunk.Blocks.Add(new Block(x2, y, z2));
                     }
                 }
-                try
-                {
-                    Task.Run(() => { File.WriteAllText($"Worlds/{MainWindow.world.Name}/ChunkData/{chunk.X}.{chunk.Z}.json", JsonConvert.SerializeObject(chunk)); });
-                }
-                catch (IOException)
-                {
-                    Console.WriteLine($"Failed to save chunk: {X}/{Z}");
-                }
-                catch
-                {
-                    throw;
-                }
-            });
+            }
+            try
+            {
+                Task.Run(() => { File.WriteAllText($"Worlds/{MainWindow.world.Name}/ChunkData/{X}.{Z}.json", JsonConvert.SerializeObject(chunk)); });
+            }
+            catch (IOException)
+            {
+                Console.WriteLine($"Failed to save chunk: {X}/{Z}");
+            }
+            catch
+            {
+                throw;
+            }
             return chunk;
         }
         public static Chunk GetChunk(List<Chunk> chunkList, int X, int Z)
@@ -75,6 +75,6 @@ namespace MCClone
                 return GenChunk(chunkList, X, Z);
             }
         }
-        public static int GetHeight(int x, int z) => (int)Math.Abs(((Math.Sin(Util.DegToRad(x)) * 25 + Math.Sin(Util.DegToRad(z)) * 10) * 1.2));// 2;
+        public static UInt16 GetHeight(int x, int z) => (UInt16)Math.Abs(((Math.Sin(Util.DegToRad(x)) * 25 + Math.Sin(Util.DegToRad(z)) * 10) * 1.2));// 2;
     }
 }

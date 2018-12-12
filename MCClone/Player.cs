@@ -5,7 +5,6 @@ namespace MCClone
 {
     public class Player
     {
-        public Player() { }
         public Player(double X, double Y, double Z)
         {
             this.X = X;

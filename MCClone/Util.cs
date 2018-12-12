@@ -21,26 +21,27 @@ namespace MCClone
         }
         public static bool ShouldRenderChunk(Chunk ch)
         {
-            bool s1=false, s2=false;
-            int tx = ((int)MainWindow.world.Player.X / 16);
-                int tz = ((int)MainWindow.world.Player.Z / 16);
-            if (tx + MainWindow.renderDistance > ch.X && tx - MainWindow.renderDistance < ch.X )
-                if (tz + MainWindow.renderDistance > ch.Z && tz - MainWindow.renderDistance < ch.Z)
-                s1=true;
-             /*if(MainWindow.world.Player == null)
-             {
+            if (!(MainWindow.world.Player.X / 16 + MainWindow.renderDistance > ch.X && MainWindow.world.Player.X / 16 - MainWindow.renderDistance < ch.X)) return false;
+            if (!(MainWindow.world.Player.Z / 16 + MainWindow.renderDistance > ch.Z && MainWindow.world.Player.Z / 16 - MainWindow.renderDistance < ch.Z)) return false;
+            if (MainWindow.world.Player.LX >= -90 - 45 && MainWindow.world.Player.LX <= 90 + 45 && ch.X >= MainWindow.world.Player.X / 16)
+            {
+                return true;
+            }
+            else if (MainWindow.world.Player.LX >= 90 - 45 && MainWindow.world.Player.LX >= -180 + 45 && ch.Z >= MainWindow.world.Player.Z / 16)
+            {
+                return true;
+            }
+            else if (MainWindow.world.Player.LX >= -180 && MainWindow.world.Player.LX <= -90 && ch.X <= MainWindow.world.Player.X / 16)
+            {
+                return true;
+            }
+            else if (MainWindow.world.Player.LX >= -90 && MainWindow.world.Player.LX <= 0 && ch.X >= MainWindow.world.Player.X / 16)
+            {
+                return true;
+            }
 
-             }*/
-
-            s2 = true;
-            return s1 && s2;
+            return false;
         }
-
-    }
-    public class MyAudioWrapper
-    {
-        [DllImport("winmm.dll", EntryPoint = "waveOutGetVolume")]
-        public static extern void GetWaveVolume(IntPtr devicehandle, out int Volume);
 
     }
     public class SystemUtils
@@ -48,23 +49,4 @@ namespace MCClone
         [DllImport("ntdll.dll", EntryPoint = "NtSetTimerResolution")]
         public static extern void NtSetTimerResolution(uint DesiredResolution, bool SetResolution, ref uint CurrentResolution);
     }
-    class PCMPlayer
-    {
-        private WaveFormat waveFormat=new WaveFormat(8000,32,1);
-    private BufferedWaveProvider bufferedWaveProvider;
-
-    public PCMPlayer()
-    {
-        bufferedWaveProvider = new BufferedWaveProvider(waveFormat);
-    }
-
-    public void AddSamples(byte[] array)
-    {
-        bufferedWaveProvider.AddSamples(array, 0, array.Length);
-        WaveOut waveout = new WaveOut();
-        waveout.Init(bufferedWaveProvider);
-
-        waveout.Play();
-    }
-}
 }

@@ -9,7 +9,6 @@ namespace MCClone
     {
         public static void HandleInput()
         {
-            var player = MainWindow.world.Player;
 
             var keyState = Keyboard.GetState();
             if (keyState.IsKeyDown(Key.Escape))
@@ -23,69 +22,70 @@ namespace MCClone
 
             if (keyState.IsKeyDown(Key.W))
             {
-                player.X += Math.Cos(Util.DegToRad(player.LX));
-                player.Z += Math.Sin(Util.DegToRad(player.LX));
+                MainWindow.world.Player.X += Math.Cos(Util.DegToRad(MainWindow.world.Player.LX));
+                MainWindow.world.Player.Z += Math.Sin(Util.DegToRad(MainWindow.world.Player.LX));
                 if (keyState.IsKeyDown(Key.LControl))
                 {
-                    player.X += Math.Cos(Util.DegToRad(player.LX));
-                    player.Z += Math.Sin(Util.DegToRad(player.LX));
+                    MainWindow.world.Player.X += Math.Cos(Util.DegToRad(MainWindow.world.Player.LX));
+                    MainWindow.world.Player.Z += Math.Sin(Util.DegToRad(MainWindow.world.Player.LX));
                 }
             }
             if (keyState.IsKeyDown(Key.A))
             {
-                player.X -= Math.Cos(Util.DegToRad(player.LX + 90));
-                player.Z -= Math.Sin(Util.DegToRad(player.LX + 90));
+                MainWindow.world.Player.X -= Math.Cos(Util.DegToRad(MainWindow.world.Player.LX + 90));
+                MainWindow.world.Player.Z -= Math.Sin(Util.DegToRad(MainWindow.world.Player.LX + 90));
             }
             if (keyState.IsKeyDown(Key.S))
             {
-                player.X -= Math.Cos(Util.DegToRad(player.LX));
-                player.Z -= Math.Sin(Util.DegToRad(player.LX));
+                MainWindow.world.Player.X -= Math.Cos(Util.DegToRad(MainWindow.world.Player.LX));
+                MainWindow.world.Player.Z -= Math.Sin(Util.DegToRad(MainWindow.world.Player.LX));
             }
             if (keyState.IsKeyDown(Key.D))
             {
-                player.X += Math.Cos(Util.DegToRad(player.LX + 90));
-                player.Z += Math.Sin(Util.DegToRad(player.LX + 90));
+                MainWindow.world.Player.X += Math.Cos(Util.DegToRad(MainWindow.world.Player.LX + 90));
+                MainWindow.world.Player.Z += Math.Sin(Util.DegToRad(MainWindow.world.Player.LX + 90));
             }
-            if (keyState.IsKeyDown(Key.ShiftLeft)) player.Y -= 0.1;
-            if (keyState.IsKeyDown(Key.Space)) if (player.Flying) player.Y += 0.1; else player.YV = 0.1;
+            if (keyState.IsKeyDown(Key.ShiftLeft)) MainWindow.world.Player.Y -= 0.1;
+            if (keyState.IsKeyDown(Key.Space)) if (MainWindow.world.Player.Flying) MainWindow.world.Player.Y += 0.1; else MainWindow.world.Player.YV = 0.1;
             if (keyState.IsKeyDown(Key.Q)) MainWindow.brightness -= 0.01f;
             if (keyState.IsKeyDown(Key.E)) MainWindow.brightness += 0.01f;
-            if (keyState.IsKeyDown(Key.F)) player.Flying = true;
-            if (keyState.IsKeyDown(Key.F) && keyState.IsKeyDown(Key.LControl)) player.Flying = false;
+            if (keyState.IsKeyDown(Key.F)) MainWindow.world.Player.Flying = true;
+            if (keyState.IsKeyDown(Key.F) && keyState.IsKeyDown(Key.LControl)) MainWindow.world.Player.Flying = false;
             if (MainWindow.focussed && !(Mouse.GetCursorState().X == MainWindow.centerX || Mouse.GetCursorState().Y == MainWindow.centerY))
             {
-                //Console.WriteLine($"{Mouse.GetCursorState().Y - MainWindow.centerY}");
                 double x = Mouse.GetCursorState().X - MainWindow.centerX;
                 double y = -(Mouse.GetCursorState().Y - MainWindow.centerY);
-                //Point center = new Point(MainWindow.centerX, MainWindow.centerY);
-                // Point mousePos = PointToScreen(center);
 
                 OpenTK.Input.Mouse.SetPosition(MainWindow.centerX, MainWindow.centerY);
                 MainWindow.world.Player.LY += y * MainWindow.sensitivity;
                 MainWindow.world.Player.LX += x * MainWindow.sensitivity;
 
+
+                if (MainWindow.world.Player.LX <= -180) MainWindow.world.Player.LX = 179.99;
+                MainWindow.world.Player.LX += 180;
+                //MainWindow.world.Player.LX = Math.Abs(MainWindow.world.Player.LX);
+                MainWindow.world.Player.LX %= 360;
+                MainWindow.world.Player.LX -= 180;
+
                 if (MainWindow.world.Player.LY > 90) MainWindow.world.Player.LY = 90;
                 if (MainWindow.world.Player.LY < -90) MainWindow.world.Player.LY = -90;
-
-                //Logger.LogQueue.Add($"MV_MOUSE: X={x},Y={y}");
             }
         }
         public static void Tick()
         {
-            var player = MainWindow.world.Player;
-            if (!player.Flying && player.InAir) player.YV -= 0.005;
-            if (player.YV < -0.45) player.YV = -0.45;
+            if (!MainWindow.world.Player.Flying && MainWindow.world.Player.InAir) MainWindow.world.Player.YV -= 0.005;
+            if (MainWindow.world.Player.YV < -0.45) MainWindow.world.Player.YV = -0.45;
 
             //  if (bsarr.Contains(new Block((int)cx, (int)cy, (int)cz)) && cyv < 0) cyv = 0;
             //if()
             //if (MainWindow.world.Chunks)
-            if (!player.Flying) player.Y += player.YV;
+            if (!MainWindow.world.Player.Flying) MainWindow.world.Player.Y += MainWindow.world.Player.YV;
 
             if (MainWindow.brightness > 1f) MainWindow.brightness = 1f;
             if (MainWindow.brightness < 0.1f) MainWindow.brightness = 0.1f;
             Console.Title = $"{MainWindow.brightness}";
-            player.CPos = new Vector3((float)player.X, (float)player.Y + 1.7f, (float)player.Z);
-            player.CFPt = new Vector3((float)(player.X + Math.Cos(Util.DegToRad(player.LX))), (float)(player.Y + 1.7f + Math.Sin(Util.DegToRad(player.LY))), (float)(player.Z + Math.Sin(Util.DegToRad(player.LX))));
+            MainWindow.world.Player.CPos = new Vector3((float)MainWindow.world.Player.X, (float)MainWindow.world.Player.Y + 1.7f, (float)MainWindow.world.Player.Z);
+            MainWindow.world.Player.CFPt = new Vector3((float)(MainWindow.world.Player.X + Math.Cos(Util.DegToRad(MainWindow.world.Player.LX))), (float)(MainWindow.world.Player.Y + 1.7f + Math.Sin(Util.DegToRad(MainWindow.world.Player.LY))), (float)(MainWindow.world.Player.Z + Math.Sin(Util.DegToRad(MainWindow.world.Player.LX))));
         }
     }
 }

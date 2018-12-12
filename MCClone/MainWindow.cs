@@ -23,7 +23,7 @@ namespace MCClone
         public static float sensitivity = .1f, brightness = 1;
         public static List<Chunk> crq = new List<Chunk>();
 
-        UI.DebugUI debugWindow = new UI.DebugUI();
+        readonly UI.DebugUI debugWindow = new UI.DebugUI();
         private int _program;
 
         private int _vertexArray;
@@ -42,7 +42,7 @@ namespace MCClone
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadMatrix(ref projection);
         }
-        Stopwatch frameTime = new Stopwatch();
+        readonly Stopwatch frameTime = new Stopwatch();
         [MTAThread]
         protected override void OnLoad(EventArgs e)
         {
@@ -113,8 +113,9 @@ namespace MCClone
                     });
                 }
             });
-            Thread kbdLogic = new Thread(() =>
+         /*   Thread kbdLogic = new Thread(() =>
             {
+                return;
                 while (true)
                 {
                     Input.HandleInput();
@@ -123,7 +124,7 @@ namespace MCClone
                     if (running == false) break;
                 }
                 Exit();
-            });
+            });*/
             Thread logThread = new Thread(() =>
             {
                 while (true)
@@ -210,7 +211,7 @@ namespace MCClone
                     Thread.Sleep(250);
                 }
             });
-            kbdLogic.Start();
+           // kbdLogic.Start();
             //Thread.Sleep(5);
             logThread.Start();
             //Thread.Sleep(5);
@@ -241,15 +242,17 @@ namespace MCClone
         }
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
+            Input.HandleInput();
+            Input.Tick();
             // vol = AudioMeterInformation.FromDevice(new MMDeviceEnumerator().GetDefaultAudioEndpoint(DataFlow.Render, Role.Console)).PeakValue;
             GL.ClearColor(0.1f * brightness, 0.5f * brightness, 0.7f * brightness, 0.9f);
             Title = $"MC Clone {ver} | FPS: {Math.Round(1000/rt, 2)} ({Math.Round(rt, 2)} ms) C: {crq.Count}/{world.Chunks.Count} E: {RenderErrors} | {world.Player.X}/{world.Player.Y}/{world.Player.Z} : {world.Player.LX}/{world.Player.LY} | {Math.Round((double)(world.BlockCount / 1000), 1)} K | {Math.Round((double)Process.GetCurrentProcess().PrivateMemorySize64 / 1048576, 2)} MB"; //{Math.Round(vol * 100, 0)} 
         }
-
-        public double _time;
+        
         
         protected override void OnRenderFrame(FrameEventArgs e)
         {
+            rt = frameTime.ElapsedMilliseconds;
             frameTime.Restart();
             //rt = e.Time;
            // _time += e.Time;
@@ -310,15 +313,14 @@ namespace MCClone
              GL.End();*/
              
             SwapBuffers();
-            rt = frameTime.ElapsedMilliseconds;
         }
-        static void Dot(double x, double y, double z)
+        /*static void Dot(double x, double y, double z)
         {
             GL.Begin(PrimitiveType.Points);
             GL.Color3(brightness, brightness, 0);
             GL.Vertex3(0.5f + x, 1.0f + y, 0.5f + z);
             GL.End();
-        }
+        }*/
         static void RenderCube(World world, Chunk chunk, Block block)
         {
             int x = block.X + 16 * chunk.X;
