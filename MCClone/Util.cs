@@ -1,11 +1,5 @@
-﻿using NAudio.Wave;
-using OpenTK.Graphics.ES20;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MCClone
 {
@@ -14,9 +8,9 @@ namespace MCClone
         public static double DegToRad(double deg) => (Math.PI * deg) / 180;
         public static string GetGameArg(string key)
         {
-            int test = Array.FindIndex(Program.args, (String s) => { if (s == $"-{key}") return true; else return false; });
-            if (test != -1)
-                return Program.args[test + 1];
+            int ArgIndex = Array.FindIndex(Program.args, (String s) => { if (s == $"-{key}") return true; else return false; });
+            if (ArgIndex != -1)
+                return Program.args[ArgIndex + 1];
             else return "null";
         }
         public static bool ShouldRenderChunk(Chunk ch)
