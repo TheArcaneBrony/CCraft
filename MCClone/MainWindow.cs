@@ -181,7 +181,7 @@ namespace MCClone
                         if (Logger.LogQueue.Count > 20) Logger.LogQueue.RemoveRange(20, Logger.LogQueue.Count - 20);
                         Logger.PostLog(Logger.LogQueue[0] /*+ $",LOG_REM={Logger.LogQueue.Count}"*/); Logger.LogQueue.RemoveAt(0);
                     }
-                    Thread.Sleep(250);
+                    Thread.Sleep(100);
                 }
             });
             // kbdLogic.Start();

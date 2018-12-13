@@ -51,6 +51,8 @@ namespace MCClone
             if (keyState.IsKeyDown(Key.E)) MainWindow.brightness += 0.01f;
             if (keyState.IsKeyDown(Key.F)) MainWindow.world.Player.Flying = true;
             if (keyState.IsKeyDown(Key.F) && keyState.IsKeyDown(Key.LControl)) MainWindow.world.Player.Flying = false;
+            if (keyState.IsKeyDown(Key.Z)) MainWindow.renderDistance--;
+            if (keyState.IsKeyDown(Key.C)) MainWindow.renderDistance++;
             if (MainWindow.focussed && !(Mouse.GetCursorState().X == MainWindow.centerX || Mouse.GetCursorState().Y == MainWindow.centerY))
             {
                 double x = Mouse.GetCursorState().X - MainWindow.centerX;
