@@ -25,11 +25,11 @@ namespace MCClone
             if (!args.Contains("-nodisclaimer") && Console.ReadKey(true).Key == ConsoleKey.N) MainWindow.logger = false;
             Console.Clear();
             Console.WriteLine("Controls:\nWASD: Move around\nQ: Brightness down\nE: Brightness up\nSpace: Jump/fly\nShift: Descend\n[F: Enable fly]\n[CTRL + F: Disable fly]");
-             for (int i = 50; i > 0; i--)
-             {
-                 Thread.Sleep(5);
-                 Console.Write("\r" + new string(' ', i + 5) + "\r" + new string('.', i));
-             }
+            for (int i = 50; i > 0; i--)
+            {
+                Thread.Sleep(5);
+                Console.Write("\r" + new string(' ', i + 5) + "\r" + new string('.', i));
+            }
             Console.Write("\r \n");
             var EH = new DiscordRpc.EventHandlers();
             DiscordRpc.Initialize("333608929575698442", ref EH, true, "");

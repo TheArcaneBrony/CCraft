@@ -23,7 +23,10 @@ namespace MCClone
             this.X = X;
             this.Z = Z;
         }
+        [Newtonsoft.Json.JsonIgnore]
         public int X { get; set; }
+
+        [Newtonsoft.Json.JsonIgnore]
         public int Z { get; set; }
         public List<Block> Blocks { get; set; } = new List<Block>();
     }
@@ -37,12 +40,13 @@ namespace MCClone
             this.SpawnZ = SpawnZ;
             Player = new Player(SpawnX, SpawnY, SpawnZ);
         }
+        [Newtonsoft.Json.JsonIgnore]
         public string Name { get; set; } = "SP_DEV_" + Directory.GetDirectories("Worlds/").Length; //"SP_DEV";
         public double SpawnX { get; set; } = 0;
         public double SpawnY { get; set; } = 10;
         public double SpawnZ { get; set; } = 0;
         public Player Player { get; set; }
+        [Newtonsoft.Json.JsonIgnore]
         public List<Chunk> Chunks { get; set; } = new List<Chunk>();
-        public int BlockCount { get; set; } = 0;
     }
 }
