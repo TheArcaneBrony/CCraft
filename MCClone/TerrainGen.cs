@@ -10,45 +10,33 @@ namespace MCClone
     {
         public static void GenTerrain(List<Chunk> chunkList)
         {
-        //    Thread initialGen = new Thread(() =>
-           // {
                 for (int x = -16; x < 16; x++)
                 {
                     for (int z = -16; z < 16; z++)
                     {
                         GetChunk(chunkList, x, z);
-                     //   Thread.Sleep(10);
                     }
                 }
-       //     });
-         //   initialGen.Start();
         }
         public static Chunk GenChunk(List<Chunk> chunkList,int X, int Z)
         {
             Chunk chunk = new Chunk(X, Z);
             chunkList.Add(chunk);
-            /*Task.Run(() =>
-            {
-
-            });*/
             for (byte x2 = 0; x2 < 0x10; x2++)
             {
                 for (byte z2 = 0; z2 < 0x10; z2++)
                 {
                     UInt16 by = GetHeight(X * 16 + x2, Z * 16 + z2);
                     by = Math.Max(by, (UInt16)1);
-                    // int by = 2;
-                    //Thread.Sleep(1);
-                    for (UInt16 y = (UInt16)(by - 1); y < by; y++)
+                    for (int y = by-1; y < by; y++)
                     {
-                        chunk.Blocks.Add(new Block(x2, y, z2));
+                        chunk.Blocks.Add(new Block(x2, (UInt16)y, z2));
                     }
                 }
             }
             try
             {
-                Task.Run(() => {
-                    File.WriteAllText($"Worlds/{MainWindow.world.Name}/ChunkData/{X}.{Z}.json", JsonConvert.SerializeObject(chunk)); });
+                Task.Run(() => { File.WriteAllText($"Worlds/{MainWindow.world.Name}/ChunkData/{X}.{Z}.json", JsonConvert.SerializeObject(chunk)); });
             }
             catch (IOException)
             {

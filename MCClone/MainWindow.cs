@@ -43,7 +43,7 @@ namespace MCClone
         readonly Stopwatch frameTime = new Stopwatch();
         [MTAThread]
         protected override void OnLoad(EventArgs e)
-        {
+        { 
             frameTime.Start();
             Console.WriteLine($"Logged in as {Util.GetGameArg("username")} with password {Util.GetGameArg("password")}\n");
             uint cres = 0;
@@ -65,9 +65,9 @@ namespace MCClone
                 Flying = true,
                 Name = Util.GetGameArg("username")
             };
-            Directory.CreateDirectory($"Worlds/{world.Name}/ChunkData/");
             Thread gameInit = new Thread(() =>
             {
+                Directory.CreateDirectory($"Worlds/{world.Name}/ChunkData/");
                 TerrainGen.GenTerrain(world.Chunks);
                 while (true)
                 {
