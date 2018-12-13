@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text.Json;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace MCClone
@@ -50,7 +48,6 @@ namespace MCClone
             try
             {
                 Task.Run(() => {
-                   // ServiceStack.Text.JsonSerializer.SerializeToWriter(chunk, )
                     File.WriteAllText($"Worlds/{MainWindow.world.Name}/ChunkData/{X}.{Z}.json", JsonConvert.SerializeObject(chunk)); });
             }
             catch (IOException)
@@ -63,13 +60,11 @@ namespace MCClone
             }
             return chunk;
         }
-        static JsonParser jp = new JsonParser();
         public static Chunk GetChunk(List<Chunk> chunkList, int X, int Z)
         {
             if (File.Exists($"Worlds/{MainWindow.world.Name}/ChunkData/{X}.{Z}.json"))
             {
-                Chunk ch = jp.Parse<Chunk>(new FileStream($"Worlds/{MainWindow.world.Name}/ChunkData/{X}.{Z}.json", FileMode.Open));
-                //Chunk ch = JsonConvert.DeserializeObject<Chunk>(File.ReadAllText($"Worlds/{MainWindow.world.Name}/ChunkData/{X}.{Z}.json"));
+                Chunk ch = JsonConvert.DeserializeObject<Chunk>(File.ReadAllText($"Worlds/{MainWindow.world.Name}/ChunkData/{X}.{Z}.json"));
                 chunkList.Add(ch);
                 Logger.LogQueue.Add($"Loaded chunk {X}/{Z}");
                 return ch;
