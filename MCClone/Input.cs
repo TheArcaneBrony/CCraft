@@ -5,21 +5,30 @@ using System.Threading;
 
 namespace MCClone
 {
-    class Input
+    class Input : MainWindow
     {
         public static void HandleInput()
         {
 
             var keyState = Keyboard.GetState();
+
             if (keyState.IsKeyDown(Key.Escape))
             {
+
                 MainWindow.running = false;
                 DiscordRpc.ClearPresence();
                 DiscordRpc.Shutdown();
                 Thread.Sleep(50);
                 Environment.Exit(0);
             }
-
+            if (keyState.IsKeyDown(Key.F1))
+            {
+                MainWindow.focussed = !MainWindow.focussed;
+                
+                
+                
+                
+            }
             if (keyState.IsKeyDown(Key.W))
             {
                 MainWindow.world.Player.X += Math.Cos(Util.DegToRad(MainWindow.world.Player.LX));
@@ -85,7 +94,7 @@ namespace MCClone
 
             if (MainWindow.brightness > 1f) MainWindow.brightness = 1f;
             if (MainWindow.brightness < 0.1f) MainWindow.brightness = 0.1f;
-            Console.Title = $"{MainWindow.brightness}";
+           // Console.Title = $"{MainWindow.brightness}";
             MainWindow.world.Player.CPos = new Vector3((float)MainWindow.world.Player.X, (float)MainWindow.world.Player.Y + 1.7f, (float)MainWindow.world.Player.Z);
             MainWindow.world.Player.CFPt = new Vector3((float)(MainWindow.world.Player.X + Math.Cos(Util.DegToRad(MainWindow.world.Player.LX))), (float)(MainWindow.world.Player.Y + 1.7f + Math.Sin(Util.DegToRad(MainWindow.world.Player.LY))), (float)(MainWindow.world.Player.Z + Math.Sin(Util.DegToRad(MainWindow.world.Player.LX))));
         }

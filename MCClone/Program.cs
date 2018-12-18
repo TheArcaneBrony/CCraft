@@ -17,7 +17,7 @@ namespace MCClone
             Directory.CreateDirectory($"Worlds");
             for (int i = 0; i < 2000; i++)
             {
-                Console.Write("DOWNLOAD BOORU NAV! ");
+                Console.Write("MOMIJI INUBASHIRI BEST WAIFU!  ");
             }
             Console.Clear();
 
