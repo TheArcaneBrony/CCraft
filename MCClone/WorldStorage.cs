@@ -6,15 +6,15 @@ namespace MCClone
 {
     public class Block
     {
-        public Block(byte X, UInt16 Y, byte Z)
+        public Block(int X, int Y, int Z)
         {
             this.X = X;
             this.Y = Y;
             this.Z = Z;
         }
-        public byte X { get; set; }
-        public UInt16 Y { get; set; }
-        public byte Z { get; set; }
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int Z { get; set; }
     }
     public class Chunk
     {

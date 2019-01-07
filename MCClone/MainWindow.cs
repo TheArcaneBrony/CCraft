@@ -14,8 +14,7 @@ namespace MCClone
     {
         public static bool running = true, focussed = true, logger = true;
         public static string ver = "Alpha 0.08_00014";
-        public static UInt16 centerX, centerY, RenderErrors = 0, RenderedChunks = 0;
-        public static int renderDistance = 16;
+        public static int renderDistance = 4, centerX, centerY, RenderErrors = 0, RenderedChunks = 0;
         public static double rt = 0, unloadDistance = 1.5, genDistance = 1.4;
         public static World world = new World(0, 100, 0);
         public static float sensitivity = .1f, brightness = 1;
@@ -34,8 +33,8 @@ namespace MCClone
         protected override void OnResize(EventArgs e)
         {
             GL.Viewport(ClientRectangle.X, ClientRectangle.Y, ClientRectangle.Width, ClientRectangle.Height);
-            centerX = (UInt16)(ClientRectangle.Width / 2);
-            centerY = (UInt16)(ClientRectangle.Height / 2);
+            centerX = (int)(ClientRectangle.Width / 2);
+            centerY = (int)(ClientRectangle.Height / 2);
             Matrix4 projection = Matrix4.CreatePerspectiveFieldOfView((float)Math.PI / 4/* 0.9f*/, Width / (float)Height, 1.0f, 64000f);
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadMatrix(ref projection);
@@ -75,7 +74,7 @@ namespace MCClone
                     Thread.Sleep(100);
                     int lctu = (int)((renderDistance * unloadDistance) * (renderDistance * unloadDistance) * 4),
                     lctg = (int)((renderDistance * genDistance) * (renderDistance * genDistance) * 4);
-                    Console.Title = lctu + " " + lctg + " " + brightness;
+                   // Console.Title = lctu + " " + lctg + " " + brightness;
                     // if (RenderedChunks < renderDistance * renderDistance)
                     if (true || world.Chunks.Count < lctg)
                     {
@@ -96,7 +95,6 @@ namespace MCClone
                             }
                         Logger.LogQueue.Add($"Generating new chunks took {Math.Round(Time.ElapsedTicks / 10000d, 4)} ms");
                     }
-                    Thread.Sleep(100);
                     if (true || world.Chunks.Count > lctu)
                     {
                         Time.Restart();
@@ -218,6 +216,7 @@ namespace MCClone
 
             //  GL.ClearDepth(1.0f);
             GL.Enable(EnableCap.DepthTest);
+
             //   GL.DepthFunc(DepthFunction.Lequal);
 
             //  GL.Enable(EnableCap.CullFace);
@@ -241,7 +240,7 @@ namespace MCClone
             Title = $"MC Clone {ver} | FPS: {Math.Round(1000 / rt, 2)} ({Math.Round(rt, 2)} ms) C: {crq.Count}/{world.Chunks.Count} E: {RenderErrors} | {world.Player.X}/{world.Player.Y}/{world.Player.Z} : {world.Player.LX}/{world.Player.LY} | {Math.Round((double)Process.GetCurrentProcess().PrivateMemorySize64 / 1048576, 2)} MB"; //{Math.Round(vol * 100, 0)}
         }
 
-        
+
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             rt = frameTime.ElapsedTicks / 10000d;
@@ -251,6 +250,7 @@ namespace MCClone
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             Matrix4 modelview = Matrix4.LookAt(world.Player.CPos, world.Player.CFPt, Vector3.UnitY);
 
+            GL.MatrixMode(MatrixMode.Modelview);
             /* GL.UseProgram(_program);
              _time += e.Time;
              GL.VertexAttrib1(0, _time);
@@ -263,7 +263,6 @@ namespace MCClone
              GL.DrawArrays(PrimitiveType.Points, 0, 1);
              GL.PointSize(10);*/
 
-            GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref modelview);
             RenderedChunks = 0;
             //chunkList[ti].Blocks.FindAll(delegate (Block block) { return true; });
@@ -295,11 +294,11 @@ namespace MCClone
             }
 
             GL.End();
-             GL.Begin(PrimitiveType.Lines);
+             /*GL.Begin(PrimitiveType.Lines);
              GL.Color3(1f, 1f, 1f);
              GL.Vertex3(world.Player.CFPt);
              GL.Vertex3(world.Player.CPos);
-             GL.End();
+             GL.End();*/
 
             SwapBuffers();
         }
@@ -313,7 +312,7 @@ namespace MCClone
         static void RenderCube(World world, Chunk chunk, Block block)
         {
             int x = block.X + 16 * chunk.X;
-            UInt16 y = block.Y;
+            int y = block.Y;
             int z = block.Z + 16 * chunk.Z;
 
             /*    foreach (Block blk in chunk.Blocks)
