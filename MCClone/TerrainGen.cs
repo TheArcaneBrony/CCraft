@@ -56,7 +56,7 @@ namespace MCClone
                             by = Math.Max(by, 1);
                             for (int y = by - 1; y < by; y++)
                             {
-                                chunk.Blocks.Add(new Block(x2, y, z2));
+                                chunk.Blocks.Add((x2,y,z2),new Block(x2, y, z2));
                                 //Thread.Sleep(0);
                             }
                         }
@@ -66,7 +66,7 @@ namespace MCClone
                          Task.Run(() =>
                          {
                         //File.WriteAllText($"Worlds/{MainWindow.world.Name}/ChunkData/{X}.{Z}.gz", JsonConvert.SerializeObject(chunk));
-                        
+
                         byte[] data = Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(chunk));
                         GZipStream chOut = new GZipStream(new FileStream($"Worlds/{MainWindow.world.Name}/ChunkData/{X}.{Z}.gz", FileMode.Create), CompressionLevel.Optimal);
                         chOut.Write(data, 0, data.Length);

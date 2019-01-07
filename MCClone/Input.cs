@@ -93,9 +93,10 @@ namespace MCClone
             {
                 if (!(cch.X == (int)(MainWindow.world.Player.X / 16) && cch.Z == (int)(MainWindow.world.Player.Z / 16))) cch = MainWindow.world.Chunks.Find((chunk) => { return chunk.X == (int)(MainWindow.world.Player.X / 16) && chunk.Z == (int)(MainWindow.world.Player.Z / 16); });
 
-                ty = cch.Blocks.Find((bl) => { return bl.X == (int)(MainWindow.world.Player.X % 16) && bl.Z == (int)(MainWindow.world.Player.Z % 16); }).Y;
+                //ty = cch.Blocks.Find((bl) => { return bl.X == (int)(MainWindow.world.Player.X % 16) && bl.Z == (int)(MainWindow.world.Player.Z % 16); }).Y; // previous world format
+                ty = cch.Blocks[((int)MainWindow.world.Player.X % 16, (int)MainWindow.world.Player.Y - 1, (int)MainWindow.world.Player.Z % 16)].Y;
                 Console.Title = $"{ty}";
-                //Dictionary<(int x, int y, int z), Block> dict = new Dictionary<(int x, int y, int z), Block>(); //just keeping note
+
             }
             catch { }
             if (!MainWindow.world.Player.Flying && MainWindow.world.Player.InAir) MainWindow.world.Player.YV -= 0.005;
