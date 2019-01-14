@@ -12,11 +12,30 @@ namespace MCClone
         {
 
             var keyState = Keyboard.GetState();
+            if (focussed && !(Mouse.GetCursorState().X == centerX || Mouse.GetCursorState().Y == centerY))
+            {
+                double x = Mouse.GetCursorState().X - centerX;
+                double y = -(Mouse.GetCursorState().Y - centerY);
 
+                OpenTK.Input.Mouse.SetPosition(centerX, centerY);
+                world.Player.LY += y * sensitivity;
+                world.Player.LX += x * sensitivity;
+
+
+                if (world.Player.LX <= -180) world.Player.LX = 179.99;
+                world.Player.LX += 180;
+                //world.Player.LX = Math.Abs(world.Player.LX);
+                world.Player.LX %= 360;
+                world.Player.LX -= 180;
+
+                if (world.Player.LY > 90) world.Player.LY = 90;
+                if (world.Player.LY < -90) world.Player.LY = -90;
+            }
+            if (!keyState.IsAnyKeyDown) return;
             if (keyState.IsKeyDown(Key.Escape))
             {
 
-                MainWindow.running = false;
+                running = false;
                 DiscordRpc.ClearPresence();
                 DiscordRpc.Shutdown();
                 Thread.Sleep(50);
@@ -24,7 +43,7 @@ namespace MCClone
             }
             if (keyState.IsKeyDown(Key.F1))
             {
-                MainWindow.focussed = !MainWindow.focussed;
+                focussed = !focussed;
 
 
 
@@ -32,56 +51,38 @@ namespace MCClone
             }
             if (keyState.IsKeyDown(Key.W))
             {
-                MainWindow.world.Player.X += Math.Cos(Util.DegToRad(MainWindow.world.Player.LX));
-                MainWindow.world.Player.Z += Math.Sin(Util.DegToRad(MainWindow.world.Player.LX));
+                world.Player.X += Math.Cos(Util.DegToRad(world.Player.LX));
+                world.Player.Z += Math.Sin(Util.DegToRad(world.Player.LX));
                 if (keyState.IsKeyDown(Key.LControl))
                 {
-                    MainWindow.world.Player.X += Math.Cos(Util.DegToRad(MainWindow.world.Player.LX));
-                    MainWindow.world.Player.Z += Math.Sin(Util.DegToRad(MainWindow.world.Player.LX));
+                    world.Player.X += Math.Cos(Util.DegToRad(world.Player.LX));
+                    world.Player.Z += Math.Sin(Util.DegToRad(world.Player.LX));
                 }
             }
             if (keyState.IsKeyDown(Key.A))
             {
-                MainWindow.world.Player.X -= Math.Cos(Util.DegToRad(MainWindow.world.Player.LX + 90));
-                MainWindow.world.Player.Z -= Math.Sin(Util.DegToRad(MainWindow.world.Player.LX + 90));
+                world.Player.X -= Math.Cos(Util.DegToRad(world.Player.LX + 90));
+                world.Player.Z -= Math.Sin(Util.DegToRad(world.Player.LX + 90));
             }
             if (keyState.IsKeyDown(Key.S))
             {
-                MainWindow.world.Player.X -= Math.Cos(Util.DegToRad(MainWindow.world.Player.LX));
-                MainWindow.world.Player.Z -= Math.Sin(Util.DegToRad(MainWindow.world.Player.LX));
+                world.Player.X -= Math.Cos(Util.DegToRad(world.Player.LX));
+                world.Player.Z -= Math.Sin(Util.DegToRad(world.Player.LX));
             }
             if (keyState.IsKeyDown(Key.D))
             {
-                MainWindow.world.Player.X += Math.Cos(Util.DegToRad(MainWindow.world.Player.LX + 90));
-                MainWindow.world.Player.Z += Math.Sin(Util.DegToRad(MainWindow.world.Player.LX + 90));
+                world.Player.X += Math.Cos(Util.DegToRad(world.Player.LX + 90));
+                world.Player.Z += Math.Sin(Util.DegToRad(world.Player.LX + 90));
             }
-            if (keyState.IsKeyDown(Key.ShiftLeft)) MainWindow.world.Player.Y -= 0.1;
-            if (keyState.IsKeyDown(Key.Space)) if (MainWindow.world.Player.Flying) MainWindow.world.Player.Y += 0.1; else MainWindow.world.Player.YV = 0.1;
-            if (keyState.IsKeyDown(Key.Q)) MainWindow.brightness -= 0.01f;
-            if (keyState.IsKeyDown(Key.E)) MainWindow.brightness += 0.01f;
-            if (keyState.IsKeyDown(Key.F)) MainWindow.world.Player.Flying = true;
-            if (keyState.IsKeyDown(Key.F) && keyState.IsKeyDown(Key.LControl)) MainWindow.world.Player.Flying = false;
-            if (keyState.IsKeyDown(Key.Z)) MainWindow.renderDistance--;
-            if (keyState.IsKeyDown(Key.C)) MainWindow.renderDistance++;
-            if (MainWindow.focussed && !(Mouse.GetCursorState().X == MainWindow.centerX || Mouse.GetCursorState().Y == MainWindow.centerY))
-            {
-                double x = Mouse.GetCursorState().X - MainWindow.centerX;
-                double y = -(Mouse.GetCursorState().Y - MainWindow.centerY);
-
-                OpenTK.Input.Mouse.SetPosition(MainWindow.centerX, MainWindow.centerY);
-                MainWindow.world.Player.LY += y * MainWindow.sensitivity;
-                MainWindow.world.Player.LX += x * MainWindow.sensitivity;
-
-
-                if (MainWindow.world.Player.LX <= -180) MainWindow.world.Player.LX = 179.99;
-                MainWindow.world.Player.LX += 180;
-                //MainWindow.world.Player.LX = Math.Abs(MainWindow.world.Player.LX);
-                MainWindow.world.Player.LX %= 360;
-                MainWindow.world.Player.LX -= 180;
-
-                if (MainWindow.world.Player.LY > 90) MainWindow.world.Player.LY = 90;
-                if (MainWindow.world.Player.LY < -90) MainWindow.world.Player.LY = -90;
-            }
+            if (keyState.IsKeyDown(Key.ShiftLeft)) world.Player.Y -= 0.1;
+            if (keyState.IsKeyDown(Key.Space)) if (world.Player.Flying) world.Player.Y += 0.1; else world.Player.YV = 0.1;
+            if (keyState.IsKeyDown(Key.Q)) brightness -= 0.01f;
+            if (keyState.IsKeyDown(Key.E)) brightness += 0.01f;
+            if (keyState.IsKeyDown(Key.F)) world.Player.Flying = true;
+            if (keyState.IsKeyDown(Key.F) && keyState.IsKeyDown(Key.LControl)) world.Player.Flying = false;
+            if (keyState.IsKeyDown(Key.Z)) renderDistance--;
+            if (keyState.IsKeyDown(Key.C)) renderDistance++;
+            
         }
 
         static Chunk cch = new Chunk(64, 64);
@@ -91,28 +92,28 @@ namespace MCClone
             int ty = 5;
             try
             {
-                if (!(cch.X == (int)(MainWindow.world.Player.X / 16) && cch.Z == (int)(MainWindow.world.Player.Z / 16))) cch = MainWindow.world.Chunks.Find((chunk) => { return chunk.X == (int)(MainWindow.world.Player.X / 16) && chunk.Z == (int)(MainWindow.world.Player.Z / 16); });
+                if (!(cch.X == (int)(world.Player.X / 16) && cch.Z == (int)(world.Player.Z / 16))) cch = world.Chunks.Find((chunk) => { return chunk.X == (int)(world.Player.X / 16) && chunk.Z == (int)(world.Player.Z / 16); });
 
-                //ty = cch.Blocks.Find((bl) => { return bl.X == (int)(MainWindow.world.Player.X % 16) && bl.Z == (int)(MainWindow.world.Player.Z % 16); }).Y; // previous world format
-                ty = cch.Blocks[((int)MainWindow.world.Player.X % 16, (int)MainWindow.world.Player.Y - 1, (int)MainWindow.world.Player.Z % 16)].Y;
+                ty = cch.Blocks.Find((bl) => { return bl.X == (int)(world.Player.X % 16) && bl.Z == (int)(world.Player.Z % 16); }).Y; // previous world format
+                //ty = cch.Blocks[((int)world.Player.X % 16, (int)world.Player.Y - 1, (int)world.Player.Z % 16)].Y;
                 Console.Title = $"{ty}";
 
             }
             catch { }
-            if (!MainWindow.world.Player.Flying && MainWindow.world.Player.InAir) MainWindow.world.Player.YV -= 0.005;
-            if (MainWindow.world.Player.YV < -0.45) MainWindow.world.Player.YV = -0.45;
+            if (!world.Player.Flying && world.Player.InAir) world.Player.YV -= 0.005;
+            if (world.Player.YV < -0.45) world.Player.YV = -0.45;
 
             //  if (bsarr.Contains(new Block((int)cx, (int)cy, (int)cz)) && cyv < 0) cyv = 0;
             //if()
-            //if (MainWindow.world.Chunks)
-            if (ty < MainWindow.world.Player.Y - 1 && MainWindow.world.Player.YV < 0) MainWindow.world.Player.YV = 0;
-            if (!MainWindow.world.Player.Flying) MainWindow.world.Player.Y += MainWindow.world.Player.YV;
+            //if (world.Chunks)
+            if (ty < world.Player.Y - 1 && world.Player.YV < 0) world.Player.YV = 0;
+            if (!world.Player.Flying) world.Player.Y += world.Player.YV;
 
-            if (MainWindow.brightness > 1f) MainWindow.brightness = 1f;
-            if (MainWindow.brightness < 0.1f) MainWindow.brightness = 0.1f;
-            // Console.Title = $"{MainWindow.brightness}";
-            MainWindow.world.Player.CPos = new Vector3((float)MainWindow.world.Player.X, (float)MainWindow.world.Player.Y + 1.7f, (float)MainWindow.world.Player.Z);
-            MainWindow.world.Player.CFPt = new Vector3((float)(MainWindow.world.Player.X + Math.Cos(Util.DegToRad(MainWindow.world.Player.LX))), (float)(MainWindow.world.Player.Y + 1.7f + Math.Sin(Util.DegToRad(MainWindow.world.Player.LY))), (float)(MainWindow.world.Player.Z + Math.Sin(Util.DegToRad(MainWindow.world.Player.LX))));
+            if (brightness > 1f) brightness = 1f;
+            if (brightness < 0.1f) brightness = 0.1f;
+            // Console.Title = $"{brightness}";
+            world.Player.CPos = new Vector3((float)world.Player.X, (float)world.Player.Y + 1.7f, (float)world.Player.Z);
+            world.Player.CFPt = new Vector3((float)(world.Player.X + Math.Cos(Util.DegToRad(world.Player.LX))), (float)(world.Player.Y + 1.7f + Math.Sin(Util.DegToRad(world.Player.LY))), (float)(world.Player.Z + Math.Sin(Util.DegToRad(world.Player.LX))));
         }
     }
 }

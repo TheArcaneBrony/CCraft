@@ -15,6 +15,7 @@ namespace MCClone
         }
         public static bool ShouldRenderChunk(Chunk ch)
         {
+           // return true;
             if (!(MainWindow.world.Player.X / 16 + MainWindow.renderDistance > ch.X && MainWindow.world.Player.X / 16 - MainWindow.renderDistance < ch.X)) return false;
             if (!(MainWindow.world.Player.Z / 16 + MainWindow.renderDistance > ch.Z && MainWindow.world.Player.Z / 16 - MainWindow.renderDistance < ch.Z)) return false;
             if (-90 - 45 <= MainWindow.world.Player.LX && MainWindow.world.Player.LX <= 90 + 45 && ch.X >= MainWindow.world.Player.X / 16)

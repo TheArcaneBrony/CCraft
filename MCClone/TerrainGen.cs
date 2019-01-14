@@ -14,7 +14,8 @@ namespace MCClone
     {
         public static bool GenLock = false;
         public static Stopwatch GenTime = new Stopwatch();
-        static int runningThreads = 0;
+        public static int runningThreads = 0;
+        public static int maxThreads =(int)( MainWindow.genDistance * MainWindow.renderDistance)*2;
         public static void GenTerrain(List<Chunk> chunkList)
         {
             // old initial gen code
@@ -40,7 +41,7 @@ namespace MCClone
             chunkList.Add(chunk);
 
             runningThreads++;
-            while (runningThreads >= 4) Thread.Sleep(0);
+            while (runningThreads >= maxThreads) Thread.Sleep(0);
             //Console.Title = runningThreads + "";
             Thread chunkGen = new Thread(() =>
             {
@@ -56,22 +57,27 @@ namespace MCClone
                             by = Math.Max(by, 1);
                             for (int y = by - 1; y < by; y++)
                             {
-                                chunk.Blocks.Add((x2,y,z2),new Block(x2, y, z2));
-                                //Thread.Sleep(0);
+                                // chunk.Blocks.Add((x2,y,z2),new Block(x2, y, z2));
+                                chunk.Blocks.Add(new Block(x2, y, z2));
+
                             }
                         }
+
+                        Thread.Sleep(50);
                     }
                     try
                     {
-                         Task.Run(() =>
-                         {
+                        //   Task.Run(() =>
+                        //    {
                         //File.WriteAllText($"Worlds/{MainWindow.world.Name}/ChunkData/{X}.{Z}.gz", JsonConvert.SerializeObject(chunk));
-
+                        Thread.Sleep(20);
                         byte[] data = Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(chunk));
+                        Thread.Sleep(20);
                         GZipStream chOut = new GZipStream(new FileStream($"Worlds/{MainWindow.world.Name}/ChunkData/{X}.{Z}.gz", FileMode.Create), CompressionLevel.Optimal);
+                        Thread.Sleep(20);
                         chOut.Write(data, 0, data.Length);
                         chOut.Close();
-                        });
+                   //     });
                     }
                     catch (IOException)
                     {
@@ -81,8 +87,9 @@ namespace MCClone
                     {
                         throw;
                     }
-                    Task.Run(() => Logger.LogQueue.Add($"Chunk {X}/{Z} generated in: {GenTimer.ElapsedTicks / 10000d} ms"));
-
+                    //   Task.Run(() => Logger.LogQueue.Add($"Chunk {X}/{Z} generated in: {GenTimer.ElapsedTicks / 10000d} ms"));
+                    Thread.Sleep(10);
+                    Logger.LogQueue.Add($"Chunk {X}/{Z} generated in: {GenTimer.ElapsedTicks / 10000d} ms");
                 }
                 catch { }
                 finally

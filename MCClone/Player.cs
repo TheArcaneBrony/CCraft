@@ -14,6 +14,8 @@ namespace MCClone
         public double X { get; set; }
         public double Y { get; set; }
         public double Z { get; set; }
+        public int CX { get; set; }
+        public int CZ { get; set; }
         public double XV { get; set; }
         public double YV { get; set; }
         public double ZV { get; set; }

@@ -14,7 +14,7 @@ namespace MCClone
     {
         public static bool running = true, focussed = true, logger = true;
         public static string ver = "Alpha 0.08_00014";
-        public static int renderDistance = 4, centerX, centerY, RenderErrors = 0, RenderedChunks = 0;
+        public static int renderDistance = 8, centerX, centerY, RenderErrors = 0, RenderedChunks = 0;
         public static double rt = 0, unloadDistance = 1.5, genDistance = 1.4;
         public static World world = new World(0, 100, 0);
         public static float sensitivity = .1f, brightness = 1;
@@ -73,10 +73,10 @@ namespace MCClone
                 {
                     Thread.Sleep(100);
                     int lctu = (int)((renderDistance * unloadDistance) * (renderDistance * unloadDistance) * 4),
-                    lctg = (int)((renderDistance * genDistance) * (renderDistance * genDistance) * 4);
+                    lctg = (int)((renderDistance * genDistance*2) * (renderDistance * genDistance*2));
                    // Console.Title = lctu + " " + lctg + " " + brightness;
                     // if (RenderedChunks < renderDistance * renderDistance)
-                    if (true || world.Chunks.Count < lctg)
+                    if (world.Chunks.Count < lctg)
                     {
                         Time.Restart();
                         for (int x = (int)(world.Player.X / 16 - renderDistance * genDistance); x < world.Player.X / 16 + renderDistance * genDistance; x++) for (int z = (int)(world.Player.Z / 16 - renderDistance * genDistance); z < world.Player.Z / 16 + renderDistance * genDistance; z++)
@@ -184,9 +184,9 @@ namespace MCClone
                             //  if (Logger.LogQueue.Count > 20) Logger.LogQueue.RemoveRange(20, Logger.LogQueue.Count - 20);
                             Logger.PostLog(Logger.LogQueue[0] /*+ $",LOG_REM={Logger.LogQueue.Count}"*/); Logger.LogQueue.RemoveAt(0);
 
-                            // Thread.Sleep(10);
+                             //Thread.Sleep(10);
                         }
-                    Thread.Sleep(500);
+                    Thread.Sleep(250);
                 }
             });
             // kbdLogic.Start();
@@ -237,7 +237,7 @@ namespace MCClone
             Input.Tick();
             // vol = AudioMeterInformation.FromDevice(new MMDeviceEnumerator().GetDefaultAudioEndpoint(DataFlow.Render, Role.Console)).PeakValue;
             GL.ClearColor(0.1f * brightness, 0.5f * brightness, 0.7f * brightness, 0.9f);
-            Title = $"MC Clone {ver} | FPS: {Math.Round(1000 / rt, 2)} ({Math.Round(rt, 2)} ms) C: {crq.Count}/{world.Chunks.Count} E: {RenderErrors} | {world.Player.X}/{world.Player.Y}/{world.Player.Z} : {world.Player.LX}/{world.Player.LY} | {Math.Round((double)Process.GetCurrentProcess().PrivateMemorySize64 / 1048576, 2)} MB"; //{Math.Round(vol * 100, 0)}
+            Title = $"MC Clone {ver} | FPS: {Math.Round(1000 / rt, 2)} ({Math.Round(rt, 2)} ms) C: {crq.Count}/{world.Chunks.Count} E: {RenderErrors} | {world.Player.X}/{world.Player.Y}/{world.Player.Z} : {world.Player.LX}/{world.Player.LY} | {Math.Round((double)Process.GetCurrentProcess().PrivateMemorySize64 / 1048576, 2)} MB | {TerrainGen.runningThreads}/{TerrainGen.maxThreads} GT"; //{Math.Round(vol * 100, 0)}
         }
 
 
@@ -280,17 +280,20 @@ namespace MCClone
                         RenderCube(world, cch, new Block(cch.Blocks[i].X + 16 * cch.X, cch.Blocks[i].Y, cch.Blocks[i].Z + 16 * cch.Z), cch.Blocks[i]);
                     }*/
 
-                    //foreach (Block bl in btr)
-                    for (int y = 0; y < 265; y++)
-                        for (int x = 0; x < 16; x++)
-                            for (int z = 0; z < 16; z++)
-                            {
-                                try
-                                {
+                    foreach (Block bl in btr)
+                    {
 
-                                    RenderCube(world, cch, btr[(x, y, z)]);
-                                }
-                                catch { }
+                        RenderCube(world, cch, bl);
+                        /*for (int y = 0; y < 265; y++)
+                            for (int x = 0; x < 16; x++)
+                                for (int z = 0; z < 16; z++)
+                                {
+                                    try
+                                    {
+
+                                        RenderCube(world, cch, btr[(x, y, z)]);
+                                    }
+                                    catch { }*/
                     }
                     RenderedChunks++;
                 }
