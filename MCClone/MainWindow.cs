@@ -272,7 +272,7 @@ namespace MCClone
             {
 
                 // var btr = cch.Blocks.FindAll((Block bl) => { return true; return cch.Blocks.Find((Block bl2) => { if (bl.X == bl2.X && bl.Z == bl2.Z && bl.Y == bl2.Y + 1) return true; return false; }) == null; /*if (bl.X % 4 == rnd.Next(0,5) && bl.Z % 4 == rnd.Next(0, 5)) return true; */return false; });
-                var btr = cch.Blocks;
+                var btr = cch.Blocks.GetRange(0, cch.Blocks.Count);
                 try
                 {
                     /*for (int i = 0; i < cch.Blocks.Count; i++)
@@ -300,6 +300,7 @@ namespace MCClone
                 catch
                 {
                     RenderErrors++;
+                    throw;
                 }
             }
 
