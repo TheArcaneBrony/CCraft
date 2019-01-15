@@ -15,7 +15,7 @@ namespace MCClone
         public static bool GenLock = false;
         public static Stopwatch GenTime = new Stopwatch();
         public static int runningThreads = 0;
-        public static int maxThreads =(int)( MainWindow.genDistance * MainWindow.renderDistance)*2;
+        public static int maxThreads = (int)(MainWindow.genDistance * MainWindow.renderDistance) * 2;
         public static void GenTerrain(List<Chunk> chunkList)
         {
             // old initial gen code
@@ -39,7 +39,6 @@ namespace MCClone
         {
             Chunk chunk = new Chunk(X, Z);
             chunkList.Add(chunk);
-
             runningThreads++;
             while (runningThreads >= maxThreads) Thread.Sleep(0);
             //Console.Title = runningThreads + "";
@@ -59,10 +58,8 @@ namespace MCClone
                             {
                                 // chunk.Blocks.Add((x2,y,z2),new Block(x2, y, z2));
                                 chunk.Blocks.Add(new Block(x2, y, z2));
-
                             }
                         }
-
                         Thread.Sleep(50);
                     }
                     try
@@ -77,7 +74,7 @@ namespace MCClone
                         Thread.Sleep(20);
                         chOut.Write(data, 0, data.Length);
                         chOut.Close();
-                   //     });
+                        //     });
                     }
                     catch (IOException)
                     {
@@ -99,14 +96,12 @@ namespace MCClone
             })
             {
                 Name = $"Chunk Gen {X}/{Z}",
-               // Priority = ThreadPriority.Lowest
+                // Priority = ThreadPriority.Lowest
             };
             chunkGen.Start();
             //chunkGen.Join(50);
             return chunk;
         }
-
-
         public static Chunk GetChunk(List<Chunk> chunkList, int X, int Z)
         {
             GenTime.Restart();
@@ -137,7 +132,6 @@ namespace MCClone
             {
                 // Logger.LogQueue.Add($"Generating chunk {X}/{Z}");
                 var ch = GenChunk(chunkList, X, Z);
-
                 //Logger.LogQueue.Add($"Chunk {X}/{Z} generated in: {GenTime.ElapsedTicks / 10000d} ms");
                 return ch;
             }

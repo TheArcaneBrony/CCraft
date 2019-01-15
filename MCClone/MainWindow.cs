@@ -19,12 +19,9 @@ namespace MCClone
         public static World world = new World(0, 100, 0);
         public static float sensitivity = .1f, brightness = 1;
         public static List<Chunk> crq = new List<Chunk>();
-
         readonly UI.DebugUI debugWindow = new UI.DebugUI();
         private int _program;
-
         private int _vertexArray;
-
         public MainWindow() : base(1280, 720, GraphicsMode.Default, "The Arcane Brony#9669's Minecraft Clone", GameWindowFlags.Default, DisplayDevice.Default, 4, 0, GraphicsContextFlags.ForwardCompatible)
         {
             Title += $" | GL Ver: {GL.GetString(StringName.Version)} | Version: {ver}";
@@ -73,8 +70,8 @@ namespace MCClone
                 {
                     Thread.Sleep(100);
                     int lctu = (int)((renderDistance * unloadDistance) * (renderDistance * unloadDistance) * 4),
-                    lctg = (int)((renderDistance * genDistance*2) * (renderDistance * genDistance*2));
-                   // Console.Title = lctu + " " + lctg + " " + brightness;
+                    lctg = (int)((renderDistance * genDistance * 2) * (renderDistance * genDistance * 2));
+                    // Console.Title = lctu + " " + lctg + " " + brightness;
                     // if (RenderedChunks < renderDistance * renderDistance)
                     if (world.Chunks.Count < lctg)
                     {
@@ -110,7 +107,6 @@ namespace MCClone
                         });
                         Logger.LogQueue.Add($"Unloading chunks took {Math.Round(Time.ElapsedTicks / 10000d, 4)} ms {lctu}");
                     }
-
                 }
             });
             Thread logThread = new Thread(() =>
@@ -183,8 +179,7 @@ namespace MCClone
                         {
                             //  if (Logger.LogQueue.Count > 20) Logger.LogQueue.RemoveRange(20, Logger.LogQueue.Count - 20);
                             Logger.PostLog(Logger.LogQueue[0] /*+ $",LOG_REM={Logger.LogQueue.Count}"*/); Logger.LogQueue.RemoveAt(0);
-
-                             //Thread.Sleep(10);
+                            //Thread.Sleep(10);
                         }
                     Thread.Sleep(250);
                 }
@@ -202,7 +197,6 @@ namespace MCClone
             //Thread.Sleep(5);
             statCollector.Start();
             //Thread.Sleep(5);
-
             gameInit.IsBackground = true;
             gameInit.Priority = ThreadPriority.BelowNormal;
             gameInit.Start();
@@ -213,15 +207,11 @@ namespace MCClone
 
             /* GL.ShadeModel(ShadingModel.Smooth);
              GL.ClearColor(0, 0, 0, 1);*/
-
             //  GL.ClearDepth(1.0f);
             GL.Enable(EnableCap.DepthTest);
-
             //   GL.DepthFunc(DepthFunction.Lequal);
-
             //  GL.Enable(EnableCap.CullFace);
             //  GL.CullFace(CullFaceMode.Back);
-
             //   GL.Hint(HintTarget.PerspectiveCorrectionHint, HintMode.Nicest);
 
             // create texture ids
@@ -239,8 +229,6 @@ namespace MCClone
             GL.ClearColor(0.1f * brightness, 0.5f * brightness, 0.7f * brightness, 0.9f);
             Title = $"MC Clone {ver} | FPS: {Math.Round(1000 / rt, 2)} ({Math.Round(rt, 2)} ms) C: {crq.Count}/{world.Chunks.Count} E: {RenderErrors} | {world.Player.X}/{world.Player.Y}/{world.Player.Z} : {world.Player.LX}/{world.Player.LY} | {Math.Round((double)Process.GetCurrentProcess().PrivateMemorySize64 / 1048576, 2)} MB | {TerrainGen.runningThreads}/{TerrainGen.maxThreads} GT"; //{Math.Round(vol * 100, 0)}
         }
-
-
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             rt = frameTime.ElapsedTicks / 10000d;
@@ -270,7 +258,6 @@ namespace MCClone
             GL.Begin(PrimitiveType.Quads);
             foreach (Chunk cch in crq)
             {
-
                 // var btr = cch.Blocks.FindAll((Block bl) => { return true; return cch.Blocks.Find((Block bl2) => { if (bl.X == bl2.X && bl.Z == bl2.Z && bl.Y == bl2.Y + 1) return true; return false; }) == null; /*if (bl.X % 4 == rnd.Next(0,5) && bl.Z % 4 == rnd.Next(0, 5)) return true; */return false; });
                 var btr = cch.Blocks.GetRange(0, cch.Blocks.Count);
                 try
@@ -279,10 +266,8 @@ namespace MCClone
                     {
                         RenderCube(world, cch, new Block(cch.Blocks[i].X + 16 * cch.X, cch.Blocks[i].Y, cch.Blocks[i].Z + 16 * cch.Z), cch.Blocks[i]);
                     }*/
-
                     foreach (Block bl in btr)
                     {
-
                         RenderCube(world, cch, bl);
                         /*for (int y = 0; y < 265; y++)
                             for (int x = 0; x < 16; x++)
@@ -290,7 +275,6 @@ namespace MCClone
                                 {
                                     try
                                     {
-
                                         RenderCube(world, cch, btr[(x, y, z)]);
                                     }
                                     catch { }*/
@@ -305,12 +289,11 @@ namespace MCClone
             }
 
             GL.End();
-             /*GL.Begin(PrimitiveType.Lines);
-             GL.Color3(1f, 1f, 1f);
-             GL.Vertex3(world.Player.CFPt);
-             GL.Vertex3(world.Player.CPos);
-             GL.End();*/
-
+            /*GL.Begin(PrimitiveType.Lines);
+            GL.Color3(1f, 1f, 1f);
+            GL.Vertex3(world.Player.CFPt);
+            GL.Vertex3(world.Player.CPos);
+            GL.End();*/
             SwapBuffers();
         }
         /*static void Dot(double x, double y, double z)

@@ -20,7 +20,6 @@ namespace MCClone
                 world.Player.LY += y * sensitivity;
                 world.Player.LX += x * sensitivity;
 
-
                 if (world.Player.LX <= -180) world.Player.LX = 179.99;
                 world.Player.LX += 180;
                 //world.Player.LX = Math.Abs(world.Player.LX);
@@ -35,20 +34,16 @@ namespace MCClone
             if (!keyState.IsAnyKeyDown) return;
             if (keyState.IsKeyDown(Key.Escape))
             {
-
                 running = false;
                 DiscordRpc.ClearPresence();
                 DiscordRpc.Shutdown();
-               // Thread.Sleep(50);
+                // Thread.Sleep(50);
                 Environment.Exit(0);
             }
             if (keyState.IsKeyDown(Key.F1))
             {
                 focussed = !focussed;
                 while (Keyboard.GetState().IsKeyDown(Key.F1)) Thread.Sleep(10);
-
-
-
             }
             if (keyState.IsKeyDown(Key.W))
             {
@@ -83,13 +78,11 @@ namespace MCClone
             if (keyState.IsKeyDown(Key.F) && keyState.IsKeyDown(Key.LControl)) world.Player.Flying = false;
             if (keyState.IsKeyDown(Key.Z)) renderDistance--;
             if (keyState.IsKeyDown(Key.C)) renderDistance++;
-            
         }
 
         static Chunk cch = new Chunk(64, 64);
         public static void Tick()
         {
-
             int ty = 5;
             /*   try
                {
@@ -99,11 +92,8 @@ namespace MCClone
                    //ty = cch.Blocks[((int)world.Player.X % 16, (int)world.Player.Y - 1, (int)world.Player.Z % 16)].Y;
 
                    Console.Title = $"{ty}";
-
                }
-               catch {
-
-               }*/
+               catch {}*/
             if (!world.Player.Flying)
             {
                 if (world.Player.InAir) world.Player.YV -= 0.005;

@@ -25,13 +25,11 @@ namespace MCClone
         }
         [Newtonsoft.Json.JsonIgnore]
         public int X { get; set; }
-
         [Newtonsoft.Json.JsonIgnore]
         public int Z { get; set; }
         public List<Block> Blocks { get; set; } = new List<Block>(); // old block storage
         //public SortedDictionary<(int x, int y, int z), Block> Blocks = new SortedDictionary<(int x, int y, int z), Block>();
     }
-
     public class World
     {
         public World(double SpawnX, double SpawnY, double SpawnZ)
