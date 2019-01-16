@@ -13,7 +13,7 @@ namespace MCClone
     class MainWindow : GameWindow
     {
         public static bool running = true, focussed = true, logger = true;
-        public static string ver = "Alpha 0.08_00014";
+        public static string ver = "Alpha 0.08_00302";
         public static int renderDistance = 8, centerX, centerY, RenderErrors = 0, RenderedChunks = 0;
         public static double rt = 0, unloadDistance = 1.5, genDistance = 1.4;
         public static World world = new World(0, 100, 0);
@@ -69,8 +69,8 @@ namespace MCClone
                 while (true)
                 {
                     Thread.Sleep(100);
-                    int lctu = (int)((renderDistance * unloadDistance) * (renderDistance * unloadDistance) * 4),
-                    lctg = (int)((renderDistance * genDistance * 2) * (renderDistance * genDistance * 2));
+                    int lctu = (int)((renderDistance * unloadDistance * 2) * (renderDistance * unloadDistance * 2)),
+                    lctg = (int)(Math.Pow((renderDistance * genDistance * 2),2));
                     // Console.Title = lctu + " " + lctg + " " + brightness;
                     // if (RenderedChunks < renderDistance * renderDistance)
                     if (world.Chunks.Count < lctg)
@@ -92,7 +92,7 @@ namespace MCClone
                             }
                         Logger.LogQueue.Add($"Generating new chunks took {Math.Round(Time.ElapsedTicks / 10000d, 4)} ms");
                     }
-                    if (true || world.Chunks.Count > lctu)
+                    if (world.Chunks.Count > lctu)
                     {
                         Time.Restart();
                         world.Chunks.RemoveAll(chunk =>
@@ -181,7 +181,7 @@ namespace MCClone
                             Logger.PostLog(Logger.LogQueue[0] /*+ $",LOG_REM={Logger.LogQueue.Count}"*/); Logger.LogQueue.RemoveAt(0);
                             //Thread.Sleep(10);
                         }
-                    Thread.Sleep(250);
+                    Thread.Sleep(150);
                 }
             });
             // kbdLogic.Start();

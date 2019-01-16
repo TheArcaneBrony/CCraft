@@ -15,7 +15,7 @@ namespace MCClone
         public static bool GenLock = false;
         public static Stopwatch GenTime = new Stopwatch();
         public static int runningThreads = 0;
-        public static int maxThreads = (int)(MainWindow.genDistance * MainWindow.renderDistance) * 2;
+        public static int maxThreads = (int)(MainWindow.genDistance * MainWindow.renderDistance) * 4;
         public static void GenTerrain(List<Chunk> chunkList)
         {
             // old initial gen code
@@ -60,7 +60,7 @@ namespace MCClone
                                 chunk.Blocks.Add(new Block(x2, y, z2));
                             }
                         }
-                        Thread.Sleep(50);
+                        Thread.Sleep(100);
                     }
                     try
                     {
@@ -82,7 +82,6 @@ namespace MCClone
                     }
                     catch
                     {
-                        throw;
                     }
                     //   Task.Run(() => Logger.LogQueue.Add($"Chunk {X}/{Z} generated in: {GenTimer.ElapsedTicks / 10000d} ms"));
                     Thread.Sleep(10);
@@ -91,15 +90,16 @@ namespace MCClone
                 catch { }
                 finally
                 {
-                    runningThreads--;
                 }
+
+                runningThreads--;
             })
             {
                 Name = $"Chunk Gen {X}/{Z}",
                 // Priority = ThreadPriority.Lowest
             };
             chunkGen.Start();
-            //chunkGen.Join(50);
+            chunkGen.Join(25);
             return chunk;
         }
         public static Chunk GetChunk(List<Chunk> chunkList, int X, int Z)
