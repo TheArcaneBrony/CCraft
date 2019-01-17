@@ -69,7 +69,7 @@ namespace MCClone
                 TerrainGen.GenTerrain(world.Chunks);
                 while (true)
                 {
-                    Thread.Sleep(100);
+                    Thread.Sleep(500);
                     int lctu = (int)((renderDistance * unloadDistance * 2) * (renderDistance * unloadDistance * 2)),
                     lctg = (int)(Math.Pow((renderDistance * genDistance * 2), 2));
                     // Console.Title = lctu + " " + lctg + " " + brightness;
