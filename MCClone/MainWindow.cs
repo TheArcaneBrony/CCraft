@@ -7,6 +7,7 @@ using OpenTK.Graphics.OpenGL;
 using System.Collections.Generic;
 using System.IO;
 using System.Diagnostics;
+using System.Collections.Concurrent;
 
 namespace MCClone
 {
@@ -98,7 +99,20 @@ namespace MCClone
                             }
                             return false;
                         });*/
-
+                        int _ = world.Chunks.Count;
+                        (int, int)[] ch = new (int, int)[_];
+                        world.Chunks.Keys.CopyTo(ch, 0);
+                        foreach ((int X, int Z) in ch)
+                        {
+                            if (X < (int)(world.Player.X / 16 - renderDistance * unloadDistance)
+                            || X > (int)(world.Player.X / 16 + renderDistance * unloadDistance)
+                            || Z < (int)(world.Player.Z / 16 - renderDistance * unloadDistance)
+                            || Z > (int)(world.Player.Z / 16 + renderDistance * unloadDistance)
+                            )
+                            {
+                                world.Chunks.Remove((X, Z));
+                            }
+                        }
                         Logger.LogQueue.Add($"Unloading chunks took {Math.Round(Time.ElapsedTicks / 10000d, 4)} ms {lctu}");
                     }
                 }
@@ -153,21 +167,26 @@ namespace MCClone
             {
                 while (true)
                 {
-                    crq.Clear();
-                    Chunk[] ch = new Chunk[world.Chunks.Count];
-                    world.Chunks.Values.CopyTo(ch, 0);
-                    foreach (Chunk chunk in ch)
+                    try
                     {
-                        if (Util.ShouldRenderChunk(chunk)) crq.Add(chunk);
+                        crq.Clear();
+                        Chunk[] ch = new Chunk[world.Chunks.Count];
+                        world.Chunks.Values.CopyTo(ch, 0);
+                        foreach (Chunk chunk in ch)
+                        {
+                            if (Util.ShouldRenderChunk(chunk)) crq.Add(chunk);
+                        }
+                        /* crq = world.Chunks.FindAll(chunk =>
+                         {
+                             // if (chunk == null) return false;
+                             //int tx = world.Player.Xc;
+                             //int tz = world.Player.Zc;
+                             //if (tx + renderDistance > chunk.X & tx - renderDistance < chunk.X & tz + renderDistance > chunk.Z & tz - renderDistance < chunk.Z)
+                             return Util.ShouldRenderChunk(chunk);
+                         });*/
                     }
-                   /* crq = world.Chunks.FindAll(chunk =>
-                    {
-                        // if (chunk == null) return false;
-                        //int tx = world.Player.Xc;
-                        //int tz = world.Player.Zc;
-                        //if (tx + renderDistance > chunk.X & tx - renderDistance < chunk.X & tz + renderDistance > chunk.Z & tz - renderDistance < chunk.Z)
-                        return Util.ShouldRenderChunk(chunk);
-                    });*/
+                    catch { }
+
                     Thread.Sleep(100);
                 }
             });
@@ -257,8 +276,9 @@ namespace MCClone
             //chunkList[ti].Blocks.FindAll(delegate (Block block) { return true; });
 
             GL.Begin(PrimitiveType.Quads);
-            Chunk[] renderQueue = new Chunk[crq.Count];
-            crq.CopyTo(renderQueue);
+            int ctr = crq.Count;
+            Chunk[] renderQueue = new Chunk[ctr];
+            crq.CopyTo(0, renderQueue, 0, ctr);
             foreach (Chunk cch in renderQueue)
             {
                 // var btr = cch.Blocks.FindAll((Block bl) => { return true; return cch.Blocks.Find((Block bl2) => { if (bl.X == bl2.X && bl.Z == bl2.Z && bl.Y == bl2.Y + 1) return true; return false; }) == null; /*if (bl.X % 4 == rnd.Next(0,5) && bl.Z % 4 == rnd.Next(0, 5)) return true; */return false; });
