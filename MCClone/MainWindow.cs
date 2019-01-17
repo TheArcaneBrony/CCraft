@@ -70,32 +70,25 @@ namespace MCClone
                 {
                     Thread.Sleep(100);
                     int lctu = (int)((renderDistance * unloadDistance * 2) * (renderDistance * unloadDistance * 2)),
-                    lctg = (int)(Math.Pow((renderDistance * genDistance * 2),2));
+                    lctg = (int)(Math.Pow((renderDistance * genDistance * 2), 2));
                     // Console.Title = lctu + " " + lctg + " " + brightness;
                     // if (RenderedChunks < renderDistance * renderDistance)
-                    if (world.Chunks.Count < lctg)
+                    if (true || world.Chunks.Count < lctg)
                     {
                         Time.Restart();
                         for (int x = (int)(world.Player.X / 16 - renderDistance * genDistance); x < world.Player.X / 16 + renderDistance * genDistance; x++) for (int z = (int)(world.Player.Z / 16 - renderDistance * genDistance); z < world.Player.Z / 16 + renderDistance * genDistance; z++)
                             {
-                                if (world.Chunks.Find(chunk =>
-                                {
-                                    if (chunk.X == x && chunk.Z == z)
-                                    {
-                                        return true;
-                                    }
-                                    return false;
-                                }) == null)
+                                if (!world.Chunks.ContainsKey((x, z)))
                                 {
                                     TerrainGen.GetChunk(world.Chunks, x, z);
                                 }
                             }
                         Logger.LogQueue.Add($"Generating new chunks took {Math.Round(Time.ElapsedTicks / 10000d, 4)} ms");
                     }
-                    if (world.Chunks.Count > lctu)
+                    if (true || world.Chunks.Count > lctu)
                     {
-                        Time.Restart();
-                        world.Chunks.RemoveAll(chunk =>
+                        Time.Restart();/*
+                        world.Chunks.ContainsKey .RemoveAll(chunk =>
                         {
                             if (chunk.X < world.Player.X / 16 - renderDistance * unloadDistance || chunk.X > world.Player.X / 16 + renderDistance * unloadDistance || chunk.Z < world.Player.Z / 16 - renderDistance * unloadDistance || chunk.Z > world.Player.Z / 16 + renderDistance * unloadDistance)
                             {
@@ -104,7 +97,8 @@ namespace MCClone
                                 return true;
                             }
                             return false;
-                        });
+                        });*/
+
                         Logger.LogQueue.Add($"Unloading chunks took {Math.Round(Time.ElapsedTicks / 10000d, 4)} ms {lctu}");
                     }
                 }
@@ -159,14 +153,21 @@ namespace MCClone
             {
                 while (true)
                 {
-                    crq = world.Chunks.FindAll(chunk =>
+                    crq.Clear();
+                    Chunk[] ch = new Chunk[world.Chunks.Count];
+                    world.Chunks.Values.CopyTo(ch, 0);
+                    foreach (Chunk chunk in ch)
+                    {
+                        if (Util.ShouldRenderChunk(chunk)) crq.Add(chunk);
+                    }
+                   /* crq = world.Chunks.FindAll(chunk =>
                     {
                         // if (chunk == null) return false;
                         //int tx = world.Player.Xc;
                         //int tz = world.Player.Zc;
                         //if (tx + renderDistance > chunk.X & tx - renderDistance < chunk.X & tz + renderDistance > chunk.Z & tz - renderDistance < chunk.Z)
                         return Util.ShouldRenderChunk(chunk);
-                    });
+                    });*/
                     Thread.Sleep(100);
                 }
             });
@@ -256,7 +257,9 @@ namespace MCClone
             //chunkList[ti].Blocks.FindAll(delegate (Block block) { return true; });
 
             GL.Begin(PrimitiveType.Quads);
-            foreach (Chunk cch in crq)
+            Chunk[] renderQueue = new Chunk[crq.Count];
+            crq.CopyTo(renderQueue);
+            foreach (Chunk cch in renderQueue)
             {
                 // var btr = cch.Blocks.FindAll((Block bl) => { return true; return cch.Blocks.Find((Block bl2) => { if (bl.X == bl2.X && bl.Z == bl2.Z && bl.Y == bl2.Y + 1) return true; return false; }) == null; /*if (bl.X % 4 == rnd.Next(0,5) && bl.Z % 4 == rnd.Next(0, 5)) return true; */return false; });
                 var btr = cch.Blocks.GetRange(0, cch.Blocks.Count);

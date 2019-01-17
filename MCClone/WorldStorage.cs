@@ -46,6 +46,7 @@ namespace MCClone
         public double SpawnZ { get; set; } = 0;
         public Player Player { get; set; }
         [Newtonsoft.Json.JsonIgnore]
-        public List<Chunk> Chunks { get; set; } = new List<Chunk>();
+        //public List<Chunk> Chunks { get; set; } = new List<Chunk>(); //old chunk storage
+        public Dictionary<(int X, int Z), Chunk> Chunks { get; set; } = new Dictionary<(int X, int Z), Chunk>();
     }
 }
