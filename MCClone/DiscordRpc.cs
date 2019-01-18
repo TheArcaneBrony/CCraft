@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿#if !NODISCORD
+using System.Runtime.InteropServices;
 public class DiscordRpc
 {
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -68,3 +69,4 @@ public class DiscordRpc
     [DllImport("discord-rpc", EntryPoint = "Discord_Respond", CallingConvention = CallingConvention.Cdecl)]
     public static extern void Respond(string userId, Reply reply);
 }
+#endif

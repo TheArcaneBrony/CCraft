@@ -35,8 +35,10 @@ namespace MCClone
             if (keyState.IsKeyDown(Key.Escape))
             {
                 running = false;
+#if !NODISCORD
                 DiscordRpc.ClearPresence();
                 DiscordRpc.Shutdown();
+#endif
                 // Thread.Sleep(50);
                 Environment.Exit(0);
             }

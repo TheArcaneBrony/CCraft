@@ -30,11 +30,12 @@ namespace MCClone
                 Console.Write("\r" + new string(' ', i + 1) + " \r" + new string('.', i));
             }
             Console.Write("\r \n");
+#if !NODISCORD
             var EH = new DiscordRpc.EventHandlers();
             DiscordRpc.Initialize("333608929575698442", ref EH, true, "");
             var PR = new DiscordRpc.RichPresence() { details = "Developing", state = "Just debugging ;)", startTimestamp = (int)(DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds, smallImageKey = "test1", smallImageText = "testing" };
             DiscordRpc.UpdatePresence(ref PR);
-
+#endif
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
