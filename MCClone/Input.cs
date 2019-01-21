@@ -1,7 +1,6 @@
 ﻿using OpenTK;
 using OpenTK.Input;
 using System;
-using System.Collections.Generic;
 using System.Threading;
 
 namespace MCClone
@@ -10,26 +9,21 @@ namespace MCClone
     {
         public static void HandleInput()
         {
-
             var keyState = Keyboard.GetState();
             if (focussed && !(Mouse.GetCursorState().X == centerX || Mouse.GetCursorState().Y == centerY))
             {
                 double x = Mouse.GetCursorState().X - centerX;
                 double y = -(Mouse.GetCursorState().Y - centerY);
-
                 world.Player.LY += y * sensitivity;
                 world.Player.LX += x * sensitivity;
-
                 if (world.Player.LX <= -180) world.Player.LX = 179.99;
                 world.Player.LX += 180;
                 //world.Player.LX = Math.Abs(world.Player.LX);
                 world.Player.LX %= 360;
                 world.Player.LX -= 180;
-
                 if (world.Player.LY > 90) world.Player.LY = 90;
                 if (world.Player.LY < -90) world.Player.LY = -90;
-
-                OpenTK.Input.Mouse.SetPosition(centerX, centerY);
+                Mouse.SetPosition(centerX, centerY);
             }
             if (!keyState.IsAnyKeyDown) return;
             if (keyState.IsKeyDown(Key.Escape))
@@ -39,7 +33,6 @@ namespace MCClone
                 DiscordRpc.ClearPresence();
                 DiscordRpc.Shutdown();
 #endif
-                // Thread.Sleep(50);
                 Environment.Exit(0);
             }
             if (keyState.IsKeyDown(Key.F1))
@@ -81,21 +74,18 @@ namespace MCClone
             if (keyState.IsKeyDown(Key.Z)) renderDistance--;
             if (keyState.IsKeyDown(Key.C)) renderDistance++;
         }
-
-        static Chunk cch = new Chunk(64, 64);
         public static void Tick()
         {
             int ty = 5;
-            /*   try
-               {
-                   if (!(cch.X == (int)(world.Player.X / 16) && cch.Z == (int)(world.Player.Z / 16))) cch = world.Chunks.Find((chunk) => { return chunk.X == (int)(world.Player.X / 16) && chunk.Z == (int)(world.Player.Z / 16); });
-
-                   ty = cch.Blocks.Find((bl) => { return bl.X == (int)(world.Player.X % 16) && bl.Z == (int)(world.Player.Z % 16); }).Y; // previous world format
-                   //ty = cch.Blocks[((int)world.Player.X % 16, (int)world.Player.Y - 1, (int)world.Player.Z % 16)].Y;
-
-                   Console.Title = $"{ty}";
-               }
-               catch {}*/
+            Chunk chunk;
+            world.Chunks.TryGetValue(((int)world.Player.X / 16, (int)world.Player.Z / 16), out chunk);
+            Block blockBelowPlayer;
+            if (chunk != null)
+            {
+                chunk.Blocks.TryGetValue(((int)world.Player.X % 16, (int)world.Player.Y - 1, (int)world.Player.Z % 16), out blockBelowPlayer);
+                if (blockBelowPlayer != null)
+                    ty = blockBelowPlayer.Y;
+            }
             if (!world.Player.Flying)
             {
                 if (world.Player.InAir) world.Player.YV -= 0.005;

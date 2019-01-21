@@ -7,7 +7,6 @@ using OpenTK.Graphics.OpenGL;
 using System.Collections.Generic;
 using System.IO;
 using System.Diagnostics;
-using System.Collections.Concurrent;
 
 namespace MCClone
 {
@@ -24,7 +23,7 @@ namespace MCClone
         public static float sensitivity = .1f, brightness = 1;
         public static List<Chunk> crq = new List<Chunk>();
         readonly UI.DebugUI debugWindow = new UI.DebugUI();
-        private int _program;
+        //private int _program;
         private int _vertexArray;
         public MainWindow() : base(1280, 720, GraphicsMode.Default, "The Arcane Brony#9669's Minecraft Clone", GameWindowFlags.Default, DisplayDevice.Default, 4, 0, GraphicsContextFlags.ForwardCompatible)
         {
@@ -51,7 +50,7 @@ namespace MCClone
             uint cres = 0;
             SystemUtils.NtSetTimerResolution(9000, true, ref cres);
             CursorVisible = false;
-            _program = CompileShaders();
+            //_program = CompileShaders();
 
             GL.GenVertexArrays(1, out _vertexArray);
             GL.BindVertexArray(_vertexArray);
@@ -150,7 +149,7 @@ namespace MCClone
                                 world.Player.Z = double.Parse(args[2]);
                                 break;
                             case "render":
-                                renderDistance = byte.Parse(args[0]);
+                                renderDistance = int.Parse(args[0]);
                                 break;
                             case "debug":
                                 debugWindow.Show();
@@ -336,7 +335,6 @@ namespace MCClone
             int x = block.X + 16 * chunk.X;
             int y = block.Y;
             int z = block.Z + 16 * chunk.Z;
-
             /*    foreach (Block blk in chunk.Blocks)
                 {
                     if (blk.X == rBlock.X && blk.Y == rBlock.Y + 3 && blk.Z == rBlock.Z) render = false;
@@ -411,28 +409,28 @@ namespace MCClone
             CursorVisible = !focussed;
         }
         // Currently unused
-        private int CompileShaders()
-        {
-            var vertexShader = GL.CreateShader(ShaderType.VertexShader);
-            GL.ShaderSource(vertexShader,
-            File.ReadAllText(@"Components\Shaders\vertexShader.vert"));
-            GL.CompileShader(vertexShader);
+        /*    private int CompileShaders()
+            {
+                var vertexShader = GL.CreateShader(ShaderType.VertexShader);
+                GL.ShaderSource(vertexShader,
+                File.ReadAllText(@"Components\Shaders\vertexShader.vert"));
+                GL.CompileShader(vertexShader);
 
-            var fragmentShader = GL.CreateShader(ShaderType.FragmentShader);
-            GL.ShaderSource(fragmentShader,
-            File.ReadAllText(@"Components\Shaders\fragmentShader.frag"));
-            GL.CompileShader(fragmentShader);
+                var fragmentShader = GL.CreateShader(ShaderType.FragmentShader);
+                GL.ShaderSource(fragmentShader,
+                File.ReadAllText(@"Components\Shaders\fragmentShader.frag"));
+                GL.CompileShader(fragmentShader);
 
-            var program = GL.CreateProgram();
-            GL.AttachShader(program, vertexShader);
-            GL.AttachShader(program, fragmentShader);
-            GL.LinkProgram(program);
+                var program = GL.CreateProgram();
+                GL.AttachShader(program, vertexShader);
+                GL.AttachShader(program, fragmentShader);
+                GL.LinkProgram(program);
 
-            GL.DetachShader(program, vertexShader);
-            GL.DetachShader(program, fragmentShader);
-            GL.DeleteShader(vertexShader);
-            GL.DeleteShader(fragmentShader);
-            return program;
-        }
+                GL.DetachShader(program, vertexShader);
+                GL.DetachShader(program, fragmentShader);
+                GL.DeleteShader(vertexShader);
+                GL.DeleteShader(fragmentShader);
+                return program;
+            }*/
     }
 }
