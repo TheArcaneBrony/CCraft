@@ -13,11 +13,10 @@ namespace MCClone
 {
     class TerrainGen
     {
-        public static bool GenLock = false;
         public static Stopwatch GenTime = new Stopwatch();
         public static int runningThreads = 0;
-        public static int maxThreads = (int)(MainWindow.genDistance * MainWindow.renderDistance) * 4 * Environment.ProcessorCount;
-        public static void GenTerrain(Dictionary<(int X, int Z), Chunk> chunkList)
+        public static int maxThreads = (int)Math.Pow(MainWindow.genDistance * MainWindow.renderDistance, 2) * Environment.ProcessorCount;
+        public static void GenTerrain()
         {
             // old initial gen code
             /*for (int x = -16; x < 16; x++)
@@ -27,37 +26,35 @@ namespace MCClone
                     GetChunk(chunkList, x, z);
                 }
             }*/
-            //GenLock = true;
             for (int x = (int)(MainWindow.world.Player.X / 16 - MainWindow.renderDistance); x < MainWindow.world.Player.X / 16 + MainWindow.renderDistance; x++)
                 for (int z = (int)(MainWindow.world.Player.Z / 16 - MainWindow.renderDistance); z < MainWindow.world.Player.Z / 16 + MainWindow.renderDistance; z++)
                 {
-                    GetChunk(MainWindow.world.Chunks, x, z);
+                    GetChunk(x, z);
                 }
-            GenLock = false;
         }
         public static Random rnd = new Random();
-        public static Chunk GenChunk(Dictionary<(int X, int Z), Chunk> chunkList, int X, int Z)
+        public static Chunk GenChunk(int X, int Z)
         {
             Chunk chunk = new Chunk(X, Z);
-            chunkList.Add((X, Z), chunk);
+            MainWindow.world.Chunks.Add((X, Z), chunk);
             runningThreads++;
-            while (runningThreads >= maxThreads) Thread.Sleep(50);
             Thread chunkGen = new Thread(() =>
             {
+                while (runningThreads >= maxThreads) Thread.Sleep(10);
                 Stopwatch GenTimer = new Stopwatch();
                 GenTimer.Start();
                 try
                 {
-                    for (byte x2 = 0; x2 < 0x10; x2++)
+                    for (int x2 = 0; x2 < 16; x2++)
                     {
-                        for (byte z2 = 0; z2 < 0x10; z2++)
+                        for (int z2 = 0; z2 < 16; z2++)
                         {
                             int by = GetHeight(X * 16 + x2, Z * 16 + z2);
                             by = Math.Max(by, 0);
                             for (int y = by - 1; y < by; y++)
                             {
                                 // chunk.Blocks.Add((x2,y,z2),new Block(x2, y, z2));
-                                chunk.Blocks.Add(new Block(x2, y, z2));
+                                chunk.Blocks.Add((x2, y, z2), new Block(x2, y, z2));
                             }
                         }
                         //  Thread.Sleep(10);
@@ -102,7 +99,7 @@ namespace MCClone
             //chunkGen.Join(25);
             return chunk;
         }
-        public static Chunk GetChunk(Dictionary<(int X, int Z), Chunk> chunkList, int X, int Z)
+        public static Chunk GetChunk(int X, int Z)
         {
             GenTime.Restart();
             if (File.Exists($"Worlds/{MainWindow.world.Name}/ChunkData/{X}.{Z}.gz"))
@@ -122,7 +119,7 @@ namespace MCClone
                 chIn.Close();
                 Chunk ch = JsonConvert.DeserializeObject<Chunk>(Encoding.ASCII.GetString(data));
                 ch.X = X; ch.Z = Z;
-                chunkList.Add((X, Z), ch);
+                MainWindow.world.Chunks.Add((X, Z), ch);
                 Logger.LogQueue.Add($"Loaded chunk {X}/{Z} in: {GenTime.ElapsedTicks / 10000d} ms");
                 // Thread.Sleep(10);
                 data = null;
@@ -131,7 +128,7 @@ namespace MCClone
             else
             {
                 // Logger.LogQueue.Add($"Generating chunk {X}/{Z}");
-                var ch = GenChunk(chunkList, X, Z);
+                var ch = GenChunk(X, Z);
                 //Logger.LogQueue.Add($"Chunk {X}/{Z} generated in: {GenTime.ElapsedTicks / 10000d} ms");
                 return ch;
             }

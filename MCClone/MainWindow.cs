@@ -14,10 +14,13 @@ namespace MCClone
     class MainWindow : GameWindow
     {
         public static bool running = true, focussed = true, logger = true;
-        public static string ver = "Alpha 0.08_00302";
+        public static string ver = "Alpha 0.08_00754";
         public static int renderDistance = 8, centerX, centerY, RenderErrors = 0, RenderedChunks = 0;
         public static double rt = 0, unloadDistance = 1.5, genDistance = 1.4;
-        public static World world = new World(0, 100, 0);
+        public static World world = new World(0, 100, 0)
+        {
+            // Name = "DebugTestWorld"
+        };
         public static float sensitivity = .1f, brightness = 1;
         public static List<Chunk> crq = new List<Chunk>();
         readonly UI.DebugUI debugWindow = new UI.DebugUI();
@@ -43,6 +46,7 @@ namespace MCClone
         protected override void OnLoad(EventArgs e)
         {
             frameTime.Start();
+            if (Util.GetGameArg("world") != "null") { world.Name = Util.GetGameArg("world"); }
             Console.WriteLine($"Logged in as {Util.GetGameArg("username")} with password {Util.GetGameArg("password")}\n");
             uint cres = 0;
             SystemUtils.NtSetTimerResolution(9000, true, ref cres);
@@ -66,7 +70,7 @@ namespace MCClone
             Thread gameInit = new Thread(() =>
             {
                 Directory.CreateDirectory($"Worlds/{world.Name}/ChunkData/");
-                TerrainGen.GenTerrain(world.Chunks);
+                TerrainGen.GenTerrain();
                 while (true)
                 {
                     Thread.Sleep(500);
@@ -81,7 +85,7 @@ namespace MCClone
                             {
                                 if (!world.Chunks.ContainsKey((x, z)))
                                 {
-                                    TerrainGen.GetChunk(world.Chunks, x, z);
+                                    TerrainGen.GetChunk(x, z);
                                 }
                             }
                         Logger.LogQueue.Add($"Generating new chunks took {Math.Round(Time.ElapsedTicks / 10000d, 4)} ms");
@@ -282,7 +286,8 @@ namespace MCClone
             foreach (Chunk cch in renderQueue)
             {
                 // var btr = cch.Blocks.FindAll((Block bl) => { return true; return cch.Blocks.Find((Block bl2) => { if (bl.X == bl2.X && bl.Z == bl2.Z && bl.Y == bl2.Y + 1) return true; return false; }) == null; /*if (bl.X % 4 == rnd.Next(0,5) && bl.Z % 4 == rnd.Next(0, 5)) return true; */return false; });
-                var btr = cch.Blocks.GetRange(0, cch.Blocks.Count);
+                //var btr = cch.Blocks.GetRange(0, cch.Blocks.Count);
+                var btr = cch.Blocks.Values;
                 try
                 {
                     /*for (int i = 0; i < cch.Blocks.Count; i++)

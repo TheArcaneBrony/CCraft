@@ -28,8 +28,9 @@ namespace MCClone
         public int X { get; set; }
         [Newtonsoft.Json.JsonIgnore]
         public int Z { get; set; }
-        public List<Block> Blocks { get; set; } = new List<Block>(); // old block storage
+        //public List<Block> Blocks { get; set; } = new List<Block>(); // old block storage
         //public SortedDictionary<(int x, int y, int z), Block> Blocks = new SortedDictionary<(int x, int y, int z), Block>();
+        public SortedDictionary<(int X, int Y, int Z), Block> Blocks { get; set; } = new SortedDictionary<(int X, int Y, int Z), Block>();
     }
     public class World
     {
@@ -48,6 +49,6 @@ namespace MCClone
         public Player Player { get; set; }
         [Newtonsoft.Json.JsonIgnore]
         //public List<Chunk> Chunks { get; set; } = new List<Chunk>(); //old chunk storage
-        public Dictionary<(int X, int Z), Chunk> Chunks { get; set; } = new Dictionary<(int X, int Z), Chunk>();
+        public SortedDictionary<(int X, int Z), Chunk> Chunks { get; set; } = new SortedDictionary<(int X, int Z), Chunk>();
     }
 }
