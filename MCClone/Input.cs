@@ -90,13 +90,14 @@ namespace MCClone
             {
                 if (world.Player.InAir) world.Player.YV -= 0.005;
                 if (world.Player.YV < -0.45) world.Player.YV = -0.45;
+
+                if (ty >= world.Player.Y - 1 && world.Player.YV < 0) world.Player.YV = 0;
                 world.Player.Y += world.Player.YV;
             }
 
             //  if (bsarr.Contains(new Block((int)cx, (int)cy, (int)cz)) && cyv < 0) cyv = 0;
             //if()
             //if (world.Chunks)
-            if (ty >= world.Player.Y - 1 && world.Player.YV < 0) world.Player.YV = 0;
 
             if (brightness > 1f) brightness = 1f;
             if (brightness < 0.1f) brightness = 0.1f;

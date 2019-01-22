@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -26,16 +27,33 @@ namespace MCClone
                     GetChunk(chunkList, x, z);
                 }
             }*/
-            for (int x = (int)(MainWindow.world.Player.X / 16 - MainWindow.renderDistance); x < MainWindow.world.Player.X / 16 + MainWindow.renderDistance; x++)
-                for (int z = (int)(MainWindow.world.Player.Z / 16 - MainWindow.renderDistance); z < MainWindow.world.Player.Z / 16 + MainWindow.renderDistance; z++)
+
+            GetChunk((int)MainWindow.world.Player.X / 16, (int)MainWindow.world.Player.Z / 16);
+            //for (int x = (int)(MainWindow.world.Player.X / 16 - MainWindow.renderDistance); x < MainWindow.world.Player.X / 16 + MainWindow.renderDistance; x++)
+            //  for (int z = (int)(MainWindow.world.Player.Z / 16 - MainWindow.renderDistance); z < MainWindow.world.Player.Z / 16 + MainWindow.renderDistance; z++)
+            for (int x = 0; x < MainWindow.renderDistance; x++)
+            {
+                //GetChunk(x, z);
+                for (int y = 0; y < x; y++)
                 {
-                    GetChunk(x, z);
+
+                    GetChunk((int)MainWindow.world.Player.X / 16 + x, (int)MainWindow.world.Player.Z / 16 - y);
+                    GetChunk((int)MainWindow.world.Player.X / 16 - x, (int)MainWindow.world.Player.Z / 16 - y);
+                    GetChunk((int)MainWindow.world.Player.X / 16 + x, (int)MainWindow.world.Player.Z / 16 + y);
+                    GetChunk((int)MainWindow.world.Player.X / 16 - x, (int)MainWindow.world.Player.Z / 16 + y);
                 }
+
+            }
         }
         public static Random rnd = new Random();
         public static Chunk GenChunk(int X, int Z)
         {
             Chunk chunk = new Chunk(X, Z);
+            if (MainWindow.world.Chunks.ContainsKey((X, Z)))
+            {
+                MainWindow.world.Chunks.TryGetValue((X, Z), out chunk);
+                return chunk;
+            }
             MainWindow.world.Chunks.Add((X, Z), chunk);
             runningThreads++;
             Thread chunkGen = new Thread(() =>
@@ -115,6 +133,7 @@ namespace MCClone
                 chIn.Read(data, 0, data.Length);
                 chIn.Close();
                 Chunk ch = JsonConvert.DeserializeObject<Chunk>(Encoding.ASCII.GetString(data));
+                //Chunk ch = (Chunk)Util.deserializeToDictionaryOrList(Encoding.ASCII.GetString(data));
                 ch.X = X; ch.Z = Z;
                 MainWindow.world.Chunks.Add((X, Z), ch);
                 Logger.LogQueue.Add($"Loaded chunk {X}/{Z} in: {GenTime.ElapsedTicks / 10000d} ms");

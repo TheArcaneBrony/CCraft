@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace MCClone
 {
@@ -35,6 +38,72 @@ namespace MCClone
                 // return true;
             }
             return false;
+        }
+        public static object deserializeToDictionaryOrList(string jo, bool isArray = false)
+        {
+            if (!isArray)
+            {
+                isArray = jo.Substring(0, 1) == "[";
+            }
+            if (!isArray)
+            {
+                var values = JsonConvert.DeserializeObject<Dictionary<string, object>>(jo);
+                var values2 = new Dictionary<string, object>();
+                foreach (KeyValuePair<string, object> d in values)
+                {
+                    if (d.Value is JObject)
+                    {
+                        values2.Add(d.Key, deserializeToDictionaryOrList(d.Value.ToString()));
+                    }
+                    else if (d.Value is JArray)
+                    {
+                        values2.Add(d.Key, deserializeToDictionaryOrList(d.Value.ToString(), true));
+                    }
+                    else
+                    {
+                        values2.Add(d.Key, d.Value);
+                    }
+                }
+                return values2;
+            }
+            else
+            {
+                var values = JsonConvert.DeserializeObject<List<object>>(jo);
+                var values2 = new List<object>();
+                foreach (var d in values)
+                {
+                    if (d is JObject)
+                    {
+                        values2.Add(deserializeToDictionaryOrList(d.ToString()));
+                    }
+                    else if (d is JArray)
+                    {
+                        values2.Add(deserializeToDictionaryOrList(d.ToString(), true));
+                    }
+                    else
+                    {
+                        values2.Add(d);
+                    }
+                }
+                return values2;
+            }
+        }
+        private Dictionary<string, object> deserializeToDictionary(string jo)
+        {
+            var values = JsonConvert.DeserializeObject<Dictionary<string, object>>(jo);
+            var values2 = new Dictionary<string, object>();
+            foreach (KeyValuePair<string, object> d in values)
+            {
+                if (d.Value is JObject)
+                {
+                    values2.Add(d.Key, deserializeToDictionary(d.Value.ToString()));
+                }
+                else
+                {
+                    values2.Add(d.Key, d.Value);
+                }
+            }
+            return values2;
         }
     }
     public class SystemUtils
