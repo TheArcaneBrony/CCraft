@@ -7,6 +7,7 @@ using OpenTK.Graphics.OpenGL;
 using System.Collections.Generic;
 using System.IO;
 using System.Diagnostics;
+using System.Reflection;
 
 namespace MCClone
 {
@@ -45,6 +46,16 @@ namespace MCClone
         protected override void OnLoad(EventArgs e)
         {
             frameTime.Start();
+            foreach (string file in Directory.GetFiles(Environment.CurrentDirectory + "\\Mods"))
+            {
+                var DLL = Assembly.LoadFile(file);
+
+                var theType = DLL.GetType("MCClone.Mod");
+                var c = Activator.CreateInstance(theType);
+                var method = theType.GetMethod("OnLoad");
+                method.Invoke(c, new object[] { });
+            }
+
             if (Util.GetGameArg("world") != "null") { world.Name = Util.GetGameArg("world"); }
             Console.WriteLine($"Logged in as {Util.GetGameArg("username")} with password {Util.GetGameArg("password")}\n");
             uint cres = 0;
