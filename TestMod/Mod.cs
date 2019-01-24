@@ -7,6 +7,7 @@ namespace MCClone
         public void OnLoad()
         {
             Console.WriteLine("Test mod loaded!");
+            
         }
     }
 }

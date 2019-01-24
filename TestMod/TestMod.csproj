@@ -44,5 +44,11 @@
     <Compile Include="Mod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MCClone\MCClone.csproj">
+      <Project>{192b2333-3878-4f56-9a42-7e655ec8f196}</Project>
+      <Name>MCClone</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -15,7 +15,7 @@ namespace MCClone
     {
         public static bool running = true, focussed = true, logger = true;
         public static string ver = "Alpha 0.08_00754";
-        public static int renderDistance = 8, centerX, centerY, RenderErrors = 0, RenderedChunks = 0;
+        public static int renderDistance = 8, centerX, centerY, RenderErrors = 0, RenderedChunks = 0, LoadedMods = 0;
         public static double rt = 0, unloadDistance = 1.5, genDistance = 1.4;
         public static World world = new World(0, 100, 0)
         {
@@ -54,6 +54,7 @@ namespace MCClone
                 var c = Activator.CreateInstance(theType);
                 var method = theType.GetMethod("OnLoad");
                 method.Invoke(c, new object[] { });
+                LoadedMods++;
             }
 
             if (Util.GetGameArg("world") != "null") { world.Name = Util.GetGameArg("world"); }
@@ -261,7 +262,7 @@ namespace MCClone
             Input.Tick();
             // vol = AudioMeterInformation.FromDevice(new MMDeviceEnumerator().GetDefaultAudioEndpoint(DataFlow.Render, Role.Console)).PeakValue;
             GL.ClearColor(0.1f * brightness, 0.5f * brightness, 0.7f * brightness, 0.9f);
-            Title = $"MC Clone {ver} | FPS: {Math.Round(1000 / rt, 2)} ({Math.Round(rt, 2)} ms) C: {crq.Count}/{world.Chunks.Count} E: {RenderErrors} | {world.Player.X}/{world.Player.Y}/{world.Player.Z} : {world.Player.LX}/{world.Player.LY} | {Math.Round((double)Process.GetCurrentProcess().PrivateMemorySize64 / 1048576, 2)} MB | {TerrainGen.runningThreads}/{TerrainGen.maxThreads} GT"; //{Math.Round(vol * 100, 0)}
+            Title = $"MC Clone {ver} | FPS: {Math.Round(1000 / rt, 2)} ({Math.Round(rt, 2)} ms) C: {crq.Count}/{world.Chunks.Count} E: {RenderErrors} | {world.Player.X}/{world.Player.Y}/{world.Player.Z} : {world.Player.LX}/{world.Player.LY} | {Math.Round((double)Process.GetCurrentProcess().PrivateMemorySize64 / 1048576, 2)} MB | {TerrainGen.runningThreads}/{TerrainGen.maxThreads} GT | Mods: {LoadedMods}"; //{Math.Round(vol * 100, 0)}
         }
         protected override void OnRenderFrame(FrameEventArgs e)
         {
