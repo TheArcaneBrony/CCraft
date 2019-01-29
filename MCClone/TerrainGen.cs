@@ -1,18 +1,14 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace MCClone
 {
-    class TerrainGen
+    internal class TerrainGen
     {
         public static Stopwatch GenTime = new Stopwatch();
         public static int runningThreads = 0;
@@ -34,15 +30,19 @@ namespace MCClone
             for (int x = 0; x < MainWindow.renderDistance; x++)
             {
                 //GetChunk(x, z);
-                for (int y = 0; y < x; y++)
+                for (int y = -x; y < x; y++)
                 {
-
+                    // infront and behind
                     GetChunk((int)MainWindow.world.Player.X / 16 + x, (int)MainWindow.world.Player.Z / 16 - y);
                     GetChunk((int)MainWindow.world.Player.X / 16 - x, (int)MainWindow.world.Player.Z / 16 - y);
                     GetChunk((int)MainWindow.world.Player.X / 16 + x, (int)MainWindow.world.Player.Z / 16 + y);
                     GetChunk((int)MainWindow.world.Player.X / 16 - x, (int)MainWindow.world.Player.Z / 16 + y);
+                    // left and right
+                    GetChunk((int)MainWindow.world.Player.X / 16 + y, (int)MainWindow.world.Player.Z / 16 - x);
+                    GetChunk((int)MainWindow.world.Player.X / 16 - y, (int)MainWindow.world.Player.Z / 16 - x);
+                    GetChunk((int)MainWindow.world.Player.X / 16 + y, (int)MainWindow.world.Player.Z / 16 + x);
+                    GetChunk((int)MainWindow.world.Player.X / 16 - y, (int)MainWindow.world.Player.Z / 16 + x);
                 }
-
             }
         }
         public static Random rnd = new Random();
@@ -58,7 +58,11 @@ namespace MCClone
             runningThreads++;
             Thread chunkGen = new Thread(() =>
             {
-                while (runningThreads >= maxThreads) Thread.Sleep(10);
+                while (runningThreads >= maxThreads)
+                {
+                    Thread.Sleep(10);
+                }
+
                 Stopwatch GenTimer = new Stopwatch();
                 GenTimer.Start();
                 try
@@ -69,7 +73,7 @@ namespace MCClone
                         {
                             int by = GetHeight(X * 16 + x2, Z * 16 + z2);
                             by = Math.Max(by, 0);
-                            for (int y = by - 1; y < by; y++)
+                            for (int y = by; y <= by; y++)
                             {
                                 chunk.Blocks.Add((x2, y, z2), new Block(x2, y, z2));
                             }
@@ -122,8 +126,8 @@ namespace MCClone
                 return GenChunk(X, Z);
                 //Chunk ch = JsonConvert.DeserializeObject<Chunk>(File.ReadAllText($"Worlds/{MainWindow.world.Name}/ChunkData/{X}.{Z}.gz"));
                 uint length;
-                Byte[] b = new byte[4];
-                using (var fs = File.OpenRead($"Worlds/{MainWindow.world.Name}/ChunkData/{X}.{Z}.gz"))
+                byte[] b = new byte[4];
+                using (FileStream fs = File.OpenRead($"Worlds/{MainWindow.world.Name}/ChunkData/{X}.{Z}.gz"))
                 {
                     fs.Position = fs.Length - 4;
                     fs.Read(b, 0, 4);
@@ -145,7 +149,7 @@ namespace MCClone
             else
             {
                 // Logger.LogQueue.Add($"Generating chunk {X}/{Z}");
-                var ch = GenChunk(X, Z);
+                Chunk ch = GenChunk(X, Z);
                 //Logger.LogQueue.Add($"Chunk {X}/{Z} generated in: {GenTime.ElapsedTicks / 10000d} ms");
                 return ch;
             }

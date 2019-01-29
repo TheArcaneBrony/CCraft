@@ -1,4 +1,5 @@
 ﻿using System;
+using OpenTK;
 
 namespace MCClone
 {
@@ -16,9 +17,9 @@ namespace MCClone
         {
 
         }
-        public void OnUpdateFrame(FrameUpdateArgs e)
+        public void OnUpdateFrame(FrameEventArgs e)
         {
-            Console.WriteLine($"{MainWindow.world.Name}");
+
         }
     }
 }

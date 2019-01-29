@@ -382,12 +382,18 @@ namespace MCClone
             }
 
             GL.End();
-            foreach (Mod mod in Mods) if (mod.OnResize != null) mod.OnRenderFrame.Invoke(mod.Instance, new object[] { e });
+            foreach (Mod mod in Mods)
+            {
+                if (mod.OnResize != null)
+                {
+                    mod.OnRenderFrame.Invoke(mod.Instance, new object[] { e });
+                }
+            }
             /*GL.Begin(PrimitiveType.Lines);
-            GL.Color3(1f, 1f, 1f);
-            GL.Vertex3(world.Player.CFPt);
-            GL.Vertex3(world.Player.CPos);
-            GL.End();*/
+GL.Color3(1f, 1f, 1f);
+GL.Vertex3(world.Player.CFPt);
+GL.Vertex3(world.Player.CPos);
+GL.End();*/
             SwapBuffers();
         }
 
