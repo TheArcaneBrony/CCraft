@@ -12,9 +12,10 @@ namespace MCClone
     }
     class Mod
     {
-        public MethodInfo OnLoad { get; set; }
-        public MethodInfo OnResize { get; set; }
-        public MethodInfo OnUpdateFrame { get; set; }
-        public MethodInfo OnRenderFrame { get; set; }
+        public string Name { get; set; } = "Unnamed mod";
+        public MethodInfo OnLoad { get; set; } = null;
+        public MethodInfo OnResize { get; set; } = null;
+        public MethodInfo OnUpdateFrame { get; set; } = null;
+        public MethodInfo OnRenderFrame { get; set; } = null;
     }
 }
