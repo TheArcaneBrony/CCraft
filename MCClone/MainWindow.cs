@@ -40,7 +40,13 @@ namespace MCClone
             Matrix4 projection = Matrix4.CreatePerspectiveFieldOfView((float)Math.PI / 4/* 0.9f*/, Width / (float)Height, 1.0f, 64000f);
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadMatrix(ref projection);
-            foreach (Mod mod in Mods) if(mod.OnResize!=null) mod.OnResize.Invoke(mod.Instance, new object[] { e });
+            foreach (Mod mod in Mods)
+            {
+                if (mod.OnResize != null)
+                {
+                    mod.OnResize.Invoke(mod.Instance, new object[] { e });
+                }
+            }
         }
 
         private readonly Stopwatch frameTime = new Stopwatch();
@@ -304,6 +310,13 @@ namespace MCClone
             // vol = AudioMeterInformation.FromDevice(new MMDeviceEnumerator().GetDefaultAudioEndpoint(DataFlow.Render, Role.Console)).PeakValue;
             GL.ClearColor(0.1f * brightness, 0.5f * brightness, 0.7f * brightness, 0.9f);
             Title = $"MC Clone {ver} | FPS: {Math.Round(1000 / rt, 2)} ({Math.Round(rt, 2)} ms) C: {crq.Count}/{world.Chunks.Count} E: {RenderErrors} | {world.Player.X}/{world.Player.Y}/{world.Player.Z} : {world.Player.LX}/{world.Player.LY} | {Math.Round((double)Process.GetCurrentProcess().PrivateMemorySize64 / 1048576, 2)} MB | {TerrainGen.runningThreads}/{TerrainGen.maxThreads} GT | Mods: {LoadedMods}"; //{Math.Round(vol * 100, 0)}
+            foreach (Mod mod in Mods)
+            {
+                if (mod.OnResize != null)
+                {
+                    mod.OnUpdateFrame.Invoke(mod.Instance, new object[] { e });
+                }
+            }
         }
         protected override void OnRenderFrame(FrameEventArgs e)
         {
@@ -369,6 +382,7 @@ namespace MCClone
             }
 
             GL.End();
+            foreach (Mod mod in Mods) if (mod.OnResize != null) mod.OnRenderFrame.Invoke(mod.Instance, new object[] { e });
             /*GL.Begin(PrimitiveType.Lines);
             GL.Color3(1f, 1f, 1f);
             GL.Vertex3(world.Player.CFPt);

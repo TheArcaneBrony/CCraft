@@ -8,9 +8,17 @@ namespace MCClone
         {
             Console.WriteLine("Test mod loaded!");
         }
-        protected void OnResize(EventArgs e)
+        public void OnResize(EventArgs e)
         {
             Console.Write("Window Resized!");
+        }
+        public void OnRenderFrame(EventArgs e)
+        {
+
+        }
+        public void OnUpdateFrame(FrameUpdateArgs e)
+        {
+            Console.WriteLine($"{MainWindow.world.Name}");
         }
     }
 }
