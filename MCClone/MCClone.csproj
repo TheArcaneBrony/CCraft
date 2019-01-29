@@ -145,6 +145,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataStore.cs" />
     <Compile Include="DiscordRpc.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="Logger.cs" />
