@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace MCClone
 {
-    class Logger
+    internal class Logger
     {
         public static List<string> LogQueue = new List<string>();
         public static void PostLog(string Log)

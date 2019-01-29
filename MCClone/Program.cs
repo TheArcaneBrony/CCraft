@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -7,21 +6,26 @@ using System.Windows.Forms;
 
 namespace MCClone
 {
-    class Program
+    internal class Program
     {
         public static string[] args;
         [MTAThread]
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             Program.args = args;
             Directory.CreateDirectory($"Worlds");
+            Directory.CreateDirectory($"Mods");
             for (int i = 0; i < 2000; i++)
             {
                 Console.Write("MOMIJI INUBASHIRI BEST WAIFU!  ");
             }
             Console.Clear();
             Console.Write("This testing version of the game logs certain private data, such as your Windows username and pc name to identify whoever the data belongs to.\nThis is sent alongside more diagnostic info like:\n - .NET version,\n - FPS,\n - Game version\nIf you are not okay with this, press N to disable logging, although this will have negative impact on debugging if some problems arise.\n Thank you for understanding! :)\n[Press any key to continue, N to disable logging] ");
-            if (!args.Contains("-nodisclaimer") && Console.ReadKey(true).Key == ConsoleKey.N) MainWindow.logger = false;
+            if (!args.Contains("-nodisclaimer") && Console.ReadKey(true).Key == ConsoleKey.N)
+            {
+                MainWindow.logger = false;
+            }
+
             Console.Clear();
             Console.WriteLine("Controls:\nWASD: Move around\nQ -   Brightness    + E\nZ - Render Distance + C\nSpace: Jump/fly\nShift: Descend\nF: Enable fly\nCTRL + F: Disable fly");
             for (int i = 50; i > 0; i--)

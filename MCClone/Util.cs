@@ -6,21 +6,48 @@ using Newtonsoft.Json.Linq;
 
 namespace MCClone
 {
-    class Util
+    internal class Util
     {
-        public static double DegToRad(double deg) => (Math.PI * deg) / 180;
+        public static double DegToRad(double deg)
+        {
+            return (Math.PI * deg) / 180;
+        }
+
         public static string GetGameArg(string key)
         {
-            int ArgIndex = Array.FindIndex(Program.args, (String s) => { if (s == $"-{key}") return true; else return false; });
+            int ArgIndex = Array.FindIndex(Program.args, (string s) =>
+            {
+                if (s == $"-{key}")
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            });
             if (ArgIndex != -1)
+            {
                 return Program.args[ArgIndex + 1];
-            else return "null";
+            }
+            else
+            {
+                return "null";
+            }
         }
         public static bool ShouldRenderChunk(Chunk ch)
         {
             // return true;
-            if (!(MainWindow.world.Player.X / 16 + MainWindow.renderDistance > ch.X && MainWindow.world.Player.X / 16 - MainWindow.renderDistance < ch.X)) return false;
-            if (!(MainWindow.world.Player.Z / 16 + MainWindow.renderDistance > ch.Z && MainWindow.world.Player.Z / 16 - MainWindow.renderDistance < ch.Z)) return false;
+            if (!(MainWindow.world.Player.X / 16 + MainWindow.renderDistance > ch.X && MainWindow.world.Player.X / 16 - MainWindow.renderDistance < ch.X))
+            {
+                return false;
+            }
+
+            if (!(MainWindow.world.Player.Z / 16 + MainWindow.renderDistance > ch.Z && MainWindow.world.Player.Z / 16 - MainWindow.renderDistance < ch.Z))
+            {
+                return false;
+            }
+
             if (-90 - 45 <= MainWindow.world.Player.LX && MainWindow.world.Player.LX <= 90 + 45 && ch.X >= MainWindow.world.Player.X / 16)
             {
                 return true;
@@ -39,7 +66,7 @@ namespace MCClone
             }
             return false;
         }
-        public static object deserializeToDictionaryOrList(string jo, bool isArray = false)
+        public static object DeserializeToDictionaryOrList(string jo, bool isArray = false)
         {
             if (!isArray)
             {
@@ -47,17 +74,17 @@ namespace MCClone
             }
             if (!isArray)
             {
-                var values = JsonConvert.DeserializeObject<Dictionary<string, object>>(jo);
-                var values2 = new Dictionary<string, object>();
+                Dictionary<string, object> values = JsonConvert.DeserializeObject<Dictionary<string, object>>(jo);
+                Dictionary<string, object> values2 = new Dictionary<string, object>();
                 foreach (KeyValuePair<string, object> d in values)
                 {
                     if (d.Value is JObject)
                     {
-                        values2.Add(d.Key, deserializeToDictionaryOrList(d.Value.ToString()));
+                        values2.Add(d.Key, DeserializeToDictionaryOrList(d.Value.ToString()));
                     }
                     else if (d.Value is JArray)
                     {
-                        values2.Add(d.Key, deserializeToDictionaryOrList(d.Value.ToString(), true));
+                        values2.Add(d.Key, DeserializeToDictionaryOrList(d.Value.ToString(), true));
                     }
                     else
                     {
@@ -68,17 +95,17 @@ namespace MCClone
             }
             else
             {
-                var values = JsonConvert.DeserializeObject<List<object>>(jo);
-                var values2 = new List<object>();
-                foreach (var d in values)
+                List<object> values = JsonConvert.DeserializeObject<List<object>>(jo);
+                List<object> values2 = new List<object>();
+                foreach (object d in values)
                 {
                     if (d is JObject)
                     {
-                        values2.Add(deserializeToDictionaryOrList(d.ToString()));
+                        values2.Add(DeserializeToDictionaryOrList(d.ToString()));
                     }
                     else if (d is JArray)
                     {
-                        values2.Add(deserializeToDictionaryOrList(d.ToString(), true));
+                        values2.Add(DeserializeToDictionaryOrList(d.ToString(), true));
                     }
                     else
                     {
@@ -88,15 +115,15 @@ namespace MCClone
                 return values2;
             }
         }
-        private Dictionary<string, object> deserializeToDictionary(string jo)
+        private Dictionary<string, object> DeserializeToDictionary(string jo)
         {
-            var values = JsonConvert.DeserializeObject<Dictionary<string, object>>(jo);
-            var values2 = new Dictionary<string, object>();
+            Dictionary<string, object> values = JsonConvert.DeserializeObject<Dictionary<string, object>>(jo);
+            Dictionary<string, object> values2 = new Dictionary<string, object>();
             foreach (KeyValuePair<string, object> d in values)
             {
                 if (d.Value is JObject)
                 {
-                    values2.Add(d.Key, deserializeToDictionary(d.Value.ToString()));
+                    values2.Add(d.Key, DeserializeToDictionary(d.Value.ToString()));
                 }
                 else
                 {
