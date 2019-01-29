@@ -49,12 +49,38 @@ namespace MCClone
             frameTime.Start();
             foreach (string file in Directory.GetFiles(Environment.CurrentDirectory + "\\Mods"))
             {
-                Assembly DLL = Assembly.LoadFile(file);
-                Type theType = DLL.GetType("MCClone.Mod");
-                object c = Activator.CreateInstance(theType);
-                MethodInfo method = theType.GetMethod("OnLoad");
-                method.Invoke(c, new object[] { });
-                LoadedMods++;
+
+                Mod mod = new Mod();
+                try
+                {
+                    Assembly DLL = Assembly.LoadFile(file);
+                    Type theType = DLL.GetType("MCClone.Mod");
+                    object c = Activator.CreateInstance(theType);
+                    mod.Instance = c;
+                    try
+                    {
+                        mod.OnLoad = theType.GetMethod("OnLoad");
+                        mod.OnLoad.Invoke(c, new object[] { });
+                    }
+                    catch { }
+                    try
+                    {
+                        mod.OnRenderFrame = theType.GetMethod("OnRenderFrame");
+                    }
+                    catch { }
+                    try
+                    {
+                        mod.OnUpdateFrame = theType.GetMethod("OnUpdateFrame");
+                    }
+                    catch { }
+                    try
+                    {
+                        mod.OnResize = theType.GetMethod("OnResize");
+                    }
+                    catch { }
+                    LoadedMods++;
+                }
+                catch { }
             }
 
             if (Util.GetGameArg("world") != "null") { world.Name = Util.GetGameArg("world"); }
