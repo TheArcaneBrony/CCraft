@@ -11,8 +11,9 @@ using OpenTK.Graphics.OpenGL;
 
 namespace MCClone
 {
-    internal class MainWindow : GameWindow
+    public class MainWindow : GameWindow
     {
+        public static List<Mod> Mods = new List<Mod>();
         public static bool running = true, focussed = true, logger = true;
         public static string ver = "Alpha 0.08_00834";
         public static int renderDistance = 8, centerX, centerY, RenderErrors = 0, RenderedChunks = 0, LoadedMods = 0;
@@ -39,6 +40,7 @@ namespace MCClone
             Matrix4 projection = Matrix4.CreatePerspectiveFieldOfView((float)Math.PI / 4/* 0.9f*/, Width / (float)Height, 1.0f, 64000f);
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadMatrix(ref projection);
+            foreach (Mod mod in Mods) if(mod.OnResize!=null) mod.OnResize.Invoke(mod.Instance, new object[] { e });
         }
 
         private readonly Stopwatch frameTime = new Stopwatch();
@@ -49,7 +51,6 @@ namespace MCClone
             frameTime.Start();
             foreach (string file in Directory.GetFiles(Environment.CurrentDirectory + "\\Mods"))
             {
-
                 Mod mod = new Mod();
                 try
                 {
@@ -78,6 +79,7 @@ namespace MCClone
                         mod.OnResize = theType.GetMethod("OnResize");
                     }
                     catch { }
+                    Mods.Add(mod);
                     LoadedMods++;
                 }
                 catch { }
