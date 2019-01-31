@@ -75,6 +75,7 @@ namespace MCClone
                             by = Math.Max(by, 0);
                             for (int y = by; y <= by; y++)
                             {
+                                Thread.Sleep(100);
                                 chunk.Blocks.Add((x2, y, z2), new Block(x2, y, z2));
                             }
                         }

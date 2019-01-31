@@ -246,7 +246,7 @@ namespace MCClone
                     }
                     catch { }
 
-                    Thread.Sleep(100);
+                    Thread.Sleep(500);
                 }
             });
             Thread logQueueThread = new Thread(() =>
@@ -262,7 +262,6 @@ namespace MCClone
                             //Thread.Sleep(10);
                         }
                     }
-
                     Thread.Sleep(150);
                 }
             });
@@ -377,7 +376,7 @@ namespace MCClone
                 catch
                 {
                     RenderErrors++;
-                    throw;
+                    //throw;
                 }
             }
 
