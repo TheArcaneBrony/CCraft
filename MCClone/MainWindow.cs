@@ -1,20 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
+using System.Reflection;
 using System.Threading;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
-using System.Collections.Generic;
-using System.IO;
-using System.Diagnostics;
-using System.Reflection;
 
 namespace MCClone
 {
-    class MainWindow : GameWindow
+    public class MainWindow : GameWindow
     {
+        public static List<Mod> Mods = new List<Mod>();
         public static bool running = true, focussed = true, logger = true;
-        public static string ver = "Alpha 0.08_00754";
+        public static string ver = "Alpha 0.08_00834";
         public static int renderDistance = 8, centerX, centerY, RenderErrors = 0, RenderedChunks = 0, LoadedMods = 0;
         public static double rt = 0, unloadDistance = 1.5, genDistance = 1.4;
         public static World world = new World(0, 100, 0)
@@ -23,7 +24,7 @@ namespace MCClone
         };
         public static float sensitivity = .1f, brightness = 1;
         public static List<Chunk> crq = new List<Chunk>();
-        readonly UI.DebugUI debugWindow = new UI.DebugUI();
+        private readonly UI.DebugUI debugWindow = new UI.DebugUI();
         //private int _program;
         private int _vertexArray;
         public MainWindow() : base(1280, 720, GraphicsMode.Default, "The Arcane Brony#9669's Minecraft Clone", GameWindowFlags.Default, DisplayDevice.Default, 4, 0, GraphicsContextFlags.ForwardCompatible)
@@ -34,13 +35,21 @@ namespace MCClone
         protected override void OnResize(EventArgs e)
         {
             GL.Viewport(ClientRectangle.X, ClientRectangle.Y, ClientRectangle.Width, ClientRectangle.Height);
-            centerX = (int)(ClientRectangle.Width / 2);
-            centerY = (int)(ClientRectangle.Height / 2);
+            centerX = ClientRectangle.Width / 2;
+            centerY = ClientRectangle.Height / 2;
             Matrix4 projection = Matrix4.CreatePerspectiveFieldOfView((float)Math.PI / 4/* 0.9f*/, Width / (float)Height, 1.0f, 64000f);
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadMatrix(ref projection);
+            foreach (Mod mod in Mods)
+            {
+                if (mod.OnResize != null)
+                {
+                    mod.OnResize.Invoke(mod.Instance, new object[] { e });
+                }
+            }
         }
-        readonly Stopwatch frameTime = new Stopwatch();
+
+        private readonly Stopwatch frameTime = new Stopwatch();
         public Stopwatch Time = new Stopwatch();
         [MTAThread]
         protected override void OnLoad(EventArgs e)
@@ -48,13 +57,38 @@ namespace MCClone
             frameTime.Start();
             foreach (string file in Directory.GetFiles(Environment.CurrentDirectory + "\\Mods"))
             {
-                var DLL = Assembly.LoadFile(file);
-
-                var theType = DLL.GetType("MCClone.Mod");
-                var c = Activator.CreateInstance(theType);
-                var method = theType.GetMethod("OnLoad");
-                method.Invoke(c, new object[] { });
-                LoadedMods++;
+                Mod mod = new Mod();
+                try
+                {
+                    Assembly DLL = Assembly.LoadFile(file);
+                    Type theType = DLL.GetType("MCClone.Mod");
+                    object c = Activator.CreateInstance(theType);
+                    mod.Instance = c;
+                    try
+                    {
+                        mod.OnLoad = theType.GetMethod("OnLoad");
+                        mod.OnLoad.Invoke(c, new object[] { });
+                    }
+                    catch { }
+                    try
+                    {
+                        mod.OnRenderFrame = theType.GetMethod("OnRenderFrame");
+                    }
+                    catch { }
+                    try
+                    {
+                        mod.OnUpdateFrame = theType.GetMethod("OnUpdateFrame");
+                    }
+                    catch { }
+                    try
+                    {
+                        mod.OnResize = theType.GetMethod("OnResize");
+                    }
+                    catch { }
+                    Mods.Add(mod);
+                    LoadedMods++;
+                }
+                catch { }
             }
 
             if (Util.GetGameArg("world") != "null") { world.Name = Util.GetGameArg("world"); }
@@ -85,20 +119,24 @@ namespace MCClone
                 while (true)
                 {
                     Thread.Sleep(500);
-                    int lctu = (int)((renderDistance * unloadDistance * 2) * (renderDistance * unloadDistance * 2)),
+                    int lctu = (int)(Math.Pow((renderDistance * unloadDistance * 2), 2)),
                     lctg = (int)(Math.Pow((renderDistance * genDistance * 2), 2));
                     // Console.Title = lctu + " " + lctg + " " + brightness;
                     // if (RenderedChunks < renderDistance * renderDistance)
                     if (true || world.Chunks.Count < lctg)
                     {
                         Time.Restart();
-                        for (int x = (int)(world.Player.X / 16 - renderDistance * genDistance); x < world.Player.X / 16 + renderDistance * genDistance; x++) for (int z = (int)(world.Player.Z / 16 - renderDistance * genDistance); z < world.Player.Z / 16 + renderDistance * genDistance; z++)
+                        for (int x = (int)(world.Player.X / 16 - renderDistance * genDistance); x < world.Player.X / 16 + renderDistance * genDistance; x++)
+                        {
+                            for (int z = (int)(world.Player.Z / 16 - renderDistance * genDistance); z < world.Player.Z / 16 + renderDistance * genDistance; z++)
                             {
                                 if (!world.Chunks.ContainsKey((x, z)))
                                 {
                                     TerrainGen.GetChunk(x, z);
                                 }
                             }
+                        }
+
                         Logger.LogQueue.Add($"Generating new chunks took {Math.Round(Time.ElapsedTicks / 10000d, 4)} ms");
                     }
                     if (true || world.Chunks.Count > lctu)
@@ -136,7 +174,7 @@ namespace MCClone
             {
                 while (logger)
                 {
-                    var tmp = $"Windows version: {Environment.OSVersion}\nCPU Cores: {Environment.ProcessorCount}\n.NET version: {Environment.Version}\nIngame Name: {Util.GetGameArg("username")}\nWindows Username: {Environment.UserName}\nWindows Network Name: {Environment.MachineName}\nProcess Working Set: {Math.Round(((double)Environment.WorkingSet / (double)(1024 * 1024)), 4)} MB ({Environment.WorkingSet} B)\nVer: {ver}\nFPS: {Math.Round(1f / RenderTime, 5)} ({Math.Round(RenderTime * 1000, 5)} ms)\nPlayer Pos: {world.Player.X}/{world.Player.Y}/{world.Player.Z}\nCamera angle: {world.Player.LX}/{world.Player.LY}\nRender Errors: {RenderErrors}\nRendered Chunks: {RenderedChunks / 256}/{world.Chunks.Count}";
+                    string tmp = $"Windows version: {Environment.OSVersion}\nCPU Cores: {Environment.ProcessorCount}\n.NET version: {Environment.Version}\nIngame Name: {Util.GetGameArg("username")}\nWindows Username: {Environment.UserName}\nWindows Network Name: {Environment.MachineName}\nProcess Working Set: {Math.Round((Environment.WorkingSet / (double)(1024 * 1024)), 4)} MB ({Environment.WorkingSet} B)\nVer: {ver}\nFPS: {Math.Round(1f / RenderTime, 5)} ({Math.Round(RenderTime * 1000, 5)} ms)\nPlayer Pos: {world.Player.X}/{world.Player.Y}/{world.Player.Z}\nCamera angle: {world.Player.LX}/{world.Player.LY}\nRender Errors: {RenderErrors}\nRendered Chunks: {RenderedChunks / 256}/{world.Chunks.Count}";
                     Logger.LogQueue.Add(tmp);
                     Thread.Sleep(5000);
                 }
@@ -170,7 +208,10 @@ namespace MCClone
                                 Console.WriteLine($"Invalid command: {command}");
                                 break;
                         }
-                        if (running == false) break;
+                        if (running == false)
+                        {
+                            break;
+                        }
                     }
                     catch
                     {
@@ -189,7 +230,10 @@ namespace MCClone
                         world.Chunks.Values.CopyTo(ch, 0);
                         foreach (Chunk chunk in ch)
                         {
-                            if (Util.ShouldRenderChunk(chunk)) crq.Add(chunk);
+                            if (Util.ShouldRenderChunk(chunk))
+                            {
+                                crq.Add(chunk);
+                            }
                         }
                         /* crq = world.Chunks.FindAll(chunk =>
                          {
@@ -202,7 +246,7 @@ namespace MCClone
                     }
                     catch { }
 
-                    Thread.Sleep(100);
+                    Thread.Sleep(500);
                 }
             });
             Thread logQueueThread = new Thread(() =>
@@ -210,12 +254,14 @@ namespace MCClone
                 while (true)
                 {
                     if (Logger.LogQueue.Count != 0)
+                    {
                         while (Logger.LogQueue.Count != 0)
                         {
                             //  if (Logger.LogQueue.Count > 20) Logger.LogQueue.RemoveRange(20, Logger.LogQueue.Count - 20);
                             Logger.PostLog(Logger.LogQueue[0] /*+ $",LOG_REM={Logger.LogQueue.Count}"*/); Logger.LogQueue.RemoveAt(0);
                             //Thread.Sleep(10);
                         }
+                    }
                     Thread.Sleep(150);
                 }
             });
@@ -263,6 +309,13 @@ namespace MCClone
             // vol = AudioMeterInformation.FromDevice(new MMDeviceEnumerator().GetDefaultAudioEndpoint(DataFlow.Render, Role.Console)).PeakValue;
             GL.ClearColor(0.1f * brightness, 0.5f * brightness, 0.7f * brightness, 0.9f);
             Title = $"MC Clone {ver} | FPS: {Math.Round(1000 / rt, 2)} ({Math.Round(rt, 2)} ms) C: {crq.Count}/{world.Chunks.Count} E: {RenderErrors} | {world.Player.X}/{world.Player.Y}/{world.Player.Z} : {world.Player.LX}/{world.Player.LY} | {Math.Round((double)Process.GetCurrentProcess().PrivateMemorySize64 / 1048576, 2)} MB | {TerrainGen.runningThreads}/{TerrainGen.maxThreads} GT | Mods: {LoadedMods}"; //{Math.Round(vol * 100, 0)}
+            foreach (Mod mod in Mods)
+            {
+                if (mod.OnResize != null)
+                {
+                    mod.OnUpdateFrame.Invoke(mod.Instance, new object[] { e });
+                }
+            }
         }
         protected override void OnRenderFrame(FrameEventArgs e)
         {
@@ -298,7 +351,7 @@ namespace MCClone
             {
                 // var btr = cch.Blocks.FindAll((Block bl) => { return true; return cch.Blocks.Find((Block bl2) => { if (bl.X == bl2.X && bl.Z == bl2.Z && bl.Y == bl2.Y + 1) return true; return false; }) == null; /*if (bl.X % 4 == rnd.Next(0,5) && bl.Z % 4 == rnd.Next(0, 5)) return true; */return false; });
                 //var btr = cch.Blocks.GetRange(0, cch.Blocks.Count);
-                var btr = cch.Blocks.Values;
+                SortedDictionary<(int X, int Y, int Z), Block>.ValueCollection btr = cch.Blocks.Values;
                 try
                 {
                     /*for (int i = 0; i < cch.Blocks.Count; i++)
@@ -323,18 +376,26 @@ namespace MCClone
                 catch
                 {
                     RenderErrors++;
-                    throw;
+                    //throw;
                 }
             }
 
             GL.End();
+            foreach (Mod mod in Mods)
+            {
+                if (mod.OnResize != null)
+                {
+                    mod.OnRenderFrame.Invoke(mod.Instance, new object[] { e });
+                }
+            }
             /*GL.Begin(PrimitiveType.Lines);
-            GL.Color3(1f, 1f, 1f);
-            GL.Vertex3(world.Player.CFPt);
-            GL.Vertex3(world.Player.CPos);
-            GL.End();*/
+GL.Color3(1f, 1f, 1f);
+GL.Vertex3(world.Player.CFPt);
+GL.Vertex3(world.Player.CPos);
+GL.End();*/
             SwapBuffers();
         }
+
         /*static void Dot(double x, double y, double z)
         {
             GL.Begin(PrimitiveType.Points);
@@ -342,7 +403,7 @@ namespace MCClone
             GL.Vertex3(0.5f + x, 1.0f + y, 0.5f + z);
             GL.End();
         }*/
-        static void RenderCube(World world, Chunk chunk, Block block)
+        private static void RenderCube(World world, Chunk chunk, Block block)
         {
             int x = block.X + 16 * chunk.X;
             int y = block.Y;
