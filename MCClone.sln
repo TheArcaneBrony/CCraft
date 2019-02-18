@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MCClone", "MCClone\MCClone.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestMod", "TestMod\TestMod.csproj", "{4735E265-CCA6-45CF-A2FD-B41190787A5B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csproj", "{9879FAC4-EC1E-4AA5-AAE3-C14CB9703812}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug NoDiscord|Any CPU = Debug NoDiscord|Any CPU
@@ -56,6 +58,24 @@ Global
 		{4735E265-CCA6-45CF-A2FD-B41190787A5B}.Release|x64.Build.0 = Release|Any CPU
 		{4735E265-CCA6-45CF-A2FD-B41190787A5B}.Release|x86.ActiveCfg = Release|Any CPU
 		{4735E265-CCA6-45CF-A2FD-B41190787A5B}.Release|x86.Build.0 = Release|Any CPU
+		{9879FAC4-EC1E-4AA5-AAE3-C14CB9703812}.Debug NoDiscord|Any CPU.ActiveCfg = Debug|Any CPU
+		{9879FAC4-EC1E-4AA5-AAE3-C14CB9703812}.Debug NoDiscord|Any CPU.Build.0 = Debug|Any CPU
+		{9879FAC4-EC1E-4AA5-AAE3-C14CB9703812}.Debug NoDiscord|x64.ActiveCfg = Debug|Any CPU
+		{9879FAC4-EC1E-4AA5-AAE3-C14CB9703812}.Debug NoDiscord|x64.Build.0 = Debug|Any CPU
+		{9879FAC4-EC1E-4AA5-AAE3-C14CB9703812}.Debug NoDiscord|x86.ActiveCfg = Debug|Any CPU
+		{9879FAC4-EC1E-4AA5-AAE3-C14CB9703812}.Debug NoDiscord|x86.Build.0 = Debug|Any CPU
+		{9879FAC4-EC1E-4AA5-AAE3-C14CB9703812}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9879FAC4-EC1E-4AA5-AAE3-C14CB9703812}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9879FAC4-EC1E-4AA5-AAE3-C14CB9703812}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9879FAC4-EC1E-4AA5-AAE3-C14CB9703812}.Debug|x64.Build.0 = Debug|Any CPU
+		{9879FAC4-EC1E-4AA5-AAE3-C14CB9703812}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9879FAC4-EC1E-4AA5-AAE3-C14CB9703812}.Debug|x86.Build.0 = Debug|Any CPU
+		{9879FAC4-EC1E-4AA5-AAE3-C14CB9703812}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9879FAC4-EC1E-4AA5-AAE3-C14CB9703812}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9879FAC4-EC1E-4AA5-AAE3-C14CB9703812}.Release|x64.ActiveCfg = Release|Any CPU
+		{9879FAC4-EC1E-4AA5-AAE3-C14CB9703812}.Release|x64.Build.0 = Release|Any CPU
+		{9879FAC4-EC1E-4AA5-AAE3-C14CB9703812}.Release|x86.ActiveCfg = Release|Any CPU
+		{9879FAC4-EC1E-4AA5-AAE3-C14CB9703812}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
