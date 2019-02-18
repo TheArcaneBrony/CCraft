@@ -124,7 +124,6 @@ namespace MCClone
             GenTime.Restart();
             if (File.Exists($"Worlds/{MainWindow.world.Name}/ChunkData/{X}.{Z}.gz"))
             {
-                return GenChunk(X, Z);
                 //Chunk ch = JsonConvert.DeserializeObject<Chunk>(File.ReadAllText($"Worlds/{MainWindow.world.Name}/ChunkData/{X}.{Z}.gz"));
                 uint length;
                 byte[] b = new byte[4];

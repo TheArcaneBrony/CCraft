@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace MCClone
 {
@@ -65,72 +62,6 @@ namespace MCClone
                 // return true;
             }
             return false;
-        }
-        public static object DeserializeToDictionaryOrList(string jo, bool isArray = false)
-        {
-            if (!isArray)
-            {
-                isArray = jo.Substring(0, 1) == "[";
-            }
-            if (!isArray)
-            {
-                Dictionary<string, object> values = JsonConvert.DeserializeObject<Dictionary<string, object>>(jo);
-                Dictionary<string, object> values2 = new Dictionary<string, object>();
-                foreach (KeyValuePair<string, object> d in values)
-                {
-                    if (d.Value is JObject)
-                    {
-                        values2.Add(d.Key, DeserializeToDictionaryOrList(d.Value.ToString()));
-                    }
-                    else if (d.Value is JArray)
-                    {
-                        values2.Add(d.Key, DeserializeToDictionaryOrList(d.Value.ToString(), true));
-                    }
-                    else
-                    {
-                        values2.Add(d.Key, d.Value);
-                    }
-                }
-                return values2;
-            }
-            else
-            {
-                List<object> values = JsonConvert.DeserializeObject<List<object>>(jo);
-                List<object> values2 = new List<object>();
-                foreach (object d in values)
-                {
-                    if (d is JObject)
-                    {
-                        values2.Add(DeserializeToDictionaryOrList(d.ToString()));
-                    }
-                    else if (d is JArray)
-                    {
-                        values2.Add(DeserializeToDictionaryOrList(d.ToString(), true));
-                    }
-                    else
-                    {
-                        values2.Add(d);
-                    }
-                }
-                return values2;
-            }
-        }
-        private Dictionary<string, object> DeserializeToDictionary(string jo)
-        {
-            Dictionary<string, object> values = JsonConvert.DeserializeObject<Dictionary<string, object>>(jo);
-            Dictionary<string, object> values2 = new Dictionary<string, object>();
-            foreach (KeyValuePair<string, object> d in values)
-            {
-                if (d.Value is JObject)
-                {
-                    values2.Add(d.Key, DeserializeToDictionary(d.Value.ToString()));
-                }
-                else
-                {
-                    values2.Add(d.Key, d.Value);
-                }
-            }
-            return values2;
         }
     }
     public class SystemUtils

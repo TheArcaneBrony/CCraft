@@ -28,8 +28,9 @@ namespace MCClone
                 dataStream.Close();
                 response.Close();
             }*/
-
+#if DEBUG
             Debug.WriteLine(Log);
+#endif
         }
     }
 }

@@ -17,7 +17,7 @@ namespace MCClone
             Directory.CreateDirectory($"Mods");
             for (int i = 0; i < 2000; i++)
             {
-                Console.Write("MOMIJI INUBASHIRI BEST WAIFU!  ");
+                Console.Out.WriteAsync("MOMIJI INUBASHIRI! ");
             }
             Console.Clear();
             Console.Write("This testing version of the game logs certain private data, such as your Windows username and pc name to identify whoever the data belongs to.\nThis is sent alongside more diagnostic info like:\n - .NET version,\n - FPS,\n - Game version\nIf you are not okay with this, press N to disable logging, although this will have negative impact on debugging if some problems arise.\n Thank you for understanding! :)\n[Press any key to continue, N to disable logging] ");
@@ -28,7 +28,7 @@ namespace MCClone
 
             Console.Clear();
             Console.WriteLine("Controls:\nWASD: Move around\nQ -   Brightness    + E\nZ - Render Distance + C\nSpace: Jump/fly\nShift: Descend\nF: Enable fly\nCTRL + F: Disable fly");
-            for (int i = 50; i > 0; i--)
+            for (int i = 100; i > 0; i--)
             {
                 Thread.Sleep(5);
                 Console.Write("\r" + new string(' ', i + 1) + " \r" + new string('.', i));
@@ -37,7 +37,7 @@ namespace MCClone
 #if !NODISCORD
             var EH = new DiscordRpc.EventHandlers();
             DiscordRpc.Initialize("333608929575698442", ref EH, true, "");
-            var PR = new DiscordRpc.RichPresence() { details = "Developing", state = "Just debugging ;)", startTimestamp = (int)(DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds, smallImageKey = "test1", smallImageText = "testing" };
+            var PR = new DiscordRpc.RichPresence() { details = "Developing", state = "Debugging", startTimestamp = (int)(DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds, smallImageKey = "test1", smallImageText = "testing" };
             DiscordRpc.UpdatePresence(ref PR);
 #endif
             Application.EnableVisualStyles();

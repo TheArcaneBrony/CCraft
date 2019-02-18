@@ -5,10 +5,10 @@ using System.Drawing;
 using System.IO;
 using System.Reflection;
 using System.Threading;
+
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
-using OpenTK.Input;
 
 namespace MCClone
 {
