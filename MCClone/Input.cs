@@ -166,7 +166,6 @@ namespace MCClone
             //  if (bsarr.Contains(new Block((int)cx, (int)cy, (int)cz)) && cyv < 0) cyv = 0;
             //if()
             //if (world.Chunks)
-
             if (brightness > 1f)
             {
                 brightness = 1f;

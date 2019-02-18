@@ -8,6 +8,7 @@ using System.Threading;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using OpenTK.Input;
 
 namespace MCClone
 {
@@ -103,9 +104,8 @@ namespace MCClone
             centerX = (ushort)(ClientRectangle.Width / 2);
             centerY = (ushort)(ClientRectangle.Height / 2);
 
-            Point center = new Point(centerX, centerY);
-            Point mousePos = PointToScreen(center);
-            OpenTK.Input.Mouse.SetPosition(mousePos.X, mousePos.Y);
+            Point center = PointToScreen(new Point(centerX, centerY));
+            OpenTK.Input.Mouse.SetPosition(center.X, center.Y);
 
             world.Player = new Player(world.SpawnX, world.SpawnY, world.SpawnZ)
             {
@@ -118,7 +118,7 @@ namespace MCClone
                 TerrainGen.GenTerrain();
                 while (true)
                 {
-                    Thread.Sleep(500);
+                    Thread.Sleep(1000);
                     int lctu = (int)(Math.Pow((renderDistance * unloadDistance * 2), 2)),
                     lctg = (int)(Math.Pow((renderDistance * genDistance * 2), 2));
                     // Console.Title = lctu + " " + lctg + " " + brightness;

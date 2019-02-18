@@ -75,7 +75,7 @@ namespace MCClone
                             by = Math.Max(by, 0);
                             for (int y = by; y <= by; y++)
                             {
-                                Thread.Sleep(100);
+                             //   Thread.Sleep(100);
                                 chunk.Blocks.Add((x2, y, z2), new Block(x2, y, z2));
                             }
                         }
@@ -159,7 +159,7 @@ namespace MCClone
         //public static int GetHeight(int x, int z) => (int)Math.Abs(((Math.Sin(Util.DegToRad(x)) * 25 + Math.Sin(Util.DegToRad(z)) * 10) * 1.2));// 2;
         public static int GetHeight(int x, int z)
         {
-            int y = (int)Math.Abs(((Math.Sin(Util.DegToRad(x)) * 25 + Math.Sin(Util.DegToRad(z)) * 10) * 1.2));
+            int y = (int)Math.Abs(((Math.Sin(Util.DegToRad(x)) * 25 + Math.Sin(Util.DegToRad(z)) * 10) * 0.5));
             return y;
         }
     }
