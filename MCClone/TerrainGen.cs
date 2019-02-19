@@ -4,12 +4,14 @@ using System.IO;
 using System.IO.Compression;
 using System.Text;
 using System.Threading;
+
 using Newtonsoft.Json;
 
 namespace MCClone
 {
     internal class TerrainGen
     {
+        private static bool ShouldLoadChunks = false;
         public static Stopwatch GenTime = new Stopwatch();
         public static int runningThreads = 0;
         public static int maxThreads = (int)Math.Pow(MainWindow.genDistance * MainWindow.renderDistance, 2) * Environment.ProcessorCount;
@@ -24,24 +26,34 @@ namespace MCClone
                 }
             }*/
 
-            GetChunk((int)MainWindow.world.Player.X / 16, (int)MainWindow.world.Player.Z / 16);
-            //for (int x = (int)(MainWindow.world.Player.X / 16 - MainWindow.renderDistance); x < MainWindow.world.Player.X / 16 + MainWindow.renderDistance; x++)
-            //  for (int z = (int)(MainWindow.world.Player.Z / 16 - MainWindow.renderDistance); z < MainWindow.world.Player.Z / 16 + MainWindow.renderDistance; z++)
-            for (int x = 0; x < MainWindow.renderDistance; x++)
+            /* GetChunk((int)MainWindow.world.Player.X / 16, (int)MainWindow.world.Player.Z / 16);
+             //for (int x = (int)(MainWindow.world.Player.X / 16 - MainWindow.renderDistance); x < MainWindow.world.Player.X / 16 + MainWindow.renderDistance; x++)
+             //  for (int z = (int)(MainWindow.world.Player.Z / 16 - MainWindow.renderDistance); z < MainWindow.world.Player.Z / 16 + MainWindow.renderDistance; z++)
+             for (int x = 0; x < MainWindow.renderDistance; x++)
+             {
+                 //GetChunk(x, z);
+                 for (int y = -x; y < x; y++)
+                 {
+                     // infront and behind
+                     GetChunk((int)MainWindow.world.Player.X / 16 + x, (int)MainWindow.world.Player.Z / 16 - y);
+                     GetChunk((int)MainWindow.world.Player.X / 16 - x, (int)MainWindow.world.Player.Z / 16 - y);
+                     GetChunk((int)MainWindow.world.Player.X / 16 + x, (int)MainWindow.world.Player.Z / 16 + y);
+                     GetChunk((int)MainWindow.world.Player.X / 16 - x, (int)MainWindow.world.Player.Z / 16 + y);
+                     // left and right
+                     GetChunk((int)MainWindow.world.Player.X / 16 + y, (int)MainWindow.world.Player.Z / 16 - x);
+                     GetChunk((int)MainWindow.world.Player.X / 16 - y, (int)MainWindow.world.Player.Z / 16 - x);
+                     GetChunk((int)MainWindow.world.Player.X / 16 + y, (int)MainWindow.world.Player.Z / 16 + x);
+                     GetChunk((int)MainWindow.world.Player.X / 16 - y, (int)MainWindow.world.Player.Z / 16 + x);
+                 }
+             }*/
+            for (int x = 0; x < 16; x++)
             {
                 //GetChunk(x, z);
-                for (int y = -x; y < x; y++)
+                for (double y = 0; y < 360; y++)
                 {
-                    // infront and behind
-                    GetChunk((int)MainWindow.world.Player.X / 16 + x, (int)MainWindow.world.Player.Z / 16 - y);
-                    GetChunk((int)MainWindow.world.Player.X / 16 - x, (int)MainWindow.world.Player.Z / 16 - y);
-                    GetChunk((int)MainWindow.world.Player.X / 16 + x, (int)MainWindow.world.Player.Z / 16 + y);
-                    GetChunk((int)MainWindow.world.Player.X / 16 - x, (int)MainWindow.world.Player.Z / 16 + y);
-                    // left and right
-                    GetChunk((int)MainWindow.world.Player.X / 16 + y, (int)MainWindow.world.Player.Z / 16 - x);
-                    GetChunk((int)MainWindow.world.Player.X / 16 - y, (int)MainWindow.world.Player.Z / 16 - x);
-                    GetChunk((int)MainWindow.world.Player.X / 16 + y, (int)MainWindow.world.Player.Z / 16 + x);
-                    GetChunk((int)MainWindow.world.Player.X / 16 - y, (int)MainWindow.world.Player.Z / 16 + x);
+                    (int, int) pos = ((int)(MainWindow.world.Player.X / 16 + x * Math.Sin(Util.DegToRad(y))), (int)(MainWindow.world.Player.Z / 16 + x * Math.Cos(Util.DegToRad(y))));
+                    if (!MainWindow.world.Chunks.ContainsKey(pos))
+                        GetChunk(pos.Item1, pos.Item2);
                 }
             }
         }
@@ -58,7 +70,7 @@ namespace MCClone
             runningThreads++;
             Thread chunkGen = new Thread(() =>
             {
-                while (runningThreads >= maxThreads)
+                while (runningThreads >= maxThreads * 2000)
                 {
                     Thread.Sleep(10);
                 }
@@ -75,7 +87,7 @@ namespace MCClone
                             by = Math.Max(by, 0);
                             for (int y = by; y <= by; y++)
                             {
-                             //   Thread.Sleep(100);
+                                //   Thread.Sleep(100);
                                 chunk.Blocks.Add((x2, y, z2), new Block(x2, y, z2));
                             }
                         }
@@ -122,9 +134,8 @@ namespace MCClone
         public static Chunk GetChunk(int X, int Z)
         {
             GenTime.Restart();
-            if (File.Exists($"Worlds/{MainWindow.world.Name}/ChunkData/{X}.{Z}.gz"))
+            if (File.Exists($"Worlds/{MainWindow.world.Name}/ChunkData/{X}.{Z}.gz") && ShouldLoadChunks)
             {
-                //Chunk ch = JsonConvert.DeserializeObject<Chunk>(File.ReadAllText($"Worlds/{MainWindow.world.Name}/ChunkData/{X}.{Z}.gz"));
                 uint length;
                 byte[] b = new byte[4];
                 using (FileStream fs = File.OpenRead($"Worlds/{MainWindow.world.Name}/ChunkData/{X}.{Z}.gz"))
@@ -138,7 +149,6 @@ namespace MCClone
                 chIn.Read(data, 0, data.Length);
                 chIn.Close();
                 Chunk ch = JsonConvert.DeserializeObject<Chunk>(Encoding.ASCII.GetString(data));
-                //Chunk ch = (Chunk)Util.deserializeToDictionaryOrList(Encoding.ASCII.GetString(data));
                 ch.X = X; ch.Z = Z;
                 MainWindow.world.Chunks.Add((X, Z), ch);
                 Logger.LogQueue.Add($"Loaded chunk {X}/{Z} in: {GenTime.ElapsedTicks / 10000d} ms");
