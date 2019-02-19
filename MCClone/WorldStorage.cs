@@ -29,6 +29,7 @@ namespace MCClone
         //public List<Block> Blocks { get; set; } = new List<Block>(); // old block storage
         //public SortedDictionary<(int x, int y, int z), Block> Blocks = new SortedDictionary<(int x, int y, int z), Block>();
         public SortedDictionary<(int X, int Y, int Z), Block> Blocks { get; set; } = new SortedDictionary<(int X, int Y, int Z), Block>();
+
     }
     public class World
     {
