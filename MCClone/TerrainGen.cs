@@ -17,38 +17,8 @@ namespace MCClone
         public static int maxThreads = (int)Math.Pow(MainWindow.genDistance * MainWindow.renderDistance, 2) * Environment.ProcessorCount / 2;
         public static void GenTerrain()
         {
-            // old initial gen code
-            /*for (int x = -16; x < 16; x++)
-            {
-                for (int z = -16; z < 16; z++)
-                {
-                    GetChunk(chunkList, x, z);
-                }
-            }*/
-
-            /* GetChunk((int)MainWindow.world.Player.X / 16, (int)MainWindow.world.Player.Z / 16);
-             //for (int x = (int)(MainWindow.world.Player.X / 16 - MainWindow.renderDistance); x < MainWindow.world.Player.X / 16 + MainWindow.renderDistance; x++)
-             //  for (int z = (int)(MainWindow.world.Player.Z / 16 - MainWindow.renderDistance); z < MainWindow.world.Player.Z / 16 + MainWindow.renderDistance; z++)
-             for (int x = 0; x < MainWindow.renderDistance; x++)
-             {
-                 //GetChunk(x, z);
-                 for (int y = -x; y < x; y++)
-                 {
-                     // infront and behind
-                     GetChunk((int)MainWindow.world.Player.X / 16 + x, (int)MainWindow.world.Player.Z / 16 - y);
-                     GetChunk((int)MainWindow.world.Player.X / 16 - x, (int)MainWindow.world.Player.Z / 16 - y);
-                     GetChunk((int)MainWindow.world.Player.X / 16 + x, (int)MainWindow.world.Player.Z / 16 + y);
-                     GetChunk((int)MainWindow.world.Player.X / 16 - x, (int)MainWindow.world.Player.Z / 16 + y);
-                     // left and right
-                     GetChunk((int)MainWindow.world.Player.X / 16 + y, (int)MainWindow.world.Player.Z / 16 - x);
-                     GetChunk((int)MainWindow.world.Player.X / 16 - y, (int)MainWindow.world.Player.Z / 16 - x);
-                     GetChunk((int)MainWindow.world.Player.X / 16 + y, (int)MainWindow.world.Player.Z / 16 + x);
-                     GetChunk((int)MainWindow.world.Player.X / 16 - y, (int)MainWindow.world.Player.Z / 16 + x);
-                 }
-             }*/
             for (int x = 0; x < MainWindow.renderDistance * MainWindow.genDistance; x++)
             {
-                //GetChunk(x, z);
                 for (double y = 0; y < 360; y++)
                 {
                     (int, int) pos = ((int)(MainWindow.world.Player.X / 16 + x * Math.Sin(Util.DegToRad(y))), (int)(MainWindow.world.Player.Z / 16 + x * Math.Cos(Util.DegToRad(y))));
@@ -67,7 +37,6 @@ namespace MCClone
                 return chunk;
             }
             MainWindow.world.Chunks.Add((X, Z), chunk);
-
             Thread chunkGen = new Thread(() =>
             {
                 while (runningThreads + 1 >= maxThreads)
@@ -85,24 +54,17 @@ namespace MCClone
                         {
                             for (int y = GetHeight(X * 16 + x2, Z * 16 + z2); y <= GetHeight(X * 16 + x2, Z * 16 + z2); y++)
                             {
-                                Thread.Sleep(20);
+                                Thread.Sleep(10);
                                 chunk.Blocks.Add((x2, y, z2), new Block(x2, y, z2));
                             }
                         }
                     }
                     try
                     {
-                        //   Task.Run(() =>
-                        //    {
-                        //File.WriteAllText($"Worlds/{MainWindow.world.Name}/ChunkData/{X}.{Z}.gz", JsonConvert.SerializeObject(chunk));
-                        //Thread.Sleep(20);
                         byte[] data = Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(chunk));
-                        //Thread.Sleep(20);
                         GZipStream chOut = new GZipStream(new FileStream($"Worlds/{MainWindow.world.Name}/ChunkData/{X}.{Z}.gz", FileMode.Create), CompressionLevel.Optimal);
-                        //Thread.Sleep(20);
                         chOut.Write(data, 0, data.Length);
                         chOut.Close();
-                        //     });
                     }
                     catch (IOException)
                     {
@@ -111,23 +73,18 @@ namespace MCClone
                     catch
                     {
                     }
-                    //   Task.Run(() => Logger.LogQueue.Add($"Chunk {X}/{Z} generated in: {GenTimer.ElapsedTicks / 10000d} ms"));
-                    //Thread.Sleep(10);
                     Logger.LogQueue.Add($"Chunk {X}/{Z} generated in: {GenTimer.ElapsedTicks / 10000d} ms");
                 }
                 catch { }
                 finally
                 {
-
                     runningThreads--;
                 }
             })
             {
                 Name = $"Chunk Gen {X}/{Z}",
-                // Priority = ThreadPriority.Lowest
             };
             chunkGen.Start();
-            //chunkGen.Join(25);
             return chunk;
         }
         public static Chunk GetChunk(int X, int Z)
@@ -152,15 +109,12 @@ namespace MCClone
                 ch.X = X; ch.Z = Z;
                 MainWindow.world.Chunks.Add((X, Z), ch);
                 Logger.LogQueue.Add($"Loaded chunk {X}/{Z} in: {GenTime.ElapsedTicks / 10000d} ms");
-                // Thread.Sleep(10);
                 data = null;
                 return ch;
             }
             else
             {
-                // Logger.LogQueue.Add($"Generating chunk {X}/{Z}");
                 Chunk ch = GenChunk(X, Z);
-                //Logger.LogQueue.Add($"Chunk {X}/{Z} generated in: {GenTime.ElapsedTicks / 10000d} ms");
                 return ch;
             }
         }
@@ -169,7 +123,6 @@ namespace MCClone
         public static int GetHeight(int x, int z)
         {
             int y = (int)Math.Max(Math.Floor(Math.Abs(((Math.Sin(Util.DegToRad(x)) * 25 + Math.Sin(Util.DegToRad(z)) * 10) * 1.2))), 0);
-
             return y;
         }
     }

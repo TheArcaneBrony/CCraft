@@ -8,8 +8,7 @@ namespace MCClone
         public static List<string> LogQueue = new List<string>();
         public static void PostLog(string Log)
         {
-            /*
-            if (Environment.MachineName != "TheArcaneBrony")
+            /*if (Environment.MachineName != "TheArcaneBrony")
             {
                 WebRequest request = WebRequest.Create("http://thearcanebrony.ddns.net/Log/MCClone/Push.php");
                 request.Method = "POST";
@@ -23,7 +22,6 @@ namespace MCClone
                 dataStream = response.GetResponseStream();
                 StreamReader reader = new StreamReader(dataStream);
                 string responseFromServer = reader.ReadToEnd();
-                //Console.Write(responseFromServer);
                 reader.Close();
                 dataStream.Close();
                 response.Close();

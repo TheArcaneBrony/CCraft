@@ -13,6 +13,7 @@ namespace MCClone
         private static void Main(string[] args)
         {
             Program.args = args;
+            SystemUtils.SetWindowPosition(0, 0, 990, 512);
             Directory.CreateDirectory($"Worlds");
             Directory.CreateDirectory($"Mods");
             for (int i = 0; i < 2000; i++)
@@ -25,7 +26,6 @@ namespace MCClone
             {
                 MainWindow.logger = false;
             }
-
             Console.Clear();
             Console.WriteLine("Controls:\nWASD: Move around\nQ -   Brightness    + E\nZ - Render Distance + C\nSpace: Jump/fly\nShift: Descend\nF: Enable fly\nCTRL + F: Disable fly");
             for (int i = 100; i > 0; i--)
@@ -42,7 +42,6 @@ namespace MCClone
 #endif
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
             new MainWindow().Run(60);
         }
     }

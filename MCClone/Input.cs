@@ -21,28 +21,23 @@ namespace MCClone
                 {
                     world.Player.LX = 179.99;
                 }
-
                 world.Player.LX += 180;
-                //world.Player.LX = Math.Abs(world.Player.LX);
                 world.Player.LX %= 360;
                 world.Player.LX -= 180;
                 if (world.Player.LY > 90)
                 {
                     world.Player.LY = 90;
                 }
-
                 if (world.Player.LY < -90)
                 {
                     world.Player.LY = -90;
                 }
-
                 Mouse.SetPosition(centerX, centerY);
             }
             if (!keyState.IsAnyKeyDown)
             {
                 return;
             }
-
             if (keyState.IsKeyDown(Key.Escape))
             {
                 running = false;
@@ -89,7 +84,6 @@ namespace MCClone
             {
                 world.Player.Y -= 0.1;
             }
-
             if (keyState.IsKeyDown(Key.Space))
             {
                 if (world.Player.Flying)
@@ -101,32 +95,26 @@ namespace MCClone
                     world.Player.YV = 0.1;
                 }
             }
-
             if (keyState.IsKeyDown(Key.Q))
             {
                 brightness -= 0.01f;
             }
-
             if (keyState.IsKeyDown(Key.E))
             {
                 brightness += 0.01f;
             }
-
             if (keyState.IsKeyDown(Key.F))
             {
                 world.Player.Flying = true;
             }
-
             if (keyState.IsKeyDown(Key.F) && keyState.IsKeyDown(Key.LControl))
             {
                 world.Player.Flying = false;
             }
-
             if (keyState.IsKeyDown(Key.Z))
             {
                 renderDistance--;
             }
-
             if (keyState.IsKeyDown(Key.C))
             {
                 renderDistance++;
@@ -150,33 +138,24 @@ namespace MCClone
                 {
                     world.Player.YV -= 0.005;
                 }
-
                 if (world.Player.YV < -0.45)
                 {
                     world.Player.YV = -0.45;
                 }
-
                 if (ty >= world.Player.Y - 1 && world.Player.YV < 0)
                 {
                     world.Player.YV = 0;
                 }
-
                 world.Player.Y += world.Player.YV;
             }
-
-            //  if (bsarr.Contains(new Block((int)cx, (int)cy, (int)cz)) && cyv < 0) cyv = 0;
-            //if()
-            //if (world.Chunks)
             if (brightness > 1f)
             {
                 brightness = 1f;
             }
-
             if (brightness < 0.1f)
             {
                 brightness = 0.1f;
             }
-            // Console.Title = $"{brightness}";
             world.Player.CPos = new Vector3((float)world.Player.X, (float)world.Player.Y + 1.7f, (float)world.Player.Z);
             world.Player.CFPt = new Vector3((float)(world.Player.X + Math.Cos(Util.DegToRad(world.Player.LX))), (float)(world.Player.Y + 1.7f + Math.Sin(Util.DegToRad(world.Player.LY))), (float)(world.Player.Z + Math.Sin(Util.DegToRad(world.Player.LX))));
         }
