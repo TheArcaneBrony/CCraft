@@ -254,13 +254,13 @@ namespace MCClone
             logQueueThread.Start();
             Thread.CurrentThread.Priority = ThreadPriority.Highest;
 
-            /* GL.ShadeModel(ShadingModel.Smooth);
-             GL.ClearColor(0, 0, 0, 1);*/
-            //  GL.ClearDepth(1.0f);
-            GL.Enable(EnableCap.DepthTest);
-            //   GL.DepthFunc(DepthFunction.Lequal);
-            //  GL.Enable(EnableCap.CullFace);
-            //  GL.CullFace(CullFaceMode.Back);
+             GL.ShadeModel(ShadingModel.Smooth);
+            // GL.ClearColor(0, 0, 0, 1);*/
+              GL.ClearDepth(1.0f);
+            /*GL.Enable(EnableCap.Fog);
+            GL.Fog(FogParameter.FogStart, 5120);
+            GL.FogCoord(5120);*/
+               GL.DepthFunc(DepthFunction.Never);
             GL.Hint(HintTarget.PerspectiveCorrectionHint, HintMode.Nicest);
 
             // create texture ids

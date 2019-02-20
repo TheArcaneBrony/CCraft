@@ -14,7 +14,7 @@ namespace MCClone
         private static bool ShouldLoadChunks = false;
         public static Stopwatch GenTime = new Stopwatch();
         public static int runningThreads = 0;
-        public static int maxThreads = (int)Math.Pow(MainWindow.genDistance * MainWindow.renderDistance, 2) * Environment.ProcessorCount / 2;
+        public static int maxThreads = (int)Math.Pow(MainWindow.genDistance * MainWindow.renderDistance, 2) * Environment.ProcessorCount / 1;
         public static void GenTerrain()
         {
             for (int x = 0; x < MainWindow.renderDistance * MainWindow.genDistance; x++)
