@@ -73,7 +73,7 @@ namespace MCClone
                     catch
                     {
                     }
-                    Logger.LogQueue.Add($"Chunk {X}/{Z} generated in: {GenTimer.ElapsedTicks / 10000d} ms");
+                    Logger.LogQueue.Enqueue($"Chunk {X}/{Z} generated in: {GenTimer.ElapsedTicks / 10000d} ms");
                 }
                 catch { }
                 finally
@@ -108,7 +108,7 @@ namespace MCClone
                 Chunk ch = JsonConvert.DeserializeObject<Chunk>(Encoding.ASCII.GetString(data));
                 ch.X = X; ch.Z = Z;
                 MainWindow.world.Chunks.Add((X, Z), ch);
-                Logger.LogQueue.Add($"Loaded chunk {X}/{Z} in: {GenTime.ElapsedTicks / 10000d} ms");
+                Logger.LogQueue.Enqueue($"Loaded chunk {X}/{Z} in: {GenTime.ElapsedTicks / 10000d} ms");
                 data = null;
                 return ch;
             }

@@ -5,7 +5,7 @@ namespace MCClone
 {
     internal class Logger
     {
-        public static List<string> LogQueue = new List<string>();
+        public static Queue<string> LogQueue = new Queue<string>();
         public static void PostLog(string Log)
         {
             /*if (Environment.MachineName != "TheArcaneBrony")

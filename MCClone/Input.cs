@@ -52,7 +52,6 @@ namespace MCClone
                 focussed = !focussed;
                 while (Keyboard.GetState().IsKeyDown(Key.F1))
                 {
-                    Thread.Sleep(10);
                 }
             }
             if (keyState.IsKeyDown(Key.W))

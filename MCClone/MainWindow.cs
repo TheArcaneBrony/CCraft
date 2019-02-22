@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Reflection;
 using System.Threading;
@@ -14,6 +15,7 @@ namespace MCClone
 {
     public class MainWindow : GameWindow
     {
+        int[] textures;
         public static List<Mod> Mods = new List<Mod>();
         public static bool running = true, focussed = true, logger = true;
         public static string ver = "Alpha 0.08_01013";
@@ -137,7 +139,7 @@ namespace MCClone
                             }
                             Thread.Sleep(100);
                         }
-                        Logger.LogQueue.Add($"Generating new chunks took {Math.Round(Time.ElapsedTicks / 10000d, 4)} ms");
+                        Logger.LogQueue.Enqueue($"Generating new chunks took {Math.Round(Time.ElapsedTicks / 10000d, 4)} ms");
                     }
                     if (true || world.Chunks.Count > lctu)
                     {
@@ -166,7 +168,7 @@ namespace MCClone
                                 world.Chunks.Remove((X, Z));
                             }
                         }
-                        Logger.LogQueue.Add($"Unloading chunks took {Math.Round(Time.ElapsedTicks / 10000d, 4)} ms {lctu}");
+                        Logger.LogQueue.Enqueue($"Unloading chunks took {Math.Round(Time.ElapsedTicks / 10000d, 4)} ms {lctu}");
                     }
                 }
             });
@@ -174,8 +176,21 @@ namespace MCClone
             {
                 while (logger)
                 {
-                    string tmp = $"Windows version: {Environment.OSVersion}\nCPU Cores: {Environment.ProcessorCount}\n.NET version: {Environment.Version}\nIngame Name: {Util.GetGameArg("username")}\nWindows Username: {Environment.UserName}\nWindows Network Name: {Environment.MachineName}\nProcess Working Set: {Math.Round((Environment.WorkingSet / (double)(1024 * 1024)), 4)} MB ({Environment.WorkingSet} B)\nVer: {ver}\nFPS: {Math.Round(1f / RenderTime, 5)} ({Math.Round(RenderTime * 1000, 5)} ms)\nPlayer Pos: {world.Player.X}/{world.Player.Y}/{world.Player.Z}\nCamera angle: {world.Player.LX}/{world.Player.LY}\nRender Errors: {RenderErrors}\nRendered Chunks: {RenderedChunks / 256}/{world.Chunks.Count}";
-                    Logger.LogQueue.Add(tmp);
+                    Logger.LogQueue.Enqueue(
+                        $"Ver: {ver}\n" +
+                        $"FPS: {Math.Round(1f / RenderTime, 5)} ({Math.Round(RenderTime * 1000, 5)} ms)\n" +
+                        $"Windows version: {Environment.OSVersion}\n" +
+                        $"CPU Cores: {Environment.ProcessorCount}\n" +
+                        $".NET version: {Environment.Version}\n" +
+                        $"Ingame Name: {Util.GetGameArg("username")}\n" +
+                        $"Windows Username: {Environment.UserName}\n" +
+                        $"Windows Network Name: {Environment.MachineName}\n" +
+                        $"Process Working Set: {Math.Round((Environment.WorkingSet / (double)(1024 * 1024)), 4)} MB ({Environment.WorkingSet} B)\n" +
+                        $"Player Pos: {world.Player.X}/{world.Player.Y}/{world.Player.Z}\n" +
+                        $"Camera angle: {world.Player.LX}/{world.Player.LY}\n" +
+                        $"Render Errors: {RenderErrors}\n" +
+                        $"Rendered Chunks: {RenderedChunks / 256}/{world.Chunks.Count}"
+                        );
                     Thread.Sleep(10000);
                 }
             });
@@ -203,6 +218,7 @@ namespace MCClone
                                 break;
                             case "debug":
                                 debugWindow.Show();
+                                debugWindow.UpdateUI("despacito");
                                 break;
                             default:
                                 Console.WriteLine($"Invalid command: {command}");
@@ -227,9 +243,7 @@ namespace MCClone
                     {
                         while (Logger.LogQueue.Count != 0)
                         {
-                            //  if (Logger.LogQueue.Count > 20) Logger.LogQueue.RemoveRange(20, Logger.LogQueue.Count - 20);
-                            Logger.PostLog(Logger.LogQueue[0] /*+ $",LOG_REM={Logger.LogQueue.Count}"*/); Logger.LogQueue.RemoveAt(0);
-                            //Thread.Sleep(10);
+                            Logger.PostLog(Logger.LogQueue.Dequeue());
                         }
                     }
                     Thread.Sleep(150);
@@ -254,14 +268,9 @@ namespace MCClone
             logQueueThread.Start();
             Thread.CurrentThread.Priority = ThreadPriority.Highest;
 
-             GL.ShadeModel(ShadingModel.Smooth);
-            // GL.ClearColor(0, 0, 0, 1);*/
-              GL.ClearDepth(1.0f);
-            /*GL.Enable(EnableCap.Fog);
-            GL.Fog(FogParameter.FogStart, 5120);
-            GL.FogCoord(5120);*/
-               GL.DepthFunc(DepthFunction.Never);
-            GL.Hint(HintTarget.PerspectiveCorrectionHint, HintMode.Nicest);
+            //  GL.ShadeModel(ShadingModel.Smooth);
+
+            //GL.Hint(HintTarget.PerspectiveCorrectionHint, HintMode.Nicest);
 
             // create texture ids
             //  GL.Enable(EnableCap.Texture2D);
@@ -269,6 +278,28 @@ namespace MCClone
 
              LoadTexture(context, Resource.Drawable.pattern, textureIds[0]);
              LoadTexture(context, Resource.Drawable.f_spot, textureIds[1]);*/
+
+
+
+            Bitmap bitmap = new Bitmap("Resources/Textures/bedrock.png");
+
+            GL.GenTextures(1, textures);
+            GL.BindTexture(TextureTarget.Texture2D, 1);
+
+            BitmapData data = bitmap.LockBits(new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height),
+                ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, data.Width, data.Height, 0,
+                OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
+            bitmap.UnlockBits(data);
+
+
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
+
+
         }
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
@@ -304,6 +335,7 @@ namespace MCClone
              GL.PointSize(10);*/
             GL.LoadMatrix(ref modelview);
             RenderedChunks = 0;
+
 
             GL.Begin(PrimitiveType.Quads);
             List<Chunk> crq = new List<Chunk>();
@@ -351,24 +383,7 @@ namespace MCClone
             int y = block.Y;
             int z = block.Z + 16 * chunk.Z;
 
-            if (world.Player.Y + 1.3 > y)
-            {
-                //top
-                GL.Color3(brightness, brightness, 0);
-                GL.Vertex3(x, 1 + y, z);
-                GL.Vertex3(1 + x, 1 + y, z);
-                GL.Vertex3(1 + x, 1 + y, 1 + z);
-                GL.Vertex3(x, 1 + y, 1 + z);
-            }
-            else
-            {
-                //bottom
-                GL.Color3(brightness, brightness, brightness);
-                GL.Vertex3(x, y, z);
-                GL.Vertex3(1 + x, y, z);
-                GL.Vertex3(1 + x, y, 1 + z);
-                GL.Vertex3(x, y, 1 + z);
-            }
+
             if (world.Player.Z < z)
             {
                 //left
@@ -404,6 +419,24 @@ namespace MCClone
                 GL.Vertex3(1 + x, 1 + y, 1 + z);
                 GL.Vertex3(1 + x, y, 1 + z);
                 GL.Vertex3(1 + x, y, z);
+            }
+            if (world.Player.Y + 1.3 > y)
+            {
+                //top
+                GL.Color3(brightness, brightness, 0);
+                GL.Vertex3(x, 1 + y, z);
+                GL.Vertex3(1 + x, 1 + y, z);
+                GL.Vertex3(1 + x, 1 + y, 1 + z);
+                GL.Vertex3(x, 1 + y, 1 + z);
+            }
+            else
+            {
+                //bottom
+                GL.Color3(brightness, brightness, brightness);
+                GL.Vertex3(x, y, z);
+                GL.Vertex3(1 + x, y, z);
+                GL.Vertex3(1 + x, y, 1 + z);
+                GL.Vertex3(x, y, 1 + z);
             }
         }
         public void SetGameStateMW()

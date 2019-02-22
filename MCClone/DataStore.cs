@@ -2,6 +2,10 @@
 
 namespace MCClone
 {
+    public class DataStore
+    {
+
+    }
     public class Mod
     {
         public string Name { get; set; } = "Unnamed mod";
