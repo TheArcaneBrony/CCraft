@@ -38,6 +38,14 @@ namespace MCClone
             {
                 return;
             }
+            if (keyState.IsKeyDown(Key.F1))
+            {
+                focussed = !focussed;
+                while (Keyboard.GetState().IsKeyDown(Key.F1))
+                {
+                }
+            }
+            if (!focussed) return;
             if (keyState.IsKeyDown(Key.Escape))
             {
                 running = false;
@@ -46,13 +54,6 @@ namespace MCClone
                 DiscordRpc.Shutdown();
 #endif
                 Environment.Exit(0);
-            }
-            if (keyState.IsKeyDown(Key.F1))
-            {
-                focussed = !focussed;
-                while (Keyboard.GetState().IsKeyDown(Key.F1))
-                {
-                }
             }
             if (keyState.IsKeyDown(Key.W))
             {

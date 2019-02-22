@@ -21,7 +21,7 @@ namespace MCClone
                 Console.Out.WriteAsync("MOMIJI INUBASHIRI! ");
             }
             Console.Clear();
-            Console.Write("This testing version of the game logs certain private data, such as your Windows username and pc name to identify whoever the data belongs to.\nThis is sent alongside more diagnostic info like:\n - .NET version,\n - FPS,\n - Game version\nIf you are not okay with this, press N to disable logging, although this will have negative impact on debugging if some problems arise.\n Thank you for understanding! :)\n[Press any key to continue, N to disable logging] ");
+            Console.Write("This testing version of the game may log certain private data, such as your Windows username and pc name to identify whoever the data belongs to.\nThis is sent alongside more diagnostic info like:\n - .NET version,\n - FPS,\n - Game version\nIf you are not okay with this, press N to disable logging, although this will have negative impact on debugging if some problems arise.\n Thank you for understanding! :)\n[Press any key to continue, N to disable logging] ");
             if (!args.Contains("-nodisclaimer") && Console.ReadKey(true).Key == ConsoleKey.N)
             {
                 MainWindow.logger = false;

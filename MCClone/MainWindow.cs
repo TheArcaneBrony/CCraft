@@ -383,7 +383,24 @@ namespace MCClone
             int y = block.Y;
             int z = block.Z + 16 * chunk.Z;
 
-
+            if (world.Player.Y + 1.3 > y)
+            {
+                //top
+                GL.Color3(brightness, brightness, 0);
+                GL.Vertex3(x, 1 + y, z);
+                GL.Vertex3(1 + x, 1 + y, z);
+                GL.Vertex3(1 + x, 1 + y, 1 + z);
+                GL.Vertex3(x, 1 + y, 1 + z);
+            }
+            else
+            {
+                //bottom
+                GL.Color3(brightness, brightness, brightness);
+                GL.Vertex3(x, y, z);
+                GL.Vertex3(1 + x, y, z);
+                GL.Vertex3(1 + x, y, 1 + z);
+                GL.Vertex3(x, y, 1 + z);
+            }
             if (world.Player.Z < z)
             {
                 //left
@@ -419,28 +436,6 @@ namespace MCClone
                 GL.Vertex3(1 + x, 1 + y, 1 + z);
                 GL.Vertex3(1 + x, y, 1 + z);
                 GL.Vertex3(1 + x, y, z);
-            }
-            if (world.Player.Y + 1.3 > y)
-            {
-                //top
-                GL.Color3(brightness, brightness, 0);
-                // GL.TexCoord2(0, 0);
-                GL.Vertex3(x, 1 + y, z);
-                // GL.TexCoord2(1, 0);
-                GL.Vertex3(1 + x, 1 + y, z);
-                // GL.TexCoord2(1, 1);
-                GL.Vertex3(1 + x, 1 + y, 1 + z);
-                // GL.TexCoord2(0, 1);
-                GL.Vertex3(x, 1 + y, 1 + z);
-            }
-            else
-            {
-                //bottom
-                GL.Color3(brightness, brightness, brightness);
-                GL.Vertex3(x, y, z);
-                GL.Vertex3(1 + x, y, z);
-                GL.Vertex3(1 + x, y, 1 + z);
-                GL.Vertex3(x, y, 1 + z);
             }
         }
         public void SetGameStateMW()
