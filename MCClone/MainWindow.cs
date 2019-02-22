@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Reflection;
 using System.Threading;
@@ -143,17 +142,7 @@ namespace MCClone
                     }
                     if (true || world.Chunks.Count > lctu)
                     {
-                        Time.Restart();/*
-                        world.Chunks.ContainsKey .RemoveAll(chunk =>
-                        {
-                            if (chunk.X < world.Player.X / 16 - renderDistance * unloadDistance || chunk.X > world.Player.X / 16 + renderDistance * unloadDistance || chunk.Z < world.Player.Z / 16 - renderDistance * unloadDistance || chunk.Z > world.Player.Z / 16 + renderDistance * unloadDistance)
-                            {
-                                Logger.LogQueue.Add($"Unloading chunk at {chunk.X}/{chunk.Z}");
-                                //Thread.Sleep(5);
-                                return true;
-                            }
-                            return false;
-                        });*/
+                        Time.Restart();
                         int _ = world.Chunks.Count;
                         (int, int)[] ch = new (int, int)[_];
                         world.Chunks.Keys.CopyTo(ch, 0);
@@ -268,9 +257,12 @@ namespace MCClone
             logQueueThread.Start();
             Thread.CurrentThread.Priority = ThreadPriority.Highest;
 
+            GL.Enable(EnableCap.DepthTest);
+
             //  GL.ShadeModel(ShadingModel.Smooth);
 
             //GL.Hint(HintTarget.PerspectiveCorrectionHint, HintMode.Nicest);
+
 
             // create texture ids
             //  GL.Enable(EnableCap.Texture2D);
@@ -279,8 +271,8 @@ namespace MCClone
              LoadTexture(context, Resource.Drawable.pattern, textureIds[0]);
              LoadTexture(context, Resource.Drawable.f_spot, textureIds[1]);*/
 
-
-
+            /*
+            GL.Enable(EnableCap.Texture2D);
             Bitmap bitmap = new Bitmap("Resources/Textures/bedrock.png");
 
             GL.GenTextures(1, textures);
@@ -298,8 +290,7 @@ namespace MCClone
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
-
-
+            */
         }
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
@@ -321,6 +312,7 @@ namespace MCClone
             frameTime.Restart();
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             Matrix4 modelview = Matrix4.LookAt(world.Player.CPos, world.Player.CFPt, Vector3.UnitY);
+
             GL.MatrixMode(MatrixMode.Modelview);
             /* GL.UseProgram(_program);
              _time += e.Time;
@@ -348,8 +340,7 @@ namespace MCClone
             {
                 try
                 {
-                    List<Block> btr = new List<Block>(cch.Blocks.Values);
-                    foreach (Block bl in btr)
+                    foreach (Block bl in new List<Block>(cch.Blocks.Values))
                     {
                         RenderCube(world, cch, bl);
                     }
@@ -368,6 +359,15 @@ namespace MCClone
                     mod.OnRenderFrame.Invoke(mod.Instance, new object[] { e });
                 }
             }
+            /*    GL.MatrixMode(MatrixMode.Projection);
+
+                GL.LoadIdentity();
+
+
+                GL.MatrixMode(MatrixMode.Modelview);
+
+                GL.LoadIdentity();*/
+
             SwapBuffers();
         }
         /*static void Dot(double x, double y, double z)
@@ -424,9 +424,13 @@ namespace MCClone
             {
                 //top
                 GL.Color3(brightness, brightness, 0);
+                // GL.TexCoord2(0, 0);
                 GL.Vertex3(x, 1 + y, z);
+                // GL.TexCoord2(1, 0);
                 GL.Vertex3(1 + x, 1 + y, z);
+                // GL.TexCoord2(1, 1);
                 GL.Vertex3(1 + x, 1 + y, 1 + z);
+                // GL.TexCoord2(0, 1);
                 GL.Vertex3(x, 1 + y, 1 + z);
             }
             else
