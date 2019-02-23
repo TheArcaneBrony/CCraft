@@ -11,7 +11,7 @@ namespace MCClone
 {
     internal class TerrainGen
     {
-        private static bool ShouldLoadChunks = false;
+        private static bool ShouldLoadChunks = true;
         public static Stopwatch GenTime = new Stopwatch();
         public static int runningThreads = 0;
         public static int maxThreads = (int)Math.Pow(MainWindow.genDistance * MainWindow.renderDistance, 2) * Environment.ProcessorCount / 1;
@@ -54,14 +54,14 @@ namespace MCClone
                         {
                             for (int y = GetHeight(X * 16 + x2, Z * 16 + z2); y <= GetHeight(X * 16 + x2, Z * 16 + z2); y++)
                             {
-                                Thread.Sleep(10);
+                          //      Thread.Sleep(10);
                                 chunk.Blocks.Add((x2, y, z2), new Block(x2, y, z2));
                             }
                         }
                     }
                     try
                     {
-                        byte[] data = Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(chunk));
+                        byte[] data = Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(new SaveChunk(chunk)));
                         GZipStream chOut = new GZipStream(new FileStream($"Worlds/{MainWindow.world.Name}/ChunkData/{X}.{Z}.gz", FileMode.Create), CompressionLevel.Optimal);
                         chOut.Write(data, 0, data.Length);
                         chOut.Close();
@@ -90,7 +90,6 @@ namespace MCClone
         public static Chunk GetChunk(int X, int Z)
         {
             GenTime.Restart();
-            Console.Title = $"{runningThreads}";
             if (ShouldLoadChunks && File.Exists($"Worlds/{MainWindow.world.Name}/ChunkData/{X}.{Z}.gz"))
             {
                 uint length;
@@ -105,8 +104,12 @@ namespace MCClone
                 GZipStream chIn = new GZipStream(new FileStream($"Worlds/{MainWindow.world.Name}/ChunkData/{X}.{Z}.gz", FileMode.Open), CompressionMode.Decompress);
                 chIn.Read(data, 0, data.Length);
                 chIn.Close();
-                Chunk ch = JsonConvert.DeserializeObject<Chunk>(Encoding.ASCII.GetString(data));
-                ch.X = X; ch.Z = Z;
+                SaveChunk sch = JsonConvert.DeserializeObject<SaveChunk>(Encoding.ASCII.GetString(data));
+                Chunk ch = new Chunk(X, Z);
+                foreach (Block bl in sch.Blocks)
+                {
+                    ch.Blocks.Add((bl.X, bl.Y, bl.Z), bl);
+                }
                 MainWindow.world.Chunks.Add((X, Z), ch);
                 Logger.LogQueue.Enqueue($"Loaded chunk {X}/{Z} in: {GenTime.ElapsedTicks / 10000d} ms");
                 data = null;

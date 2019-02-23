@@ -28,6 +28,16 @@ namespace MCClone
         public int Z { get; set; }
         public SortedDictionary<(int X, int Y, int Z), Block> Blocks { get; set; } = new SortedDictionary<(int X, int Y, int Z), Block>();
     }
+    public class SaveChunk
+    {
+        public SaveChunk() { }
+        public SaveChunk(Chunk chunk)
+        {if(chunk.Blocks!=null)
+            Blocks = (List<Block>)new List<Block>(chunk.Blocks.Values);
+
+        }
+        public List<Block> Blocks { get; set; } = new List<Block>();
+    }
     public class World
     {
         public World(double SpawnX, double SpawnY, double SpawnZ)

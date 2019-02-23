@@ -19,7 +19,7 @@ namespace MCClone
         public static bool running = true, focussed = true, logger = true;
         public static string ver = "Alpha 0.08_01013";
         public static int renderDistance = 8, centerX, centerY, RenderErrors = 0, RenderedChunks = 0, LoadedMods = 0;
-        public static double rt = 0, unloadDistance = 1.5, genDistance = 1.0001;//.4;
+        public static double rt = 0, unloadDistance = 1.5, genDistance = 1.4;//1.4;
         public static World world = new World(0, 100, 0)
         {
             // Name = "DebugTestWorld"
@@ -236,6 +236,8 @@ namespace MCClone
                         }
                     }
                     Thread.Sleep(150);
+
+                    Console.Title = $"{TerrainGen.runningThreads}";
                 }
             });
             // kbdLogic.Start();
