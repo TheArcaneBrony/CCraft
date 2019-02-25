@@ -5,7 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Reflection;
 using System.Threading;
-
+using MCClone.Client;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -15,7 +15,7 @@ namespace MCClone
     public class MainWindow : GameWindow
     {
         int[] textures;
-        public static List<Mod> Mods = new List<Mod>();
+        public static List<ModData> Mods = new List<ModData>();
         public static bool running = true, focussed = true, logger = true;
         public static string ver = "Alpha 0.08_01013";
         public static int renderDistance = 8, centerX, centerY, RenderErrors = 0, RenderedChunks = 0, LoadedMods = 0;
@@ -42,7 +42,7 @@ namespace MCClone
             Matrix4 projection = Matrix4.CreatePerspectiveFieldOfView((float)Math.PI / 4/* 0.9f*/, Width / (float)Height, 1.0f, 64000f);
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadMatrix(ref projection);
-            foreach (Mod mod in Mods)
+            foreach (ModData mod in Mods)
             {
                 if (mod.OnResize != null)
                 {
@@ -59,7 +59,7 @@ namespace MCClone
             frameTime.Start();
             foreach (string file in Directory.GetFiles(Environment.CurrentDirectory + "\\Mods"))
             {
-                Mod mod = new Mod();
+                ModData mod = new ModData();
                 try
                 {
                     Assembly DLL = Assembly.LoadFile(file);
@@ -93,8 +93,8 @@ namespace MCClone
                 catch { }
             }
 
-            if (Util.GetGameArg("world") != "null") { world.Name = Util.GetGameArg("world"); }
-            Console.WriteLine($"Logged in as {Util.GetGameArg("username")} with password {Util.GetGameArg("password")}\n");
+            if (CliUtil.GetGameArg("world") != "null") { world.Name = CliUtil.GetGameArg("world"); }
+            Console.WriteLine($"Logged in as {CliUtil.GetGameArg("username")} with password {CliUtil.GetGameArg("password")}\n");
             uint cres = 0;
             SystemUtils.NtSetTimerResolution(9000, true, ref cres);
             CursorVisible = false;
@@ -111,11 +111,12 @@ namespace MCClone
             world.Player = new Player(world.SpawnX, world.SpawnY, world.SpawnZ)
             {
                 Flying = true,
-                Name = Util.GetGameArg("username")
+                Name = CliUtil.GetGameArg("username")
             };
             Thread gameInit = new Thread(() =>
             {
                 Directory.CreateDirectory($"Worlds/{world.Name}/ChunkData/");
+                TerrainGen.world = world;
                 TerrainGen.GenTerrain();
                 while (true)
                 {
@@ -171,7 +172,7 @@ namespace MCClone
                         $"Windows version: {Environment.OSVersion}\n" +
                         $"CPU Cores: {Environment.ProcessorCount}\n" +
                         $".NET version: {Environment.Version}\n" +
-                        $"Ingame Name: {Util.GetGameArg("username")}\n" +
+                        $"Ingame Name: {CliUtil.GetGameArg("username")}\n" +
                         $"Windows Username: {Environment.UserName}\n" +
                         $"Windows Network Name: {Environment.MachineName}\n" +
                         $"Process Working Set: {Math.Round((Environment.WorkingSet / (double)(1024 * 1024)), 4)} MB ({Environment.WorkingSet} B)\n" +
@@ -237,7 +238,7 @@ namespace MCClone
                     }
                     Thread.Sleep(150);
 
-                    Console.Title = $"{TerrainGen.runningThreads}";
+                    Console.Title = $"{TerrainGen.runningThreads}/{TerrainGen.runningThreads + TerrainGen.waitingthreads} ({TerrainGen.waitingthreads} waiting)";
                 }
             });
             // kbdLogic.Start();
@@ -300,7 +301,7 @@ namespace MCClone
             Input.Tick();
             GL.ClearColor(0.1f * brightness, 0.5f * brightness, 0.7f * brightness, 0.9f);
             Title = $"MC Clone {ver} | FPS: {Math.Round(1000 / rt, 2)} ({Math.Round(rt, 2)} ms) C: {crq.Count}/{world.Chunks.Count} E: {RenderErrors} | {world.Player.X}/{world.Player.Y}/{world.Player.Z} : {world.Player.LX}/{world.Player.LY} | {Math.Round((double)Process.GetCurrentProcess().PrivateMemorySize64 / 1048576, 2)} MB | {TerrainGen.runningThreads}/{TerrainGen.maxThreads} GT | Mods: {LoadedMods}"; //{Math.Round(vol * 100, 0)}
-            foreach (Mod mod in Mods)
+            foreach (ModData mod in Mods)
             {
                 if (mod.OnResize != null)
                 {
@@ -338,7 +339,7 @@ namespace MCClone
                 crq.AddRange(world.Chunks.Values);
             }
             catch { }
-            foreach (Chunk cch in crq.FindAll((Chunk ch) => Util.ShouldRenderChunk(ch)))
+            foreach (Chunk cch in crq.FindAll((Chunk ch) => CliUtil.ShouldRenderChunk(ch)))
             {
                 try
                 {
@@ -354,7 +355,7 @@ namespace MCClone
                 }
             }
             GL.End();
-            foreach (Mod mod in Mods)
+            foreach (ModData mod in Mods)
             {
                 if (mod.OnResize != null)
                 {

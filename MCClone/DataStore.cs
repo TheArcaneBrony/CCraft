@@ -6,7 +6,7 @@ namespace MCClone
     {
 
     }
-    public class Mod
+    public class ModData
     {
         public string Name { get; set; } = "Unnamed mod";
         public object Instance { get; set; } = null;
