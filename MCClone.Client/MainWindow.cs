@@ -5,10 +5,14 @@ using System.Drawing;
 using System.IO;
 using System.Reflection;
 using System.Threading;
+
 using MCClone.Client;
+
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+
+using ThreadState = System.Threading.ThreadState;
 
 namespace MCClone
 {
@@ -237,8 +241,7 @@ namespace MCClone
                         }
                     }
                     Thread.Sleep(150);
-
-                    Console.Title = $"{TerrainGen.runningThreads}/{TerrainGen.runningThreads + TerrainGen.waitingthreads} ({TerrainGen.waitingthreads} waiting)";
+                    Console.Title = $"{TerrainGen.runningThreads}/{TerrainGen.runningThreads + TerrainGen.waitingthreads} ({TerrainGen.waitingthreads} waiting) | A: {TerrainGen.threads.FindAll((Thread thr) => thr.ThreadState == ThreadState.Running).Count} W: {TerrainGen.threads.FindAll((Thread thr) => thr.ThreadState == ThreadState.WaitSleepJoin).Count} F: {TerrainGen.threads.FindAll((Thread thr) => thr.ThreadState == ThreadState.Stopped).Count} T: {TerrainGen.threads.Count}";
                 }
             });
             // kbdLogic.Start();
