@@ -1,11 +1,37 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading;
+using ThreadState = System.Threading.ThreadState;
 
 namespace MCClone
 {
     internal class Logger
     {
         public static Queue<string> LogQueue = new Queue<string>();
+        private static Thread logQueueThread = new Thread(() =>
+        {
+            while (true)
+            {
+                if (Logger.LogQueue.Count != 0)
+                {
+                    while (Logger.LogQueue.Count != 0)
+                    {
+                        Logger.PostLog(Logger.LogQueue.Dequeue());
+                    }
+                }
+                Thread.Sleep(150);
+#if CLIENT
+                Console.Title = $"{TerrainGen.runningThreads}/{TerrainGen.runningThreads + TerrainGen.waitingthreads} ({TerrainGen.waitingthreads} waiting) | A: {TerrainGen.threads.FindAll((Thread thr) => thr.ThreadState == ThreadState.Running).Count} W: {TerrainGen.threads.FindAll((Thread thr) => thr.ThreadState == ThreadState.WaitSleepJoin).Count} F: {TerrainGen.threads.FindAll((Thread thr) => thr.ThreadState == ThreadState.Stopped).Count} T: {TerrainGen.threads.Count}";
+#endif
+            }
+        });
+        public static void Start()
+        {
+            logQueueThread.IsBackground = true;
+            logQueueThread.Priority = ThreadPriority.Lowest;
+            logQueueThread.Start();
+        }
         public static void PostLog(string Log)
         {
             /*if (Environment.MachineName != "TheArcaneBrony")
@@ -28,6 +54,9 @@ namespace MCClone
             }*/
 #if DEBUG
             Debug.WriteLine(Log);
+#endif
+#if SERVER
+            Console.WriteLine(Log);
 #endif
         }
     }

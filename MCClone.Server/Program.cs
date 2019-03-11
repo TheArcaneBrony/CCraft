@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics;
+using System.IO;
+using System.Media;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
-using System.Diagnostics;
-using System.Media;
 using System.Threading;
+using System.Threading.Tasks;
+
+using Newtonsoft.Json;
 
 namespace MCClone.Server
 {
@@ -15,21 +17,23 @@ namespace MCClone.Server
     {
         public static List<TcpClient> Clients = new List<TcpClient>();
         public static Stopwatch StopWatch = new Stopwatch();
-        public static TcpListener ServerSocket = new TcpListener(IPAddress.Any, 8888);
+        public static TcpListener ServerSocket = new TcpListener(IPAddress.Any, 13372);
         public static TcpClient ClientSocket;
         private static int _counter;
 
         private static void Main(string[] args)
         {
-            Console.Title = "TheArcaneChat Server -=- v1.0.0";
+            Console.Title = "MCClone Server -=- " + DataStore.Ver;
 
+            Directory.CreateDirectory($"Worlds");
+            Directory.CreateDirectory($"Mods");
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.White;
             Console.Clear();
+            Logger.Start();
 
             ServerSocket.Start();
-            Logger.LogQueue.Enqueue(" >> Server Started");
-            //Visible = false;
+            Logger.LogQueue.Enqueue($">> Server Started on port 13372 ({DataStore.Ver})");
             new Thread(() =>
             {
                 //serverSocket.Server.Listen(1000);
@@ -53,9 +57,9 @@ namespace MCClone.Server
                         }).Start();
 
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
-                        //Logger.LogQueue.Enqueue(exception);
+                        Logger.LogQueue.Enqueue(JsonConvert.SerializeObject(e.Data, Formatting.Indented));
                     }
                 }
 
@@ -99,7 +103,6 @@ namespace MCClone.Server
                         {
                             NetworkStream networkStream = cl.GetStream();
                             networkStream.Write(sendBytes, 0, sendBytes.Length);
-
                         }
                         catch
                         {
@@ -135,7 +138,6 @@ msgSend.Start();*/
                 byte[] sendBytes = Encoding.Unicode.GetBytes("*SYS*: " + Message.Replace("\n", "\0MSGEND\0") + "\0MSGEND\0");
                 try
                 {
-
                     NetworkStream networkStream = Client.GetStream();
                     networkStream.Write(sendBytes, 0, sendBytes.Length);
                 }
@@ -145,12 +147,10 @@ msgSend.Start();*/
                     Logger.LogQueue.Enqueue("WTF? Whisper failed!");
                     //Program.BroadcastMessage("A client has logged off! (MessageTransmitFailedException!)");
                 }
-
                 Logger.LogQueue.Enqueue(" >> " + Message);
             }
             catch
             {
-                // ignored
             }
         }
     }
@@ -178,42 +178,19 @@ msgSend.Start();*/
                 try
                 {
                     requestCount = requestCount + 1;
-                    NetworkStream networkStream = _clientSocket.GetStream();
-                    byte[] bytesFrom = new byte[_clientSocket.ReceiveBufferSize];
-                    networkStream.Read(bytesFrom, 0, bytesFrom.Length);
-                    string dataFromClient = Encoding.Unicode.GetString(bytesFrom).TrimEnd('\0');
-                    Logger.LogQueue.Enqueue($"#{_clNo}: \"{dataFromClient}\"");
-                    if (dataFromClient.StartsWith("\0CLIMSG\0"))
-                    {
-                        switch (dataFromClient.Replace("\0CLIMSG\0", ""))
-                        {
-                            case "exit":
-                            //    Clients.Remove(_clientSocket);
-                                _clientSocket.Close();
-                                Program.BroadcastMessage($"Client { _clNo } logged off!");
-                                break;
-                        }
+                    string res = NetworkHelper.Receive(_clientSocket.GetStream());
 
-                    }
-                    else
-                    {
-                        Program.BroadcastMessage($"{_clNo} - {username}: {dataFromClient}");
-                    }
-
-
+                    Console.BackgroundColor = ConsoleColor.Red;
+                    Logger.LogQueue.Enqueue($"{_clNo}: {res}");
                 }
                 catch (Exception ex)
                 {
                     Logger.LogQueue.Enqueue("Exception occurred with a client: " + ex.StackTrace);
                     _clientSocket.Close();
-
                     error++;
                 }
             }
-
         }
-
-
     }
     public class Client
     {

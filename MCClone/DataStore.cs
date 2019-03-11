@@ -4,7 +4,7 @@ namespace MCClone
 {
     public class DataStore
     {
-
+        public static string Ver = "Alpha 0.08_01200";
     }
     public class ModData
     {

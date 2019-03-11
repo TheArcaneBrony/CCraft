@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Media;
+using System.Net.Sockets;
 using System.Reflection;
+using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 using MCClone.Client;
 
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
-
-using ThreadState = System.Threading.ThreadState;
 
 namespace MCClone
 {
@@ -21,7 +23,6 @@ namespace MCClone
         int[] textures;
         public static List<ModData> Mods = new List<ModData>();
         public static bool running = true, focussed = true, logger = true;
-        public static string ver = "Alpha 0.08_01013";
         public static int renderDistance = 8, centerX, centerY, RenderErrors = 0, RenderedChunks = 0, LoadedMods = 0;
         public static double rt = 0, unloadDistance = 1.5, genDistance = 1.4;//1.4;
         public static World world = new World(0, 100, 0)
@@ -33,9 +34,14 @@ namespace MCClone
         private readonly UI.DebugUI debugWindow = new UI.DebugUI();
         //private int _program;
         private int _vertexArray;
+
+        public TcpClient ClientSocket = new TcpClient();
+        public static NetworkStream _serverStream;
+        public string Username = "DebugUser";
+
         public MainWindow() : base(1280, 720, GraphicsMode.Default, "The Arcane Brony#9669's Minecraft Clone", GameWindowFlags.Default, DisplayDevice.Default, 4, 0, GraphicsContextFlags.ForwardCompatible)
         {
-            Title += $" | GL Ver: {GL.GetString(StringName.Version)} | Version: {ver}";
+            Title += $" | GL Ver: {GL.GetString(StringName.Version)} | Version: {DataStore.Ver}";
             VSync = VSyncMode.Off;
         }
         protected override void OnResize(EventArgs e)
@@ -171,7 +177,7 @@ namespace MCClone
                 while (logger)
                 {
                     Logger.LogQueue.Enqueue(
-                        $"Ver: {ver}\n" +
+                        $"Ver: {DataStore.Ver}\n" +
                         $"FPS: {Math.Round(1f / RenderTime, 5)} ({Math.Round(RenderTime * 1000, 5)} ms)\n" +
                         $"Windows version: {Environment.OSVersion}\n" +
                         $"CPU Cores: {Environment.ProcessorCount}\n" +
@@ -212,7 +218,7 @@ namespace MCClone
                                 break;
                             case "debug":
                                 debugWindow.Show();
-                                debugWindow.UpdateUI("despacito");
+                                debugWindow.UpdateUI("test string");
                                 break;
                             default:
                                 Console.WriteLine($"Invalid command: {command}");
@@ -229,21 +235,7 @@ namespace MCClone
                     }
                 }
             });
-            Thread logQueueThread = new Thread(() =>
-            {
-                while (true)
-                {
-                    if (Logger.LogQueue.Count != 0)
-                    {
-                        while (Logger.LogQueue.Count != 0)
-                        {
-                            Logger.PostLog(Logger.LogQueue.Dequeue());
-                        }
-                    }
-                    Thread.Sleep(150);
-                    Console.Title = $"{TerrainGen.runningThreads}/{TerrainGen.runningThreads + TerrainGen.waitingthreads} ({TerrainGen.waitingthreads} waiting) | A: {TerrainGen.threads.FindAll((Thread thr) => thr.ThreadState == ThreadState.Running).Count} W: {TerrainGen.threads.FindAll((Thread thr) => thr.ThreadState == ThreadState.WaitSleepJoin).Count} F: {TerrainGen.threads.FindAll((Thread thr) => thr.ThreadState == ThreadState.Stopped).Count} T: {TerrainGen.threads.Count}";
-                }
-            });
+
             // kbdLogic.Start();
             //Thread.Sleep(5);
 
@@ -258,9 +250,7 @@ namespace MCClone
             gameInit.IsBackground = true;
             gameInit.Priority = ThreadPriority.BelowNormal;
             gameInit.Start();
-            logQueueThread.IsBackground = true;
-            logQueueThread.Priority = ThreadPriority.Lowest;
-            logQueueThread.Start();
+            Logger.Start();
             Thread.CurrentThread.Priority = ThreadPriority.Highest;
 
             GL.Enable(EnableCap.DepthTest);
@@ -297,13 +287,14 @@ namespace MCClone
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
             */
+            Init(world.Player.Name);
         }
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             Input.HandleInput();
             Input.Tick();
             GL.ClearColor(0.1f * brightness, 0.5f * brightness, 0.7f * brightness, 0.9f);
-            Title = $"MC Clone {ver} | FPS: {Math.Round(1000 / rt, 2)} ({Math.Round(rt, 2)} ms) C: {crq.Count}/{world.Chunks.Count} E: {RenderErrors} | {world.Player.X}/{world.Player.Y}/{world.Player.Z} : {world.Player.LX}/{world.Player.LY} | {Math.Round((double)Process.GetCurrentProcess().PrivateMemorySize64 / 1048576, 2)} MB | {TerrainGen.runningThreads}/{TerrainGen.maxThreads} GT | Mods: {LoadedMods}"; //{Math.Round(vol * 100, 0)}
+            Title = $"MC Clone {DataStore.Ver} | FPS: {Math.Round(1000 / rt, 2)} ({Math.Round(rt, 2)} ms) C: {crq.Count}/{world.Chunks.Count} E: {RenderErrors} | {world.Player.X}/{world.Player.Y}/{world.Player.Z} : {world.Player.LX}/{world.Player.LY} | {Math.Round((double)Process.GetCurrentProcess().PrivateMemorySize64 / 1048576, 2)} MB | {TerrainGen.runningThreads}/{TerrainGen.maxThreads} GT | Mods: {LoadedMods}"; //{Math.Round(vol * 100, 0)}
             foreach (ModData mod in Mods)
             {
                 if (mod.OnResize != null)
@@ -472,5 +463,110 @@ namespace MCClone
                 GL.DeleteShader(fragmentShader);
                 return program;
             }*/
+        private void Connection()
+        {
+            new Thread(() =>
+            {
+                while (true)
+                {
+                    Thread.Sleep(10);
+                    try
+                    {
+                        if (_serverStream == null) continue;
+                        var inStream = new List<byte>();
+                        var returndata = "";
+                        while (!returndata.Contains("\0MSGEND\0"))
+                        {
+                            var inBytes = new byte[1];
+                            _serverStream.Read(inBytes, 0, 1);
+                            inStream.AddRange(inBytes);
+                            returndata = Encoding.Unicode.GetString(inStream.ToArray());
+                        }
+
+
+                        returndata = returndata.Replace("\0MSGEND\0", "");
+
+                        if (returndata.StartsWith("\0SRVMSG\0"))
+                        {
+                            switch (returndata.Replace("\0SRVMSG\0", ""))
+                            {
+                                case "ping":
+                                    // Send("\0CLIMSG\0ping");
+                                    break;
+                                case "exit":
+                                    break;
+                            }
+
+                        }
+                        else
+                        {
+
+                        }
+
+                        new Task(() =>
+                        {
+                            new SoundPlayer(@"C:\Windows\Media\Windows Default.wav").Play();
+                        }).Start();
+                        Console.WriteLine(returndata);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex);
+                    }
+                }
+
+
+            }).Start();
+        }
+        public void Shutdown()
+        {
+            var outStream = Encoding.Unicode.GetBytes("\0CLIMSG\0exit");
+            _serverStream.Write(outStream, 0, outStream.Length);
+            _serverStream.Close(1000);
+            Environment.Exit(0);
+        }
+        private void Send(string text)
+        {
+            try
+            {
+                var sendBytes = Encoding.Unicode.GetBytes("Test");
+                _serverStream.Write(sendBytes, 0, sendBytes.Length);
+            }
+            catch
+            {
+                Logger.LogQueue.Enqueue("Connection failure, reconnecting~!");
+                Init(Username);
+            }
+        }
+        public void Init(string username)
+        {
+            Username = username;
+
+            try
+            {
+#if DEBUG
+                try
+                {
+                    ClientSocket.Connect("127.0.0.1", 13372);
+                }
+                catch
+                {
+                    ClientSocket.Connect("thearcanebrony.ddns.net", 13372);
+                }
+#else
+                ClientSocket.Connect("thearcanebrony.ddns.net", 8888);
+#endif
+                Logger.LogQueue.Enqueue($"Connected as {username}");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                Logger.LogQueue.Enqueue("Connection failed!");
+            }
+
+            _serverStream = ClientSocket.GetStream();
+            var outStream = Encoding.Unicode.GetBytes($"\0cmd\0logon {username}");
+            _serverStream.Write(outStream, 0, outStream.Length);
+        }
     }
 }

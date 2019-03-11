@@ -77,6 +77,7 @@ namespace MCClone
                     }
                     catch
                     {
+                        throw;
                     }
                     Logger.LogQueue.Enqueue($"Chunk {X}/{Z} generated in: {GenTimer.ElapsedTicks / 10000d} ms");
                 }
@@ -97,15 +98,16 @@ namespace MCClone
         {
             GenTime.Restart();
             Chunk ch = new Chunk(X, Z);
+#if SERVER
             if (ShouldLoadChunks && File.Exists($"Worlds/{world.Name}/ChunkData/{X}.{Z}.gz"))
             {
-                uint length;
+                int length;
                 byte[] b = new byte[4];
                 using (FileStream fs = File.OpenRead($"Worlds/{world.Name}/ChunkData/{X}.{Z}.gz"))
                 {
                     fs.Position = fs.Length - 4;
                     fs.Read(b, 0, 4);
-                    length = BitConverter.ToUInt32(b, 0);
+                    length = BitConverter.ToInt32(b, 0);
                 }
                 byte[] data = new byte[length];
                 GZipStream chIn = new GZipStream(new FileStream($"Worlds/{world.Name}/ChunkData/{X}.{Z}.gz", FileMode.Open), CompressionMode.Decompress);
@@ -117,12 +119,16 @@ namespace MCClone
                     ch.Blocks.Add((bl.X, bl.Y, bl.Z), bl);
                 }
                 Logger.LogQueue.Enqueue($"Loaded chunk {X}/{Z} in: {GenTime.ElapsedTicks / 10000d} ms");
-                data = null;
             }
             else
             {
                 ch = GenChunk(X, Z);
             }
+#else
+            while (MainWindow._serverStream == null) Thread.Sleep(100);
+            NetworkHelper.Send(MainWindow._serverStream, $"getchunk {X}.{Z}");
+
+#endif
 
             world.Chunks.Add((X, Z), ch);
             return ch;
