@@ -174,17 +174,31 @@ msgSend.Start();*/
             Logger.LogQueue.Enqueue($"Client #{_clNo} connected, IP: {_clientSocket.Client.RemoteEndPoint}");
             while (error < 1)
             {
-                Thread.Sleep(100);
+                //Thread.Sleep(100);
                 try
                 {
                     requestCount = requestCount + 1;
-                    string res = NetworkHelper.Receive(_clientSocket.GetStream());
-
+                    string res = NetworkHelper.Receive(_clientSocket.GetStream()).Replace("\b\b","");
                     Console.BackgroundColor = ConsoleColor.Red;
                     Logger.LogQueue.Enqueue($"{_clNo}: {res}");
+                    string[] parts = res.Split(' ');
+                    switch (parts[0])
+                    {
+                        case "hello":
+                            break;
+                        case "getchunk":
+                            string[] coords = parts[1].Split('.');
+                            Debug.WriteLine($"|{(coords[0])}|, |{(coords[1])}|");
+                            NetworkHelper.Send(_clientSocket.GetStream(), JsonConvert.SerializeObject(TerrainGen.GetChunk(Convert.ToInt32(coords[0]), Convert.ToInt32(coords[1]))));
+                            break;
+                        default:
+                            Logger.LogQueue.Enqueue($"Received unknown command: {res}");
+                            break;
+                    }
                 }
                 catch (Exception ex)
                 {
+                    throw;
                     Logger.LogQueue.Enqueue("Exception occurred with a client: " + ex.StackTrace);
                     _clientSocket.Close();
                     error++;

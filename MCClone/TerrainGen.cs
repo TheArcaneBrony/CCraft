@@ -98,6 +98,7 @@ namespace MCClone
         {
             GenTime.Restart();
             Chunk ch = new Chunk(X, Z);
+            Directory.CreateDirectory($"Worlds/{world.Name}/ChunkData/");
 #if SERVER
             if (ShouldLoadChunks && File.Exists($"Worlds/{world.Name}/ChunkData/{X}.{Z}.gz"))
             {

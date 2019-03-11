@@ -125,7 +125,7 @@ namespace MCClone
             };
             Thread gameInit = new Thread(() =>
             {
-                Directory.CreateDirectory($"Worlds/{world.Name}/ChunkData/");
+
                 TerrainGen.world = world;
                 TerrainGen.GenTerrain();
                 while (true)
@@ -565,8 +565,7 @@ namespace MCClone
             }
 
             _serverStream = ClientSocket.GetStream();
-            var outStream = Encoding.Unicode.GetBytes($"\0cmd\0logon {username}");
-            _serverStream.Write(outStream, 0, outStream.Length);
+            NetworkHelper.Send(_serverStream, "hello ");
         }
     }
 }
