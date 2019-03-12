@@ -79,6 +79,7 @@ namespace MCClone
                     {
                         throw;
                     }
+                    chunk.Finished = true;
                     Logger.LogQueue.Enqueue($"Chunk {X}/{Z} generated in: {GenTimer.ElapsedTicks / 10000d} ms");
                 }
                 catch { }
@@ -128,7 +129,11 @@ namespace MCClone
 #else
             while (MainWindow._serverStream == null) Thread.Sleep(100);
             NetworkHelper.Send(MainWindow._serverStream, $"getchunk {X}.{Z}");
-
+            SaveChunk sch = JsonConvert.DeserializeObject<SaveChunk>(NetworkHelper.Receive(MainWindow._serverStream));
+                foreach (Block bl in sch.Blocks)
+                {
+                    ch.Blocks.Add((bl.X, bl.Y, bl.Z), bl);
+                }
 #endif
 
             world.Chunks.Add((X, Z), ch);

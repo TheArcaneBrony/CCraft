@@ -21,7 +21,7 @@ namespace MCClone
                 networkStream.Read(bytesFrom, 0, 2);
                 res += Encoding.Unicode.GetString(bytesFrom);
             } while (!res.Contains("\b\b"));
-            return res;
+            return res.Replace("\b\b","");
         }
     }
 }

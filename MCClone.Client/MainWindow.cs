@@ -39,7 +39,7 @@ namespace MCClone
         public static NetworkStream _serverStream;
         public string Username = "DebugUser";
 
-        public MainWindow() : base(1280, 720, GraphicsMode.Default, "The Arcane Brony#9669's Minecraft Clone", GameWindowFlags.Default, DisplayDevice.Default, 4, 0, GraphicsContextFlags.ForwardCompatible)
+        public MainWindow() : base(640, 480, GraphicsMode.Default, "The Arcane Brony#9669's Minecraft Clone", GameWindowFlags.Default, DisplayDevice.Default, 4, 0, GraphicsContextFlags.ForwardCompatible)
         {
             Title += $" | GL Ver: {GL.GetString(StringName.Version)} | Version: {DataStore.Ver}";
             VSync = VSyncMode.Off;
@@ -47,8 +47,9 @@ namespace MCClone
         protected override void OnResize(EventArgs e)
         {
             GL.Viewport(ClientRectangle.X, ClientRectangle.Y, ClientRectangle.Width, ClientRectangle.Height);
-            centerX = ClientRectangle.Width / 2;
+            centerX = ClientRectangle.Left + ClientRectangle.Width / 2 ;
             centerY = ClientRectangle.Height / 2;
+            
             Matrix4 projection = Matrix4.CreatePerspectiveFieldOfView((float)Math.PI / 4/* 0.9f*/, Width / (float)Height, 1.0f, 64000f);
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadMatrix(ref projection);
@@ -107,11 +108,11 @@ namespace MCClone
             Console.WriteLine($"Logged in as {CliUtil.GetGameArg("username")} with password {CliUtil.GetGameArg("password")}\n");
             uint cres = 0;
             SystemUtils.NtSetTimerResolution(9000, true, ref cres);
-            CursorVisible = false;
+            //CursorVisible = false;
             //_program = CompileShaders();
 
-            GL.GenVertexArrays(1, out _vertexArray);
-            GL.BindVertexArray(_vertexArray);
+            //GL.GenVertexArrays(1, out _vertexArray);
+            //GL.BindVertexArray(_vertexArray);
             centerX = (ushort)(ClientRectangle.Width / 2);
             centerY = (ushort)(ClientRectangle.Height / 2);
 
@@ -563,9 +564,8 @@ namespace MCClone
                 Console.WriteLine(e);
                 Logger.LogQueue.Enqueue("Connection failed!");
             }
-
             _serverStream = ClientSocket.GetStream();
-            NetworkHelper.Send(_serverStream, "hello ");
+            NetworkHelper.Send(_serverStream, $"login {CliUtil.GetGameArg("username")} {CliUtil.GetGameArg("password")}");
         }
     }
 }

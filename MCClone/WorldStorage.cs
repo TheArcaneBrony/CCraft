@@ -26,6 +26,7 @@ namespace MCClone
         public int X { get; set; }
         [Newtonsoft.Json.JsonIgnore]
         public int Z { get; set; }
+        public bool Finished { get; set; } = false;
         public SortedDictionary<(int X, int Y, int Z), Block> Blocks { get; set; } = new SortedDictionary<(int X, int Y, int Z), Block>();
     }
     public class SaveChunk
