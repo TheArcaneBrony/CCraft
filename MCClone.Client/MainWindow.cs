@@ -47,9 +47,9 @@ namespace MCClone
         protected override void OnResize(EventArgs e)
         {
             GL.Viewport(ClientRectangle.X, ClientRectangle.Y, ClientRectangle.Width, ClientRectangle.Height);
-            centerX = ClientRectangle.Left + ClientRectangle.Width / 2 ;
+            centerX = ClientRectangle.Left + ClientRectangle.Width / 2;
             centerY = ClientRectangle.Height / 2;
-            
+
             Matrix4 projection = Matrix4.CreatePerspectiveFieldOfView((float)Math.PI / 4/* 0.9f*/, Width / (float)Height, 1.0f, 64000f);
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadMatrix(ref projection);
@@ -126,7 +126,6 @@ namespace MCClone
             };
             Thread gameInit = new Thread(() =>
             {
-
                 TerrainGen.world = world;
                 TerrainGen.GenTerrain();
                 while (true)

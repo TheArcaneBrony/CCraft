@@ -5,7 +5,6 @@ using System.IO;
 using System.Media;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -73,11 +72,10 @@ namespace MCClone.Server
             Logger.LogQueue.Enqueue($"Client #{_clNo} connected, IP: {_clientSocket.Client.RemoteEndPoint}");
             while (error < 1)
             {
-                //Thread.Sleep(100);
                 try
                 {
                     requestCount = requestCount + 1;
-                    string res = NetworkHelper.Receive(_clientSocket.GetStream()).Replace("\b\b", "");
+                    string res = NetworkHelper.Receive(_clientSocket.GetStream());
                     Console.BackgroundColor = ConsoleColor.Red;
                     Logger.LogQueue.Enqueue($"{_clNo}: {res}");
                     string[] parts = res.Split(' ');
@@ -91,7 +89,7 @@ namespace MCClone.Server
                             {
                                 string[] coords = parts[1].Split('.');
                                 Chunk ch = TerrainGen.GetChunk(Convert.ToInt32(coords[0]), Convert.ToInt32(coords[1]));
-                                while (!ch.Finished) Thread.Sleep(25);
+                                while (!ch.Finished) Thread.Sleep(5);
                                 NetworkHelper.Send(_clientSocket.GetStream(), JsonConvert.SerializeObject(new SaveChunk(ch)));
                             });
                             break;
