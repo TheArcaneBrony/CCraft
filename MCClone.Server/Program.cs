@@ -74,7 +74,7 @@ namespace MCClone.Server
             {
                 try
                 {
-                    requestCount = requestCount + 1;
+                    requestCount++;
                     string res = NetworkHelper.Receive(_clientSocket.GetStream());
                     Console.BackgroundColor = ConsoleColor.Red;
                     Logger.LogQueue.Enqueue($"{_clNo}: {res}");
@@ -83,12 +83,12 @@ namespace MCClone.Server
                     {
                         case "login":
                             Logger.LogQueue.Enqueue($"Client {_clNo} has authenticated with {parts[1]}:{parts[2]}");
+                            username = parts[1];
                             break;
                         case "getchunk":
                             Task.Run(() =>
                             {
-                                string[] coords = parts[1].Split('.');
-                                Chunk ch = TerrainGen.GetChunk(Convert.ToInt32(coords[0]), Convert.ToInt32(coords[1]));
+                                Chunk ch = TerrainGen.GetChunk(Convert.ToInt32(parts[1]), Convert.ToInt32(parts[2]));
                                 while (!ch.Finished) Thread.Sleep(5);
                                 NetworkHelper.Send(_clientSocket.GetStream(), JsonConvert.SerializeObject(new SaveChunk(ch)));
                             });

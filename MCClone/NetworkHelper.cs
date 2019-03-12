@@ -7,6 +7,7 @@ namespace MCClone
 {
     class NetworkHelper
     {
+        //public static Queue<(NetworkStream, string)> SendQueue = new Queue<(NetworkStream, string)>();
         public static void Send(NetworkStream networkStream, string str)
         {
             var outStream = Encoding.Unicode.GetBytes($"{str}\b\b");

@@ -5,14 +5,16 @@ using System.IO;
 using System.IO.Compression;
 using System.Text;
 using System.Threading;
-
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace MCClone
 {
     public class TerrainGen
     {
-        public static World world = new World(0, 0, 0);
+        public static World world = new World(0, 0, 0) {
+            Name="Test"
+        };
         private static bool ShouldLoadChunks = true;
         public static Stopwatch GenTime = new Stopwatch();
         public static int runningThreads = 0, waitingthreads = 0;
@@ -127,15 +129,18 @@ namespace MCClone
                 ch = GenChunk(X, Z);
             }
 #else
-            while (MainWindow._serverStream == null) Thread.Sleep(100);
-            NetworkHelper.Send(MainWindow._serverStream, $"getchunk {X}.{Z}");
-            SaveChunk sch = JsonConvert.DeserializeObject<SaveChunk>(NetworkHelper.Receive(MainWindow._serverStream));
+            while (MainWindow._serverStream == null) Thread.Sleep(10);
+            NetworkHelper.Send(MainWindow._serverStream, $"getchunk {X} {Z}");
+            Task.Run(() =>
+            {
+                SaveChunk sch = JsonConvert.DeserializeObject<SaveChunk>(NetworkHelper.Receive(MainWindow._serverStream));
                 foreach (Block bl in sch.Blocks)
                 {
                     ch.Blocks.Add((bl.X, bl.Y, bl.Z), bl);
                 }
+                world.Chunks[(X, Z)] = ch;
+            });
 #endif
-
             world.Chunks.Add((X, Z), ch);
             return ch;
         }
