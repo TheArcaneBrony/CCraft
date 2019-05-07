@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Sockets;
+﻿using System.Net.Sockets;
 using System.Text;
 
 namespace MCClone
@@ -22,7 +20,7 @@ namespace MCClone
                 networkStream.Read(bytesFrom, 0, 2);
                 res += Encoding.Unicode.GetString(bytesFrom);
             } while (!res.Contains("\b\b"));
-            return res.Replace("\b\b","");
+            return res.Replace("\b\b", "");
         }
     }
 }

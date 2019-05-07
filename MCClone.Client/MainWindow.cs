@@ -1,4 +1,8 @@
-﻿using System;
+﻿using MCClone.Client;
+using OpenTK;
+using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -10,19 +14,13 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-using MCClone.Client;
-
-using OpenTK;
-using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
-
 namespace MCClone
 {
     public class MainWindow : GameWindow
     {
         int[] textures;
         public static List<ModData> Mods = new List<ModData>();
-        public static bool running = true, focussed = true, logger = true;
+        public static bool running = true, focussed = true, logger = true, multiPlayer = false;
         public static int renderDistance = 8, centerX, centerY, RenderErrors = 0, RenderedChunks = 0, LoadedMods = 0;
         public static double rt = 0, unloadDistance = 1.5, genDistance = 1.4;//1.4;
         public static World world = new World(0, 100, 0)
@@ -39,7 +37,7 @@ namespace MCClone
         public static NetworkStream _serverStream;
         public string Username = "DebugUser";
 
-        public MainWindow() : base(640, 480, GraphicsMode.Default, "The Arcane Brony#9669's Minecraft Clone", GameWindowFlags.Default, DisplayDevice.Default, 4, 0, GraphicsContextFlags.ForwardCompatible)
+        public MainWindow() : base(1280, 720, GraphicsMode.Default, "The Arcane Brony#9669's Minecraft Clone", GameWindowFlags.Default, DisplayDevice.Default, 4, 0, GraphicsContextFlags.ForwardCompatible)
         {
             Title += $" | GL Ver: {GL.GetString(StringName.Version)} | Version: {DataStore.Ver}";
             VSync = VSyncMode.Off;
@@ -349,13 +347,17 @@ namespace MCClone
                 }
             }
             GL.End();
-            foreach (ModData mod in Mods)
+            if (Mods.Count > 0)
             {
-                if (mod.OnResize != null)
+                foreach (ModData mod in Mods)
                 {
-                    mod.OnRenderFrame.Invoke(mod.Instance, new object[] { e });
+                    if (mod.OnRenderFrame != null)
+                    {
+                        mod.OnRenderFrame.Invoke(mod.Instance, new object[] { e });
+                    }
                 }
             }
+
             /*    GL.MatrixMode(MatrixMode.Projection);
 
                 GL.LoadIdentity();
@@ -483,7 +485,6 @@ namespace MCClone
                             returndata = Encoding.Unicode.GetString(inStream.ToArray());
                         }
 
-
                         returndata = returndata.Replace("\0MSGEND\0", "");
 
                         if (returndata.StartsWith("\0SRVMSG\0"))
@@ -540,31 +541,34 @@ namespace MCClone
         }
         public void Init(string username)
         {
-            Username = username;
-
-            try
+            if (multiPlayer)
             {
-#if DEBUG
+                Username = username;
+
                 try
                 {
-                    ClientSocket.Connect("127.0.0.1", 13372);
-                }
-                catch
-                {
-                    ClientSocket.Connect("thearcanebrony.ddns.net", 13372);
-                }
+#if DEBUG
+                    try
+                    {
+                        ClientSocket.Connect("127.0.0.1", 13372);
+                    }
+                    catch
+                    {
+                        ClientSocket.Connect("thearcanebrony.net", 13372);
+                    }
 #else
                 ClientSocket.Connect("thearcanebrony.ddns.net", 8888);
 #endif
-                Logger.LogQueue.Enqueue($"Connected as {username}");
+                    Logger.LogQueue.Enqueue($"Connected as {username}");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    Logger.LogQueue.Enqueue("Connection failed!");
+                }
+                _serverStream = ClientSocket.GetStream();
+                NetworkHelper.Send(_serverStream, $"login {CliUtil.GetGameArg("username")} {CliUtil.GetGameArg("password")}");
             }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                Logger.LogQueue.Enqueue("Connection failed!");
-            }
-            _serverStream = ClientSocket.GetStream();
-            NetworkHelper.Send(_serverStream, $"login {CliUtil.GetGameArg("username")} {CliUtil.GetGameArg("password")}");
         }
     }
 }

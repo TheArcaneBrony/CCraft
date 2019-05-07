@@ -76,8 +76,8 @@ namespace MCClone.Server
                 {
                     requestCount++;
                     string res = NetworkHelper.Receive(_clientSocket.GetStream());
-                    Console.BackgroundColor = ConsoleColor.Red;
-                    Logger.LogQueue.Enqueue($"{_clNo}: {res}");
+                    //Console.BackgroundColor = ConsoleColor.Red;
+                    //Logger.LogQueue.Enqueue($"{_clNo}: {res}");
                     string[] parts = res.Split(' ');
                     switch (parts[0])
                     {
@@ -89,7 +89,7 @@ namespace MCClone.Server
                             Task.Run(() =>
                             {
                                 Chunk ch = TerrainGen.GetChunk(Convert.ToInt32(parts[1]), Convert.ToInt32(parts[2]));
-                                while (!ch.Finished) Thread.Sleep(5);
+                                while (!ch.Finished) Thread.Sleep(500);
                                 NetworkHelper.Send(_clientSocket.GetStream(), JsonConvert.SerializeObject(new SaveChunk(ch)));
                             });
                             break;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -6,14 +7,14 @@ using System.IO.Compression;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace MCClone
 {
     public class TerrainGen
     {
-        public static World world = new World(0, 0, 0) {
-            Name="Test"
+        public static World world = new World(0, 0, 0)
+        {
+            Name = "Test"
         };
         private static bool ShouldLoadChunks = true;
         public static Stopwatch GenTime = new Stopwatch();
@@ -47,7 +48,7 @@ namespace MCClone
                 waitingthreads++;
                 while (runningThreads >= maxThreads)
                 {
-                    Thread.SpinWait(1000);
+                    Thread.Sleep(500);
                 }
                 waitingthreads--;
                 runningThreads++;
@@ -102,45 +103,49 @@ namespace MCClone
             GenTime.Restart();
             Chunk ch = new Chunk(X, Z);
             Directory.CreateDirectory($"Worlds/{world.Name}/ChunkData/");
-#if SERVER
-            if (ShouldLoadChunks && File.Exists($"Worlds/{world.Name}/ChunkData/{X}.{Z}.gz"))
+            if (DataStore.Server || !DataStore.Multiplayer)
             {
-                int length;
-                byte[] b = new byte[4];
-                using (FileStream fs = File.OpenRead($"Worlds/{world.Name}/ChunkData/{X}.{Z}.gz"))
+                if (ShouldLoadChunks && File.Exists($"Worlds/{world.Name}/ChunkData/{X}.{Z}.gz"))
                 {
-                    fs.Position = fs.Length - 4;
-                    fs.Read(b, 0, 4);
-                    length = BitConverter.ToInt32(b, 0);
+                    int length;
+                    byte[] b = new byte[4];
+                    using (FileStream fs = File.OpenRead($"Worlds/{world.Name}/ChunkData/{X}.{Z}.gz"))
+                    {
+                        fs.Position = fs.Length - 4;
+                        fs.Read(b, 0, 4);
+                        length = BitConverter.ToInt32(b, 0);
+                    }
+                    byte[] data = new byte[length];
+                    GZipStream chIn = new GZipStream(new FileStream($"Worlds/{world.Name}/ChunkData/{X}.{Z}.gz", FileMode.Open), CompressionMode.Decompress);
+                    chIn.Read(data, 0, data.Length);
+                    chIn.Close();
+                    SaveChunk sch = JsonConvert.DeserializeObject<SaveChunk>(Encoding.ASCII.GetString(data));
+                    foreach (Block bl in sch.Blocks)
+                    {
+                        ch.Blocks.Add((bl.X, bl.Y, bl.Z), bl);
+                    }
+                    Logger.LogQueue.Enqueue($"Loaded chunk {X}/{Z} in: {GenTime.ElapsedTicks / 10000d} ms");
                 }
-                byte[] data = new byte[length];
-                GZipStream chIn = new GZipStream(new FileStream($"Worlds/{world.Name}/ChunkData/{X}.{Z}.gz", FileMode.Open), CompressionMode.Decompress);
-                chIn.Read(data, 0, data.Length);
-                chIn.Close();
-                SaveChunk sch = JsonConvert.DeserializeObject<SaveChunk>(Encoding.ASCII.GetString(data));
-                foreach (Block bl in sch.Blocks)
+                else
                 {
-                    ch.Blocks.Add((bl.X, bl.Y, bl.Z), bl);
+                    ch = GenChunk(X, Z);
                 }
-                Logger.LogQueue.Enqueue($"Loaded chunk {X}/{Z} in: {GenTime.ElapsedTicks / 10000d} ms");
             }
-            else
+            if (!DataStore.Server && DataStore.Multiplayer)
             {
-                ch = GenChunk(X, Z);
-            }
-#else
-            while (MainWindow._serverStream == null) Thread.Sleep(10);
-            NetworkHelper.Send(MainWindow._serverStream, $"getchunk {X} {Z}");
-            Task.Run(() =>
-            {
-                SaveChunk sch = JsonConvert.DeserializeObject<SaveChunk>(NetworkHelper.Receive(MainWindow._serverStream));
-                foreach (Block bl in sch.Blocks)
+                while (MainWindow._serverStream == null) Thread.Sleep(500);
+                NetworkHelper.Send(MainWindow._serverStream, $"getchunk {X} {Z}");
+
+                Task.Run(() =>
                 {
-                    ch.Blocks.Add((bl.X, bl.Y, bl.Z), bl);
-                }
-                world.Chunks[(X, Z)] = ch;
-            });
-#endif
+                    SaveChunk sch = JsonConvert.DeserializeObject<SaveChunk>(NetworkHelper.Receive(MainWindow._serverStream));
+                    foreach (Block bl in sch.Blocks)
+                    {
+                        ch.Blocks.Add((bl.X, bl.Y, bl.Z), bl);
+                    }
+                    world.Chunks[(X, Z)] = ch;
+                });
+            }
             world.Chunks.Add((X, Z), ch);
             return ch;
         }
@@ -148,7 +153,7 @@ namespace MCClone
         //public static int GetHeight(int x, int z) => (int)Math.Abs(((Math.Sin(Util.DegToRad(x)) * 25 + Math.Sin(Util.DegToRad(z)) * 10) * 1.2));// 2;
         public static int GetHeight(int x, int z)
         {
-            return 0; // multiplayer performance testing
+            //  return 0; // multiplayer performance testing
             int y = (int)Math.Max(Math.Floor(Math.Abs(((Math.Sin(Util.DegToRad(x)) * 25 + Math.Sin(Util.DegToRad(z)) * 10) * 1.2))), 0);
             return y;
         }

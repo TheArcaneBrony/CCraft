@@ -5,6 +5,18 @@ namespace MCClone
     public class DataStore
     {
         public static string Ver = "Alpha 0.08_01200";
+        public static bool Multiplayer =
+#if SERVER
+            true,
+#else
+            false,
+#endif
+            Server =
+#if SERVER
+            true;
+#else
+            true;
+#endif
     }
     public class ModData
     {
