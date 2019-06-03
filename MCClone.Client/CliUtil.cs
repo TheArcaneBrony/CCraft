@@ -28,7 +28,8 @@ namespace MCClone.Client
         }
         public static bool ShouldRenderChunk(Chunk ch)
         {
-            if (ch == null) return false;
+
+            if (ch == null || ch.Blocks.Count<256) return false;
             if (!(MainWindow.world.Player.X / 16 + MainWindow.renderDistance > ch.X && MainWindow.world.Player.X / 16 - MainWindow.renderDistance < ch.X))
             {
                 return false;

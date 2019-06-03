@@ -69,10 +69,14 @@ namespace MCClone
                     }
                     try
                     {
-                        byte[] data = Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(new SaveChunk(chunk)));
-                        GZipStream chOut = new GZipStream(new FileStream($"Worlds/{world.Name}/ChunkData/{X}.{Z}.gz", FileMode.Create), CompressionLevel.Optimal);
-                        chOut.Write(data, 0, data.Length);
-                        chOut.Close();
+                        Task.Run(() =>
+                        {
+
+                            byte[] data = Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(new SaveChunk(chunk)));
+                            GZipStream chOut = new GZipStream(new FileStream($"Worlds/{world.Name}/ChunkData/{X}.{Z}.gz", FileMode.Create), CompressionLevel.Optimal);
+                            chOut.Write(data, 0, data.Length);
+                            chOut.Close();
+                        });
                     }
                     catch (IOException)
                     {
@@ -83,7 +87,7 @@ namespace MCClone
                         throw;
                     }
                     chunk.Finished = true;
-                    Logger.LogQueue.Enqueue($"Chunk {X}/{Z} generated in: {GenTimer.ElapsedTicks / 10000d} ms");
+                    Logger.LogQueue.Enqueue($"Chunk {X}/{Z} generated in: {GenTimer.ElapsedTicks / 10000d} ms, {chunk.Blocks.Count} blocks.");
                 }
                 catch { }
                 finally

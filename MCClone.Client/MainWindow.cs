@@ -113,7 +113,7 @@ namespace MCClone
             //GL.BindVertexArray(_vertexArray);
             centerX = (ushort)(ClientRectangle.Width / 2);
             centerY = (ushort)(ClientRectangle.Height / 2);
-
+            
             Point center = PointToScreen(new Point(centerX, centerY));
             OpenTK.Input.Mouse.SetPosition(center.X, center.Y);
 
@@ -122,9 +122,10 @@ namespace MCClone
                 Flying = true,
                 Name = CliUtil.GetGameArg("username")
             };
+
+            TerrainGen.world = world;
             Thread gameInit = new Thread(() =>
             {
-                TerrainGen.world = world;
                 TerrainGen.GenTerrain();
                 while (true)
                 {
@@ -136,7 +137,8 @@ namespace MCClone
                     if (true || world.Chunks.Count < lctg)
                     {
                         Time.Restart();
-                        for (int x = (int)(world.Player.X / 16 - renderDistance * genDistance); x < world.Player.X / 16 + renderDistance * genDistance; x++)
+                        TerrainGen.GenTerrain();
+                        /*for (int x = (int)(world.Player.X / 16 - renderDistance * genDistance); x < world.Player.X / 16 + renderDistance * genDistance; x++)
                         {
                             for (int z = (int)(world.Player.Z / 16 - renderDistance * genDistance); z < world.Player.Z / 16 + renderDistance * genDistance; z++)
                             {
@@ -146,7 +148,7 @@ namespace MCClone
                                 }
                             }
                             Thread.Sleep(100);
-                        }
+                        }*/
                         Logger.LogQueue.Enqueue($"Generating new chunks took {Math.Round(Time.ElapsedTicks / 10000d, 4)} ms");
                     }
                     if (true || world.Chunks.Count > lctu)
@@ -301,6 +303,8 @@ namespace MCClone
                 }
             }
         }
+
+        List<Chunk> crq2 = new List<Chunk>();
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             rt = frameTime.ElapsedTicks / 10000d;
@@ -324,14 +328,13 @@ namespace MCClone
             RenderedChunks = 0;
 
 
-            GL.Begin(PrimitiveType.Quads);
-            List<Chunk> crq = new List<Chunk>();
+            //GL.Begin(PrimitiveType.Quads);
             try
             {
-                crq.AddRange(world.Chunks.Values);
+                crq2 = new List<Chunk>(world.Chunks.Values).FindAll((Chunk Ch) => { return CliUtil.ShouldRenderChunk(Ch); });
             }
             catch { }
-            foreach (Chunk cch in crq.FindAll((Chunk ch) => CliUtil.ShouldRenderChunk(ch)))
+            foreach (Chunk cch in crq2)
             {
                 try
                 {
@@ -346,7 +349,10 @@ namespace MCClone
                     RenderErrors++;
                 }
             }
-            GL.End();
+            GL.VertexPointer(2, VertexPointerType.Float, Vector2.SizeInBytes, g_vertex_buffer_data.ToArray());
+            GL.ColorPointer(3, ColorPointerType.Float, Vector3.SizeInBytes, g_color_buffer_data.ToArray());
+            GL.DrawArrays(PrimitiveType.Quads, 0, g_vertex_buffer_data.Count);
+            //GL.End();
             if (Mods.Count > 0)
             {
                 foreach (ModData mod in Mods)
@@ -376,66 +382,120 @@ namespace MCClone
             GL.Vertex3(0.5f + x, 1.0f + y, 0.5f + z);
             GL.End();
         }*/
+        static List<float> g_vertex_buffer_data = new List<float>();
+        static List<float> g_color_buffer_data = new List<float>();
         private static void RenderCube(World world, Chunk chunk, Block block)
         {
             int x = block.X + 16 * chunk.X;
             int y = block.Y;
             int z = block.Z + 16 * chunk.Z;
 
+            g_color_buffer_data.AddRange(new float[] { brightness, brightness, 0 });
+            g_color_buffer_data.AddRange(new float[] { brightness, brightness, 0 });
+            g_color_buffer_data.AddRange(new float[] { brightness, brightness, 0 });
             if (world.Player.Y + 1.3 > y)
             {
                 //top
-                GL.Color3(brightness, brightness, 0);
-                GL.Vertex3(x, 1 + y, z);
-                GL.Vertex3(1 + x, 1 + y, z);
-                GL.Vertex3(1 + x, 1 + y, 1 + z);
-                GL.Vertex3(x, 1 + y, 1 + z);
+
+                g_vertex_buffer_data.AddRange(new float[]{ x, 1 + y, z});
+                g_vertex_buffer_data.AddRange(new float[]{1 + x, 1 + y, z});
+                g_vertex_buffer_data.AddRange(new float[]{1 + x, 1 + y, 1 + z});
+                g_vertex_buffer_data.AddRange(new float[]{x, 1 + y, 1 + z});
             }
             else
             {
                 //bottom
-                GL.Color3(brightness, brightness, brightness);
-                GL.Vertex3(x, y, z);
-                GL.Vertex3(1 + x, y, z);
-                GL.Vertex3(1 + x, y, 1 + z);
-                GL.Vertex3(x, y, 1 + z);
+                g_vertex_buffer_data.AddRange(new float[]{x, y, z});
+                g_vertex_buffer_data.AddRange(new float[]{1 + x, y, z});
+                g_vertex_buffer_data.AddRange(new float[]{1 + x, y, 1 + z});
+                g_vertex_buffer_data.AddRange(new float[]{x, y, 1 + z});
             }
             if (world.Player.Z < z)
             {
                 //left
-                GL.Color3(brightness, 0, 0);
-                GL.Vertex3(x, 1 + y, z);
-                GL.Vertex3(1 + x, 1 + y, z);
-                GL.Vertex3(1 + x, y, z);
-                GL.Vertex3(x, y, z);
+                g_vertex_buffer_data.AddRange(new float[]{x, 1 + y, z});
+                g_vertex_buffer_data.AddRange(new float[]{1 + x, 1 + y, z});
+                g_vertex_buffer_data.AddRange(new float[]{1 + x, y, z});
+                g_vertex_buffer_data.AddRange(new float[]{x, y, z});
             }
             else
             {
                 //right
-                GL.Color3(brightness, 0.5 * brightness, 0);
-                GL.Vertex3(x, 1 + y, 1 + z);
-                GL.Vertex3(1 + x, 1 + y, 1 + z);
-                GL.Vertex3(1 + x, y, 1 + z);
-                GL.Vertex3(x, y, 1 + z);
+                g_vertex_buffer_data.AddRange(new float[]{x, 1 + y, 1 + z});
+                g_vertex_buffer_data.AddRange(new float[]{1 + x, 1 + y, 1 + z});
+                g_vertex_buffer_data.AddRange(new float[]{1 + x, y, 1 + z});
+                g_vertex_buffer_data.AddRange(new float[]{x, y, 1 + z});
             }
             if (world.Player.X < x)
             {
                 //front
-                GL.Color3(0, brightness, brightness);
-                GL.Vertex3(x, 1 + y, z);
-                GL.Vertex3(x, 1 + y, 1 + z);
-                GL.Vertex3(x, y, 1 + z);
-                GL.Vertex3(x, y, z);
+                g_vertex_buffer_data.AddRange(new float[]{x, 1 + y, z});
+                g_vertex_buffer_data.AddRange(new float[]{x, 1 + y, 1 + z});
+                g_vertex_buffer_data.AddRange(new float[]{x, y, 1 + z});
+                g_vertex_buffer_data.AddRange(new float[]{x, y, z});
             }
             else
             {
                 //back
-                GL.Color3(0, brightness, brightness);
-                GL.Vertex3(1 + x, 1 + y, z);
-                GL.Vertex3(1 + x, 1 + y, 1 + z);
-                GL.Vertex3(1 + x, y, 1 + z);
-                GL.Vertex3(1 + x, y, z);
+                g_vertex_buffer_data.AddRange(new float[]{1 + x, 1 + y, z});
+                g_vertex_buffer_data.AddRange(new float[]{1 + x, 1 + y, 1 + z});
+                g_vertex_buffer_data.AddRange(new float[]{1 + x, y, 1 + z});
+                g_vertex_buffer_data.AddRange(new float[]{1 + x, y, z});
             }
+            /* if (world.Player.Y + 1.3 > y)
+             {
+                 //top
+                 GL.Color3(brightness, brightness, 0);
+                 GL.Vertex3(x, 1 + y, z);
+                 GL.Vertex3(1 + x, 1 + y, z);
+                 GL.Vertex3(1 + x, 1 + y, 1 + z);
+                 GL.Vertex3(x, 1 + y, 1 + z);
+             }
+             else
+             {
+                 //bottom
+                 GL.Color3(brightness, brightness, brightness);
+                 GL.Vertex3(x, y, z);
+                 GL.Vertex3(1 + x, y, z);
+                 GL.Vertex3(1 + x, y, 1 + z);
+                 GL.Vertex3(x, y, 1 + z);
+             }
+             if (world.Player.Z < z)
+             {
+                 //left
+                 GL.Color3(brightness, 0, 0);
+                 GL.Vertex3(x, 1 + y, z);
+                 GL.Vertex3(1 + x, 1 + y, z);
+                 GL.Vertex3(1 + x, y, z);
+                 GL.Vertex3(x, y, z);
+             }
+             else
+             {
+                 //right
+                 GL.Color3(brightness, 0.5 * brightness, 0);
+                 GL.Vertex3(x, 1 + y, 1 + z);
+                 GL.Vertex3(1 + x, 1 + y, 1 + z);
+                 GL.Vertex3(1 + x, y, 1 + z);
+                 GL.Vertex3(x, y, 1 + z);
+             }
+             if (world.Player.X < x)
+             {
+                 //front
+                 GL.Color3(0, brightness, brightness);
+                 GL.Vertex3(x, 1 + y, z);
+                 GL.Vertex3(x, 1 + y, 1 + z);
+                 GL.Vertex3(x, y, 1 + z);
+                 GL.Vertex3(x, y, z);
+             }
+             else
+             {
+                 //back
+                 GL.Color3(0, brightness, brightness);
+                 GL.Vertex3(1 + x, 1 + y, z);
+                 GL.Vertex3(1 + x, 1 + y, 1 + z);
+                 GL.Vertex3(1 + x, y, 1 + z);
+                 GL.Vertex3(1 + x, y, z);
+             }*/
         }
         public void SetGameStateMW()
         {

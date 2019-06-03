@@ -15,7 +15,7 @@ namespace MCClone
 #if SERVER
             true;
 #else
-            true;
+            false;
 #endif
     }
     public class ModData
