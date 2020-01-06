@@ -1,7 +1,9 @@
 ﻿using MCClone.Client;
+
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -38,7 +40,7 @@ namespace MCClone
         public static NetworkStream _serverStream;
         public string Username = "DebugUser";
 
-        public MainWindow() : base(1280, 720, GraphicsMode.Default, "The Arcane Brony#9669's Minecraft Clone", GameWindowFlags.Default, DisplayDevice.Default, 4, 0, GraphicsContextFlags.ForwardCompatible)
+        public MainWindow() : base(640, 480, GraphicsMode.Default, "The Arcane Brony#9669's Minecraft Clone", GameWindowFlags.Default, DisplayDevice.Default, 4, 0, GraphicsContextFlags.ForwardCompatible)
         {
             Title += $" | GL Ver: {GL.GetString(StringName.Version)} | Version: {DataStore.Ver}";
             VSync = VSyncMode.Off;
@@ -257,7 +259,7 @@ namespace MCClone
             Logger.Start();
             Thread.CurrentThread.Priority = ThreadPriority.Highest;
             Thread.CurrentThread.Name = "Main thread";
-            DataStore.Threads.AddRange(new Thread[] { Thread.CurrentThread, gameInit, consoleInput, logThread });
+            DataStore.Threads.AddRange(new Thread[] { Thread.CurrentThread, gameInit, consoleInput, logThread, Logger.logQueueThread });
 
             GL.Enable(EnableCap.DepthTest);
 
@@ -293,9 +295,11 @@ namespace MCClone
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             Input.HandleInput();
-            Input.Tick();
+            //   Input.Tick();
             GL.ClearColor(0.1f * brightness, 0.5f * brightness, 0.7f * brightness, 0.9f);
             Title = $"MC Clone {DataStore.Ver} | FPS: {Math.Round(1000 / rt, 2)} ({Math.Round(rt, 2)} ms) C: {crq.Count}/{world.Chunks.Count} E: {RenderErrors} | {world.Player.X}/{world.Player.Y}/{world.Player.Z} : {world.Player.LX}/{world.Player.LY} | {Math.Round((double)Process.GetCurrentProcess().PrivateMemorySize64 / 1048576, 2)} MB | {TerrainGen.runningThreads}/{TerrainGen.maxThreads} GT | Mods: {LoadedMods}"; //{Math.Round(vol * 100, 0)}
+            Title = $"MCC {Math.Round(1000 / rt, 2)}FPS {Math.Round((double)Process.GetCurrentProcess().PrivateMemorySize64 / 1048576, 2)}MB";
+
             foreach (ModData mod in Mods)
             {
                 if (mod.OnResize != null)
@@ -305,7 +309,7 @@ namespace MCClone
             }
         }
 
-     //   List<Chunk> crq2 = new List<Chunk>();
+        //   List<Chunk> crq2 = new List<Chunk>();
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             rt = frameTime.ElapsedTicks / 10000d;
@@ -314,103 +318,9 @@ namespace MCClone
             Matrix4 modelview = Matrix4.LookAt(world.Player.CPos, world.Player.CFPt, Vector3.UnitY);
 
             GL.MatrixMode(MatrixMode.Modelview);
-            /* GL.UseProgram(_program);
-             _time += e.Time;
-             GL.VertexAttrib1(0, _time);
-             Vector4 position;
-             position.X = (float)Math.Sin(_time) * 0.5f;
-             position.Y = (float)Math.Cos(_time) * 0.5f;
-             position.Z = 0.0f;
-             position.W = 1.0f;
-             GL.VertexAttrib4(1, position);
-             GL.DrawArrays(PrimitiveType.Points, 0, 1);
-             GL.PointSize(10);*/
             GL.LoadMatrix(ref modelview);
-            RenderedChunks = 0;
 
-
-            GL.Begin(PrimitiveType.Quads);
-            /*try
-            {
-                crq2 = new List<Chunk>(world.Chunks.Values).FindAll((Chunk Ch) => { return true || CliUtil.ShouldRenderChunk(Ch); });
-            }
-            catch { }*/
-
-            for (int x = 0; x < 16; x++)
-            {
-                for (int y = 0; y < 16; y++)
-                {
-                    for (int z = 0; z < 16; z++)
-                    {
-                        GL.Vertex3(x, y, z);
-                    }
-                }
-            }
-            try
-            {
-                // foreach (Chunk cch in world.Chunks.Values.ToList().FindAll((Chunk Ch) => { return true || CliUtil.ShouldRenderChunk(Ch); }))
-                foreach (Chunk cch in world.Chunks.Values.ToList())
-                {
-                    try
-                    {
-                        foreach (Block bl in cch.Blocks.Values.ToList())
-                        {
-                            RenderCube(world, cch, bl);
-                        }
-                        RenderedChunks++;
-                    }
-                    catch
-                    {
-                        RenderErrors++;
-                    }
-                }
-            }
-            catch (Exception err)
-            {
-                Logger.PostLog("Exception: " + err.Message + " @ " + err.Source);
-            }
-            GL.End();
-            /*     GL.Begin(PrimitiveType.Points);
-                 foreach (Chunk cch in world.Chunks.Values.ToList().FindAll((Chunk Ch) => { return true || CliUtil.ShouldRenderChunk(Ch); }))
-                 {
-                     try
-                     {
-                         foreach (Block bl in new List<Block>(cch.Blocks.Values))
-                         {
-                             Dot(bl.X + 16 * cch.X, bl.Y, bl.Z + 16 * cch.Z);
-                         }
-                     }
-                     catch
-                     {
-                         RenderErrors++;
-                     }
-                 }
-                 GL.End();*/
-
-
-            GL.Begin(PrimitiveType.Quads);
-            List<Chunk> crq = new List<Chunk>();
-            try
-            {
-                crq.AddRange(world.Chunks.Values);
-            }
-            catch { }
-            foreach (Chunk cch in crq.FindAll((Chunk ch) => CliUtil.ShouldRenderChunk(ch)))
-            {
-                try
-                {
-                    foreach (Block bl in new List<Block>(cch.Blocks.Values))
-                    {
-                        RenderCube(world, cch, bl);
-                    }
-                    RenderedChunks++;
-                }
-                catch
-                {
-                    RenderErrors++;
-                }
-            }
-            GL.End();
+            RenderWorld();
 
             if (Mods.Count > 0)
             {
@@ -433,6 +343,35 @@ namespace MCClone
                 GL.LoadIdentity();*/
 
             SwapBuffers();
+        }
+        private static void RenderWorld()
+        {
+            RenderedChunks = 0;
+            GL.Begin(PrimitiveType.Quads);
+
+            try
+            {
+                foreach (Chunk cch in world.Chunks.Values.ToList().FindAll((ch) => CliUtil.ShouldRenderChunk(ch)))
+                {
+                    try
+                    {
+                        foreach (Block bl in cch.Blocks.Values.ToList())
+                        {
+                            RenderCube(world, cch, bl);
+                        }
+                        RenderedChunks++;
+                    }
+                    catch
+                    {
+                        RenderErrors++;
+                    }
+                }
+            }
+            catch (Exception err)
+            {
+                Logger.PostLog("Exception: " + err.Message + " @ " + err.Source);
+            }
+            GL.End();
         }
         static void Dot(double x, double y, double z)
         {

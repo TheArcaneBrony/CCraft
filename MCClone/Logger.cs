@@ -12,7 +12,7 @@ namespace MCClone
     internal class Logger
     {
         public static Queue<string> LogQueue = new Queue<string>();
-        private static Thread logQueueThread = new Thread(() =>
+        public static Thread logQueueThread = new Thread(() =>
         {
             while (true)
             {

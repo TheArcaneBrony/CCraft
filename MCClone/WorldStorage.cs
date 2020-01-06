@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
+using System.Text;
 
 namespace MCClone
 {
@@ -29,6 +31,24 @@ namespace MCClone
         public int Z { get; set; }
         public bool Finished { get; set; } = false;
         public SortedDictionary<(int X, int Y, int Z), Block> Blocks { get; set; } = new SortedDictionary<(int X, int Y, int Z), Block>();
+        public void Save()
+        {
+            try
+            {
+                byte[] data = Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(new SaveChunk(this)));
+                GZipStream chOut = new GZipStream(new FileStream($"Worlds/{MainWindow.world.Name}/ChunkData/{X}.{Z}.gz", FileMode.Create), CompressionLevel.Optimal);
+                chOut.Write(data, 0, data.Length);
+                chOut.Close();
+            }
+            catch (IOException)
+            {
+                Logger.LogQueue.Enqueue($"Failed to save chunk: {X}/{Z}");
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
     public class SaveChunk
     {

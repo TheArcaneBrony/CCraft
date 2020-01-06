@@ -113,9 +113,8 @@ namespace MCClone
                     renderDistance++;
                 }
             }
-        }
-        public static void Tick()
-        {
+
+            //tick
             int ty = 5;
             (int X, int Y) cpos = ((int)(Math.Truncate(world.Player.X / 16)), (int)(Math.Truncate(world.Player.Z / 16)));
             if (world.Chunks.TryGetValue(cpos, out Chunk chunk))
@@ -152,6 +151,11 @@ namespace MCClone
             }
             world.Player.CPos = new Vector3((float)world.Player.X, (float)world.Player.Y + 1.7f, (float)world.Player.Z);
             world.Player.CFPt = new Vector3((float)(world.Player.X + Math.Cos(Util.DegToRad(world.Player.LX))), (float)(world.Player.Y + 1.7f + Math.Sin(Util.DegToRad(world.Player.LY))), (float)(world.Player.Z + Math.Sin(Util.DegToRad(world.Player.LX))));
+
+        }
+        public static void Tick()
+        {
+            
         }
     }
 }

@@ -42,9 +42,10 @@ namespace MCClone
             foreach (ManagementObject mo in mos.Get())
             {
                 CPU += $"CPU{i++}: {(mo["Name"].ToString().Trim())} {mo["DataWidth"]}-bit @ {mo["CurrentClockSpeed"]} MHz ({mo["NumberOfEnabledCore"]}/{mo["NumberOfCores"]}C{mo["NumberOfLogicalProcessors"]}/{mo["ThreadCount"]}T)\n";
-                TotalCPUCores += (byte)((int)mo["NumberOfEnabledCore"] + (int)mo["ThreadCount"]);
+                TotalCPUCores += int.Parse(mo["NumberOfEnabledCore"] + "") ;
+                TotalCPUThreads += int.Parse(mo["ThreadCount"]+"");
             }
-            TotalCPUs = (byte)i++;
+            TotalCPUs = (int)i++;
             mos.Dispose();
             i = 0;
             mos = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_VideoController");
@@ -52,14 +53,14 @@ namespace MCClone
             {
                 GPU += $"GPU{i++}: {(mo["Name"])} (Driver: {mo["DriverVersion"]})\n";
             }
-            TotalGPUs = (byte)i++;
+            TotalGPUs = (int)i++;
             mos.Dispose();
         }
         public string CPU;
-        public byte TotalCPUs;
-        public byte TotalCPUCores;
-        public byte TotalCPUThreads;
+        public int TotalCPUs;
+        public int TotalCPUCores;
+        public int TotalCPUThreads;
         public string GPU;
-        public byte TotalGPUs;
+        public int TotalGPUs;
     }
 }
