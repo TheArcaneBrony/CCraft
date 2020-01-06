@@ -12,7 +12,7 @@ namespace MCClone
 {
     public class TerrainGen
     {
-        public static World world = new World(0, 0, 0)
+        public static World world = new World(0, 20, 0)
         {
             Name = "Test"
         };
@@ -23,12 +23,13 @@ namespace MCClone
         public static List<Thread> threads = new List<Thread>();
         public static void GenTerrain()
         {
-            double renderDistance = 10, genDistance = 1.2;
-            for (int x = 0; x < renderDistance * genDistance; x++)
+            double renderDistance = 2, genDistance = 1.2;
+            for (int x = (int)(-renderDistance * genDistance); x < renderDistance * genDistance; x++)
             {
-                for (double z = 0; z < 360; z++)
+                for (double z = -renderDistance * genDistance; z < renderDistance * genDistance; z++)
                 {
-                    (int, int) pos = ((int)(world.Player.X / 16 + x * Math.Sin(Util.DegToRad(z))), (int)(world.Player.Z / 16 + x * Math.Cos(Util.DegToRad(z))));
+                    //(int, int) pos = ((int)(world.Player.X / 16 + x * Math.Sin(Util.DegToRad(z))), (int)(world.Player.Z / 16 + x * Math.Cos(Util.DegToRad(z))));
+                    (int, int) pos = ((int)(world.Player.X / 16 + x), (int)(world.Player.Z / 16 + z));
                     if (!world.Chunks.ContainsKey(pos))
                         GetChunk(pos.Item1, pos.Item2);
                 }
@@ -71,7 +72,6 @@ namespace MCClone
                     {
                         Task.Run(() =>
                         {
-
                             byte[] data = Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(new SaveChunk(chunk)));
                             GZipStream chOut = new GZipStream(new FileStream($"Worlds/{world.Name}/ChunkData/{X}.{Z}.gz", FileMode.Create), CompressionLevel.Optimal);
                             chOut.Write(data, 0, data.Length);
@@ -93,12 +93,15 @@ namespace MCClone
                 finally
                 {
                     runningThreads--;
+                    Thread.Sleep(250);
+                    DataStore.Threads.Remove(Thread.CurrentThread);
                 }
             })
             {
                 Name = $"Chunk Gen {X}/{Z}",
             };
             threads.Add(chunkGen);
+            DataStore.Threads.Add(chunkGen);
             chunkGen.Start();
             return chunk;
         }
@@ -135,22 +138,28 @@ namespace MCClone
                     ch = GenChunk(X, Z);
                 }
             }
-            if (!DataStore.Server && DataStore.Multiplayer)
+            else
             {
-                while (MainWindow._serverStream == null) Thread.Sleep(500);
-                NetworkHelper.Send(MainWindow._serverStream, $"getchunk {X} {Z}");
-
-                Task.Run(() =>
-                {
-                    SaveChunk sch = JsonConvert.DeserializeObject<SaveChunk>(NetworkHelper.Receive(MainWindow._serverStream));
-                    foreach (Block bl in sch.Blocks)
-                    {
-                        ch.Blocks.Add((bl.X, bl.Y, bl.Z), bl);
-                    }
-                    world.Chunks[(X, Z)] = ch;
-                });
+                ch = DownloadChunk(X,Z);   
             }
             world.Chunks.Add((X, Z), ch);
+            return ch;
+        }
+        public static Chunk DownloadChunk(int X, int Z)
+        {
+            while (MainWindow._serverStream == null) Thread.Sleep(500);
+            NetworkHelper.Send(MainWindow._serverStream, $"getchunk {X} {Z}");
+
+            Chunk ch = new Chunk(X, Z);
+            Task.Run(() =>
+            {
+                SaveChunk sch = JsonConvert.DeserializeObject<SaveChunk>(NetworkHelper.Receive(MainWindow._serverStream));
+                foreach (Block bl in sch.Blocks)
+                {
+                    ch.Blocks.Add((bl.X, bl.Y, bl.Z), bl);
+                }
+                world.Chunks[(X, Z)] = ch;
+            });
             return ch;
         }
         // old terrain gen function

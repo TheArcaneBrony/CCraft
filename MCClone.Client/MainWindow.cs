@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Media;
 using System.Net.Sockets;
 using System.Reflection;
@@ -18,12 +19,12 @@ namespace MCClone
 {
     public class MainWindow : GameWindow
     {
-        int[] textures;
+        // int[] textures;
         public static List<ModData> Mods = new List<ModData>();
         public static bool running = true, focussed = true, logger = true, multiPlayer = false;
         public static int renderDistance = 8, centerX, centerY, RenderErrors = 0, RenderedChunks = 0, LoadedMods = 0;
         public static double rt = 0, unloadDistance = 1.5, genDistance = 1.4;//1.4;
-        public static World world = new World(0, 100, 0)
+        public static World world = new World(0, 20, 0)
         {
             // Name = "DebugTestWorld"
         };
@@ -41,13 +42,13 @@ namespace MCClone
         {
             Title += $" | GL Ver: {GL.GetString(StringName.Version)} | Version: {DataStore.Ver}";
             VSync = VSyncMode.Off;
+
         }
         protected override void OnResize(EventArgs e)
         {
             GL.Viewport(ClientRectangle.X, ClientRectangle.Y, ClientRectangle.Width, ClientRectangle.Height);
-            centerX = ClientRectangle.Left + ClientRectangle.Width / 2;
+            centerX = ClientRectangle.Width / 2;
             centerY = ClientRectangle.Height / 2;
-
             Matrix4 projection = Matrix4.CreatePerspectiveFieldOfView((float)Math.PI / 4/* 0.9f*/, Width / (float)Height, 1.0f, 64000f);
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadMatrix(ref projection);
@@ -104,16 +105,16 @@ namespace MCClone
 
             if (CliUtil.GetGameArg("world") != "null") { world.Name = CliUtil.GetGameArg("world"); }
             Console.WriteLine($"Logged in as {CliUtil.GetGameArg("username")} with password {CliUtil.GetGameArg("password")}\n");
-            uint cres = 0;
-            SystemUtils.NtSetTimerResolution(9000, true, ref cres);
+            //   uint cres = 0;
+            // SystemUtils.NtSetTimerResolution(9000, true, ref cres);
             //CursorVisible = false;
             //_program = CompileShaders();
 
-            //GL.GenVertexArrays(1, out _vertexArray);
-            //GL.BindVertexArray(_vertexArray);
+            GL.GenVertexArrays(1, out _vertexArray);
+            GL.BindVertexArray(_vertexArray);
             centerX = (ushort)(ClientRectangle.Width / 2);
             centerY = (ushort)(ClientRectangle.Height / 2);
-            
+
             Point center = PointToScreen(new Point(centerX, centerY));
             OpenTK.Input.Mouse.SetPosition(center.X, center.Y);
 
@@ -127,7 +128,7 @@ namespace MCClone
             Thread gameInit = new Thread(() =>
             {
                 TerrainGen.GenTerrain();
-                while (true)
+                while (false)
                 {
                     Thread.Sleep(2000);
                     int lctu = (int)(Math.Pow((renderDistance * unloadDistance * 2), 2)),
@@ -165,7 +166,7 @@ namespace MCClone
                             || Z > (int)(world.Player.Z / 16 + renderDistance * unloadDistance)
                             )
                             {
-                                world.Chunks.Remove((X, Z));
+                                // world.Chunks.Remove((X, Z));
                             }
                         }
                         Logger.LogQueue.Enqueue($"Unloading chunks took {Math.Round(Time.ElapsedTicks / 10000d, 4)} ms {lctu}");
@@ -180,7 +181,8 @@ namespace MCClone
                         $"Ver: {DataStore.Ver}\n" +
                         $"FPS: {Math.Round(1f / RenderTime, 5)} ({Math.Round(RenderTime * 1000, 5)} ms)\n" +
                         $"Windows version: {Environment.OSVersion}\n" +
-                        $"CPU Cores: {Environment.ProcessorCount}\n" +
+                        DataStore.SystemInfo.CPU +
+                        DataStore.SystemInfo.GPU +
                         $".NET version: {Environment.Version}\n" +
                         $"Ingame Name: {CliUtil.GetGameArg("username")}\n" +
                         $"Windows Username: {Environment.UserName}\n" +
@@ -189,9 +191,9 @@ namespace MCClone
                         $"Player Pos: {world.Player.X}/{world.Player.Y}/{world.Player.Z}\n" +
                         $"Camera angle: {world.Player.LX}/{world.Player.LY}\n" +
                         $"Render Errors: {RenderErrors}\n" +
-                        $"Rendered Chunks: {RenderedChunks / 256}/{world.Chunks.Count}"
+                        $"Rendered Chunks: {RenderedChunks}/{world.Chunks.Count}\n"
                         );
-                    Thread.Sleep(10000);
+                    Thread.Sleep(1000);
                 }
             });
             Thread consoleInput = new Thread(() =>
@@ -238,20 +240,24 @@ namespace MCClone
 
             // kbdLogic.Start();
             //Thread.Sleep(5);
-
+            logThread.Name = "Logging";
             logThread.IsBackground = true;
             logThread.Priority = ThreadPriority.Lowest;
             logThread.Start();
             //Thread.Sleep(5);
+            consoleInput.Name = "Console input";
             consoleInput.IsBackground = true;
             consoleInput.Priority = ThreadPriority.Lowest;
             consoleInput.Start();
             //Thread.Sleep(5);
+            gameInit.Name = "Game init";
             gameInit.IsBackground = true;
             gameInit.Priority = ThreadPriority.BelowNormal;
             gameInit.Start();
             Logger.Start();
             Thread.CurrentThread.Priority = ThreadPriority.Highest;
+            Thread.CurrentThread.Name = "Main thread";
+            DataStore.Threads.AddRange(new Thread[] { Thread.CurrentThread, gameInit, consoleInput, logThread });
 
             GL.Enable(EnableCap.DepthTest);
 
@@ -263,30 +269,25 @@ namespace MCClone
             // create texture ids
             //  GL.Enable(EnableCap.Texture2D);
             /* GL.GenTextures(2, textureIds);
-
              LoadTexture(context, Resource.Drawable.pattern, textureIds[0]);
              LoadTexture(context, Resource.Drawable.f_spot, textureIds[1]);*/
 
             /*
             GL.Enable(EnableCap.Texture2D);
             Bitmap bitmap = new Bitmap("Resources/Textures/bedrock.png");
-
             GL.GenTextures(1, textures);
             GL.BindTexture(TextureTarget.Texture2D, 1);
-
             BitmapData data = bitmap.LockBits(new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height),
                 ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, data.Width, data.Height, 0,
                 OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
             bitmap.UnlockBits(data);
-
-
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
             */
+
             Init(world.Player.Name);
         }
         protected override void OnUpdateFrame(FrameEventArgs e)
@@ -304,7 +305,7 @@ namespace MCClone
             }
         }
 
-        List<Chunk> crq2 = new List<Chunk>();
+     //   List<Chunk> crq2 = new List<Chunk>();
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             rt = frameTime.ElapsedTicks / 10000d;
@@ -328,13 +329,73 @@ namespace MCClone
             RenderedChunks = 0;
 
 
-            //GL.Begin(PrimitiveType.Quads);
+            GL.Begin(PrimitiveType.Quads);
+            /*try
+            {
+                crq2 = new List<Chunk>(world.Chunks.Values).FindAll((Chunk Ch) => { return true || CliUtil.ShouldRenderChunk(Ch); });
+            }
+            catch { }*/
+
+            for (int x = 0; x < 16; x++)
+            {
+                for (int y = 0; y < 16; y++)
+                {
+                    for (int z = 0; z < 16; z++)
+                    {
+                        GL.Vertex3(x, y, z);
+                    }
+                }
+            }
             try
             {
-                crq2 = new List<Chunk>(world.Chunks.Values).FindAll((Chunk Ch) => { return CliUtil.ShouldRenderChunk(Ch); });
+                // foreach (Chunk cch in world.Chunks.Values.ToList().FindAll((Chunk Ch) => { return true || CliUtil.ShouldRenderChunk(Ch); }))
+                foreach (Chunk cch in world.Chunks.Values.ToList())
+                {
+                    try
+                    {
+                        foreach (Block bl in cch.Blocks.Values.ToList())
+                        {
+                            RenderCube(world, cch, bl);
+                        }
+                        RenderedChunks++;
+                    }
+                    catch
+                    {
+                        RenderErrors++;
+                    }
+                }
+            }
+            catch (Exception err)
+            {
+                Logger.PostLog("Exception: " + err.Message + " @ " + err.Source);
+            }
+            GL.End();
+            /*     GL.Begin(PrimitiveType.Points);
+                 foreach (Chunk cch in world.Chunks.Values.ToList().FindAll((Chunk Ch) => { return true || CliUtil.ShouldRenderChunk(Ch); }))
+                 {
+                     try
+                     {
+                         foreach (Block bl in new List<Block>(cch.Blocks.Values))
+                         {
+                             Dot(bl.X + 16 * cch.X, bl.Y, bl.Z + 16 * cch.Z);
+                         }
+                     }
+                     catch
+                     {
+                         RenderErrors++;
+                     }
+                 }
+                 GL.End();*/
+
+
+            GL.Begin(PrimitiveType.Quads);
+            List<Chunk> crq = new List<Chunk>();
+            try
+            {
+                crq.AddRange(world.Chunks.Values);
             }
             catch { }
-            foreach (Chunk cch in crq2)
+            foreach (Chunk cch in crq.FindAll((Chunk ch) => CliUtil.ShouldRenderChunk(ch)))
             {
                 try
                 {
@@ -349,10 +410,8 @@ namespace MCClone
                     RenderErrors++;
                 }
             }
-            GL.VertexPointer(2, VertexPointerType.Float, Vector2.SizeInBytes, g_vertex_buffer_data.ToArray());
-            GL.ColorPointer(3, ColorPointerType.Float, Vector3.SizeInBytes, g_color_buffer_data.ToArray());
-            GL.DrawArrays(PrimitiveType.Quads, 0, g_vertex_buffer_data.Count);
-            //GL.End();
+            GL.End();
+
             if (Mods.Count > 0)
             {
                 foreach (ModData mod in Mods)
@@ -375,127 +434,74 @@ namespace MCClone
 
             SwapBuffers();
         }
-        /*static void Dot(double x, double y, double z)
+        static void Dot(double x, double y, double z)
         {
             GL.Begin(PrimitiveType.Points);
             GL.Color3(brightness, brightness, 0);
             GL.Vertex3(0.5f + x, 1.0f + y, 0.5f + z);
             GL.End();
-        }*/
-        static List<float> g_vertex_buffer_data = new List<float>();
-        static List<float> g_color_buffer_data = new List<float>();
+        }
         private static void RenderCube(World world, Chunk chunk, Block block)
         {
             int x = block.X + 16 * chunk.X;
             int y = block.Y;
             int z = block.Z + 16 * chunk.Z;
 
-            g_color_buffer_data.AddRange(new float[] { brightness, brightness, 0 });
-            g_color_buffer_data.AddRange(new float[] { brightness, brightness, 0 });
-            g_color_buffer_data.AddRange(new float[] { brightness, brightness, 0 });
+
             if (world.Player.Y + 1.3 > y)
             {
                 //top
-
-                g_vertex_buffer_data.AddRange(new float[]{ x, 1 + y, z});
-                g_vertex_buffer_data.AddRange(new float[]{1 + x, 1 + y, z});
-                g_vertex_buffer_data.AddRange(new float[]{1 + x, 1 + y, 1 + z});
-                g_vertex_buffer_data.AddRange(new float[]{x, 1 + y, 1 + z});
+                GL.Color3(brightness, brightness, 0);
+                GL.Vertex3(x, 1 + y, z);
+                GL.Vertex3(1 + x, 1 + y, z);
+                GL.Vertex3(1 + x, 1 + y, 1 + z);
+                GL.Vertex3(x, 1 + y, 1 + z);
             }
             else
             {
                 //bottom
-                g_vertex_buffer_data.AddRange(new float[]{x, y, z});
-                g_vertex_buffer_data.AddRange(new float[]{1 + x, y, z});
-                g_vertex_buffer_data.AddRange(new float[]{1 + x, y, 1 + z});
-                g_vertex_buffer_data.AddRange(new float[]{x, y, 1 + z});
+                GL.Color3(brightness, brightness, brightness);
+                GL.Vertex3(x, y, z);
+                GL.Vertex3(1 + x, y, z);
+                GL.Vertex3(1 + x, y, 1 + z);
+                GL.Vertex3(x, y, 1 + z);
             }
             if (world.Player.Z < z)
             {
                 //left
-                g_vertex_buffer_data.AddRange(new float[]{x, 1 + y, z});
-                g_vertex_buffer_data.AddRange(new float[]{1 + x, 1 + y, z});
-                g_vertex_buffer_data.AddRange(new float[]{1 + x, y, z});
-                g_vertex_buffer_data.AddRange(new float[]{x, y, z});
+                GL.Color3(brightness, 0, 0);
+                GL.Vertex3(x, 1 + y, z);
+                GL.Vertex3(1 + x, 1 + y, z);
+                GL.Vertex3(1 + x, y, z);
+                GL.Vertex3(x, y, z);
             }
             else
             {
                 //right
-                g_vertex_buffer_data.AddRange(new float[]{x, 1 + y, 1 + z});
-                g_vertex_buffer_data.AddRange(new float[]{1 + x, 1 + y, 1 + z});
-                g_vertex_buffer_data.AddRange(new float[]{1 + x, y, 1 + z});
-                g_vertex_buffer_data.AddRange(new float[]{x, y, 1 + z});
+                GL.Color3(brightness, 0.5 * brightness, 0);
+                GL.Vertex3(x, 1 + y, 1 + z);
+                GL.Vertex3(1 + x, 1 + y, 1 + z);
+                GL.Vertex3(1 + x, y, 1 + z);
+                GL.Vertex3(x, y, 1 + z);
             }
             if (world.Player.X < x)
             {
                 //front
-                g_vertex_buffer_data.AddRange(new float[]{x, 1 + y, z});
-                g_vertex_buffer_data.AddRange(new float[]{x, 1 + y, 1 + z});
-                g_vertex_buffer_data.AddRange(new float[]{x, y, 1 + z});
-                g_vertex_buffer_data.AddRange(new float[]{x, y, z});
+                GL.Color3(0, brightness, brightness);
+                GL.Vertex3(x, 1 + y, z);
+                GL.Vertex3(x, 1 + y, 1 + z);
+                GL.Vertex3(x, y, 1 + z);
+                GL.Vertex3(x, y, z);
             }
             else
             {
                 //back
-                g_vertex_buffer_data.AddRange(new float[]{1 + x, 1 + y, z});
-                g_vertex_buffer_data.AddRange(new float[]{1 + x, 1 + y, 1 + z});
-                g_vertex_buffer_data.AddRange(new float[]{1 + x, y, 1 + z});
-                g_vertex_buffer_data.AddRange(new float[]{1 + x, y, z});
+                GL.Color3(0, brightness, brightness);
+                GL.Vertex3(1 + x, 1 + y, z);
+                GL.Vertex3(1 + x, 1 + y, 1 + z);
+                GL.Vertex3(1 + x, y, 1 + z);
+                GL.Vertex3(1 + x, y, z);
             }
-            /* if (world.Player.Y + 1.3 > y)
-             {
-                 //top
-                 GL.Color3(brightness, brightness, 0);
-                 GL.Vertex3(x, 1 + y, z);
-                 GL.Vertex3(1 + x, 1 + y, z);
-                 GL.Vertex3(1 + x, 1 + y, 1 + z);
-                 GL.Vertex3(x, 1 + y, 1 + z);
-             }
-             else
-             {
-                 //bottom
-                 GL.Color3(brightness, brightness, brightness);
-                 GL.Vertex3(x, y, z);
-                 GL.Vertex3(1 + x, y, z);
-                 GL.Vertex3(1 + x, y, 1 + z);
-                 GL.Vertex3(x, y, 1 + z);
-             }
-             if (world.Player.Z < z)
-             {
-                 //left
-                 GL.Color3(brightness, 0, 0);
-                 GL.Vertex3(x, 1 + y, z);
-                 GL.Vertex3(1 + x, 1 + y, z);
-                 GL.Vertex3(1 + x, y, z);
-                 GL.Vertex3(x, y, z);
-             }
-             else
-             {
-                 //right
-                 GL.Color3(brightness, 0.5 * brightness, 0);
-                 GL.Vertex3(x, 1 + y, 1 + z);
-                 GL.Vertex3(1 + x, 1 + y, 1 + z);
-                 GL.Vertex3(1 + x, y, 1 + z);
-                 GL.Vertex3(x, y, 1 + z);
-             }
-             if (world.Player.X < x)
-             {
-                 //front
-                 GL.Color3(0, brightness, brightness);
-                 GL.Vertex3(x, 1 + y, z);
-                 GL.Vertex3(x, 1 + y, 1 + z);
-                 GL.Vertex3(x, y, 1 + z);
-                 GL.Vertex3(x, y, z);
-             }
-             else
-             {
-                 //back
-                 GL.Color3(0, brightness, brightness);
-                 GL.Vertex3(1 + x, 1 + y, z);
-                 GL.Vertex3(1 + x, 1 + y, 1 + z);
-                 GL.Vertex3(1 + x, y, 1 + z);
-                 GL.Vertex3(1 + x, y, z);
-             }*/
         }
         public void SetGameStateMW()
         {

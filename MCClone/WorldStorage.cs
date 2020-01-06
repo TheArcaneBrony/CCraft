@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.IO;
 
 namespace MCClone
@@ -35,7 +36,6 @@ namespace MCClone
         public SaveChunk(Chunk chunk)
         {if(chunk.Blocks!=null)
             Blocks = (List<Block>)new List<Block>(chunk.Blocks.Values);
-
         }
         public List<Block> Blocks { get; set; } = new List<Block>();
     }
@@ -48,13 +48,13 @@ namespace MCClone
             this.SpawnZ = SpawnZ;
             Player = new Player(SpawnX, SpawnY, SpawnZ);
         }
-        [Newtonsoft.Json.JsonIgnore]
+        [JsonIgnore]
         public string Name { get; set; } = "SP_DEV_" + Directory.GetDirectories("Worlds/").Length; //"SP_DEV";
         public double SpawnX { get; set; } = 0;
         public double SpawnY { get; set; } = 10;
         public double SpawnZ { get; set; } = 0;
         public Player Player { get; set; }
-        [Newtonsoft.Json.JsonIgnore]
-        public SortedDictionary<(int X, int Z), Chunk> Chunks { get; set; } = new SortedDictionary<(int X, int Z), Chunk>();
+        [JsonIgnore]
+        public SortedDictionary<(int X, int Z), Chunk> Chunks { get; } = new SortedDictionary<(int X, int Z), Chunk>();
     }
 }

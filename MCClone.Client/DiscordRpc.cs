@@ -1,4 +1,4 @@
-﻿#if !NODISCORD
+﻿#if !NODISCORD && false
 using System.Runtime.InteropServices;
 public class DiscordRpc
 {

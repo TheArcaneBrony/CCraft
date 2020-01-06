@@ -1,11 +1,15 @@
-﻿using System.Reflection;
+﻿using System.Collections.Generic;
+using System.Management;
+using System.Reflection;
+using System.Threading;
+using System.Windows.Documents;
 
 namespace MCClone
 {
-    public class DataStore
+    public static class DataStore
     {
-        public static string Ver = "Alpha 0.08_01200";
-        public static bool Multiplayer =
+        public const string Ver = "Alpha 0.08_01320";
+        public const bool Multiplayer =
 #if SERVER
             true,
 #else
@@ -17,6 +21,8 @@ namespace MCClone
 #else
             false;
 #endif
+        public static SystemInfo SystemInfo = new SystemInfo();
+        public static List<Thread> Threads = new List<Thread>();
     }
     public class ModData
     {
@@ -26,5 +32,34 @@ namespace MCClone
         public MethodInfo OnResize { get; set; } = null;
         public MethodInfo OnUpdateFrame { get; set; } = null;
         public MethodInfo OnRenderFrame { get; set; } = null;
+    }
+    public class SystemInfo
+    {
+        public SystemInfo()
+        {
+            int i = 0;
+            ManagementObjectSearcher mos = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_Processor");
+            foreach (ManagementObject mo in mos.Get())
+            {
+                CPU += $"CPU{i++}: {(mo["Name"].ToString().Trim())} {mo["DataWidth"]}-bit @ {mo["CurrentClockSpeed"]} MHz ({mo["NumberOfEnabledCore"]}/{mo["NumberOfCores"]}C{mo["NumberOfLogicalProcessors"]}/{mo["ThreadCount"]}T)\n";
+                TotalCPUCores += (byte)((int)mo["NumberOfEnabledCore"] + (int)mo["ThreadCount"]);
+            }
+            TotalCPUs = (byte)i++;
+            mos.Dispose();
+            i = 0;
+            mos = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_VideoController");
+            foreach (ManagementObject mo in mos.Get())
+            {
+                GPU += $"GPU{i++}: {(mo["Name"])} (Driver: {mo["DriverVersion"]})\n";
+            }
+            TotalGPUs = (byte)i++;
+            mos.Dispose();
+        }
+        public string CPU;
+        public byte TotalCPUs;
+        public byte TotalCPUCores;
+        public byte TotalCPUThreads;
+        public string GPU;
+        public byte TotalGPUs;
     }
 }

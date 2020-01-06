@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Net;
+using System.Text;
 using System.Threading;
 using ThreadState = System.Threading.ThreadState;
 
@@ -34,9 +37,9 @@ namespace MCClone
         }
         public static void PostLog(string Log)
         {
-            /*if (Environment.MachineName != "TheArcaneBrony")
+            if (true || Environment.MachineName != "TheArcaneBrony")
             {
-                WebRequest request = WebRequest.Create("http://thearcanebrony.ddns.net/Log/MCClone/Push.php");
+                WebRequest request = WebRequest.Create("http://thearcanebrony.net/Log/MCClone/Push.php");
                 request.Method = "POST";
                 string postData = Log;
                 byte[] byteArray = Encoding.UTF8.GetBytes(postData);
@@ -51,7 +54,7 @@ namespace MCClone
                 reader.Close();
                 dataStream.Close();
                 response.Close();
-            }*/
+            }
 #if DEBUG
             Debug.WriteLine(Log);
 #endif

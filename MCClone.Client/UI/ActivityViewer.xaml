@@ -1,0 +1,18 @@
+﻿<Window x:Class="MCClone.Client.UI.ActivityViewer"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MCClone.Client.UI"
+        mc:Ignorable="d"
+        Title="ActivityViewer" Height="720" Width="1280">
+    <Grid>
+        <Label x:Name="ThreadLabel" Content="Active threads: 0" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top"/>
+        <ListBox x:Name="ThreadList" HorizontalAlignment="Right" Margin="0,41,10,10" Width="265"/>
+        <ListBox x:Name="ThreadStateList" HorizontalAlignment="Right" Margin="0,41,280,10" Width="124"/>
+        <Image x:Name="ChunkMap" Margin="10,41,0,0" HorizontalAlignment="Left" Width="256" Height="256" VerticalAlignment="Top"/>
+        <Label Content="Chunk view" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <Image x:Name="ChunkView" HorizontalAlignment="Left" Height="160" Margin="10,302,0,0" VerticalAlignment="Top" Width="160" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
+        <Label x:Name="CurrentChunk" Content="Current chunk: ?/?" HorizontalAlignment="Left" Margin="175,302,0,0" VerticalAlignment="Top"/>
+    </Grid>
+</Window>
