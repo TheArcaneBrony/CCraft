@@ -15,6 +15,7 @@ namespace MCClone
         public double X { get; set; }
         public double Y { get; set; }
         public double Z { get; set; }
+        public (double, double) pos { get => (X, Z); set { X = value.Item1; Z = value.Item2; } }
         public double YV { get; set; }
         public double LX { get; set; }
         public double LY { get; set; }

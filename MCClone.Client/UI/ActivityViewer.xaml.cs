@@ -64,7 +64,7 @@ namespace MCClone.Client.UI
                         }));
                         List<Chunk> chunks = MainWindow.world.Chunks.Values.ToList();
                         Player plr = MainWindow.world.Player;
-                        (int X, int Y) cpos = ((int)(Math.Truncate(plr.X / 16)), (int)(Math.Truncate(plr.Z / 16))),
+                        (int X, int Y) cpos = Util.PlayerPosToChunkPos(plr.pos),
                         tcpos = TranslateCoordinate(chunkMap, cpos.X, cpos.Y);
 
                         for (int i = 0; i < chunks.Count; i++)
@@ -93,7 +93,7 @@ namespace MCClone.Client.UI
                         Dispatcher.Invoke(() => ChunkView.Source = BitmapToImageSource(chunkView));
                     }
                     catch (Exception) { }
-                    Thread.Sleep(500);
+                    Thread.Sleep(100);
                 }
             }).Start();
         }

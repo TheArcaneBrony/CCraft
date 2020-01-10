@@ -173,12 +173,6 @@
     <Compile Include="UI\ActivityViewer.xaml.cs">
       <DependentUpon>ActivityViewer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\DebugUI.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\DebugUI.Designer.cs">
-      <DependentUpon>DebugUI.cs</DependentUpon>
-    </Compile>
     <Compile Include="CliUtil.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -203,9 +197,6 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\DebugUI.resx">
-      <DependentUpon>DebugUI.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

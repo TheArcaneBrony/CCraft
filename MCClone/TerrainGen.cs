@@ -24,19 +24,20 @@ namespace MCClone
         public static List<Thread> threads = new List<Thread>();
         public static void GenTerrain()
         {
-            double renderDistance = 8, genDistance = 1.2;
-            for (int x = (int)(-renderDistance * genDistance); x < renderDistance * genDistance; x++)
-            {
-                for (double z = -renderDistance * genDistance; z < renderDistance * genDistance; z++)
+            double renderDistance = 16, genDistance = 1.2;
+            for (int d = 0; d < renderDistance * genDistance; d++)
+                for (int x = -d; x <= d; x++)
                 {
-                    //(int, int) pos = ((int)(world.Player.X / 16 + x * Math.Sin(Util.DegToRad(z))), (int)(world.Player.Z / 16 + x * Math.Cos(Util.DegToRad(z))));
-                    (int, int) pos = ((int)(world.Player.X / 16 + x), (int)(world.Player.Z / 16 + z));
-                    if (!world.Chunks.ContainsKey(pos))
-                        GetChunk(pos.Item1, pos.Item2);
+                    for (double z = -d; z <= d; z++)
+                    {
+                        //(int, int) pos = ((int)(world.Player.X / 16 + x * Math.Sin(Util.DegToRad(z))), (int)(world.Player.Z / 16 + x * Math.Cos(Util.DegToRad(z))));
+                        (int, int) pos = ((int)(world.Player.X / 16 + x), (int)(world.Player.Z / 16 + z));
+                        if (!world.Chunks.ContainsKey(pos))
+                            GetChunk(pos.Item1, pos.Item2);
+                    }
                 }
-            }
         }
-        public static Random rnd = new Random();
+        private static Random rnd = new Random();
         public static Chunk GenChunk(int X, int Z)
         {
             Chunk chunk = new Chunk(X, Z);
@@ -45,19 +46,15 @@ namespace MCClone
                 world.Chunks.TryGetValue((X, Z), out chunk);
                 return chunk;
             }
-
             Stopwatch GenTimer = new Stopwatch();
-            
-                GenTimer.Start();
+
+            GenTimer.Start();
             for (int x2 = 0; x2 < 16; x2++)
             {
                 for (int z2 = 0; z2 < 16; z2++)
                 {
-                    for (int y = GetHeight(X * 16 + x2, Z * 16 + z2); y <= GetHeight(X * 16 + x2, Z * 16 + z2); y++)
-                    {
-                        // Thread.Sleep(10);
-                        chunk.Blocks.Add((x2, y, z2), new Block(x2, y, z2));
-                    }
+                    int y = GetHeight(X * 16 + x2, Z * 16 + z2);
+                    chunk.Blocks.Add((x2, y, z2), new Block(x2, y, z2));
                 }
             }
             chunk.Finished = true;
@@ -66,48 +63,8 @@ namespace MCClone
             {
                 chunk.Save();
             });
-            Logger.LogQueue.Enqueue($"Chunk {X}/{Z} saved in: {GenTimer.ElapsedTicks / 10000d} ms, {chunk.Blocks.Count} blocks."); 
+            Logger.LogQueue.Enqueue($"Chunk {X}/{Z} saved in: {GenTimer.ElapsedTicks / 10000d} ms, {chunk.Blocks.Count} blocks.");
 
-            /*Thread chunkGen = new Thread(() =>
-            {
-                //waitingthreads++;
-                while (false && DataStore.Threads.Count >= maxThreads)
-                {
-                    Thread.Sleep(100);
-                }
-                //waitingthreads--;
-                //runningThreads++;
-                try
-                {
-                    for (int x2 = 0; x2 < 16; x2++)
-                    {
-                        for (int z2 = 0; z2 < 16; z2++)
-                        {
-                            for (int y = GetHeight(X * 16 + x2, Z * 16 + z2); y <= GetHeight(X * 16 + x2, Z * 16 + z2); y++)
-                            {
-                                // Thread.Sleep(10);
-                                chunk.Blocks.Add((x2, y, z2), new Block(x2, y, z2));
-                            }
-                        }
-                    }
-                    chunk.Finished = true;
-                    Logger.LogQueue.Enqueue($"Chunk {X}/{Z} generated in: {GenTimer.ElapsedTicks / 10000d} ms, {chunk.Blocks.Count} blocks.");
-                    GenTimer.Restart();
-                   *//* }
-                catch { }
-                finally
-                {
-                    //  runningThreads--;
-                   // Thread.Sleep(100);
-                    DataStore.Threads.Remove(Thread.CurrentThread);
-                }
-            })
-            {
-                Name = $"Chunk Gen {X}/{Z}",
-            };
-            threads.Add(chunkGen);
-            DataStore.Threads.Add(chunkGen);
-            chunkGen.Start();*/
             return chunk;
         }
         public static Chunk GetChunk(int X, int Z)
@@ -171,9 +128,8 @@ namespace MCClone
         //public static int GetHeight(int x, int z) => (int)Math.Abs(((Math.Sin(Util.DegToRad(x)) * 25 + Math.Sin(Util.DegToRad(z)) * 10) * 1.2));// 2;
         public static int GetHeight(int x, int z)
         {
-            //return 0; // multiplayer performance testing
-            int y = (int)Math.Max(Math.Floor(Math.Abs(((Math.Sin(Util.DegToRad(x)) * 25 + Math.Sin(Util.DegToRad(z)) * 10) * 1.2))), 0);
-            return y;
+            return 0; // multiplayer performance testing
+            return Util.TruncateHeight((int)Math.Floor(Math.Abs(((Math.Sin(Util.DegToRad(x)) * 25 + Math.Sin(Util.DegToRad(z)) * 10) * 1.2))));
         }
     }
 }

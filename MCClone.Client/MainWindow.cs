@@ -32,7 +32,6 @@ namespace MCClone
         };
         public static float sensitivity = .1f, brightness = 1;
         public static List<Chunk> crq = new List<Chunk>();
-        private readonly UI.DebugUI debugWindow = new UI.DebugUI();
         //private int _program;
         private int _vertexArray;
 
@@ -40,7 +39,7 @@ namespace MCClone
         public static NetworkStream _serverStream;
         public string Username = "DebugUser";
 
-        public MainWindow() : base(640, 480, GraphicsMode.Default, "The Arcane Brony#9669's Minecraft Clone", GameWindowFlags.Default, DisplayDevice.Default, 4, 0, GraphicsContextFlags.ForwardCompatible)
+        public MainWindow() : base(640, 480, GraphicsMode.Default, "The Arcane Brony#9669's Minecraft Clone", GameWindowFlags.Default, DisplayDevice.Default, 5,0, GraphicsContextFlags.ForwardCompatible)
         {
             Title += $" | GL Ver: {GL.GetString(StringName.Version)} | Version: {DataStore.Ver}";
             VSync = VSyncMode.Off;
@@ -221,8 +220,7 @@ namespace MCClone
                                 renderDistance = int.Parse(args[0]);
                                 break;
                             case "debug":
-                                debugWindow.Show();
-                                debugWindow.UpdateUI("test string");
+                                
                                 break;
                             default:
                                 Console.WriteLine($"Invalid command: {command}");

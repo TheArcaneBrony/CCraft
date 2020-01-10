@@ -37,7 +37,7 @@ namespace MCClone
         }
         public static void PostLog(string Log)
         {
-            if (true || Environment.MachineName != "TheArcaneBrony")
+            if (DataStore.Logging || Environment.MachineName != "TheArcaneBrony")
             {
                 WebRequest request = WebRequest.Create("http://thearcanebrony.net/Log/MCClone/Push.php");
                 request.Method = "POST";
@@ -60,6 +60,9 @@ namespace MCClone
 #endif
 #if SERVER
             Console.WriteLine(Log);
+#endif
+#if CLIENT
+            DataStore.activityViewer.Dispatcher.Invoke(() => { DataStore.activityViewer.LogBox.AppendText(Log+ "\n"); });
 #endif
         }
     }

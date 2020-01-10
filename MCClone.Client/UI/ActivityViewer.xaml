@@ -14,5 +14,12 @@
         <Label Content="Chunk view" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
         <Image x:Name="ChunkView" HorizontalAlignment="Left" Height="160" Margin="10,302,0,0" VerticalAlignment="Top" Width="160" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
         <Label x:Name="CurrentChunk" Content="Current chunk: ?/?" HorizontalAlignment="Left" Margin="175,302,0,0" VerticalAlignment="Top"/>
+        <RichTextBox x:Name="LogBox" HorizontalAlignment="Left" Height="351" Margin="271,328,0,0" VerticalAlignment="Top" Width="592">
+            <FlowDocument>
+                <Paragraph>
+                    <Run Text="RichTextBox"/>
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
     </Grid>
 </Window>

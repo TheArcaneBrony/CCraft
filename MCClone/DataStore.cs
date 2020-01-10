@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using MCClone.Client.UI;
+using System.Collections.Generic;
 using System.Management;
 using System.Reflection;
 using System.Threading;
@@ -9,6 +10,7 @@ namespace MCClone
     public static class DataStore
     {
         public const string Ver = "Alpha 0.08_01320";
+        public const bool Logging = true;
         public const bool Multiplayer =
 #if SERVER
             true,
@@ -23,6 +25,9 @@ namespace MCClone
 #endif
         public static SystemInfo SystemInfo = new SystemInfo();
         public static List<Thread> Threads = new List<Thread>();
+#if CLIENT
+        public static ActivityViewer activityViewer;
+#endif
     }
     public class ModData
     {

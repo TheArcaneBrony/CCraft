@@ -9,6 +9,14 @@ namespace MCClone
         {
             return (Math.PI * deg) / 180;
         }
+        public static (int, int) PlayerPosToChunkPos((double, double) pos)
+        {
+            return ((int)(Math.Truncate(pos.Item1 / 16)), (int)(Math.Truncate(pos.Item2 / 16)));
+        }
+        public static int TruncateHeight(int y)
+        {
+            return Math.Min(Math.Max(0, y), 255);
+        }
     }
     public class SystemUtils
     {
