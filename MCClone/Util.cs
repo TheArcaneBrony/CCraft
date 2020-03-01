@@ -18,16 +18,14 @@ namespace MCClone
             return Math.Min(Math.Max(0, y), 255);
         }
     }
-    public class SystemUtils
+    public static class SystemUtils
     {
-        [DllImport("ntdll.dll", EntryPoint = "NtSetTimerResolution")]
-        public static extern void NtSetTimerResolution(uint DesiredResolution, bool SetResolution, ref uint CurrentResolution);
         const int SWP_NOZORDER = 0x4;
         const int SWP_NOACTIVATE = 0x10;
         [DllImport("kernel32")]
-        public static extern IntPtr GetConsoleWindow();
+        private static extern IntPtr GetConsoleWindow();
         [DllImport("user32")]
-        public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter,
+        private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter,
             int x, int y, int cx, int cy, int flags);
         public static void SetWindowPosition(int x, int y, int width, int height)
         {

@@ -30,7 +30,7 @@ namespace MCClone
             SystemUtils.SetWindowPosition(0, 0, 990, 512); //990, 512);
             Directory.CreateDirectory($"Worlds");
             Directory.CreateDirectory($"Mods");
-            string[] HQuote = new string[] { "MOMIJI INUBASHIRI!", "SQUID GIRL!", "MINECRAFT ROCKS!", "SHITTY PERFORMANCE!" };
+            string[] HQuote = new string[] { "MOMIJI INUBASHIRI!", "SQUID GIRL!", "MINECRAFT ROCKS!" };
             int rnd = new Random().Next(HQuote.Length);
             for (int i = 0; i < 200; i++)
             {
@@ -59,12 +59,6 @@ ESC: Exit game");
                 Console.Write("\r" + new string(' ', i + 1) + " \r" + new string('.', i));
             }
             Console.Write("\r \n");
-#if !NODISCORD && false
-            var EH = new DiscordRpc.EventHandlers();
-            DiscordRpc.Initialize("333608929575698442", ref EH, true, "");
-            var PR = new DiscordRpc.RichPresence() { details = "Developing", state = "Debugging", startTimestamp = (int)(DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds, smallImageKey = "test1", smallImageText = "testing" };
-            DiscordRpc.UpdatePresence(ref PR);
-#endif
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 

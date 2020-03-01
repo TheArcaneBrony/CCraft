@@ -5,28 +5,31 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading;
-using ThreadState = System.Threading.ThreadState;
+using System.Threading.Tasks;
 
 namespace MCClone
 {
     internal class Logger
     {
         public static Queue<string> LogQueue = new Queue<string>();
-        public static Thread logQueueThread = new Thread(() =>
+        public static readonly Thread logQueueThread = new Thread(() =>
         {
             while (true)
             {
-                if (Logger.LogQueue.Count != 0)
+                while (LogQueue.Count != 0)
                 {
-                    while (Logger.LogQueue.Count != 0)
+                    try
                     {
-                        Logger.PostLog(Logger.LogQueue.Dequeue());
+                        /*Task.Run(() => { if (LogQueue.Count != 0) try { */
+                        PostLog(LogQueue.Dequeue());/*
+                        } catch { Debug.WriteLine("Failed to post log"); } });*/
+                    }
+                    catch
+                    {
+                        Debug.WriteLine("Failed to post log");
                     }
                 }
-                Thread.Sleep(150);
-#if CLIENT
-                Console.Title = $"{TerrainGen.runningThreads}/{TerrainGen.runningThreads + TerrainGen.waitingthreads} ({TerrainGen.waitingthreads} waiting) | A: {TerrainGen.threads.FindAll((Thread thr) => thr.ThreadState == ThreadState.Running).Count} W: {TerrainGen.threads.FindAll((Thread thr) => thr.ThreadState == ThreadState.WaitSleepJoin).Count} F: {TerrainGen.threads.FindAll((Thread thr) => thr.ThreadState == ThreadState.Stopped).Count} T: {TerrainGen.threads.Count}";
-#endif
+                Thread.Sleep(250);
             }
         });
         public static void Start()
@@ -35,14 +38,16 @@ namespace MCClone
             logQueueThread.Priority = ThreadPriority.Lowest;
             logQueueThread.Start();
         }
+        private static readonly Uri postaddr = new Uri("http://thearcanebrony.net/Log/MCClone/Push.php");
         public static void PostLog(string Log)
         {
-            if (DataStore.Logging || Environment.MachineName != "TheArcaneBrony")
+            if (Debugger.IsAttached) Debug.WriteLine(Log);
+            if (DataStore.Logging)
             {
-                WebRequest request = WebRequest.Create("http://thearcanebrony.net/Log/MCClone/Push.php");
+                WebRequest request = WebRequest.Create(postaddr);
                 request.Method = "POST";
                 string postData = Log;
-                byte[] byteArray = Encoding.UTF8.GetBytes(postData);
+                byte[] byteArray = Encoding.UTF8.GetBytes(DateTime.Now + ": "+postData);
                 request.ContentLength = byteArray.Length;
                 Stream dataStream = request.GetRequestStream();
                 dataStream.Write(byteArray, 0, byteArray.Length);
@@ -51,18 +56,13 @@ namespace MCClone
                 dataStream = response.GetResponseStream();
                 StreamReader reader = new StreamReader(dataStream);
                 string responseFromServer = reader.ReadToEnd();
+                Debug.WriteLine(responseFromServer);
                 reader.Close();
                 dataStream.Close();
                 response.Close();
             }
-#if DEBUG
-            Debug.WriteLine(Log);
-#endif
-#if SERVER
-            Console.WriteLine(Log);
-#endif
 #if CLIENT
-            DataStore.activityViewer.Dispatcher.Invoke(() => { DataStore.activityViewer.LogBox.AppendText(Log+ "\n"); });
+            //if (DataStore.activityViewer != null) DataStore.activityViewer.Dispatcher.Invoke(() => { DataStore.activityViewer.LogBox.AppendText(Log + "\n"); });
 #endif
         }
     }

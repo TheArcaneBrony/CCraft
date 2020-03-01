@@ -18,7 +18,7 @@ namespace MCClone.Client.UI
     public partial class ActivityViewer : Window
     {
 
-        public static Bitmap chunkMap, chunkView = new Bitmap(16, 16);
+        private static Bitmap chunkMap, chunkView = new Bitmap(16, 16);
 
         Graphics chunkMapG, chunkViewG;
         public ActivityViewer()
@@ -26,17 +26,16 @@ namespace MCClone.Client.UI
             InitializeComponent();
             WindowState = WindowState.Maximized;
 
-
-
-            new Thread(() =>
+            Thread UIThr = new Thread(() =>
             {
+                int idgb = 0;
                 while (true)
                 {
-                    try
+                    //  try
                     {
-                        Dispatcher.Invoke((System.Action)(() =>
+                        Dispatcher.Invoke((() =>
                         {
-                            ActivityViewer.chunkMap = new Bitmap((int)(int)ChunkMap.Width, (int)(int)ChunkMap.Width);
+                            chunkMap = new Bitmap((int)ChunkMap.Width, (int)ChunkMap.Width);
                             chunkMapG = Graphics.FromImage(chunkMap);
                             chunkViewG = Graphics.FromImage(chunkView);
 
@@ -48,54 +47,61 @@ namespace MCClone.Client.UI
                             {
                                 try
                                 {
-                                    Thread thread = DataStore.Threads[(int)i];
-                                    ThreadStateList.Items.Add((object)$"{thread.ThreadState}");
-                                    ThreadList.Items.Add((object)$"{thread.Name} ({thread.ManagedThreadId})");
+                                    Thread thread = DataStore.Threads[i];
+                                    ThreadStateList.Items.Add($"{thread.ThreadState}");
+                                    ThreadList.Items.Add($"{thread.Name} ({thread.ManagedThreadId})");
                                 }
                                 catch (NullReferenceException)
                                 {
 
-                                    ThreadStateList.Items.Add((object)$"?");
-                                    ThreadList.Items.Add((object)$"?");
+                                    ThreadStateList.Items.Add($"?");
+                                    ThreadList.Items.Add($"?");
                                 }
                             }
                             ThreadLabel.Content = $"Active threads: {ThreadList.Items.Count} ({currentThreads.Count})";
-                            ThreadList.Items.Add((object)"-- END OF THREAD LIST --");
                         }));
-                        List<Chunk> chunks = MainWindow.world.Chunks.Values.ToList();
-                        Player plr = MainWindow.world.Player;
-                        (int X, int Y) cpos = Util.PlayerPosToChunkPos(plr.pos),
-                        tcpos = TranslateCoordinate(chunkMap, cpos.X, cpos.Y);
-
-                        for (int i = 0; i < chunks.Count; i++)
+                        if (MainWindow.world.Chunks.Count > 1)
                         {
-                            Chunk ch = chunks[i];
-                            (int X, int Y) pos = TranslateCoordinate(chunkMap, ch.X, ch.Z);
-                            chunkMapG.DrawRectangle(new Pen(Color.FromArgb(255, 0, 128, 0), 1), pos.X, pos.Y, 1, 1);
-                            chunkMapG.DrawRectangle(new Pen(Color.FromArgb(255, 255, 0, 0), 1), tcpos.X, tcpos.Y, 1, 1);
-
-                        }
-                        Dispatcher.Invoke(() => ChunkMap.Source = BitmapToImageSource(chunkMap));
-
-                        try
-                        {
-                            Dispatcher.Invoke(() => CurrentChunk.Content = $"Current chunk: {cpos.X}/{cpos.Y} ({MainWindow.world.Chunks.ContainsKey(cpos)})");
-                            Chunk cch = MainWindow.world.Chunks[cpos];
-                            List<Block> blocks = cch.Blocks.Values.ToList();
-                            for (int i = 0; i < blocks.Count; i++)
+                            List<Chunk> chunks = MainWindow.world.Chunks.Values.ToList();
+                            Player plr = MainWindow.world.Player;
+                            (int X, int Y) cpos = Util.PlayerPosToChunkPos(plr.pos),
+                            tcpos = TranslateCoordinate(chunkMap, cpos.X, cpos.Y);
+                            if (chunks.Count > 2)
                             {
-                                Block bl = blocks[i];
-                                chunkViewG.DrawRectangle(new Pen(Color.FromArgb(255, 0, 16 * bl.Y, 0), 1), bl.X, bl.Z, 1, 1);
+                                for (int i = 0; i < chunks.Count; i++)
+                                {
+                                    Chunk ch = chunks[i];
+                                    (int X, int Y) pos = TranslateCoordinate(chunkMap, ch.X, ch.Z);
+                                    chunkMapG.DrawRectangle(new Pen(Color.FromArgb(255, 0, 128, 0), 1), pos.X, pos.Y, 1, 1);
+                                    chunkMapG.DrawRectangle(new Pen(Color.FromArgb(255, 255, 0, 0), 1), tcpos.X, tcpos.Y, 1, 1);
+                                }
+                                try
+                                {
+                                    if (MainWindow.world.Chunks.ContainsKey(cpos))
+                                    {
+                                        Chunk cch = MainWindow.world.Chunks[cpos];
+                                        List<Block> blocks = cch.Blocks.Values.ToList();
+                                        for (int i = 0; i < blocks.Count; i++)
+                                        {
+                                            Block bl = blocks[i];
+                                            chunkViewG.DrawRectangle(new Pen(Color.FromArgb(255, 0, 16 * bl.Y, 0), 1), bl.X, bl.Z, 1, 1);
+                                        }
+                                    }
+                                }
+                                catch { /*MainWindow.world.Chunks.Add(cpos, */TerrainGen.GetChunk(cpos.X, cpos.Y);/*);*/ throw; }
                             }
-                        }
-                        catch { /*MainWindow.world.Chunks.Add(cpos, */TerrainGen.GetChunk(cpos.X, cpos.Y);/*);*/ }
+                            Dispatcher.Invoke(() => CurrentChunk.Content = $"Current chunk: {cpos.X}/{cpos.Y} ({MainWindow.world.Chunks.ContainsKey(cpos)})");
+                            Dispatcher.Invoke(() => ChunkMap.Source = BitmapToImageSource(chunkMap));
+                            Dispatcher.Invoke(() => ChunkView.Source = BitmapToImageSource(chunkView));
 
-                        Dispatcher.Invoke(() => ChunkView.Source = BitmapToImageSource(chunkView));
+                        }
+                        Dispatcher.Invoke(() => Title = "MC Clone Activity Viewer | " + idgb++);
                     }
-                    catch (Exception) { }
-                    Thread.Sleep(100);
+                    //catch (Exception) { throw; }
+                    Thread.Sleep(500);
                 }
-            }).Start();
+            });
+            new Thread(() => { while (true) if (!UIThr.IsAlive) UIThr.Start(); }).Start();
         }
         BitmapImage BitmapToImageSource(Bitmap bitmap)
         {

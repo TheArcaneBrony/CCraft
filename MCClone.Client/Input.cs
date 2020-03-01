@@ -96,14 +96,14 @@ namespace MCClone
                 {
                     brightness += 0.01f;
                 }
-                if (keyState.IsKeyDown(Key.F))
+                /*if (keyState.IsKeyDown(Key.F))
                 {
                     world.Player.Flying = true;
                 }
                 if (keyState.IsKeyDown(Key.F) && keyState.IsKeyDown(Key.LControl))
                 {
                     world.Player.Flying = false;
-                }
+                }*/
                 if (keyState.IsKeyDown(Key.Z))
                 {
                     renderDistance--;
@@ -115,7 +115,7 @@ namespace MCClone
             }
 
             //tick
-            int ty = 5;
+            /*int ty = 5;
             (int X, int Y) cpos = ((int)(Math.Truncate(world.Player.X / 16)), (int)(Math.Truncate(world.Player.Z / 16)));
             if (world.Chunks.TryGetValue(cpos, out Chunk chunk))
             {
@@ -124,23 +124,8 @@ namespace MCClone
                 {
                     ty = blockBelowPlayer.Y;
                 }
-            }
-            if (!world.Player.Flying)
-            {
-                if (world.Player.InAir)
-                {
-                    world.Player.YV -= 0.005;
-                }
-                if (world.Player.YV < -0.45)
-                {
-                    world.Player.YV = -0.45;
-                }
-                if (ty >= world.Player.Y - 1 && world.Player.YV < 0)
-                {
-                    world.Player.YV = 0;
-                }
-                world.Player.Y += world.Player.YV;
-            }
+            }*/
+
             if (brightness > 1f)
             {
                 brightness = 1f;
@@ -151,10 +136,6 @@ namespace MCClone
             }
             world.Player.CPos = new Vector3((float)world.Player.X, (float)world.Player.Y + 1.7f, (float)world.Player.Z);
             world.Player.CFPt = new Vector3((float)(world.Player.X + Math.Cos(Util.DegToRad(world.Player.LX))), (float)(world.Player.Y + 1.7f + Math.Sin(Util.DegToRad(world.Player.LY))), (float)(world.Player.Z + Math.Sin(Util.DegToRad(world.Player.LX))));
-        }
-        public static void Tick()
-        {
-            
         }
     }
 }

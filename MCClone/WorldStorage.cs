@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
@@ -8,15 +9,17 @@ namespace MCClone
 {
     public class Block
     {
-        public Block(int X, int Y, int Z)
+        public Block(byte X, byte Y, byte Z)
         {
             this.X = X;
             this.Y = Y;
             this.Z = Z;
         }
-        public int X { get; set; }
-        public int Y { get; set; }
-        public int Z { get; set; }
+        public byte X { get; set; }
+        public byte Y { get; set; }
+        public byte Z { get; set; }
+        public byte Type { get; set; }
+
     }
     public class Chunk
     {
@@ -30,7 +33,7 @@ namespace MCClone
         [Newtonsoft.Json.JsonIgnore]
         public int Z { get; set; }
         public bool Finished { get; set; } = false;
-        public SortedDictionary<(int X, int Y, int Z), Block> Blocks { get; set; } = new SortedDictionary<(int X, int Y, int Z), Block>();
+        public ConcurrentDictionary<(byte X, byte Y, byte Z), Block> Blocks { get; } = new ConcurrentDictionary<(byte X, byte Y, byte Z), Block>();
         public void Save()
         {
             try
@@ -52,12 +55,12 @@ namespace MCClone
     }
     public class SaveChunk
     {
-        public SaveChunk() { }
         public SaveChunk(Chunk chunk)
-        {if(chunk.Blocks!=null)
-            Blocks = (List<Block>)new List<Block>(chunk.Blocks.Values);
+        {
+            if (chunk != null && chunk.Blocks != null)
+                Blocks = new List<Block>(chunk.Blocks.Values);
         }
-        public List<Block> Blocks { get; set; } = new List<Block>();
+        public List<Block> Blocks { get; } = new List<Block>();
     }
     public class World
     {
@@ -75,6 +78,6 @@ namespace MCClone
         public double SpawnZ { get; set; } = 0;
         public Player Player { get; set; }
         [JsonIgnore]
-        public SortedDictionary<(int X, int Z), Chunk> Chunks { get; } = new SortedDictionary<(int X, int Z), Chunk>();
+        public ConcurrentDictionary<(int X, int Z), Chunk> Chunks { get; } = new ConcurrentDictionary<(int X, int Z), Chunk>();
     }
 }
