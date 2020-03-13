@@ -16,12 +16,15 @@ namespace MCClone
         {
             while (true)
             {
+                string log = "";
                 while (LogQueue.Count != 0)
                 {
                     try
                     {
                         /*Task.Run(() => { if (LogQueue.Count != 0) try { */
-                        PostLog(LogQueue.Dequeue());/*
+                        log+=LogQueue.Dequeue()+'\n';
+                        if (log.Length >= 10240) { PostLog(log.Replace("\n\n", "\n")); log = ""; }
+                        /*
                         } catch { Debug.WriteLine("Failed to post log"); } });*/
                     }
                     catch
@@ -29,9 +32,17 @@ namespace MCClone
                         Debug.WriteLine("Failed to post log");
                     }
                 }
+                if (log.Length >= 5) PostLog(log.Replace("\n\n", "\n"));
                 Thread.Sleep(250);
             }
         });
+        static int maxSrcLength = 0;
+        public static void Log(string source, string log)
+        {
+            if (source.Length > maxSrcLength) maxSrcLength = source.Length;
+            while (LogQueue.Count >= 16950) Thread.Sleep(5);
+            LogQueue.Enqueue($"[{source.PadRight(maxSrcLength)}] {DateTime.Now.TimeOfDay.Hours}:{(DateTime.Now.TimeOfDay.Minutes+"").PadLeft(2,'0')}:{(DateTime.Now.TimeOfDay.Seconds+"").PadLeft(2,'0')}: {log}");
+        }
         public static void Start()
         {
             logQueueThread.IsBackground = true;
@@ -41,13 +52,14 @@ namespace MCClone
         private static readonly Uri postaddr = new Uri("http://thearcanebrony.net/Log/MCClone/Push.php");
         public static void PostLog(string Log)
         {
+            if (Log == null) Log = "Corrupted log entry?";
             if (Debugger.IsAttached) Debug.WriteLine(Log);
             if (DataStore.Logging)
             {
                 WebRequest request = WebRequest.Create(postaddr);
                 request.Method = "POST";
                 string postData = Log;
-                byte[] byteArray = Encoding.UTF8.GetBytes(DateTime.Now + ": "+postData);
+                byte[] byteArray = Encoding.UTF8.GetBytes(postData);
                 request.ContentLength = byteArray.Length;
                 Stream dataStream = request.GetRequestStream();
                 dataStream.Write(byteArray, 0, byteArray.Length);

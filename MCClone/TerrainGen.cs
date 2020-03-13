@@ -18,7 +18,7 @@ namespace MCClone
         private static bool ShouldLoadChunks = true;
         public static Stopwatch GenTime = new Stopwatch();
         public static double renderDistance = 4, genDistance = 1;
-        public static void GenTerrain()
+        public static void GenTerrain(double distance)
         {
             /*for (int d = 0; d < renderDistance * genDistance; d++)
                 for (int x = -d; x <= d; x++)
@@ -31,9 +31,9 @@ namespace MCClone
                             GetChunk(pos.Item1, pos.Item2);
                     }
                 }*/
-            for (int x = -(int)renderDistance; x <= renderDistance; x++)
+            for (int x = -(int)distance; x <= distance; x++)
             {
-                for (int z = -(int)renderDistance; z <= (int)renderDistance; z++)
+                for (int z = -(int)distance; z <= (int)distance; z++)
                 {
                     //(int, int) pos = ((int)(world.Player.X / 16 + x * Math.Sin(Util.DegToRad(z))), (int)(world.Player.Z / 16 + x * Math.Cos(Util.DegToRad(z))));
                     (int, int) pos = ((int)(world.Player.X / 16 + x), (int)(world.Player.Z / 16 + z));
@@ -42,6 +42,10 @@ namespace MCClone
                 }
             }
 
+        }
+        public static void GenTerrain()
+        {
+            GenTerrain(renderDistance);
         }
         public static Chunk GenChunk(int X, int Z)
         {
@@ -68,11 +72,11 @@ namespace MCClone
                 }
             }
             chunk.Finished = true;
-            Logger.LogQueue.Enqueue($"Chunk {X}/{Z} generated in: {GenTimer.ElapsedTicks / 10000d} ms, {chunk.Blocks.Count} blocks.");
+            Logger.Log("Terrain Gen",$"Chunk {X}/{Z} generated in: {GenTimer.ElapsedTicks / 10000d} ms, {chunk.Blocks.Count} blocks.");
             Task.Run(() =>
             {
                 chunk.Save();
-                Logger.LogQueue.Enqueue($"Chunk {X}/{Z} saved in: {GenTimer.ElapsedTicks / 10000d} ms, {chunk.Blocks.Count} blocks.");
+                Logger.Log("Terrain Gen", $"Chunk {X}/{Z} saved in: {GenTimer.ElapsedTicks / 10000d} ms, {chunk.Blocks.Count} blocks.");
             });
 
             return chunk;
@@ -80,12 +84,12 @@ namespace MCClone
         public static Chunk GetChunk(int X, int Z)
         {
             GenTime.Restart();
-            Logger.LogQueue.Enqueue($"Getting chunk at {X}/{Z}");
+            Logger.Log("Terrain Gen", $"Getting chunk at {X}/{Z}");
             Chunk ch = new Chunk(X, Z);
             Directory.CreateDirectory($"Worlds/{world.Name}/ChunkData/");
             if (ShouldLoadChunks && File.Exists($"Worlds/{world.Name}/ChunkData/{X}.{Z}.gz"))
             {
-                Logger.LogQueue.Enqueue($"found chunk file for {X}/{Z}, loading...");
+                Logger.Log("Terrain Gen", $"found chunk file for {X}/{Z}, loading...");
                 int length;
                 byte[] b = new byte[4];
                 using (FileStream fs = File.OpenRead($"Worlds/{world.Name}/ChunkData/{X}.{Z}.gz"))
@@ -103,17 +107,17 @@ namespace MCClone
                 {
                     ch.Blocks.AddOrUpdate((bl.X, bl.Y, bl.Z), bl, (_, _1) => bl);
                 }
-                Logger.LogQueue.Enqueue($"Loaded chunk {X}/{Z} in: {GenTime.ElapsedTicks / 10000d} ms");
+                Logger.Log("Terrain Gen", $"Loaded chunk {X}/{Z} in: {GenTime.ElapsedTicks / 10000d} ms");
             }
             else
             {
-                Logger.LogQueue.Enqueue($"Generating chunk at {X}/{Z}...");
+                Logger.Log("Terrain Gen", $"Generating chunk at {X}/{Z}...");
                 ch = GenChunk(X, Z);
             }
 
             try
             {
-                Logger.LogQueue.Enqueue($"Adding chunk at {X}/{Z} to world.");
+                Logger.Log("Terrain Gen", $"Adding chunk at {X}/{Z} to world.");
                 world.Chunks.AddOrUpdate((X, Z), ch, (_, _1) => ch);
             }
             catch { }

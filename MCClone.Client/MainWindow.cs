@@ -111,9 +111,12 @@ namespace MCClone
             TerrainGen.world = world;
             Thread gameInit = new Thread(() =>
             {
-                Logger.PostLog("ok");
                 TerrainGen.GenTerrain();
-                Logger.PostLog("uh");
+                while (true)
+                {
+                    Thread.Sleep(250);
+                    TerrainGen.GenTerrain(75);
+                }
                 /*while (false)
                 {
                     Thread.Sleep(2000);
@@ -164,7 +167,7 @@ namespace MCClone
             {
                 while (logger)
                 {
-                    Logger.LogQueue.Enqueue(
+                    Logger.Log("DIAGNOSTIC",
                         $"Ver: {DataStore.Ver}\n" +
                         $"FPS: {Math.Round(1f / RenderTime, 5)} ({Math.Round(RenderTime * 1000, 5)} ms)\n" +
                         $"Windows version: {Environment.OSVersion}\n" +
@@ -248,7 +251,7 @@ namespace MCClone
             Input.HandleInput();
             //   Input.Tick();
             GL.ClearColor(0.1f * brightness, 0.5f * brightness, 0.7f * brightness, 0.9f);
-            Title = $"MC Clone {DataStore.Ver} | FPS: {Math.Round(1000 / rt, 2)} ({Math.Round(rt, 2)} ms) C: {RenderedChunks}/{world.Chunks.Count} E: {RenderErrors} | {world.Player.X}/{world.Player.Y}/{world.Player.Z} : {world.Player.LX}/{world.Player.LY} | {Math.Round((double)Process.GetCurrentProcess().PrivateMemorySize64 / 1048576, 2)} MB | Mods: {LoadedMods}"; //{Math.Round(vol * 100, 0)}
+            Title = $"MC Clone {DataStore.Ver} | FPS: {Math.Round(1000 / rt, 2)} ({Math.Round(rt, 2)} ms) C: {RenderedChunks}/{world.Chunks.Count} E: {RenderErrors} | {world.Player.X}/{world.Player.Y}/{world.Player.Z} : {world.Player.LX}/{world.Player.LY} | {Math.Round((double)Process.GetCurrentProcess().PrivateMemorySize64 / 1048576, 2)} MB | Mods: {LoadedMods} | Log#: {Logger.LogQueue.Count}"; //{Math.Round(vol * 100, 0)}
             //Title = $"MCC {Math.Round(1000 / rt, 2)}FPS {Math.Round((double)Process.GetCurrentProcess().PrivateMemorySize64 / 1048576, 2)}MB";
 
             foreach (ModData mod in Mods)
@@ -293,7 +296,7 @@ namespace MCClone
 
                 //Stack<Chunk> chunks = new Stack<Chunk>(world.Chunks.Values.ToList().FindAll((ch) => true || CliUtil.ShouldRenderChunk(ch)));
                 Stack<Chunk> chunks = new Stack<Chunk>(world.Chunks.Values);
-                foreach (Chunk ce in chunks) { if (ce != null && ce.Blocks != null) foreach (Block bl in ce.Blocks.Values) { RenderCube(world, ce, bl); } };
+                foreach (Chunk ce in chunks) { if (CliUtil.ShouldRenderChunk(ce) && ce != null && ce.Blocks != null) foreach (Block bl in ce.Blocks.Values) { RenderCube(ce, bl); } };
 
                 /*foreach (Chunk cch in chunks)
                 {
@@ -324,7 +327,7 @@ namespace MCClone
             GL.Vertex3(0.5f + x, 1.0f + y, 0.5f + z);
             GL.End();
         }
-        private static void RenderCube(World world, Chunk chunk, Block block)
+        private static void RenderCube(Chunk chunk, Block block)
         {
             int x = block.X + 16 * chunk.X;
             int y = block.Y;

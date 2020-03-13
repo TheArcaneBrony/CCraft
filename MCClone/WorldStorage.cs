@@ -45,7 +45,7 @@ namespace MCClone
             }
             catch (IOException)
             {
-                Logger.LogQueue.Enqueue($"Failed to save chunk: {X}/{Z}");
+                Logger.Log("World Storage", $"Failed to save chunk: {X}/{Z}");
             }
             catch
             {
