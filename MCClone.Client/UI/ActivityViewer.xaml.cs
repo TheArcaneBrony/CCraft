@@ -84,7 +84,7 @@ namespace MCClone.Client.UI
                                         for (int i = 0; i < blocks.Count; i++)
                                         {
                                             Block bl = blocks[i];
-                                            chunkViewG.DrawRectangle(new Pen(Color.FromArgb(255, 0, 16 * bl.Y, 0), 1), bl.X, bl.Z, 1, 1);
+                                            chunkViewG.DrawRectangle(new Pen(Color.FromArgb(255, 0, Math.Min(16 * bl.Y,255) , 0), 1), bl.X, bl.Z, 1, 1);
                                         }
                                     }
                                 }

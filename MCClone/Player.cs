@@ -4,7 +4,7 @@ using OpenTK;
 
 namespace MCClone
 {
-    public class Player
+    public class Player : ICollidable
     {
         public Player(double X, double Y, double Z)
         {

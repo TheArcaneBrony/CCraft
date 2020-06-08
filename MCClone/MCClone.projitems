@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)DataStore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Player.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TerrainGen.cs" />

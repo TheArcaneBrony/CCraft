@@ -7,7 +7,7 @@ using System.Text;
 
 namespace MCClone
 {
-    public class Block
+    public class Block : ICollidable
     {
         public Block(byte X, byte Y, byte Z)
         {
@@ -19,6 +19,8 @@ namespace MCClone
         public byte Y { get; set; }
         public byte Z { get; set; }
         public byte Type { get; set; }
+        double ICollidable.Width { get => 1; set => value=1; }
+        double ICollidable.Height{ get => 1; set => value = 1; }
 
     }
     public class Chunk

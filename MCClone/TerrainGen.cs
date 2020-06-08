@@ -126,7 +126,7 @@ namespace MCClone
         }
         public static byte GetHeight(int x, int z)
         {
-            return 0; // multiplayer performance testing
+            //return 0; // multiplayer performance testing
             return (byte)Util.TruncateHeight((int)Math.Floor(Math.Abs(((Math.Sin(Util.DegToRad(x)) * 25 + Math.Sin(Util.DegToRad(z)) * 10) * 1.2))));
         }
     }
