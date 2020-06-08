@@ -177,6 +177,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Shader.cs" />
     <Compile Include="UI\ActivityViewer.xaml.cs">
       <DependentUpon>ActivityViewer.xaml</DependentUpon>
     </Compile>
@@ -185,6 +186,8 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="Shaders\shader.frag" />
+    <None Include="Shaders\shader.vert" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
@@ -226,7 +229,7 @@
   <Import Project="..\MCClone\MCClone.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>::XCOPY "$(ProjectDir)Components\*" "$(TargetDir)Components\" /s /i /y /e</PostBuildEvent>
+    <PostBuildEvent>XCOPY "$(ProjectDir)Shaders\*" "$(TargetDir)Shaders\" /s /i /y /e</PostBuildEvent>
   </PropertyGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

@@ -28,6 +28,21 @@ namespace MCClone
 
         public string Username = "DebugUser";
 
+
+        //Modernization - 6/6/2020
+        private int _vertexBufferObject;
+
+        private static int _vertexArrayObject;
+        private static Shader _shader;
+
+        private readonly float[] _vertices =
+        {
+            -0.5f, -0.5f, 0.0f, // Bottom-left vertex
+             0.5f, -0.5f, 0.0f, // Bottom-right vertex
+             0.0f,  0.5f, 0.0f  // Top vertex
+        };
+
+
         public MainWindow() : base(1280, 720, GraphicsMode.Default, "The Arcane Brony#9669's Minecraft Clone", GameWindowFlags.Default, DisplayDevice.Default, 0, 0, GraphicsContextFlags.ForwardCompatible)
         {
             Title += $" | GL Ver: {GL.GetString(StringName.Version)} | Version: {DataStore.Ver}";
@@ -57,6 +72,17 @@ namespace MCClone
         protected override void OnLoad(EventArgs e)
         {
             frameTime.Start();
+            _vertexBufferObject = GL.GenBuffer();
+            GL.BindBuffer(BufferTarget.ArrayBuffer, _vertexBufferObject);
+            GL.BufferData(BufferTarget.ArrayBuffer, _vertices.Length * sizeof(float), _vertices, BufferUsageHint.StaticDraw);
+            _shader = new Shader("Shaders/shader.vert", "Shaders/shader.frag");
+            _shader.Use();
+            _vertexArrayObject = GL.GenVertexArray();
+            GL.BindVertexArray(_vertexArrayObject);
+            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
+            GL.EnableVertexAttribArray(0);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, _vertexBufferObject);
+
             foreach (string file in Directory.GetFiles(Environment.CurrentDirectory + "\\Mods"))
             {
                 ModData mod = new ModData();
@@ -272,7 +298,7 @@ namespace MCClone
             Matrix4 modelview = Matrix4.LookAt(world.Player.CPos, world.Player.CFPt, Vector3.UnitY);
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref modelview);
-
+            
             RenderWorld();
 
             if (Mods.Count > 0)
@@ -287,9 +313,13 @@ namespace MCClone
             }
             SwapBuffers();
         }
+        
         private static void RenderWorld()
         {
+            
             RenderedChunks = 0;
+           
+
             GL.Begin(PrimitiveType.Quads);
             try
             {
@@ -318,6 +348,9 @@ namespace MCClone
             {
                 Logger.PostLog("Exception: " + err.Message + " @ " + err.Source);
             }
+            _shader.Use();
+            GL.BindVertexArray(_vertexArrayObject);
+            GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
             GL.End();
         }
         static void Dot(double x, double y, double z)
