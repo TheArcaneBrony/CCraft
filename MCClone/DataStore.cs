@@ -9,7 +9,7 @@ namespace MCClone
 {
     public static class DataStore
     {
-        public const string Ver = "Alpha 0.08_01330";
+        public const string Ver = "Alpha 0.08_02130";
         public const bool Logging = true;
         public static SystemInfo SystemInfo = new SystemInfo();
         public static List<Thread> Threads = new List<Thread>();

@@ -141,7 +141,7 @@ namespace MCClone
                 while (true)
                 {
                     Thread.Sleep(250);
-                    TerrainGen.GenTerrain(75);
+                    TerrainGen.Initialize(TerrainGen.renderDistance + TerrainGen.genDistance);
                 }
                 /*while (false)
                 {
@@ -264,7 +264,7 @@ namespace MCClone
             consoleInput.Start();
             gameInit.Name = "Game init";
             gameInit.IsBackground = true;
-            gameInit.Priority = ThreadPriority.BelowNormal;
+            gameInit.Priority = ThreadPriority.AboveNormal;
             gameInit.Start();
 
             Thread.CurrentThread.Name = "Main thread";
@@ -350,7 +350,7 @@ namespace MCClone
             }
             _shader.Use();
             GL.BindVertexArray(_vertexArrayObject);
-            GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
+            GL.DrawArrays(PrimitiveType.Quads, 0, 3);
             GL.End();
         }
         static void Dot(double x, double y, double z)

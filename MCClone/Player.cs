@@ -24,5 +24,7 @@ namespace MCClone
         public Vector3 CPos { get; set; }
         public Vector3 CFPt { get; set; }
         public string Name { get; set; } = "Player_" + new Random().Next(0, 9999);
+        public double Width { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public double Height { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 }
