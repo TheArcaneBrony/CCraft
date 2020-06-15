@@ -62,7 +62,7 @@ namespace MCClone
         {
             if (Debugger.IsAttached) Debug.WriteLine(log);
             if (source.Length > maxSrcLength) maxSrcLength = source.Length;
-            if (LogQueue.Count >= 16950) CompressLog();
+            if (LogQueue.Count >= 512) CompressLog();
             while (LogQueue.Count >= 16950) Thread.Sleep(25);
             LogQueue.Enqueue($"[{source.PadRight(maxSrcLength)}] {DateTime.Now.TimeOfDay.Hours}:{(DateTime.Now.TimeOfDay.Minutes + "").PadLeft(2, '0')}:{(DateTime.Now.TimeOfDay.Seconds + "").PadLeft(2, '0')}: {log}");
         }
@@ -75,28 +75,27 @@ namespace MCClone
         private static readonly Uri postaddr = new Uri("http://thearcanebrony.net/Log/MCClone/Push.php");
         public static void PostLog(string Log)
         {
-            Thread thr = new Thread(() =>
+            Thread thr = new Thread(async () =>
             {
                 if (Log == null) Log = "Corrupted log entry?";
 
                 if (DataStore.Logging)
                 {
-                    WebRequest request = WebRequest.Create(postaddr);
+                    HttpWebRequest request = WebRequest.CreateHttp(postaddr);
                     request.Method = "POST";
-                    string postData = Log;
-                    byte[] byteArray = Encoding.UTF8.GetBytes(postData);
+                    byte[] byteArray = Encoding.UTF8.GetBytes(Log);
                     request.ContentLength = byteArray.Length;
-                    Stream dataStream = request.GetRequestStream();
-                    dataStream.Write(byteArray, 0, byteArray.Length);
+                    Stream dataStream = await request.GetRequestStreamAsync();
+                    await dataStream.WriteAsync(byteArray, 0, byteArray.Length);
                     dataStream.Close();
-                    WebResponse response = request.GetResponse();
+                    /*WebResponse response = request.GetResponse();
                     dataStream = response.GetResponseStream();
                     StreamReader reader = new StreamReader(dataStream);
                     string responseFromServer = reader.ReadToEnd();
                     Debug.WriteLine(responseFromServer);
                     reader.Close();
                     dataStream.Close();
-                    response.Close();
+                    response.Close();*/
                 }
 #if CLIENT
                 //if (DataStore.activityViewer != null) DataStore.activityViewer.Dispatcher.Invoke(() => { DataStore.activityViewer.LogBox.AppendText(Log + "\n"); });

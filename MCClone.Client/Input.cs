@@ -14,22 +14,22 @@ namespace MCClone
             {
                 double x = Mouse.GetCursorState().X - centerX;
                 double y = -(Mouse.GetCursorState().Y - centerY);
-                world.Player.LY += y * sensitivity;
-                world.Player.LX += x * sensitivity;
-                if (world.Player.LX <= -180)
+                DataStore.Player.LY += y * sensitivity;
+                DataStore.Player.LX += x * sensitivity;
+                if (DataStore.Player.LX <= -180)
                 {
-                    world.Player.LX = 179.99;
+                    DataStore.Player.LX = 179.99;
                 }
-                world.Player.LX += 180;
-                world.Player.LX %= 360;
-                world.Player.LX -= 180;
-                if (world.Player.LY > 90)
+                DataStore.Player.LX += 180;
+                DataStore.Player.LX %= 360;
+                DataStore.Player.LX -= 180;
+                if (DataStore.Player.LY > 90)
                 {
-                    world.Player.LY = 90;
+                    DataStore.Player.LY = 90;
                 }
-                if (world.Player.LY < -90)
+                if (DataStore.Player.LY < -90)
                 {
-                    world.Player.LY = -90;
+                    DataStore.Player.LY = -90;
                 }
                 Mouse.SetPosition(centerX, centerY);
             }
@@ -46,46 +46,47 @@ namespace MCClone
                 if (keyState.IsKeyDown(Key.Escape))
                 {
                     running = false;
+                    MainWindow.world.Save();
                     Process.GetCurrentProcess().Kill();
                 }
                 if (keyState.IsKeyDown(Key.W))
                 {
-                    world.Player.X += Math.Cos(Util.DegToRad(world.Player.LX));
-                    world.Player.Z += Math.Sin(Util.DegToRad(world.Player.LX));
+                    DataStore.Player.X += Math.Cos(Util.DegToRad(DataStore.Player.LX));
+                    DataStore.Player.Z += Math.Sin(Util.DegToRad(DataStore.Player.LX));
                     if (keyState.IsKeyDown(Key.LControl))
                     {
-                        world.Player.X += Math.Cos(Util.DegToRad(world.Player.LX));
-                        world.Player.Z += Math.Sin(Util.DegToRad(world.Player.LX));
+                        DataStore.Player.X += Math.Cos(Util.DegToRad(DataStore.Player.LX));
+                        DataStore.Player.Z += Math.Sin(Util.DegToRad(DataStore.Player.LX));
                     }
                 }
                 if (keyState.IsKeyDown(Key.A))
                 {
-                    world.Player.X -= Math.Cos(Util.DegToRad(world.Player.LX + 90));
-                    world.Player.Z -= Math.Sin(Util.DegToRad(world.Player.LX + 90));
+                    DataStore.Player.X -= Math.Cos(Util.DegToRad(DataStore.Player.LX + 90));
+                    DataStore.Player.Z -= Math.Sin(Util.DegToRad(DataStore.Player.LX + 90));
                 }
                 if (keyState.IsKeyDown(Key.S))
                 {
-                    world.Player.X -= Math.Cos(Util.DegToRad(world.Player.LX));
-                    world.Player.Z -= Math.Sin(Util.DegToRad(world.Player.LX));
+                    DataStore.Player.X -= Math.Cos(Util.DegToRad(DataStore.Player.LX));
+                    DataStore.Player.Z -= Math.Sin(Util.DegToRad(DataStore.Player.LX));
                 }
                 if (keyState.IsKeyDown(Key.D))
                 {
-                    world.Player.X += Math.Cos(Util.DegToRad(world.Player.LX + 90));
-                    world.Player.Z += Math.Sin(Util.DegToRad(world.Player.LX + 90));
+                    DataStore.Player.X += Math.Cos(Util.DegToRad(DataStore.Player.LX + 90));
+                    DataStore.Player.Z += Math.Sin(Util.DegToRad(DataStore.Player.LX + 90));
                 }
                 if (keyState.IsKeyDown(Key.ShiftLeft))
                 {
-                    world.Player.Y -= 0.1;
+                    DataStore.Player.Y -= 0.1;
                 }
                 if (keyState.IsKeyDown(Key.Space))
                 {
-                    if (world.Player.Flying)
+                    if (DataStore.Player.Flying)
                     {
-                        world.Player.Y += 0.1;
+                        DataStore.Player.Y += 0.1;
                     }
                     else
                     {
-                        world.Player.YV = 0.1;
+                        DataStore.Player.YV = 0.1;
                     }
                 }
                 if (keyState.IsKeyDown(Key.Q))
@@ -98,11 +99,11 @@ namespace MCClone
                 }
                 /*if (keyState.IsKeyDown(Key.F))
                 {
-                    world.Player.Flying = true;
+                    DataStore.Player.Flying = true;
                 }
                 if (keyState.IsKeyDown(Key.F) && keyState.IsKeyDown(Key.LControl))
                 {
-                    world.Player.Flying = false;
+                    DataStore.Player.Flying = false;
                 }*/
                 if (keyState.IsKeyDown(Key.Z))
                 {
@@ -116,10 +117,10 @@ namespace MCClone
 
             //tick
             /*int ty = 5;
-            (int X, int Y) cpos = ((int)(Math.Truncate(world.Player.X / 16)), (int)(Math.Truncate(world.Player.Z / 16)));
+            (int X, int Y) cpos = ((int)(Math.Truncate(DataStore.Player.X / 16)), (int)(Math.Truncate(DataStore.Player.Z / 16)));
             if (world.Chunks.TryGetValue(cpos, out Chunk chunk))
             {
-                chunk.Blocks.TryGetValue(((int)world.Player.X % 16, (int)world.Player.Y - 1, (int)world.Player.Z % 16), out Block blockBelowPlayer);
+                chunk.Blocks.TryGetValue(((int)DataStore.Player.X % 16, (int)DataStore.Player.Y - 1, (int)DataStore.Player.Z % 16), out Block blockBelowPlayer);
                 if (blockBelowPlayer != null)
                 {
                     ty = blockBelowPlayer.Y;
@@ -134,8 +135,10 @@ namespace MCClone
             {
                 brightness = 0.1f;
             }
-            world.Player.CPos = new Vector3((float)world.Player.X, (float)world.Player.Y + 1.7f, (float)world.Player.Z);
-            world.Player.CFPt = new Vector3((float)(world.Player.X + Math.Cos(Util.DegToRad(world.Player.LX))), (float)(world.Player.Y + 1.7f + Math.Sin(Util.DegToRad(world.Player.LY))), (float)(world.Player.Z + Math.Sin(Util.DegToRad(world.Player.LX))));
+            DataStore.Player.CPos = new Vector3((float)DataStore.Player.X, (float)DataStore.Player.Y + 1.7f, (float)DataStore.Player.Z);
+            //DataStore.Player.CFPt = new Vector3((float)(DataStore.Player.X + Math.Cos(Util.DegToRad(DataStore.Player.LX))), (float)(DataStore.Player.Y + 1.7f + Math.Sin(Util.DegToRad(DataStore.Player.LY))), (float)(DataStore.Player.Z + Math.Sin(Util.DegToRad(DataStore.Player.LX))));
+            float cyp = (float)(DataStore.Player.Y + 1.7f + Math.Sin(Util.DegToRad(DataStore.Player.LY)));
+            DataStore.Player.CFPt = new Vector3((float)(DataStore.Player.X + Math.Cos(Util.DegToRad(DataStore.Player.LX)) * Math.Sin(Util.DegToRad(DataStore.Player.LY*2))), cyp , (float)(DataStore.Player.Z + Math.Sin(Util.DegToRad(DataStore.Player.LX))* Math.Sin(Util.DegToRad(DataStore.Player.LY*2))));
         }
     }
 }

@@ -11,34 +11,20 @@ namespace MCClone
 {
     public static class TerrainGen
     {
-        public static World world = new World(0, 20, 0)
-        {
-            Name = "Test"
-        };
         private static bool ShouldLoadChunks = true;
         public static Stopwatch GenTime = new Stopwatch();
         public static double renderDistance = 4, genDistance = 1;
-        public static void Initialize(double distance)
+        public static void GenerateAround(Dimension dim, int X, int Z,double distance)
         {
-            Directory.CreateDirectory($"Worlds/{world.Name}/ChunkData/");
-            /*for (int d = 0; d < renderDistance * genDistance; d++)
-                for (int x = -d; x <= d; x++)
-                {
-                    for (int z = -d; z <= d; z++)
-                    {
-                        //(int, int) pos = ((int)(world.Player.X / 16 + x * Math.Sin(Util.DegToRad(z))), (int)(world.Player.Z / 16 + x * Math.Cos(Util.DegToRad(z))));
-                        (int, int) pos = ((int)(world.Player.X / 16 + x), (int)(world.Player.Z / 16 + z));
-                        if (!world.Chunks.ContainsKey(pos))
-                            GetChunk(pos.Item1, pos.Item2);
-                    }
-                }*/
+            X = X / 16;
+            Z = Z / 16;
             for (int x = -(int)distance; x <= distance; x++)
             {
                 for (int z = -(int)distance; z <= (int)distance; z++)
                 {
-                    //(int, int) pos = ((int)(world.Player.X / 16 + x * Math.Sin(Util.DegToRad(z))), (int)(world.Player.Z / 16 + x * Math.Cos(Util.DegToRad(z))));
-                    (int, int) pos = ((int)(world.Player.X / 16 + x), (int)(world.Player.Z / 16 + z));
-                    if (!world.Chunks.ContainsKey(pos))
+                    //(int, int) pos = ((int)(DataStore.Player.X / 16 + x * Math.Sin(Util.DegToRad(z))), (int)(DataStore.Player.Z / 16 + x * Math.Cos(Util.DegToRad(z))));
+                    (int, int) pos = ((int)(X + x), (int)(Z + z));
+                    if (!dim.Chunks.ContainsKey(pos))
                         new Task(() => { GetChunk(pos.Item1, pos.Item2); }).Start();
                         
                 }
@@ -46,18 +32,23 @@ namespace MCClone
             Logger.CompressLog();
 
         }
-        public static void GenTerrain()
+        public static void Initialize()
         {
-            Initialize(renderDistance);
+            if(Directory.Exists($"Worlds/{world.Name}"))
+            {
+                MainWindow.world = JsonConvert.DeserializeObject<World>(File.ReadAllText($"Worlds/{world.Name}/World.json"));
+            }
+            Directory.CreateDirectory($"Worlds/{world.Name}/ChunkData/");
+            GenerateAround(0, 0, renderDistance);
         }
         public static Chunk GenChunk(int X, int Z)
         {
             Chunk chunk = new Chunk(X, Z);
-            if (world.Chunks.ContainsKey((X, Z)))
+            /*if (world.Chunks.ContainsKey((X, Z)))
             {
                 world.Chunks.TryGetValue((X, Z), out chunk);
                 return chunk;
-            }
+            }*/
             Stopwatch GenTimer = new Stopwatch();
 
             GenTimer.Start();
@@ -76,20 +67,19 @@ namespace MCClone
             }
             chunk.Finished = true;
             LogEntry += $"Chunk {X}/{Z} generated in: {GenTimer.ElapsedTicks / 10000d} ms, {chunk.Blocks.Count} blocks.\n";
-            Task.Run(() =>
+            /*Task.Run(() =>
             {
                 chunk.Save();
                 LogEntry += $"Chunk {X}/{Z} saved in: {GenTimer.ElapsedTicks / 10000d} ms, {chunk.Blocks.Count} blocks.\n";
-            });
+            });*/
 
             return chunk;
         }
         static String LogEntry = "";
         public static Chunk GetChunk(int X, int Z)
         {
-            LogEntry = "";
+            LogEntry = $"Getting chunk at {X}/{Z}\n";
             GenTime.Restart();
-            LogEntry += $"Getting chunk at {X}/{Z}\n";
             Chunk ch = new Chunk(X, Z);
             bool AlreadyLoaded = world.Chunks.TryGetValue((X, Z), out ch);
             if (AlreadyLoaded)
@@ -137,9 +127,9 @@ namespace MCClone
         }
         public static byte GetHeight(int x, int z)
         {
-            //return 0; // multiplayer performance testing
+            return 0; // multiplayer performance testing
             //return (byte)Util.TruncateHeight((int)Math.Floor(Math.Abs(((Math.Sin(Util.DegToRad(x)) * 25 + Math.Sin(Util.DegToRad(z)) * 10) * 1.2))));
-            return (byte)Util.TruncateHeight((int)Math.Floor((Math.Sin(Util.DegToRad(x))+Math.Cos(Util.DegToRad(z)))*15));
+            //return (byte)Util.TruncateHeight((int)Math.Floor((Math.Sin(Util.DegToRad(x))+Math.Cos(Util.DegToRad(z)))*15));
         }
     }
 }

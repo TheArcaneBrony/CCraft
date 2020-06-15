@@ -20,7 +20,7 @@ namespace MCClone
         public static bool running = true, focussed = true, logger = true;
         public static int renderDistance = 8, centerX, centerY, RenderErrors = 0, RenderedChunks = 0, LoadedMods = 0;
         public static double rt = 0;
-        public static World world = new World(0, 20, 0)
+        public static World world = new World("Debug")
         {
             // Name = "DebugTestWorld"
         };
@@ -128,20 +128,18 @@ namespace MCClone
             Point center = PointToScreen(new Point(centerX, centerY));
             Mouse.SetPosition(center.X, center.Y);
 
-            world.Player = new Player(world.SpawnX, world.SpawnY, world.SpawnZ)
+            DataStore.Player = new Player(0, 20, 0)
             {
                 Flying = true,
                 Name = CliUtil.GetGameArg("username")
             };
-
-            TerrainGen.world = world;
             Thread gameInit = new Thread(() =>
             {
-                TerrainGen.GenTerrain();
+                TerrainGen.Initialize();
                 while (true)
                 {
                     Thread.Sleep(250);
-                    TerrainGen.Initialize(TerrainGen.renderDistance + TerrainGen.genDistance);
+                    TerrainGen.GenerateAround((int)DataStore.Player.X, (int)DataStore.Player.Z, TerrainGen.renderDistance + TerrainGen.genDistance);
                 }
                 /*while (false)
                 {
@@ -154,9 +152,9 @@ namespace MCClone
                     {
                         Time.Restart();
                         TerrainGen.GenTerrain();
-                        *//*for (int x = (int)(world.Player.X / 16 - renderDistance * genDistance); x < world.Player.X / 16 + renderDistance * genDistance; x++)
+                        *//*for (int x = (int)(DataStore.Player.X / 16 - renderDistance * genDistance); x < DataStore.Player.X / 16 + renderDistance * genDistance; x++)
                         {
-                            for (int z = (int)(world.Player.Z / 16 - renderDistance * genDistance); z < world.Player.Z / 16 + renderDistance * genDistance; z++)
+                            for (int z = (int)(DataStore.Player.Z / 16 - renderDistance * genDistance); z < DataStore.Player.Z / 16 + renderDistance * genDistance; z++)
                             {
                                 if (!world.Chunks.ContainsKey((x, z)))
                                 {
@@ -175,10 +173,10 @@ namespace MCClone
                         world.Chunks.Keys.CopyTo(ch, 0);
                         foreach ((int X, int Z) in ch)
                         {
-                            if (X < (int)(world.Player.X / 16 - renderDistance * unloadDistance)
-                            || X > (int)(world.Player.X / 16 + renderDistance * unloadDistance)
-                            || Z < (int)(world.Player.Z / 16 - renderDistance * unloadDistance)
-                            || Z > (int)(world.Player.Z / 16 + renderDistance * unloadDistance)
+                            if (X < (int)(DataStore.Player.X / 16 - renderDistance * unloadDistance)
+                            || X > (int)(DataStore.Player.X / 16 + renderDistance * unloadDistance)
+                            || Z < (int)(DataStore.Player.Z / 16 - renderDistance * unloadDistance)
+                            || Z > (int)(DataStore.Player.Z / 16 + renderDistance * unloadDistance)
                             )
                             {
                                 // world.Chunks.Remove((X, Z));
@@ -205,10 +203,10 @@ namespace MCClone
                         $"Windows Username: {Environment.UserName}\n" +
                         $"Windows Network Name: {Environment.MachineName}\n" +
                         $"Process Working Set: {Math.Round((Environment.WorkingSet / (double)(1024 * 1024)), 4)} MB ({Environment.WorkingSet} B)\n" +
-                        $"Player Pos: {world.Player.X}/{world.Player.Y}/{world.Player.Z}\n" +
-                        $"Camera angle: {world.Player.LX}/{world.Player.LY}\n" +
+                        $"Player Pos: {DataStore.Player.X}/{DataStore.Player.Y}/{DataStore.Player.Z}\n" +
+                        $"Camera angle: {DataStore.Player.LX}/{DataStore.Player.LY}\n" +
                         $"Render Errors: {RenderErrors}\n" +
-                        $"Rendered Chunks: {RenderedChunks}/{world.Chunks.Count}"
+                        $"Rendered Chunks: {RenderedChunks}/D:{world.Dimensions[DataStore.Player.WorldID].Chunks.Count}/W:{world.ChunkCount}"
                         );
                     Thread.Sleep(1000);
                 }
@@ -229,9 +227,9 @@ namespace MCClone
                         switch (command)
                         {
                             case "tp":
-                                world.Player.X = double.Parse(args[0]);
-                                world.Player.Y = double.Parse(args[1]);
-                                world.Player.Z = double.Parse(args[2]);
+                                DataStore.Player.X = double.Parse(args[0]);
+                                DataStore.Player.Y = double.Parse(args[1]);
+                                DataStore.Player.Z = double.Parse(args[2]);
                                 break;
                             case "render":
                                 renderDistance = int.Parse(args[0]);
@@ -277,7 +275,7 @@ namespace MCClone
             Input.HandleInput();
             //   Input.Tick();
             GL.ClearColor(0.1f * brightness, 0.5f * brightness, 0.7f * brightness, 0.9f);
-            Title = $"MC Clone {DataStore.Ver} | FPS: {Math.Round(1000 / rt, 2)} ({Math.Round(rt, 2)} ms) C: {RenderedChunks}/{world.Chunks.Count} E: {RenderErrors} | {world.Player.X}/{world.Player.Y}/{world.Player.Z} : {world.Player.LX}/{world.Player.LY} | {Math.Round((double)Process.GetCurrentProcess().PrivateMemorySize64 / 1048576, 2)} MB | Mods: {LoadedMods} | Log#: {Logger.LogQueue.Count}"; //{Math.Round(vol * 100, 0)}
+            Title = $"MC Clone {DataStore.Ver} | FPS: {Math.Round(1000 / rt, 2)} ({Math.Round(rt, 2)} ms) C: {RenderedChunks}/D:{world.Dimensions[DataStore.Player.WorldID].Chunks.Count}/W:{world.ChunkCount} E: {RenderErrors} | {DataStore.Player.X}/{DataStore.Player.Y}/{DataStore.Player.Z} : {DataStore.Player.LX}/{DataStore.Player.LY} | {Math.Round((double)Process.GetCurrentProcess().PrivateMemorySize64 / 1048576, 2)} MB | Mods: {LoadedMods} | Log#: {Logger.LogQueue.Count}"; //{Math.Round(vol * 100, 0)}
             //Title = $"MCC {Math.Round(1000 / rt, 2)}FPS {Math.Round((double)Process.GetCurrentProcess().PrivateMemorySize64 / 1048576, 2)}MB";
 
             foreach (ModData mod in Mods)
@@ -295,7 +293,7 @@ namespace MCClone
             rt = frameTime.ElapsedTicks / 10000d;
             frameTime.Restart();
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            Matrix4 modelview = Matrix4.LookAt(world.Player.CPos, world.Player.CFPt, Vector3.UnitY);
+            Matrix4 modelview = Matrix4.LookAt(DataStore.Player.CPos, DataStore.Player.CFPt, Vector3.UnitY);
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref modelview);
             
@@ -325,7 +323,7 @@ namespace MCClone
             {
 
                 //Stack<Chunk> chunks = new Stack<Chunk>(world.Chunks.Values.ToList().FindAll((ch) => true || CliUtil.ShouldRenderChunk(ch)));
-                Stack<Chunk> chunks = new Stack<Chunk>(world.Chunks.Values);
+                Stack<Chunk> chunks = new Stack<Chunk>(world.Dimensions[DataStore.Player.WorldID].Chunks.Values);
                 foreach (Chunk ce in chunks) { if (CliUtil.ShouldRenderChunk(ce) && ce != null && ce.Blocks != null) foreach (Block bl in ce.Blocks.Values) { RenderCube(ce, bl); } };
 
                 /*foreach (Chunk cch in chunks)
@@ -367,7 +365,7 @@ namespace MCClone
             int z = block.Z + 16 * chunk.Z;
 
 
-            if (world.Player.Y + 1.3 > y)
+            if (DataStore.Player.Y + 1.3 > y)
             {
                 //top
                 GL.Color3(255, 255, 0);
@@ -385,7 +383,7 @@ namespace MCClone
                 GL.Vertex3(1 + x, y, 1 + z);
                 GL.Vertex3(x, y, 1 + z);
             }
-            if (world.Player.Z < z)
+            if (DataStore.Player.Z < z)
             {
                 //left
                 GL.Color3(255, 0, 0);
@@ -403,7 +401,7 @@ namespace MCClone
                 GL.Vertex3(1 + x, y, 1 + z);
                 GL.Vertex3(x, y, 1 + z);
             }
-            if (world.Player.X < x)
+            if (DataStore.Player.X < x)
             {
                 //front
                 GL.Color3(0, 255, 255);

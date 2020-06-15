@@ -4,10 +4,10 @@ using System.Text;
 
 namespace MCClone
 {
-    interface ICollidable
+    /*interface ICollidable
     {
         double Width { get; set; }
         double Height { get; set; }
-    }
+    }*/
 
 }

@@ -60,10 +60,10 @@ namespace MCClone.Client.UI
                             }
                             ThreadLabel.Content = $"Active threads: {ThreadList.Items.Count} ({currentThreads.Count})";
                         }));
-                        if (MainWindow.world.Chunks.Count > 1)
+                        if (MainWindow.world.Dimensions[DataStore.Player.WorldID].Chunks.Count > 1)
                         {
-                            List<Chunk> chunks = MainWindow.world.Chunks.Values.ToList();
-                            Player plr = MainWindow.world.Player;
+                            List<Chunk> chunks = MainWindow.world.Dimensions[DataStore.Player.WorldID].Chunks.Values.ToList();
+                            Player plr = DataStore.Player;
                             (int X, int Y) cpos = Util.PlayerPosToChunkPos(plr.pos),
                             tcpos = TranslateCoordinate(chunkMap, cpos.X, cpos.Y);
                             if (chunks.Count > 2)
@@ -77,9 +77,9 @@ namespace MCClone.Client.UI
                                 }
                                 try
                                 {
-                                    if (MainWindow.world.Chunks.ContainsKey(cpos))
+                                    if (MainWindow.world.Dimensions[DataStore.Player.WorldID].Chunks.ContainsKey(cpos))
                                     {
-                                        Chunk cch = MainWindow.world.Chunks[cpos];
+                                        Chunk cch = MainWindow.world.Dimensions[DataStore.Player.WorldID].Chunks[cpos];
                                         List<Block> blocks = cch.Blocks.Values.ToList();
                                         for (int i = 0; i < blocks.Count; i++)
                                         {
@@ -88,9 +88,9 @@ namespace MCClone.Client.UI
                                         }
                                     }
                                 }
-                                catch { /*MainWindow.world.Chunks.Add(cpos, */TerrainGen.GetChunk(cpos.X, cpos.Y);/*);*/ throw; }
+                                catch { /*MainWindow.world.Dimensions[DataStore.Player.WorldID].Chunks.Add(cpos, */TerrainGen.GetChunk(cpos.X, cpos.Y);/*);*/ throw; }
                             }
-                            Dispatcher.Invoke(() => CurrentChunk.Content = $"Current chunk: {cpos.X}/{cpos.Y} ({MainWindow.world.Chunks.ContainsKey(cpos)})");
+                            Dispatcher.Invoke(() => CurrentChunk.Content = $"Current chunk: {cpos.X}/{cpos.Y} ({MainWindow.world.Dimensions[DataStore.Player.WorldID].Chunks.ContainsKey(cpos)})");
                             Dispatcher.Invoke(() => ChunkMap.Source = BitmapToImageSource(chunkMap));
                             Dispatcher.Invoke(() => ChunkView.Source = BitmapToImageSource(chunkView));
 

@@ -30,29 +30,29 @@ namespace MCClone.Client
         {
             //return true;
             if (ch == null || ch.Blocks.Count < 1) return false;
-            if (!(MainWindow.world.Player.X / 16 + MainWindow.renderDistance > ch.X && MainWindow.world.Player.X / 16 - MainWindow.renderDistance < ch.X))
+            if (!(DataStore.Player.X / 16 + MainWindow.renderDistance > ch.X && DataStore.Player.X / 16 - MainWindow.renderDistance < ch.X))
             {
                 return false;
             }
 
-            if (!(MainWindow.world.Player.Z / 16 + MainWindow.renderDistance > ch.Z && MainWindow.world.Player.Z / 16 - MainWindow.renderDistance < ch.Z))
+            if (!(DataStore.Player.Z / 16 + MainWindow.renderDistance > ch.Z && DataStore.Player.Z / 16 - MainWindow.renderDistance < ch.Z))
             {
                 return false;
             }
 
-            if (-90 - 45 <= MainWindow.world.Player.LX && MainWindow.world.Player.LX <= 90 + 45 && ch.X >= MainWindow.world.Player.X / 16)
+            if (-90 - 45 <= DataStore.Player.LX && DataStore.Player.LX <= 90 + 45 && ch.X >= DataStore.Player.X / 16)
             {
                 return true;
             }
-            else if (MainWindow.world.Player.LX >= 90 - 45 && MainWindow.world.Player.LX >= -180 + 45 && ch.Z >= MainWindow.world.Player.Z / 16)
+            else if (DataStore.Player.LX >= 90 - 45 && DataStore.Player.LX >= -180 + 45 && ch.Z >= DataStore.Player.Z / 16)
             {
                 return true;
             }
-            else if (MainWindow.world.Player.LX <= 180 - 45 && MainWindow.world.Player.LX <= -90 + 45 && ch.X <= MainWindow.world.Player.X / 16)
+            else if (DataStore.Player.LX <= 180 - 45 && DataStore.Player.LX <= -90 + 45 && ch.X <= DataStore.Player.X / 16)
             {
                 return true;
             }
-            else if (MainWindow.world.Player.LX >= -90 && MainWindow.world.Player.LX <= 0 && ch.X >= MainWindow.world.Player.X / 16)
+            else if (DataStore.Player.LX >= -90 && DataStore.Player.LX <= 0 && ch.X >= DataStore.Player.X / 16)
             {
                 // return true;
             }

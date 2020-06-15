@@ -13,8 +13,10 @@ namespace MCClone
         public const bool Logging = true;
         public static SystemInfo SystemInfo = new SystemInfo();
         public static List<Thread> Threads = new List<Thread>();
+        public static List<Player> Players = new List<Player>();
 #if CLIENT
         public static ActivityViewer activityViewer;
+        public static Player Player;
 #endif
     }
     public class ModData

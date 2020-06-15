@@ -4,7 +4,7 @@ using OpenTK;
 
 namespace MCClone
 {
-    public class Player : ICollidable
+    public class Player 
     {
         public Player(double X, double Y, double Z)
         {
@@ -19,12 +19,11 @@ namespace MCClone
         public double YV { get; set; }
         public double LX { get; set; }
         public double LY { get; set; }
+        public int WorldID { get; set; } = 0;
         public bool Flying { get; set; }
         public bool InAir { get; set; } = true;
         public Vector3 CPos { get; set; }
         public Vector3 CFPt { get; set; }
         public string Name { get; set; } = "Player_" + new Random().Next(0, 9999);
-        public double Width { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public double Height { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 }
