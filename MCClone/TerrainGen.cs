@@ -25,25 +25,28 @@ namespace MCClone
                     //(int, int) pos = ((int)(DataStore.Player.X / 16 + x * Math.Sin(Util.DegToRad(z))), (int)(DataStore.Player.Z / 16 + x * Math.Cos(Util.DegToRad(z))));
                     (int, int) pos = ((int)(X + x), (int)(Z + z));
                     if (!dim.Chunks.ContainsKey(pos))
-                        new Task(() => { GetChunk(pos.Item1, pos.Item2); }).Start();
+                        new Task(() => GetChunk(dim, pos.Item1, pos.Item2)).Start();
                         
                 }
             }
             Logger.CompressLog();
 
         }
-        public static void Initialize()
+        public static void Initialize(Dimension dim)
         {
-            if(Directory.Exists($"Worlds/{world.Name}"))
+            if(Directory.Exists($"Worlds/{dim.World.Name}/{dim.Name}"))
             {
-                MainWindow.world = JsonConvert.DeserializeObject<World>(File.ReadAllText($"Worlds/{world.Name}/World.json"));
+                //dim.world = JsonConvert.DeserializeObject<World>(File.ReadAllText($"Worlds/{dim.World.Name}/{dim.Name}/World.json"));
             }
-            Directory.CreateDirectory($"Worlds/{world.Name}/ChunkData/");
-            GenerateAround(0, 0, renderDistance);
+            Directory.CreateDirectory($"Worlds/{dim.World.Name}/{dim.Name}/ChunkData/");
+            GenerateAround(dim, 0, 0, renderDistance);
         }
-        public static Chunk GenChunk(int X, int Z)
+        public static Chunk GenChunk(Dimension dim, int X, int Z)
         {
-            Chunk chunk = new Chunk(X, Z);
+            Chunk chunk = new Chunk(dim, X, Z)
+            {
+                Dirty = true
+            };
             /*if (world.Chunks.ContainsKey((X, Z)))
             {
                 world.Chunks.TryGetValue((X, Z), out chunk);
@@ -66,6 +69,7 @@ namespace MCClone
                 }
             }
             chunk.Finished = true;
+            chunk.Dirty = true;
             LogEntry += $"Chunk {X}/{Z} generated in: {GenTimer.ElapsedTicks / 10000d} ms, {chunk.Blocks.Count} blocks.\n";
             /*Task.Run(() =>
             {
@@ -76,31 +80,31 @@ namespace MCClone
             return chunk;
         }
         static String LogEntry = "";
-        public static Chunk GetChunk(int X, int Z)
+        public static Chunk GetChunk(Dimension dim, int X, int Z)
         {
             LogEntry = $"Getting chunk at {X}/{Z}\n";
             GenTime.Restart();
-            Chunk ch = new Chunk(X, Z);
-            bool AlreadyLoaded = world.Chunks.TryGetValue((X, Z), out ch);
+            Chunk ch = new Chunk(dim,X, Z);
+            bool AlreadyLoaded = dim.Chunks.TryGetValue((X, Z), out ch);
             if (AlreadyLoaded)
             {
                 return ch;
             }
             
             
-            if (ShouldLoadChunks && File.Exists($"Worlds/{world.Name}/ChunkData/{X}.{Z}.gz"))
+            if (ShouldLoadChunks && File.Exists($"Worlds/{dim.World.Name}/{dim.Name}/ChunkData/{X}.{Z}.gz"))
             {
                 LogEntry += $"Found chunk file for {X}/{Z}, loading...\n";
                 int length;
                 byte[] b = new byte[4];
-                using (FileStream fs = File.OpenRead($"Worlds/{world.Name}/ChunkData/{X}.{Z}.gz"))
+                using (FileStream fs = File.OpenRead($"Worlds/{dim.World.Name}/{dim.Name}/ChunkData/{X}.{Z}.gz"))
                 {
                     fs.Position = fs.Length - 4;
                     fs.Read(b, 0, 4);
                     length = BitConverter.ToInt32(b, 0);
                 }
                 byte[] data = new byte[length];
-                GZipStream chIn = new GZipStream(new FileStream($"Worlds/{world.Name}/ChunkData/{X}.{Z}.gz", FileMode.Open), CompressionMode.Decompress);
+                GZipStream chIn = new GZipStream(new FileStream($"Worlds/{dim.World.Name}/{dim.Name}/ChunkData/{X}.{Z}.gz", FileMode.Open), CompressionMode.Decompress);
                 chIn.Read(data, 0, data.Length);
                 chIn.Close();
                 SaveChunk sch = JsonConvert.DeserializeObject<SaveChunk>(Encoding.ASCII.GetString(data));
@@ -113,13 +117,13 @@ namespace MCClone
             else
             {
                 LogEntry += $"Generating chunk at {X}/{Z}...\n";
-                ch = GenChunk(X, Z);
+                ch = GenChunk(dim, X, Z);
             }
 
             try
             {
                 LogEntry += $"Adding chunk at {X}/{Z} to world.";
-                world.Chunks.AddOrUpdate((X, Z), ch, (_, _1) => ch);
+                dim.Chunks.AddOrUpdate((X, Z), ch, (_, _1) => ch);
             }
             catch { }
             Logger.Log("Terrain Gen", LogEntry);

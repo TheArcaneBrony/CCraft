@@ -43,7 +43,7 @@ namespace MCClone
         };
 
 
-        public MainWindow() : base(1280, 720, GraphicsMode.Default, "The Arcane Brony#9669's Minecraft Clone", GameWindowFlags.Default, DisplayDevice.Default, 0, 0, GraphicsContextFlags.ForwardCompatible)
+        public MainWindow() : base(640, 480, GraphicsMode.Default, "The Arcane Brony#9669's Minecraft Clone", GameWindowFlags.Default, DisplayDevice.Default, 0, 0, GraphicsContextFlags.ForwardCompatible)
         {
             Title += $" | GL Ver: {GL.GetString(StringName.Version)} | Version: {DataStore.Ver}";
             VSync = VSyncMode.On;
@@ -119,27 +119,27 @@ namespace MCClone
                 catch { }
             }
 
-            if (CliUtil.GetGameArg("world") != "null") { world.Name = CliUtil.GetGameArg("world"); }
-            Console.WriteLine($"Logged in as {CliUtil.GetGameArg("username")} with password {CliUtil.GetGameArg("password")}\n");
+            if (Util.GetGameArg("world") != "null") { world.Name = Util.GetGameArg("world"); }
+            Console.WriteLine($"Logged in as {Util.GetGameArg("username")} with password {Util.GetGameArg("password")}\n");
 
-            centerX = (ushort)(ClientRectangle.Width);
+            /*centerX = (ushort)(ClientRectangle.Width);
             centerY = (ushort)(ClientRectangle.Height);
 
             Point center = PointToScreen(new Point(centerX, centerY));
-            Mouse.SetPosition(center.X, center.Y);
+            Mouse.SetPosition(center.X, center.Y);*/
 
-            DataStore.Player = new Player(0, 20, 0)
+            DataStore.Player = new Player(world)
             {
                 Flying = true,
-                Name = CliUtil.GetGameArg("username")
+                Name = Util.GetGameArg("username")
             };
             Thread gameInit = new Thread(() =>
             {
-                TerrainGen.Initialize();
+                TerrainGen.Initialize(world.Dimensions[0]);
                 while (true)
                 {
                     Thread.Sleep(250);
-                    TerrainGen.GenerateAround((int)DataStore.Player.X, (int)DataStore.Player.Z, TerrainGen.renderDistance + TerrainGen.genDistance);
+                    TerrainGen.GenerateAround(DataStore.Player.CurrentDimension, (int)DataStore.Player.X, (int)DataStore.Player.Z, TerrainGen.renderDistance + TerrainGen.genDistance);
                 }
                 /*while (false)
                 {
@@ -199,14 +199,14 @@ namespace MCClone
                         $"OpenGL version: {GL.GetString(StringName.Version)} ({GL.GetString(StringName.Vendor)}) RENDERER: {GL.GetString(StringName.Renderer)}\n" +
                         DataStore.SystemInfo.CPU +
                         DataStore.SystemInfo.GPU +
-                        $"Ingame Name: {CliUtil.GetGameArg("username")}\n" +
+                        $"Ingame Name: {Util.GetGameArg("username")}\n" +
                         $"Windows Username: {Environment.UserName}\n" +
                         $"Windows Network Name: {Environment.MachineName}\n" +
                         $"Process Working Set: {Math.Round((Environment.WorkingSet / (double)(1024 * 1024)), 4)} MB ({Environment.WorkingSet} B)\n" +
                         $"Player Pos: {DataStore.Player.X}/{DataStore.Player.Y}/{DataStore.Player.Z}\n" +
                         $"Camera angle: {DataStore.Player.LX}/{DataStore.Player.LY}\n" +
                         $"Render Errors: {RenderErrors}\n" +
-                        $"Rendered Chunks: {RenderedChunks}/D:{world.Dimensions[DataStore.Player.WorldID].Chunks.Count}/W:{world.ChunkCount}"
+                        $"Rendered Chunks: {RenderedChunks}/D:{world.Dimensions[DataStore.Player.DimensionId].Chunks.Count}/W:{world.ChunkCount}"
                         );
                     Thread.Sleep(1000);
                 }
@@ -236,6 +236,9 @@ namespace MCClone
                                 break;
                             case "debug":
 
+                                break;
+                            case "tpdim":
+                                DataStore.Player.DimensionId = int.Parse(args[0]);
                                 break;
                             default:
                                 Console.WriteLine($"Invalid command: {command}");
@@ -268,14 +271,14 @@ namespace MCClone
             Thread.CurrentThread.Name = "Main thread";
             DataStore.Threads.AddRange(new Thread[] { Thread.CurrentThread, gameInit, consoleInput, logThread, Logger.logQueueThread });
 
-            // GL.Enable(EnableCap.DepthTest);
+             GL.Enable(EnableCap.DepthTest);
         }
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             Input.HandleInput();
             //   Input.Tick();
             GL.ClearColor(0.1f * brightness, 0.5f * brightness, 0.7f * brightness, 0.9f);
-            Title = $"MC Clone {DataStore.Ver} | FPS: {Math.Round(1000 / rt, 2)} ({Math.Round(rt, 2)} ms) C: {RenderedChunks}/D:{world.Dimensions[DataStore.Player.WorldID].Chunks.Count}/W:{world.ChunkCount} E: {RenderErrors} | {DataStore.Player.X}/{DataStore.Player.Y}/{DataStore.Player.Z} : {DataStore.Player.LX}/{DataStore.Player.LY} | {Math.Round((double)Process.GetCurrentProcess().PrivateMemorySize64 / 1048576, 2)} MB | Mods: {LoadedMods} | Log#: {Logger.LogQueue.Count}"; //{Math.Round(vol * 100, 0)}
+            Title = $"MC Clone {DataStore.Ver} | FPS: {Math.Round(1000 / rt, 2)} ({Math.Round(rt, 2)} ms) C: {RenderedChunks}/D:{world.Dimensions[DataStore.Player.DimensionId].Chunks.Count}/W:{world.ChunkCount} E: {RenderErrors} | {DataStore.Player.X}/{DataStore.Player.Y}/{DataStore.Player.Z} : {DataStore.Player.LX}/{DataStore.Player.LY} | {Math.Round((double)Process.GetCurrentProcess().PrivateMemorySize64 / 1048576, 2)} MB | Mods: {LoadedMods} | Log#: {Logger.LogQueue.Count}"; //{Math.Round(vol * 100, 0)}
             //Title = $"MCC {Math.Round(1000 / rt, 2)}FPS {Math.Round((double)Process.GetCurrentProcess().PrivateMemorySize64 / 1048576, 2)}MB";
 
             foreach (ModData mod in Mods)
@@ -323,7 +326,7 @@ namespace MCClone
             {
 
                 //Stack<Chunk> chunks = new Stack<Chunk>(world.Chunks.Values.ToList().FindAll((ch) => true || CliUtil.ShouldRenderChunk(ch)));
-                Stack<Chunk> chunks = new Stack<Chunk>(world.Dimensions[DataStore.Player.WorldID].Chunks.Values);
+                Stack<Chunk> chunks = new Stack<Chunk>(world.Dimensions[DataStore.Player.DimensionId].Chunks.Values);
                 foreach (Chunk ce in chunks) { if (CliUtil.ShouldRenderChunk(ce) && ce != null && ce.Blocks != null) foreach (Block bl in ce.Blocks.Values) { RenderCube(ce, bl); } };
 
                 /*foreach (Chunk cch in chunks)
@@ -347,9 +350,10 @@ namespace MCClone
                 Logger.PostLog("Exception: " + err.Message + " @ " + err.Source);
             }
             _shader.Use();
+            GL.End();
             GL.BindVertexArray(_vertexArrayObject);
             GL.DrawArrays(PrimitiveType.Quads, 0, 3);
-            GL.End();
+            
         }
         static void Dot(double x, double y, double z)
         {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MCClone.TerrainGenTest;
+using System;
 using System.Runtime.InteropServices;
 
 namespace MCClone
@@ -16,6 +17,30 @@ namespace MCClone
         public static int TruncateHeight(int y)
         {
             return Math.Min(Math.Max(0, y), 255);
+        }
+        public static string GetGameArg(string key)
+        {
+            int ArgIndex = Array.FindIndex(Program.args, (string s) =>
+            {
+                if (s == $"-{key}")
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            });
+            if (ArgIndex != -1)
+            {
+                DataStore.GameArgs.Add(key, Program.args[ArgIndex + 1]);
+                return Program.args[ArgIndex + 1];
+            }
+            else
+            {
+                if (DataStore.GameArgs.ContainsKey(key)) return DataStore.GameArgs[key];
+                return "null";
+            }
         }
     }
     public static class SystemUtils

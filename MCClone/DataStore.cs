@@ -1,19 +1,25 @@
-﻿using MCClone.Client.UI;
+﻿#if CLIENT
+using MCClone.Client.UI;
+#endif
 using System.Collections.Generic;
 using System.Management;
 using System.Reflection;
 using System.Threading;
-using System.Windows.Documents;
 
 namespace MCClone
 {
     public static class DataStore
     {
         public const string Ver = "Alpha 0.08_02130";
+#if TERRAIN_GEN_TEST
+        public const bool Logging = false;
+#else
         public const bool Logging = true;
-        public static SystemInfo SystemInfo = new SystemInfo();
-        public static List<Thread> Threads = new List<Thread>();
-        public static List<Player> Players = new List<Player>();
+#endif
+        public static readonly SystemInfo SystemInfo = new SystemInfo();
+        public static readonly List<Thread> Threads = new List<Thread>();
+        public static readonly List<Player> Players = new List<Player>();
+        public static readonly Dictionary<string, string> GameArgs = new Dictionary<string, string>();
 #if CLIENT
         public static ActivityViewer activityViewer;
         public static Player Player;

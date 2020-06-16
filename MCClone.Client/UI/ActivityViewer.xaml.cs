@@ -60,9 +60,9 @@ namespace MCClone.Client.UI
                             }
                             ThreadLabel.Content = $"Active threads: {ThreadList.Items.Count} ({currentThreads.Count})";
                         }));
-                        if (MainWindow.world.Dimensions[DataStore.Player.WorldID].Chunks.Count > 1)
+                        if (MainWindow.world.Dimensions[DataStore.Player.DimensionId].Chunks.Count > 1)
                         {
-                            List<Chunk> chunks = MainWindow.world.Dimensions[DataStore.Player.WorldID].Chunks.Values.ToList();
+                            List<Chunk> chunks = MainWindow.world.Dimensions[DataStore.Player.DimensionId].Chunks.Values.ToList();
                             Player plr = DataStore.Player;
                             (int X, int Y) cpos = Util.PlayerPosToChunkPos(plr.pos),
                             tcpos = TranslateCoordinate(chunkMap, cpos.X, cpos.Y);
@@ -77,20 +77,21 @@ namespace MCClone.Client.UI
                                 }
                                 try
                                 {
-                                    if (MainWindow.world.Dimensions[DataStore.Player.WorldID].Chunks.ContainsKey(cpos))
+                                    if (MainWindow.world.Dimensions[DataStore.Player.DimensionId].Chunks.ContainsKey(cpos))
                                     {
-                                        Chunk cch = MainWindow.world.Dimensions[DataStore.Player.WorldID].Chunks[cpos];
+                                        Chunk cch = MainWindow.world.Dimensions[DataStore.Player.DimensionId].Chunks[cpos];
                                         List<Block> blocks = cch.Blocks.Values.ToList();
                                         for (int i = 0; i < blocks.Count; i++)
                                         {
                                             Block bl = blocks[i];
-                                            chunkViewG.DrawRectangle(new Pen(Color.FromArgb(255, 0, Math.Min(16 * bl.Y,255) , 0), 1), bl.X, bl.Z, 1, 1);
+                                            chunkViewG.DrawRectangle(new Pen(Color.FromArgb(255, 0, Math.Min(16 * bl.Y, 255), 0), 1), bl.X, bl.Z, 1, 1);
                                         }
                                     }
                                 }
-                                catch { /*MainWindow.world.Dimensions[DataStore.Player.WorldID].Chunks.Add(cpos, */TerrainGen.GetChunk(cpos.X, cpos.Y);/*);*/ throw; }
+                                catch { }
+                                //catch { /*MainWindow.world.Dimensions[DataStore.Player.WorldID].Chunks.Add(cpos, */TerrainGen.GetChunk(cpos.X, cpos.Y);/*);*/ throw; }
                             }
-                            Dispatcher.Invoke(() => CurrentChunk.Content = $"Current chunk: {cpos.X}/{cpos.Y} ({MainWindow.world.Dimensions[DataStore.Player.WorldID].Chunks.ContainsKey(cpos)})");
+                            Dispatcher.Invoke(() => CurrentChunk.Content = $"Current chunk: {cpos.X}/{cpos.Y} ({MainWindow.world.Dimensions[DataStore.Player.DimensionId].Chunks.ContainsKey(cpos)})");
                             Dispatcher.Invoke(() => ChunkMap.Source = BitmapToImageSource(chunkMap));
                             Dispatcher.Invoke(() => ChunkView.Source = BitmapToImageSource(chunkView));
 
@@ -98,7 +99,7 @@ namespace MCClone.Client.UI
                         Dispatcher.Invoke(() => Title = "MC Clone Activity Viewer | " + idgb++);
                     }
                     //catch (Exception) { throw; }
-                    Thread.Sleep(500);
+                    Thread.Sleep(1000);
                 }
             });
             new Thread(() => { while (true) if (!UIThr.IsAlive) UIThr.Start(); }).Start();

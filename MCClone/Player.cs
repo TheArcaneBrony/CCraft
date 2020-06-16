@@ -1,16 +1,13 @@
-﻿using System;
-
-using OpenTK;
+﻿using OpenTK;
+using System;
 
 namespace MCClone
 {
-    public class Player 
+    public class Player
     {
-        public Player(double X, double Y, double Z)
+        public Player(World world)
         {
-            this.X = X;
-            this.Y = Y;
-            this.Z = Z;
+            CurrentWorld = world;
         }
         public double X { get; set; }
         public double Y { get; set; }
@@ -19,7 +16,23 @@ namespace MCClone
         public double YV { get; set; }
         public double LX { get; set; }
         public double LY { get; set; }
-        public int WorldID { get; set; } = 0;
+        public int DimensionId { get; set; } = 0;
+        private Dimension _CurrentDimension;
+        public World CurrentWorld;
+        public Dimension CurrentDimension
+        {
+            get
+            {
+                if (_CurrentDimension != null && _CurrentDimension.Id == DimensionId)
+                    return _CurrentDimension;
+                else return CurrentWorld.Dimensions[DimensionId];
+            }
+            set
+            {
+                DimensionId = _CurrentDimension.Id;
+                _CurrentDimension = value;
+            }
+        }
         public bool Flying { get; set; }
         public bool InAir { get; set; } = true;
         public Vector3 CPos { get; set; }

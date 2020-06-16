@@ -4,31 +4,10 @@ namespace MCClone.Client
 {
     class CliUtil
     {
-        public static string GetGameArg(string key)
-        {
-            int ArgIndex = Array.FindIndex(Program.args, (string s) =>
-            {
-                if (s == $"-{key}")
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            });
-            if (ArgIndex != -1)
-            {
-                return Program.args[ArgIndex + 1];
-            }
-            else
-            {
-                return "null";
-            }
-        }
+        
         public static bool ShouldRenderChunk(Chunk ch)
         {
-            //return true;
+            return true;
             if (ch == null || ch.Blocks.Count < 1) return false;
             if (!(DataStore.Player.X / 16 + MainWindow.renderDistance > ch.X && DataStore.Player.X / 16 - MainWindow.renderDistance < ch.X))
             {
@@ -58,9 +37,7 @@ namespace MCClone.Client
             }
             return false;
         }
-#pragma warning disable IDE0060 // Remove unused parameter
         public static bool ShouldLoadChunk(int cx, int cz)
-#pragma warning restore IDE0060 // Remove unused parameter
         {
 
             return true;

@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Text;
 
 namespace MCClone
@@ -23,23 +24,28 @@ namespace MCClone
     }
     public class Chunk
     {
-        public Chunk(int X, int Z)
+        public Dimension dim;
+        public Chunk(Dimension dim, int X, int Z)
         {
             this.X = X;
             this.Z = Z;
+            this.dim = dim;
         }
-        [Newtonsoft.Json.JsonIgnore]
+        [JsonIgnore]
         public int X { get; set; }
-        [Newtonsoft.Json.JsonIgnore]
+        [JsonIgnore]
         public int Z { get; set; }
         public bool Finished { get; set; } = false;
+        /*[JsonIgnore]*/
+        public bool Dirty { get; set; } = false;
         public ConcurrentDictionary<(byte X, byte Y, byte Z), Block> Blocks { get; } = new ConcurrentDictionary<(byte X, byte Y, byte Z), Block>();
         public void Save()
         {
             try
             {
+                Directory.CreateDirectory($"Worlds/{dim.World.Name}/{dim.Name}/ChunkData/");
                 byte[] data = Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(new SaveChunk(this)));
-                GZipStream chOut = new GZipStream(new FileStream($"Worlds/{MainWindow.world.Name}/ChunkData/{X}.{Z}.gz", FileMode.Create), MainWindow.world.CompressionLevel);
+                GZipStream chOut = new GZipStream(new FileStream($"Worlds/{dim.World.Name}/{dim.Name}/ChunkData/{X}.{Z}.gz", FileMode.Create), dim.World.CompressionLevel);
                 chOut.Write(data, 0, data.Length);
                 chOut.Close();
             }
@@ -66,53 +72,64 @@ namespace MCClone
     {
         public World(string Name)
         {
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 32; i++)
             {
-                Dimensions.Add(new Dimension(this, i));
+                Dimensions.Add(i, new Dimension(this, i));
             }
         }
         public void Save()
         {
-            foreach (Dimension dim in Dimensions)
+            Directory.CreateDirectory($"Worlds/{Name}");
+            foreach (KeyValuePair<int,Dimension> dim in Dimensions.Where((a) => { return a.Value.Dirty; }))
             {
-                dim.Save();
+                dim.Value.Save();
             }
+            File.WriteAllText($"Worlds/{Name}/World.json", JsonConvert.SerializeObject(this, Formatting.Indented));
         }
         
 
-        public int ChunkCount { get { int a = 0; foreach (Dimension d in Dimensions) a += d.Chunks.Count; return a; } }
+        public int ChunkCount { get { int a = 0; foreach (KeyValuePair<int,Dimension> d in Dimensions) a += d.Value.Chunks.Count; return a; } }
         [JsonIgnore]
         public string Name { get; set; } = "" + Directory.GetDirectories("Worlds/").Length; //"SP_DEV";
         
         public CompressionLevel CompressionLevel { get; set; } = CompressionLevel.Optimal;
-        
-        public List<Dimension> Dimensions = new List<Dimension>();
+        /*[JsonIgnore]*/
+        public Dictionary<int, Dimension> Dimensions { get; } = new Dictionary<int, Dimension>();
     }
     public class Dimension
     {
-        private World w;
-        private int id;
+        /// <summary>
+        /// Parent World object
+        /// </summary>
+        public World World;
+        /// <summary>
+        /// Dimension ID
+        /// </summary>
+        public int Id;
         public Dimension(World w, int id)
         {
-            this.w = w;
-            this.id = id;
+            this.World = w;
+            this.Id = id;
             Name = "DIM" + id;
         }
-        [JsonIgnore]
+        /*[JsonIgnore]*/
         public string Name { get; set; } = "DIM";
         public double SpawnX { get; set; } = 0;
         public double SpawnY { get; set; } = 10;
         public double SpawnZ { get; set; } = 0;
-        [JsonIgnore]
+        /*[JsonIgnore]*/
+        public bool Dirty { get; set; } = false;
+        public bool AnyChunksDirty { get { return Dirty || Chunks.Any((a)=> { return a.Value.Dirty; }); } }
+        /*[JsonIgnore]*/
         public ConcurrentDictionary<(int X, int Z), Chunk> Chunks { get; } = new ConcurrentDictionary<(int X, int Z), Chunk>();
         public void Save()
         {
-
-            foreach (KeyValuePair<(int X, int Z), Chunk> chunk in Chunks)
+            Directory.CreateDirectory($"Worlds/{World.Name}/{Name}");
+            foreach (KeyValuePair<(int X, int Z), Chunk> chunk in Chunks.Where((a)=> { return a.Value.Dirty; }))
             {
                 chunk.Value.Save();
             }
-            File.WriteAllText($"Worlds/{Name}/World.json", JsonConvert.SerializeObject(this, Formatting.Indented));
+            File.WriteAllText($"Worlds/{World.Name}/{Name}/Dimension.json", JsonConvert.SerializeObject(this, Formatting.Indented));
         }
     }
 }

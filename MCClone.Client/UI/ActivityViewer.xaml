@@ -13,8 +13,8 @@
         <Image x:Name="ChunkMap" Margin="10,41,0,0" HorizontalAlignment="Left" Width="256" Height="256" VerticalAlignment="Top"/>
         <Label Content="Chunk view" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
         <Image x:Name="ChunkView" HorizontalAlignment="Left" Height="160" Margin="10,302,0,0" VerticalAlignment="Top" Width="160" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
-        <Label x:Name="CurrentChunk" Content="Current chunk: ?/?" HorizontalAlignment="Left" Margin="175,302,0,0" VerticalAlignment="Top"/>
-        <RichTextBox x:Name="LogBox" HorizontalAlignment="Left" Height="351" Margin="271,328,0,0" VerticalAlignment="Top" Width="592">
+        <Label x:Name="CurrentChunk" Content="Current chunk: ?/?" HorizontalAlignment="Left" Margin="10,467,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.241,-0.538"/>
+        <RichTextBox x:Name="LogBox" Margin="271,41,409,10">
             <FlowDocument>
                 <Paragraph>
                     <Run Text="RichTextBox"/>
