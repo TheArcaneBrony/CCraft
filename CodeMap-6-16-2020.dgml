@@ -1,0 +1,1125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph DataVirtualized="True" Layout="Sugiyama" ZoomLevel="-1" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="(@1 @8 Type=CliUtil Member=(Name=ShouldLoadChunk OverloadingParameters=[@75,@75]))" Category="CodeSchema_Method" Bounds="-1421.94012942387,180.94,132.573333333333,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="ShouldLoadChunk" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="ShouldLoadChunk" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/CliUtil.cs StartLineNumber=39 StartCharacterOffset=27 EndLineNumber=39 EndCharacterOffset=42)" />
+    <Node Id="(@1 Namespace=MCClone.Client.Properties Type=Resources)" Category="CodeSchema_Class" Bounds="-1153.26012942387,140.94,114.103333333333,25" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsGeneratedCode="True" CodeSchemaProperty_IsInternal="True" CommonLabel="Resources" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Class" Label="Resources" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/Properties/Resources.Designer.cs StartLineNumber=24 StartCharacterOffset=19 EndLineNumber=24 EndCharacterOffset=28)" />
+    <Node Id="(@3 @5 @17 Member=Type)" Category="CodeSchema_Property" Bounds="478.803203909464,287,83.2123947873815,25" CodeSchemaProperty_IsPublic="True" CommonLabel="Type" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="Type" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/WorldStorage.cs StartLineNumber=22 StartCharacterOffset=20 EndLineNumber=22 EndCharacterOffset=24)" />
+    <Node Id="(@3 @5 @22 Member=Logging)" Category="CodeSchema_Field" Bounds="983.635177846372,-49.9200000000001,80.5766666666667,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="Logging" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="Logging" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/DataStore.cs StartLineNumber=14 StartCharacterOffset=26 EndLineNumber=14 EndCharacterOffset=33)" />
+    <Node Id="(@3 @5 @22 Member=Threads)" Category="CodeSchema_Field" Bounds="874.841844513038,-49.9200000000001,78.7933333333333,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="Threads" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="Threads" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/DataStore.cs StartLineNumber=19 StartCharacterOffset=44 EndLineNumber=19 EndCharacterOffset=51)" />
+    <Node Id="(@3 @5 @22 Member=Ver)" Category="CodeSchema_Field" Bounds="874.841844513038,-105.88,54.14,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="Ver" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="Ver" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/DataStore.cs StartLineNumber=12 StartCharacterOffset=28 EndLineNumber=12 EndCharacterOffset=31)" />
+    <Node Id="(@3 @5 @24 Member=SpawnX)" Category="CodeSchema_Property" Bounds="137.766537242797,61.04,100.522394787382,25" CodeSchemaProperty_IsPublic="True" CommonLabel="SpawnX" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="SpawnX" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/WorldStorage.cs StartLineNumber=119 StartCharacterOffset=22 EndLineNumber=119 EndCharacterOffset=28)" />
+    <Node Id="(@3 @5 @24 Member=SpawnY)" Category="CodeSchema_Property" Bounds="265.072265363512,6.03999999999996,100.079061454048,25" CodeSchemaProperty_IsPublic="True" CommonLabel="SpawnY" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="SpawnY" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/WorldStorage.cs StartLineNumber=120 StartCharacterOffset=22 EndLineNumber=120 EndCharacterOffset=28)" />
+    <Node Id="(@3 @5 @24 Member=SpawnZ)" Category="CodeSchema_Property" Bounds="395.15132681756,6.03999999999996,100.289061454048,25" CodeSchemaProperty_IsPublic="True" CommonLabel="SpawnZ" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="SpawnZ" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/WorldStorage.cs StartLineNumber=121 StartCharacterOffset=22 EndLineNumber=121 EndCharacterOffset=28)" />
+    <Node Id="(@3 @5 @27 Member=(Name=PostLog OverloadingParameters=[(@51 @52 Type=String)]))" Category="CodeSchema_Method" Bounds="814.003721604942,-441.84,78.2133333333334,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="PostLog" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="PostLog" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/Logger.cs StartLineNumber=82 StartCharacterOffset=27 EndLineNumber=82 EndCharacterOffset=34)" />
+    <Node Id="(@3 @5 @27 Member=maxSrcLength)" Category="CodeSchema_Field" Bounds="776.090388271609,-329.92,111.68,25.96" CodeSchemaProperty_IsPrivate="True" CodeSchemaProperty_IsStatic="True" CommonLabel="maxSrcLength" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="maxSrcLength" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/Logger.cs StartLineNumber=59 StartCharacterOffset=19 EndLineNumber=59 EndCharacterOffset=31)" />
+    <Node Id="(@3 @5 @27 Member=postaddr)" Category="CodeSchema_Field" Bounds="637.857054938275,-385.88,84.6566666666666,25.96" CodeSchemaProperty_IsPrivate="True" CodeSchemaProperty_IsStatic="True" CommonLabel="postaddr" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="postaddr" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/Logger.cs StartLineNumber=81 StartCharacterOffset=36 EndLineNumber=81 EndCharacterOffset=44)" />
+    <Node Id="(@3 @5 @31 @144)" Category="CodeSchema_Property" Bounds="565.440388271608,-105.88,90.1457281207149,25" CodeSchemaProperty_IsPublic="True" CommonLabel="Name" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="Name" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/DataStore.cs StartLineNumber=29 StartCharacterOffset=22 EndLineNumber=29 EndCharacterOffset=26)" />
+    <Node Id="(@3 @5 @31 Member=Instance)" Category="CodeSchema_Property" Bounds="565.440388271609,-50.8800000000001,102.309061454048,25" CodeSchemaProperty_IsPublic="True" CommonLabel="Instance" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="Instance" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/DataStore.cs StartLineNumber=30 StartCharacterOffset=22 EndLineNumber=30 EndCharacterOffset=30)" />
+    <Node Id="(@3 @5 @31 Member=OnLoad)" Category="CodeSchema_Property" Bounds="685.586116392323,-105.88,100.139061454048,25" CodeSchemaProperty_IsPublic="True" CommonLabel="OnLoad" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="OnLoad" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/DataStore.cs StartLineNumber=31 StartCharacterOffset=26 EndLineNumber=31 EndCharacterOffset=32)" />
+    <Node Id="(@3 @5 @31 Member=OnRenderFrame)" Category="CodeSchema_Property" Bounds="565.440388271608,4.11999999999989,144.449061454048,25" CodeSchemaProperty_IsPublic="True" CommonLabel="OnRenderFrame" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="OnRenderFrame" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/DataStore.cs StartLineNumber=34 StartCharacterOffset=26 EndLineNumber=34 EndCharacterOffset=39)" />
+    <Node Id="(@3 @5 @31 Member=OnResize)" Category="CodeSchema_Property" Bounds="697.749449725657,-50.8800000000001,107.092394787382,25" CodeSchemaProperty_IsPublic="True" CommonLabel="OnResize" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="OnResize" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/DataStore.cs StartLineNumber=32 StartCharacterOffset=26 EndLineNumber=32 EndCharacterOffset=34)" />
+    <Node Id="(@3 @5 @31 Member=OnUpdateFrame)" Category="CodeSchema_Property" Bounds="565.440388271609,59.1199999999999,145.852394787382,25" CodeSchemaProperty_IsPublic="True" CommonLabel="OnUpdateFrame" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="OnUpdateFrame" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/DataStore.cs StartLineNumber=33 StartCharacterOffset=26 EndLineNumber=33 EndCharacterOffset=39)" />
+    <Node Id="(@3 @5 @33 @144)" Category="CodeSchema_Property" Bounds="137.766537242797,-220.88,90.1457281207148,25" CodeSchemaProperty_IsPublic="True" CommonLabel="Name" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="Name" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/Player.cs StartLineNumber=39 StartCharacterOffset=22 EndLineNumber=39 EndCharacterOffset=26)" />
+    <Node Id="(@3 @5 @33 Member=CFPt)" Category="CodeSchema_Property" Bounds="449.103721604942,-330.88,82.5257281207148,25" CodeSchemaProperty_IsPublic="True" CommonLabel="CFPt" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="CFPt" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/Player.cs StartLineNumber=38 StartCharacterOffset=23 EndLineNumber=38 EndCharacterOffset=27)" />
+    <Node Id="(@3 @5 @33 Member=CPos)" Category="CodeSchema_Property" Bounds="251.018932030179,-275.88,84.2790614540481,25" CodeSchemaProperty_IsPublic="True" CommonLabel="CPos" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="CPos" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/Player.cs StartLineNumber=37 StartCharacterOffset=23 EndLineNumber=37 EndCharacterOffset=27)" />
+    <Node Id="(@3 @5 @33 Member=Flying)" Category="CodeSchema_Property" Bounds="365.297993484227,-275.88,89.7857281207149,25" CodeSchemaProperty_IsPublic="True" CommonLabel="Flying" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="Flying" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/Player.cs StartLineNumber=35 StartCharacterOffset=20 EndLineNumber=35 EndCharacterOffset=26)" />
+    <Node Id="(@3 @5 @33 Member=InAir)" Category="CodeSchema_Property" Bounds="137.766537242797,-275.88,83.2523947873816,25" CodeSchemaProperty_IsPublic="True" CommonLabel="InAir" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="InAir" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/Player.cs StartLineNumber=36 StartCharacterOffset=20 EndLineNumber=36 EndCharacterOffset=25)" />
+    <Node Id="(@3 @5 @33 Member=LX)" Category="CodeSchema_Property" Bounds="137.766537242797,-330.88,71.1757281207149,25" CodeSchemaProperty_IsPublic="True" CommonLabel="LX" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="LX" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/Player.cs StartLineNumber=16 StartCharacterOffset=22 EndLineNumber=16 EndCharacterOffset=24)" />
+    <Node Id="(@3 @5 @33 Member=LY)" Category="CodeSchema_Property" Bounds="423.667054938275,-385.88,70.0290614540482,25" CodeSchemaProperty_IsPublic="True" CommonLabel="LY" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="LY" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/Player.cs StartLineNumber=17 StartCharacterOffset=22 EndLineNumber=17 EndCharacterOffset=24)" />
+    <Node Id="(@3 @5 @33 Member=Y)" Category="CodeSchema_Property" Bounds="137.766537242797,-385.88,65.0823947873815,25" CodeSchemaProperty_IsPublic="True" CommonLabel="Y" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="Y" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/Player.cs StartLineNumber=12 StartCharacterOffset=22 EndLineNumber=12 EndCharacterOffset=23)" />
+    <Node Id="(@3 @5 @33 Member=YV)" Category="CodeSchema_Property" Bounds="238.942265363512,-330.88,72.5357281207149,25" CodeSchemaProperty_IsPublic="True" CommonLabel="YV" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="YV" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/Player.cs StartLineNumber=15 StartCharacterOffset=22 EndLineNumber=15 EndCharacterOffset=24)" />
+    <Node Id="(@3 @5 @43 Member=SWP_NOACTIVATE)" Category="CodeSchema_Field" Bounds="962.217054938275,-385.88,134.416666666667,25.96" CodeSchemaProperty_IsPrivate="True" CodeSchemaProperty_IsStatic="True" CommonLabel="SWP_NOACTIVATE" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="SWP_NOACTIVATE" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/Util.cs StartLineNumber=49 StartCharacterOffset=18 EndLineNumber=49 EndCharacterOffset=32)" />
+    <Node Id="(@3 @5 @43 Member=SWP_NOZORDER)" Category="CodeSchema_Field" Bounds="1107.01038827161,-441.84,128.74,25.96" CodeSchemaProperty_IsPrivate="True" CodeSchemaProperty_IsStatic="True" CommonLabel="SWP_NOZORDER" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="SWP_NOZORDER" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/Util.cs StartLineNumber=48 StartCharacterOffset=18 EndLineNumber=48 EndCharacterOffset=30)" />
+    <Node Id="(@3 @5 @45 Member=genDistance)" Category="CodeSchema_Field" Bounds="1305.75038827161,-329.92,102.33,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="genDistance" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="genDistance" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/TerrainGen.cs StartLineNumber=15 StartCharacterOffset=49 EndLineNumber=15 EndCharacterOffset=60)" />
+    <Node Id="(@3 @5 @47 Member=(Name=DegToRad OverloadingParameters=[@53]))" Category="CodeSchema_Method" Bounds="1251.68184451304,-105.88,90.2533333333336,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="DegToRad" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="DegToRad" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/Util.cs StartLineNumber=9 StartCharacterOffset=29 EndLineNumber=9 EndCharacterOffset=37)" />
+    <Node Id="(@3 @5 @47 Member=(Name=PlayerPosToChunkPos OverloadingParameters=[(@51 @52 Type=(Name=ValueTuple GenericParameterCount=2 GenericArguments=[@53,@53]))]))" Category="CodeSchema_Method" Bounds="1162.24184451304,6.03999999999996,150.7,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="PlayerPosToChunkPos" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="PlayerPosToChunkPos" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/Util.cs StartLineNumber=13 StartCharacterOffset=33 EndLineNumber=13 EndCharacterOffset=52)" />
+    <Node Id="(@3 @5 @47 Member=(Name=TruncateHeight OverloadingParameters=[@68]))" Category="CodeSchema_Method" Bounds="1296.75184451304,-49.9200000000001,116.616666666667,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="TruncateHeight" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="TruncateHeight" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/Util.cs StartLineNumber=17 StartCharacterOffset=26 EndLineNumber=17 EndCharacterOffset=40)" />
+    <Node Id="@10" Category="CodeSchema_Namespace" Bounds="-1193.54012942387,100.94,194.663333333333,85" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="MCClone.Client.Properties" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" Group="Expanded" Label="MCClone.Client.Properties" />
+    <Node Id="@100" Category="CodeSchema_Field" Bounds="1162.24184451304,-105.88,59.4400000000001,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="args" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="args" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/Util.cs StartLineNumber=8 StartCharacterOffset=31 EndLineNumber=8 EndCharacterOffset=35)" />
+    <Node Id="@101" Category="CodeSchema_Property" Bounds="709.62132681756,287,91.8657281207148,25" CodeSchemaProperty_IsPublic="True" CommonLabel="Blocks" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="Blocks" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/WorldStorage.cs StartLineNumber=41 StartCharacterOffset=69 EndLineNumber=41 EndCharacterOffset=75)" />
+    <Node Id="@102" Category="CodeSchema_Property" Bounds="1402.82090596709,232,91.8657281207147,25" CodeSchemaProperty_IsPublic="True" CommonLabel="Blocks" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="Blocks" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/WorldStorage.cs StartLineNumber=69 StartCharacterOffset=27 EndLineNumber=69 EndCharacterOffset=33)" />
+    <Node Id="@103" Category="CodeSchema_Field" Bounds="-1421.94012942387,-162.9,92.3100000000002,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="brightness" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="brightness" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/MainWindow.cs StartLineNumber=26 StartCharacterOffset=47 EndLineNumber=26 EndCharacterOffset=57)" />
+    <Node Id="@104" Category="CodeSchema_Field" Bounds="-1315.18012942387,-274.82,77.2033333333334,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="centerX" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="centerX" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/MainWindow.cs StartLineNumber=20 StartCharacterOffset=46 EndLineNumber=20 EndCharacterOffset=53)" />
+    <Node Id="@105" Category="CodeSchema_Field" Bounds="-1421.94012942387,-274.82,76.7600000000002,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="centerY" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="centerY" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/MainWindow.cs StartLineNumber=20 StartCharacterOffset=55 EndLineNumber=20 EndCharacterOffset=62)" />
+    <Node Id="@106" Category="CodeSchema_Property" Bounds="1204.34090596709,232,124.319061454048,25" CodeSchemaProperty_IsPublic="True" CommonLabel="ChunkCount" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="ChunkCount" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/WorldStorage.cs StartLineNumber=92 StartCharacterOffset=19 EndLineNumber=92 EndCharacterOffset=29)" />
+    <Node Id="@107" Category="CodeSchema_Field" Bounds="-268.166796090536,-330.78,92.8133333333335,25.96" CodeSchemaProperty_IsPrivate="True" CodeSchemaProperty_IsStatic="True" CommonLabel="chunkMap" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="chunkMap" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/UI/ActivityViewer.xaml.cs StartLineNumber=20 StartCharacterOffset=30 EndLineNumber=20 EndCharacterOffset=38)" />
+    <Node Id="@108" Category="CodeSchema_Field" Bounds="-495.746796090536,-274.82,94.6999999999999,25.96" CodeSchemaProperty_IsInternal="True" CommonLabel="ChunkMap" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="ChunkMap" SourceLocation="(Assembly=&quot;file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/obj/Debug NoDiscord/UI/ActivityViewer.g.cs&quot; StartLineNumber=69 StartCharacterOffset=47 EndLineNumber=69 EndCharacterOffset=55)" />
+    <Node Id="@109" Category="CodeSchema_Field" Bounds="-244.973462757203,-274.82,101.046666666667,25.96" CodeSchemaProperty_IsPrivate="True" CommonLabel="chunkMapG" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="chunkMapG" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/UI/ActivityViewer.xaml.cs StartLineNumber=22 StartCharacterOffset=17 EndLineNumber=22 EndCharacterOffset=26)" />
+    <Node Id="@110" Category="CodeSchema_Property" Bounds="137.766537242797,6.03999999999996,97.3057281207149,25" CodeSchemaProperty_IsPublic="True" CommonLabel="Chunks" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="Chunks" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/WorldStorage.cs StartLineNumber=126 StartCharacterOffset=59 EndLineNumber=126 EndCharacterOffset=65)" />
+    <Node Id="@111" Category="CodeSchema_Field" Bounds="-145.353462757203,-330.78,94.1866666666665,25.96" CodeSchemaProperty_IsPrivate="True" CodeSchemaProperty_IsStatic="True" CommonLabel="chunkView" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="chunkView" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/UI/ActivityViewer.xaml.cs StartLineNumber=20 StartCharacterOffset=40 EndLineNumber=20 EndCharacterOffset=49)" />
+    <Node Id="@112" Category="CodeSchema_Field" Bounds="-371.046796090536,-274.82,96.0733333333333,25.96" CodeSchemaProperty_IsInternal="True" CommonLabel="ChunkView" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="ChunkView" SourceLocation="(Assembly=&quot;file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/obj/Debug NoDiscord/UI/ActivityViewer.g.cs&quot; StartLineNumber=77 StartCharacterOffset=47 EndLineNumber=77 EndCharacterOffset=56)" />
+    <Node Id="@113" Category="CodeSchema_Field" Bounds="-495.746796090536,-218.86,102.42,25.96" CodeSchemaProperty_IsPrivate="True" CommonLabel="chunkViewG" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="chunkViewG" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/UI/ActivityViewer.xaml.cs StartLineNumber=22 StartCharacterOffset=28 EndLineNumber=22 EndCharacterOffset=38)" />
+    <Node Id="@114" Category="CodeSchema_Property" Bounds="1054.25517784637,287,154.519061454048,25" CodeSchemaProperty_IsPublic="True" CommonLabel="CompressionLevel" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="CompressionLevel" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/WorldStorage.cs StartLineNumber=96 StartCharacterOffset=32 EndLineNumber=96 EndCharacterOffset=48)" />
+    <Node Id="@115" Category="CodeSchema_Method" Bounds="637.857054938275,-329.92,108.233333333333,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="CompressLog" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="CompressLog" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/Logger.cs StartLineNumber=39 StartCharacterOffset=27 EndLineNumber=39 EndCharacterOffset=38)" />
+    <Node Id="@116" Category="CodeSchema_Field" Bounds="137.766537242797,176.04,59.3933333333333,25.96" CodeSchemaProperty_IsPublic="True" CommonLabel="CPU" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="CPU" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/DataStore.cs StartLineNumber=61 StartCharacterOffset=22 EndLineNumber=61 EndCharacterOffset=25)" />
+    <Node Id="@117" Category="CodeSchema_Field" Bounds="-363.326796090536,-218.86,110.463333333333,25.96" CodeSchemaProperty_IsInternal="True" CommonLabel="CurrentChunk" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="CurrentChunk" SourceLocation="(Assembly=&quot;file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/obj/Debug NoDiscord/UI/ActivityViewer.g.cs&quot; StartLineNumber=85 StartCharacterOffset=47 EndLineNumber=85 EndCharacterOffset=59)" />
+    <Node Id="@118" Category="CodeSchema_Property" Bounds="413.164660150894,-220.88,154.692394787381,25" CodeSchemaProperty_IsPublic="True" CommonLabel="CurrentDimension" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="CurrentDimension" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/Player.cs StartLineNumber=21 StartCharacterOffset=25 EndLineNumber=21 EndCharacterOffset=41)" />
+    <Node Id="@119" Category="CodeSchema_Field" Bounds="235.756537242797,-441.84,108.616666666667,25.96" CodeSchemaProperty_IsPublic="True" CommonLabel="CurrentWorld" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="CurrentWorld" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/Player.cs StartLineNumber=20 StartCharacterOffset=21 EndLineNumber=20 EndCharacterOffset=33)" />
+    <Node Id="@12" Category="CodeSchema_Namespace" Bounds="-535.746796090536,-410.78,563.513333333333,425.76" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="MCClone.Client.UI" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" Group="Expanded" Label="MCClone.Client.UI" />
+    <Node Id="@120" Category="CodeSchema_Field" Bounds="709.62132681756,176.04,57.3099999999999,25.96" CodeSchemaProperty_IsPublic="True" CommonLabel="dim" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="dim" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/WorldStorage.cs StartLineNumber=27 StartCharacterOffset=25 EndLineNumber=27 EndCharacterOffset=28)" />
+    <Node Id="@121" Category="CodeSchema_Property" Bounds="257.912265363512,-220.88,125.252394787382,25" CodeSchemaProperty_IsPublic="True" CommonLabel="DimensionId" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="DimensionId" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/Player.cs StartLineNumber=18 StartCharacterOffset=19 EndLineNumber=18 EndCharacterOffset=30)" />
+    <Node Id="@122" Category="CodeSchema_Property" Bounds="1054.25517784637,232,120.085728120715,25" CodeSchemaProperty_IsPublic="True" CommonLabel="Dimensions" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="Dimensions" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/WorldStorage.cs StartLineNumber=98 StartCharacterOffset=42 EndLineNumber=98 EndCharacterOffset=52)" />
+    <Node Id="@123" Category="CodeSchema_Property" Bounds="900.439449725657,232,83.8157281207149,25" CodeSchemaProperty_IsPublic="True" CommonLabel="Dirty" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="Dirty" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/WorldStorage.cs StartLineNumber=40 StartCharacterOffset=20 EndLineNumber=40 EndCharacterOffset=25)" />
+    <Node Id="@124" Category="CodeSchema_Property" Bounds="260.309870576131,-49.9200000000001,83.8157281207148,25" CodeSchemaProperty_IsPublic="True" CommonLabel="Dirty" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="Dirty" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/WorldStorage.cs StartLineNumber=123 StartCharacterOffset=20 EndLineNumber=123 EndCharacterOffset=25)" />
+    <Node Id="@125" Category="CodeSchema_Property" Bounds="831.487054938275,287,102.139061454048,25" CodeSchemaProperty_IsPublic="True" CommonLabel="Finished" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="Finished" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/WorldStorage.cs StartLineNumber=38 StartCharacterOffset=20 EndLineNumber=38 EndCharacterOffset=28)" />
+    <Node Id="@126" Category="CodeSchema_Field" Bounds="-1309.87679609054,-218.86,83.6500000000001,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="focussed" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="focussed" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/MainWindow.cs StartLineNumber=19 StartCharacterOffset=43 EndLineNumber=19 EndCharacterOffset=51)" />
+    <Node Id="@127" Category="CodeSchema_Field" Bounds="-1299.63012942387,-162.9,93.4566666666669,25.96" CodeSchemaProperty_IsPrivate="True" CommonLabel="frameTime" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="frameTime" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/MainWindow.cs StartLineNumber=68 StartCharacterOffset=35 EndLineNumber=68 EndCharacterOffset=44)" />
+    <Node Id="@128" Category="CodeSchema_Field" Bounds="874.841844513038,6.03999999999996,92.0266666666666,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="GameArgs" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="GameArgs" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/DataStore.cs StartLineNumber=21 StartCharacterOffset=58 EndLineNumber=21 EndCharacterOffset=66)" />
+    <Node Id="@129" Category="CodeSchema_Field" Bounds="1528.89038827161,-441.84,84.1066666666666,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="GenTime" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="GenTime" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/TerrainGen.cs StartLineNumber=14 StartCharacterOffset=32 EndLineNumber=14 EndCharacterOffset=39)" />
+    <Node Id="@130" Category="CodeSchema_Method" Bounds="962.217054938275,-273.96,140.81,25.96" CodeSchemaProperty_IsPrivate="True" CodeSchemaProperty_IsStatic="True" CommonLabel="GetConsoleWindow" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="GetConsoleWindow" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/Util.cs StartLineNumber=51 StartCharacterOffset=37 EndLineNumber=51 EndCharacterOffset=53)" />
+    <Node Id="@131" Category="CodeSchema_Field" Bounds="227.159870576131,176.04,60.1966666666667,25.96" CodeSchemaProperty_IsPublic="True" CommonLabel="GPU" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="GPU" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/DataStore.cs StartLineNumber=65 StartCharacterOffset=22 EndLineNumber=65 EndCharacterOffset=25)" />
+    <Node Id="@132" Category="CodeSchema_Field" Bounds="-1421.94012942387,408.82,74.6666666666667,25.96" CodeSchemaProperty_IsPrivate="True" CommonLabel="Handle" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="Handle" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/Shader.cs StartLineNumber=12 StartCharacterOffset=12 EndLineNumber=12 EndCharacterOffset=18)" />
+    <Node Id="@133" Category="CodeSchema_Property" Bounds="1133.02705493828,-273.96,96.1157281207152,25" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="Handle" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="Handle" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/Util.cs StartLineNumber=59 StartCharacterOffset=29 EndLineNumber=59 EndCharacterOffset=35)" />
+    <Node Id="@134" Category="CodeSchema_Method" Bounds="-757.766796090536,-158.86,101.56,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="HandleInput" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="HandleInput" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/Input.cs StartLineNumber=9 StartCharacterOffset=27 EndLineNumber=9 EndCharacterOffset=38)" />
+    <Node Id="@135" Category="CodeSchema_Field" Bounds="137.766537242797,-105.88,50,25.96" CodeSchemaProperty_IsPublic="True" CommonLabel="Id" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="Id" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/WorldStorage.cs StartLineNumber=110 StartCharacterOffset=19 EndLineNumber=110 EndCharacterOffset=21)" />
+    <Node Id="@136" Category="CodeSchema_Method" Bounds="-495.746796090536,-106.94,142.29,25.96" CodeSchemaProperty_IsFinal="True" CodeSchemaProperty_IsGeneratedCode="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsVirtual="True" CommonLabel="InitializeComponent" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="InitializeComponent" SourceLocation="(Assembly=&quot;file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/obj/Debug NoDiscord/UI/ActivityViewer.g.cs&quot; StartLineNumber=105 StartCharacterOffset=20 EndLineNumber=105 EndCharacterOffset=39)" />
+    <Node Id="@137" Category="CodeSchema_Field" Bounds="-1286.6134627572,-106.94,106.163333333333,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="LoadedMods" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="LoadedMods" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/MainWindow.cs StartLineNumber=20 StartCharacterOffset=102 EndLineNumber=20 EndCharacterOffset=112)" />
+    <Node Id="@138" Category="CodeSchema_Field" Bounds="-495.746796090536,-330.78,76.1633333333333,25.96" CodeSchemaProperty_IsInternal="True" CommonLabel="LogBox" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="LogBox" SourceLocation="(Assembly=&quot;file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/obj/Debug NoDiscord/UI/ActivityViewer.g.cs&quot; StartLineNumber=93 StartCharacterOffset=53 EndLineNumber=93 EndCharacterOffset=59)" />
+    <Node Id="@139" Category="CodeSchema_Field" Bounds="1415.23705493828,-441.84,83.6533333333332,25.96" CodeSchemaProperty_IsPrivate="True" CodeSchemaProperty_IsStatic="True" CommonLabel="LogEntry" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="LogEntry" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/TerrainGen.cs StartLineNumber=80 StartCharacterOffset=22 EndLineNumber=80 EndCharacterOffset=30)" />
+    <Node Id="@14" Category="CodeSchema_Namespace" Bounds="97.7665372427972,383.92,185.313333333333,201.92" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="MCClone.TerrainGenTest" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" Group="Expanded" Label="MCClone.TerrainGenTest" />
+    <Node Id="@140" Category="CodeSchema_Field" Bounds="-969.806796090537,-330.78,71.52,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="logger" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="logger" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/MainWindow.cs StartLineNumber=19 StartCharacterOffset=60 EndLineNumber=19 EndCharacterOffset=66)" />
+    <Node Id="@141" Category="CodeSchema_Field" Bounds="752.513721604942,-385.88,91.9266666666666,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="LogQueue" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="LogQueue" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/Logger.cs StartLineNumber=13 StartCharacterOffset=36 EndLineNumber=13 EndCharacterOffset=44)" />
+    <Node Id="@142" Category="CodeSchema_Field" Bounds="637.857054938275,-273.96,125.883333333333,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="logQueueThread" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="logQueueThread" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/Logger.cs StartLineNumber=14 StartCharacterOffset=38 EndLineNumber=14 EndCharacterOffset=52)" />
+    <Node Id="@143" Category="CodeSchema_Field" Bounds="-1066.7734627572,-330.78,66.9666666666667,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="Mods" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="Mods" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/MainWindow.cs StartLineNumber=18 StartCharacterOffset=36 EndLineNumber=18 EndCharacterOffset=40)" />
+    <Node Id="@145" Category="CodeSchema_Property" Bounds="374.125598696845,-49.9200000000001,90.1457281207149,25" CodeSchemaProperty_IsPublic="True" CommonLabel="Name" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="Name" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/WorldStorage.cs StartLineNumber=118 StartCharacterOffset=22 EndLineNumber=118 EndCharacterOffset=26)" />
+    <Node Id="@146" Category="CodeSchema_Property" Bounds="1242.67517784637,176.04,90.1457281207149,25" CodeSchemaProperty_IsPublic="True" CommonLabel="Name" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="Name" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/WorldStorage.cs StartLineNumber=94 StartCharacterOffset=22 EndLineNumber=94 EndCharacterOffset=26)" />
+    <Node Id="@147" Category="CodeSchema_Field" Bounds="958.981844513038,-105.88,74.0833333333333,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="Players" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="Players" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/DataStore.cs StartLineNumber=20 StartCharacterOffset=44 EndLineNumber=20 EndCharacterOffset=51)" />
+    <Node Id="@148" Category="CodeSchema_Property" Bounds="341.477993484227,-330.88,77.6257281207149,25" CodeSchemaProperty_IsPublic="True" CommonLabel="pos" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="pos" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/Player.cs StartLineNumber=14 StartCharacterOffset=32 EndLineNumber=14 EndCharacterOffset=35)" />
+    <Node Id="@149" Category="CodeSchema_Field" Bounds="-1014.1934627572,-106.94,116.953333333333,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="renderDistance" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="renderDistance" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/MainWindow.cs StartLineNumber=20 StartCharacterOffset=26 EndLineNumber=20 EndCharacterOffset=40)" />
+    <Node Id="@150" Category="CodeSchema_Field" Bounds="1438.08038827161,-329.92,116.953333333333,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="renderDistance" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="renderDistance" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/TerrainGen.cs StartLineNumber=15 StartCharacterOffset=29 EndLineNumber=15 EndCharacterOffset=43)" />
+    <Node Id="@151" Category="CodeSchema_Field" Bounds="-1116.53679609054,-50.98,126.61,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="RenderedChunks" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="RenderedChunks" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/MainWindow.cs StartLineNumber=20 StartCharacterOffset=82 EndLineNumber=20 EndCharacterOffset=96)" />
+    <Node Id="@152" Category="CodeSchema_Field" Bounds="-1045.2134627572,-162.9,105.123333333333,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="RenderErrors" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="RenderErrors" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/MainWindow.cs StartLineNumber=20 StartCharacterOffset=64 EndLineNumber=20 EndCharacterOffset=76)" />
+    <Node Id="@153" Category="CodeSchema_Method" Bounds="-1421.94012942387,-106.94,105.326666666667,25.96" CodeSchemaProperty_IsPrivate="True" CodeSchemaProperty_IsStatic="True" CommonLabel="RenderWorld" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="RenderWorld" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/MainWindow.cs StartLineNumber=317 StartCharacterOffset=28 EndLineNumber=317 EndCharacterOffset=39)" />
+    <Node Id="@154" Category="CodeSchema_Field" Bounds="-1421.94012942387,-330.78,50,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="rt" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="rt" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/MainWindow.cs StartLineNumber=21 StartCharacterOffset=29 EndLineNumber=21 EndCharacterOffset=31)" />
+    <Node Id="@155" Category="CodeSchema_Field" Bounds="-992.80012942387,-274.82,78.3066666666668,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="running" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="running" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/MainWindow.cs StartLineNumber=19 StartCharacterOffset=27 EndLineNumber=19 EndCharacterOffset=34)" />
+    <Node Id="@156" Category="CodeSchema_Method" Bounds="796.93132681756,176.04,60.5033333333333,25.96" CodeSchemaProperty_IsPublic="True" CommonLabel="Save" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="Save" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/WorldStorage.cs StartLineNumber=42 StartCharacterOffset=20 EndLineNumber=42 EndCharacterOffset=24)" />
+    <Node Id="@157" Category="CodeSchema_Method" Bounds="217.766537242797,-105.88,60.5033333333333,25.96" CodeSchemaProperty_IsPublic="True" CommonLabel="Save" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="Save" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/WorldStorage.cs StartLineNumber=127 StartCharacterOffset=20 EndLineNumber=127 EndCharacterOffset=24)" />
+    <Node Id="@158" Category="CodeSchema_Method" Bounds="1054.25517784637,176.04,60.5033333333331,25.96" CodeSchemaProperty_IsPublic="True" CommonLabel="Save" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="Save" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/WorldStorage.cs StartLineNumber=80 StartCharacterOffset=20 EndLineNumber=80 EndCharacterOffset=24)" />
+    <Node Id="@159" Category="CodeSchema_Field" Bounds="-1081.5834627572,-218.86,88.6599999999999,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="sensitivity" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="sensitivity" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/MainWindow.cs StartLineNumber=26 StartCharacterOffset=28 EndLineNumber=26 EndCharacterOffset=39)" />
+    <Node Id="@16" Category="CodeSchema_Class" Bounds="-515.746796090536,-370.78,523.513333333333,365.76" CodeSchemaProperty_IsPublic="True" CommonLabel="ActivityViewer" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" Group="Expanded" Icon="CodeSchema_Class" Label="ActivityViewer" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/UI/ActivityViewer.xaml.cs StartLineNumber=17 StartCharacterOffset=25 EndLineNumber=17 EndCharacterOffset=39)" />
+    <Node Id="@160" Category="CodeSchema_Method" Bounds="-959.926796090537,-50.98,132.16,25.96" CodeSchemaProperty_IsPublic="True" CommonLabel="SetGameStateMW" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="SetGameStateMW" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/MainWindow.cs StartLineNumber=426 StartCharacterOffset=20 EndLineNumber=426 EndCharacterOffset=34)" />
+    <Node Id="@161" Category="CodeSchema_Field" Bounds="1459.54038827161,-273.96,138.666666666667,25.96" CodeSchemaProperty_IsPrivate="True" CodeSchemaProperty_IsStatic="True" CommonLabel="ShouldLoadChunks" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="ShouldLoadChunks" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/TerrainGen.cs StartLineNumber=13 StartCharacterOffset=28 EndLineNumber=13 EndCharacterOffset=44)" />
+    <Node Id="@162" Category="CodeSchema_Method" Bounds="-757.766796090536,-274.82,139.41,25.96" CodeSchemaProperty_IsPrivate="True" CodeSchemaProperty_IsStatic="True" CommonLabel="ShowActivityViewer" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="ShowActivityViewer" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/Program.cs StartLineNumber=13 StartCharacterOffset=28 EndLineNumber=13 EndCharacterOffset=46)" />
+    <Node Id="@163" Category="CodeSchema_Method" Bounds="723.603721604942,-441.84,60.4,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="Start" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="Start" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/Logger.cs StartLineNumber=75 StartCharacterOffset=27 EndLineNumber=75 EndCharacterOffset=32)" />
+    <Node Id="@164" Category="CodeSchema_Field" Bounds="996.868511179705,6.03999999999996,95.3733333333334,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="SystemInfo" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="SystemInfo" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/DataStore.cs StartLineNumber=18 StartCharacterOffset=42 EndLineNumber=18 EndCharacterOffset=52)" />
+    <Node Id="@165" Category="CodeSchema_Field" Bounds="-113.926796090537,-274.82,101.693333333333,25.96" CodeSchemaProperty_IsInternal="True" CommonLabel="ThreadLabel" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="ThreadLabel" SourceLocation="(Assembly=&quot;file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/obj/Debug NoDiscord/UI/ActivityViewer.g.cs&quot; StartLineNumber=45 StartCharacterOffset=47 EndLineNumber=45 EndCharacterOffset=58)" />
+    <Node Id="@166" Category="CodeSchema_Field" Bounds="-389.583462757203,-330.78,91.4166666666665,25.96" CodeSchemaProperty_IsInternal="True" CommonLabel="ThreadList" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="ThreadList" SourceLocation="(Assembly=&quot;file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/obj/Debug NoDiscord/UI/ActivityViewer.g.cs&quot; StartLineNumber=53 StartCharacterOffset=49 EndLineNumber=53 EndCharacterOffset=59)" />
+    <Node Id="@167" Category="CodeSchema_Field" Bounds="-495.746796090536,-162.9,117.92,25.96" CodeSchemaProperty_IsInternal="True" CommonLabel="ThreadStateList" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="ThreadStateList" SourceLocation="(Assembly=&quot;file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/obj/Debug NoDiscord/UI/ActivityViewer.g.cs&quot; StartLineNumber=61 StartCharacterOffset=49 EndLineNumber=61 EndCharacterOffset=64)" />
+    <Node Id="@168" Category="CodeSchema_Field" Bounds="-1256.43012942387,-330.78,62.8066666666666,25.96" CodeSchemaProperty_IsPublic="True" CommonLabel="Time" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="Time" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/MainWindow.cs StartLineNumber=69 StartCharacterOffset=25 EndLineNumber=69 EndCharacterOffset=29)" />
+    <Node Id="@169" Category="CodeSchema_Field" Bounds="137.766537242797,287.96,114.623333333333,25.96" CodeSchemaProperty_IsPublic="True" CommonLabel="TotalCPUCores" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="TotalCPUCores" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/DataStore.cs StartLineNumber=63 StartCharacterOffset=19 EndLineNumber=63 EndCharacterOffset=32)" />
+    <Node Id="@170" Category="CodeSchema_Field" Bounds="317.356537242797,176.04,89.7133333333334,25.96" CodeSchemaProperty_IsPublic="True" CommonLabel="TotalCPUs" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="TotalCPUs" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/DataStore.cs StartLineNumber=62 StartCharacterOffset=19 EndLineNumber=62 EndCharacterOffset=28)" />
+    <Node Id="@171" Category="CodeSchema_Field" Bounds="282.38987057613,287.96,126.413333333333,25.96" CodeSchemaProperty_IsPublic="True" CommonLabel="TotalCPUThreads" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="TotalCPUThreads" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/DataStore.cs StartLineNumber=64 StartCharacterOffset=19 EndLineNumber=64 EndCharacterOffset=34)" />
+    <Node Id="@172" Category="CodeSchema_Field" Bounds="137.766537242797,232,90.5166666666667,25.96" CodeSchemaProperty_IsPublic="True" CommonLabel="TotalGPUs" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="TotalGPUs" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/DataStore.cs StartLineNumber=66 StartCharacterOffset=19 EndLineNumber=66 EndCharacterOffset=28)" />
+    <Node Id="@173" Category="CodeSchema_Method" Bounds="-1421.94012942387,352.86,55.6133333333335,25.96" CodeSchemaProperty_IsPublic="True" CommonLabel="Use" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="Use" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/Shader.cs StartLineNumber=57 StartCharacterOffset=20 EndLineNumber=57 EndCharacterOffset=23)" />
+    <Node Id="@174" Category="CodeSchema_Field" Bounds="-962.923462757203,-218.86,90.2966666666666,25.96" CodeSchemaProperty_IsPublic="True" CommonLabel="Username" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="Username" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/MainWindow.cs StartLineNumber=28 StartCharacterOffset=22 EndLineNumber=28 EndCharacterOffset=30)" />
+    <Node Id="@175" Category="CodeSchema_Field" Bounds="-1163.6234627572,-330.78,66.8499999999999,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="world" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="world" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/MainWindow.cs StartLineNumber=22 StartCharacterOffset=28 EndLineNumber=22 EndCharacterOffset=33)" />
+    <Node Id="@176" Category="CodeSchema_Field" Bounds="308.269870576131,-105.88,68.9166666666667,25.96" CodeSchemaProperty_IsPublic="True" CommonLabel="World" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="World" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/WorldStorage.cs StartLineNumber=106 StartCharacterOffset=21 EndLineNumber=106 EndCharacterOffset=26)" />
+    <Node Id="@177" Category="CodeSchema_Property" Bounds="574.095598696845,232,65.5257281207148,25" CodeSchemaProperty_IsPublic="True" CommonLabel="X" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="X" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/WorldStorage.cs StartLineNumber=19 StartCharacterOffset=20 EndLineNumber=19 EndCharacterOffset=21)" />
+    <Node Id="@178" Category="CodeSchema_Property" Bounds="804.913721604942,232,65.5257281207149,25" CodeSchemaProperty_IsPublic="True" CommonLabel="X" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="X" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/WorldStorage.cs StartLineNumber=35 StartCharacterOffset=19 EndLineNumber=35 EndCharacterOffset=20)" />
+    <Node Id="@179" Category="CodeSchema_Property" Bounds="328.14132681756,-385.88,65.5257281207148,25" CodeSchemaProperty_IsPublic="True" CommonLabel="X" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="X" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/Player.cs StartLineNumber=11 StartCharacterOffset=22 EndLineNumber=11 EndCharacterOffset=23)" />
+    <Node Id="@18" Category="CodeSchema_Class" Bounds="458.803203909464,136.04,200.818122908096,195.96" CodeSchemaProperty_IsPublic="True" CommonLabel="Block" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" Group="Expanded" Icon="CodeSchema_Class" Label="Block" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/WorldStorage.cs StartLineNumber=11 StartCharacterOffset=17 EndLineNumber=11 EndCharacterOffset=22)" />
+    <Node Id="@180" Category="CodeSchema_Property" Bounds="573.126537242797,176.04,65.0823947873815,25" CodeSchemaProperty_IsPublic="True" CommonLabel="Y" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="Y" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/WorldStorage.cs StartLineNumber=20 StartCharacterOffset=20 EndLineNumber=20 EndCharacterOffset=21)" />
+    <Node Id="@181" Category="CodeSchema_Property" Bounds="478.803203909464,232,65.2923947873816,25" CodeSchemaProperty_IsPublic="True" CommonLabel="Z" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="Z" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/WorldStorage.cs StartLineNumber=21 StartCharacterOffset=20 EndLineNumber=21 EndCharacterOffset=21)" />
+    <Node Id="@182" Category="CodeSchema_Property" Bounds="709.62132681756,232,65.2923947873816,25" CodeSchemaProperty_IsPublic="True" CommonLabel="Z" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="Z" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/WorldStorage.cs StartLineNumber=37 StartCharacterOffset=19 EndLineNumber=37 EndCharacterOffset=20)" />
+    <Node Id="@183" Category="CodeSchema_Property" Bounds="232.848932030179,-385.88,65.2923947873816,25" CodeSchemaProperty_IsPublic="True" CommonLabel="Z" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="Z" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/Player.cs StartLineNumber=13 StartCharacterOffset=22 EndLineNumber=13 EndCharacterOffset=23)" />
+    <Node Id="@2" Category="CodeSchema_Assembly" AssemblyTimestamp="06/16/2020 20:04:08" Bounds="-1481.94012942387,-450.78,1529.70666666667,945.56" CodeSchemaProperty_StrongName="MCClone, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" CommonLabel="MCClone" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" FilePath="$(192b2333-3878-4f56-9a42-7e655ec8f196.OutputPath)" Group="Expanded" Label="MCClone.exe">
+      <Category Ref="CodeMap_WpfProject" />
+      <Category Ref="FileSystem.Category.FileOfType.exe" />
+    </Node>
+    <Node Id="@20" Category="CodeSchema_Class" Bounds="689.62132681756,136.04,314.633851028811,195.96" CodeSchemaProperty_IsPublic="True" CommonLabel="Chunk" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" Group="Expanded" Icon="CodeSchema_Class" Label="Chunk" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/WorldStorage.cs StartLineNumber=25 StartCharacterOffset=17 EndLineNumber=25 EndCharacterOffset=22)" />
+    <Node Id="@21" Category="CodeSchema_Class" Bounds="-1441.94012942387,140.94,184.13,141.92" CodeSchemaProperty_IsInternal="True" CommonLabel="CliUtil" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" Group="Expanded" Icon="CodeSchema_Class" Label="CliUtil" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/CliUtil.cs StartLineNumber=4 StartCharacterOffset=10 EndLineNumber=4 EndCharacterOffset=17)" />
+    <Node Id="@23" Category="CodeSchema_Class" Bounds="854.841844513038,-145.88,257.4,197.88" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsFinal="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="DataStore" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" Group="Expanded" Icon="CodeSchema_Class" Label="DataStore" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/DataStore.cs StartLineNumber=10 StartCharacterOffset=24 EndLineNumber=10 EndCharacterOffset=33)" />
+    <Node Id="@25" Category="CodeSchema_Class" Bounds="117.766537242797,-145.88,397.673851028811,251.92" CodeSchemaProperty_IsPublic="True" CommonLabel="Dimension" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" Group="Expanded" Icon="CodeSchema_Class" Label="Dimension" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/WorldStorage.cs StartLineNumber=100 StartCharacterOffset=17 EndLineNumber=100 EndCharacterOffset=26)" />
+    <Node Id="@26" Category="CodeSchema_Class" Bounds="-777.766796090536,-198.86,141.56,85.96" CodeSchemaProperty_IsInternal="True" CommonLabel="Input" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" Group="Expanded" Icon="CodeSchema_Class" Label="Input" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/Input.cs StartLineNumber=7 StartCharacterOffset=19 EndLineNumber=7 EndCharacterOffset=24)" />
+    <Node Id="@28" Category="CodeSchema_Class" Bounds="617.857054938275,-481.84,294.36,253.84" CodeSchemaProperty_IsInternal="True" CommonLabel="Logger" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" Group="Expanded" Icon="CodeSchema_Class" Label="Logger" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/Logger.cs StartLineNumber=11 StartCharacterOffset=19 EndLineNumber=11 EndCharacterOffset=25)" />
+    <Node Id="@30" Category="CodeSchema_Class" Bounds="-1441.94012942387,-370.78,634.173333333333,421.72" CodeSchemaProperty_IsPublic="True" CommonLabel="MainWindow" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" Group="Expanded" Icon="CodeSchema_Class" Label="MainWindow" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/MainWindow.cs StartLineNumber=16 StartCharacterOffset=17 EndLineNumber=16 EndCharacterOffset=27)" />
+    <Node Id="@32" Category="CodeSchema_Class" Bounds="545.440388271608,-145.88,279.40145624143,250" CodeSchemaProperty_IsPublic="True" CommonLabel="ModData" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" Group="Expanded" Icon="CodeSchema_Class" Label="ModData" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/DataStore.cs StartLineNumber=27 StartCharacterOffset=17 EndLineNumber=27 EndCharacterOffset=24)" />
+    <Node Id="@34" Category="CodeSchema_Class" Bounds="117.766537242797,-481.84,470.090517695478,305.96" CodeSchemaProperty_IsPublic="True" CommonLabel="Player" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" Group="Expanded" Icon="CodeSchema_Class" Label="Player" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/Player.cs StartLineNumber=5 StartCharacterOffset=17 EndLineNumber=5 EndCharacterOffset=23)" />
+    <Node Id="@36" Category="CodeSchema_Class" Bounds="-777.766796090536,-370.78,192.02,141.92" CodeSchemaProperty_IsInternal="True" CommonLabel="Program" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" Group="Expanded" Icon="CodeSchema_Class" Label="Program" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/Program.cs StartLineNumber=9 StartCharacterOffset=19 EndLineNumber=9 EndCharacterOffset=26)" />
+    <Node Id="@37" Category="CodeSchema_Class" Bounds="137.119870576131,423.92,106.606666666667,141.92" CodeSchemaProperty_IsInternal="True" CommonLabel="Program" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" Group="Expanded" Icon="CodeSchema_Class" Label="Program" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.TerrainGenTest/Program.cs StartLineNumber=10 StartCharacterOffset=10 EndLineNumber=10 EndCharacterOffset=17)" />
+    <Node Id="@38" Category="CodeSchema_Class" Bounds="1382.82090596709,136.04,134.266666666667,140.96" CodeSchemaProperty_IsPublic="True" CommonLabel="SaveChunk" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" Group="Expanded" Icon="CodeSchema_Class" Label="SaveChunk" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/WorldStorage.cs StartLineNumber=62 StartCharacterOffset=17 EndLineNumber=62 EndCharacterOffset=26)" />
+    <Node Id="@4" Category="CodeSchema_Assembly" AssemblyTimestamp="06/16/2020 20:03:54" Bounds="77.7665372427972,-561.84,1617.59051769548,1167.68" CodeSchemaProperty_StrongName="MCClone.TerrainGenTest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" CommonLabel="MCClone.TerrainGenTest" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" FilePath="$(a4433377-c9fd-4f96-b845-8abf3ba91d64.OutputPath)" Group="Expanded" Label="MCClone.TerrainGenTest.exe">
+      <Category Ref="FileSystem.Category.FileOfType.exe" />
+    </Node>
+    <Node Id="@40" Category="CodeSchema_Class" Bounds="-1441.94012942387,312.86,198.4,141.92" CodeSchemaProperty_IsInternal="True" CommonLabel="Shader" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" Group="Expanded" Icon="CodeSchema_Class" Label="Shader" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/Shader.cs StartLineNumber=10 StartCharacterOffset=10 EndLineNumber=10 EndCharacterOffset=16)" />
+    <Node Id="@42" Category="CodeSchema_Class" Bounds="117.766537242797,136.04,311.036666666667,197.88" CodeSchemaProperty_IsPublic="True" CommonLabel="SystemInfo" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" Group="Expanded" Icon="CodeSchema_Class" Label="SystemInfo" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/DataStore.cs StartLineNumber=36 StartCharacterOffset=17 EndLineNumber=36 EndCharacterOffset=27)" />
+    <Node Id="@44" Category="CodeSchema_Class" Bounds="942.217054938275,-481.84,313.533333333333,253.84" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsFinal="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="SystemUtils" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" Group="Expanded" Icon="CodeSchema_Class" Label="SystemUtils" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/Util.cs StartLineNumber=46 StartCharacterOffset=24 EndLineNumber=46 EndCharacterOffset=35)" />
+    <Node Id="@46" Category="CodeSchema_Class" Bounds="1285.75038827161,-481.84,369.606666666667,253.84" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsFinal="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="TerrainGen" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" Group="Expanded" Icon="CodeSchema_Class" Label="TerrainGen" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/TerrainGen.cs StartLineNumber=11 StartCharacterOffset=24 EndLineNumber=11 EndCharacterOffset=34)" />
+    <Node Id="@48" Category="CodeSchema_Class" Bounds="1142.24184451304,-145.88,291.126666666667,197.88" CodeSchemaProperty_IsInternal="True" CommonLabel="Util" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" Group="Expanded" Icon="CodeSchema_Class" Label="Util" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/Util.cs StartLineNumber=6 StartCharacterOffset=19 EndLineNumber=6 EndCharacterOffset=23)" />
+    <Node Id="@50" Category="CodeSchema_Class" Bounds="1034.25517784637,136.04,318.565728120715,195.96" CodeSchemaProperty_IsPublic="True" CommonLabel="World" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" Group="Expanded" Icon="CodeSchema_Class" Label="World" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/WorldStorage.cs StartLineNumber=71 StartCharacterOffset=17 EndLineNumber=71 EndCharacterOffset=22)" />
+    <Node Id="@54" Category="CodeSchema_Method" Bounds="159.133203909464,519.88,62.5799999999999,25.96" CodeSchemaProperty_IsPrivate="True" CodeSchemaProperty_IsStatic="True" CommonLabel="Main" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="Main" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.TerrainGenTest/Program.cs StartLineNumber=13 StartCharacterOffset=20 EndLineNumber=13 EndCharacterOffset=24)" />
+    <Node Id="@56" Category="CodeSchema_Method" Bounds="-668.326796090536,-330.78,62.5799999999999,25.96" CodeSchemaProperty_IsPrivate="True" CodeSchemaProperty_IsStatic="True" CommonLabel="Main" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="Main" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/Program.cs StartLineNumber=26 StartCharacterOffset=28 EndLineNumber=26 EndCharacterOffset=32)" />
+    <Node Id="@58" Category="CodeSchema_Method" Bounds="-323.456796090536,-106.94,154.663333333333,25.96" CodeSchemaProperty_IsPrivate="True" CommonLabel="BitmapToImageSource" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="BitmapToImageSource" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/UI/ActivityViewer.xaml.cs StartLineNumber=106 StartCharacterOffset=20 EndLineNumber=106 EndCharacterOffset=39)" />
+    <Node Id="@59" Category="CodeSchema_Method" Bounds="-1421.94012942387,236.9,144.13,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="ShouldRenderChunk" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="ShouldRenderChunk" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/CliUtil.cs StartLineNumber=7 StartCharacterOffset=27 EndLineNumber=7 EndCharacterOffset=44)" />
+    <Node Id="@6" Category="CodeSchema_Namespace" Bounds="-1461.94012942387,-410.78,896.193333333333,481.72" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="MCClone" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" Group="Expanded" Label="MCClone" />
+    <Node Id="@61" Category="CodeSchema_Method" Bounds="1402.82090596709,176.04,94.2666666666664,25.96" CodeSchemaProperty_IsConstructor="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" CommonLabel="SaveChunk" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="SaveChunk" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/WorldStorage.cs StartLineNumber=64 StartCharacterOffset=15 EndLineNumber=64 EndCharacterOffset=24)" />
+    <Node Id="@62" Category="CodeSchema_Method" Bounds="1305.75038827161,-441.84,79.4866666666667,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="Initialize" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="Initialize" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/TerrainGen.cs StartLineNumber=34 StartCharacterOffset=27 EndLineNumber=34 EndCharacterOffset=37)" />
+    <Node Id="@63" Category="CodeSchema_Method" Bounds="-1100.49012942387,-274.82,77.6900000000001,25.96" CodeSchemaProperty_IsProtected="True" CodeSchemaProperty_IsVirtual="True" CommonLabel="OnLoad" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" IsOverloaded="True" Label="OnLoad" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/MainWindow.cs StartLineNumber=71 StartCharacterOffset=32 EndLineNumber=71 EndCharacterOffset=38)" />
+    <Node Id="@64" Category="CodeSchema_Method" Bounds="-1196.22679609054,-218.86,84.6433333333334,25.96" CodeSchemaProperty_IsProtected="True" CodeSchemaProperty_IsVirtual="True" CommonLabel="OnResize" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" IsOverloaded="True" Label="OnResize" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/MainWindow.cs StartLineNumber=51 StartCharacterOffset=32 EndLineNumber=51 EndCharacterOffset=40)" />
+    <Node Id="@66" Category="CodeSchema_Method" Bounds="-1421.94012942387,-50.98,122,25.96" CodeSchemaProperty_IsProtected="True" CodeSchemaProperty_IsVirtual="True" CommonLabel="OnRenderFrame" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" IsOverloaded="True" Label="OnRenderFrame" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/MainWindow.cs StartLineNumber=293 StartCharacterOffset=32 EndLineNumber=293 EndCharacterOffset=45)" />
+    <Node Id="@67" Category="CodeSchema_Method" Bounds="-1269.94012942387,-50.98,123.403333333333,25.96" CodeSchemaProperty_IsProtected="True" CodeSchemaProperty_IsVirtual="True" CommonLabel="OnUpdateFrame" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" IsOverloaded="True" Label="OnUpdateFrame" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/MainWindow.cs StartLineNumber=275 StartCharacterOffset=32 EndLineNumber=275 EndCharacterOffset=45)" />
+    <Node Id="@69" Category="CodeSchema_Method" Bounds="1144.7585111797,176.04,67.9166666666665,25.96" CodeSchemaProperty_IsConstructor="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" CommonLabel="World" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="World" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/WorldStorage.cs StartLineNumber=73 StartCharacterOffset=15 EndLineNumber=73 EndCharacterOffset=20)" />
+    <Node Id="@7" Category="CodeSchema_Namespace" Bounds="97.7665372427972,-521.84,1577.59051769548,875.76" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="MCClone" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" Group="Expanded" Label="MCClone" />
+    <Node Id="@70" Category="CodeSchema_Method" Bounds="1162.24184451304,-49.9200000000001,104.51,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="GetGameArg" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="GetGameArg" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/Util.cs StartLineNumber=21 StartCharacterOffset=29 EndLineNumber=21 EndCharacterOffset=39)" />
+    <Node Id="@71" Category="CodeSchema_Method" Bounds="137.766537242797,-441.84,67.99,25.96" CodeSchemaProperty_IsConstructor="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" CommonLabel="Player" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="Player" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/Player.cs StartLineNumber=7 StartCharacterOffset=15 EndLineNumber=7 EndCharacterOffset=21)" />
+    <Node Id="@72" Category="CodeSchema_Method" Bounds="-1176.1734627572,-162.9,100.96,25.96" CodeSchemaProperty_IsPrivate="True" CodeSchemaProperty_IsStatic="True" CommonLabel="RenderCube" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="RenderCube" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/MainWindow.cs StartLineNumber=364 StartCharacterOffset=28 EndLineNumber=364 EndCharacterOffset=38)" />
+    <Node Id="@73" Category="CodeSchema_Method" Bounds="1424.09038827161,-385.88,90.2033333333329,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="GetHeight" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="GetHeight" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/TerrainGen.cs StartLineNumber=129 StartCharacterOffset=27 EndLineNumber=129 EndCharacterOffset=36)" />
+    <Node Id="@74" Category="CodeSchema_Method" Bounds="137.766537242797,-49.9200000000001,92.5433333333334,25.96" CodeSchemaProperty_IsConstructor="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" CommonLabel="Dimension" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="Dimension" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/WorldStorage.cs StartLineNumber=111 StartCharacterOffset=15 EndLineNumber=111 EndCharacterOffset=24)" />
+    <Node Id="@76" Category="CodeSchema_Method" Bounds="-495.746796090536,-50.98,338.69,25.96" CodeSchemaProperty_IsFinal="True" CodeSchemaProperty_IsGeneratedCode="True" CodeSchemaProperty_IsPrivate="True" CodeSchemaProperty_IsVirtual="True" CommonLabel="System.Windows.Markup.IComponentConnector.Connect" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="System.Windows.Markup.IComponentConnector.Connect" SourceLocation="(Assembly=&quot;file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/obj/Debug NoDiscord/UI/ActivityViewer.g.cs&quot; StartLineNumber=125 StartCharacterOffset=55 EndLineNumber=125 EndCharacterOffset=62)" />
+    <Node Id="@77" Category="CodeSchema_Method" Bounds="637.857054938275,-441.84,55.7466666666667,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="Log" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="Log" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/Logger.cs StartLineNumber=60 StartCharacterOffset=27 EndLineNumber=60 EndCharacterOffset=30)" />
+    <Node Id="@78" Category="CodeSchema_Method" Bounds="-1336.32679609054,352.86,72.7866666666664,25.96" CodeSchemaProperty_IsConstructor="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" CommonLabel="Shader" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="Shader" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/Shader.cs StartLineNumber=14 StartCharacterOffset=15 EndLineNumber=14 EndCharacterOffset=21)" />
+    <Node Id="@79" Category="CodeSchema_Method" Bounds="478.803203909464,176.04,64.3233333333334,25.96" CodeSchemaProperty_IsConstructor="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" CommonLabel="Block" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="Block" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/WorldStorage.cs StartLineNumber=13 StartCharacterOffset=15 EndLineNumber=13 EndCharacterOffset=20)" />
+    <Node Id="@80" Category="CodeSchema_Method" Bounds="-1341.94012942387,-330.78,55.5100000000002,25.96" CodeSchemaProperty_IsPrivate="True" CodeSchemaProperty_IsStatic="True" CommonLabel="Dot" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="Dot" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/MainWindow.cs StartLineNumber=357 StartCharacterOffset=20 EndLineNumber=357 EndCharacterOffset=23)" />
+    <Node Id="@81" Category="CodeSchema_Method" Bounds="887.434660150894,176.04,69.7633333333333,25.96" CodeSchemaProperty_IsConstructor="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" CommonLabel="Chunk" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="Chunk" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/WorldStorage.cs StartLineNumber=28 StartCharacterOffset=15 EndLineNumber=28 EndCharacterOffset=20)" />
+    <Node Id="@82" Category="CodeSchema_Method" Bounds="1544.29372160494,-385.88,91.0633333333335,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="GenChunk" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="GenChunk" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/TerrainGen.cs StartLineNumber=43 StartCharacterOffset=28 EndLineNumber=43 EndCharacterOffset=36)" />
+    <Node Id="@83" Category="CodeSchema_Method" Bounds="1305.75038827161,-385.88,88.3399999999997,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="GetChunk" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="GetChunk" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/TerrainGen.cs StartLineNumber=81 StartCharacterOffset=28 EndLineNumber=81 EndCharacterOffset=36)" />
+    <Node Id="@84" Category="CodeSchema_Method" Bounds="-196.086796090536,-162.9,141.64,25.96" CodeSchemaProperty_IsPrivate="True" CommonLabel="TranslateCoordinate" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="TranslateCoordinate" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/UI/ActivityViewer.xaml.cs StartLineNumber=121 StartCharacterOffset=19 EndLineNumber=121 EndCharacterOffset=38)" />
+    <Node Id="@85" Category="CodeSchema_Method" Bounds="1305.75038827161,-273.96,123.79,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="GenerateAround" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="GenerateAround" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/TerrainGen.cs StartLineNumber=16 StartCharacterOffset=27 EndLineNumber=16 EndCharacterOffset=41)" />
+    <Node Id="@86" Category="CodeSchema_Method" Bounds="962.217054938275,-329.92,138.493333333333,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="SetWindowPosition" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="SetWindowPosition" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/Util.cs StartLineNumber=55 StartCharacterOffset=27 EndLineNumber=55 EndCharacterOffset=44)" />
+    <Node Id="@87" Category="CodeSchema_Method" Bounds="962.217054938275,-441.84,114.793333333333,25.96" CodeSchemaProperty_IsPrivate="True" CodeSchemaProperty_IsStatic="True" CommonLabel="SetWindowPos" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="SetWindowPos" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/Util.cs StartLineNumber=53 StartCharacterOffset=35 EndLineNumber=53 EndCharacterOffset=47)" />
+    <Node Id="@88" Category="CodeSchema_Method" Bounds="-222.863462757203,-218.86,110.543333333334,25.96" CodeSchemaProperty_IsConstructor="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" CommonLabel="ActivityViewer" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="ActivityViewer" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/UI/ActivityViewer.xaml.cs StartLineNumber=23 StartCharacterOffset=15 EndLineNumber=23 EndCharacterOffset=29)" />
+    <Node Id="@89" Category="CodeSchema_Method" Bounds="-1150.45012942387,-106.94,106.256666666667,25.96" CodeSchemaProperty_IsConstructor="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" CommonLabel="MainWindow" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="MainWindow" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/MainWindow.cs StartLineNumber=45 StartCharacterOffset=15 EndLineNumber=45 EndCharacterOffset=25)" />
+    <Node Id="@9" Category="CodeSchema_Namespace" Bounds="-1461.94012942387,100.94,238.4,373.84" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="MCClone.Client" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" Group="Expanded" Label="MCClone.Client" />
+    <Node Id="@90" Category="CodeSchema_Method" Bounds="258.283203909464,232,94.3733333333333,25.96" CodeSchemaProperty_IsConstructor="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" CommonLabel="SystemInfo" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Method" Label="SystemInfo" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/DataStore.cs StartLineNumber=38 StartCharacterOffset=15 EndLineNumber=38 EndCharacterOffset=25)" />
+    <Node Id="@91" Category="CodeSchema_Field" Bounds="-347.826796090536,-162.9,121.74,25.96" CodeSchemaProperty_IsPrivate="True" CommonLabel="_contentLoaded" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="_contentLoaded" SourceLocation="(Assembly=&quot;file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/obj/Debug NoDiscord/UI/ActivityViewer.g.cs&quot; StartLineNumber=98 StartCharacterOffset=21 EndLineNumber=98 EndCharacterOffset=35)" />
+    <Node Id="@92" Category="CodeSchema_Field" Bounds="374.373203909464,-441.84,138.223333333333,25.96" CodeSchemaProperty_IsPrivate="True" CommonLabel="_CurrentDimension" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="_CurrentDimension" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/Player.cs StartLineNumber=19 StartCharacterOffset=26 EndLineNumber=19 EndCharacterOffset=43)" />
+    <Node Id="@93" Category="CodeSchema_Field" Bounds="-1207.97679609054,-274.82,77.4866666666667,25.96" CodeSchemaProperty_IsPrivate="True" CodeSchemaProperty_IsStatic="True" CommonLabel="_shader" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="_shader" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/MainWindow.cs StartLineNumber=35 StartCharacterOffset=30 EndLineNumber=35 EndCharacterOffset=37)" />
+    <Node Id="@94" Category="CodeSchema_Field" Bounds="-1421.94012942387,4.98000000000002,136.92,25.96" CodeSchemaProperty_IsPrivate="True" CodeSchemaProperty_IsStatic="True" CommonLabel="_vertexArrayObject" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="_vertexArrayObject" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/MainWindow.cs StartLineNumber=34 StartCharacterOffset=27 EndLineNumber=34 EndCharacterOffset=45)" />
+    <Node Id="@95" Category="CodeSchema_Field" Bounds="-1255.02012942387,4.98000000000002,140.553333333333,25.96" CodeSchemaProperty_IsPrivate="True" CommonLabel="_vertexBufferObject" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="_vertexBufferObject" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/MainWindow.cs StartLineNumber=32 StartCharacterOffset=20 EndLineNumber=32 EndCharacterOffset=39)" />
+    <Node Id="@96" Category="CodeSchema_Field" Bounds="-1421.94012942387,-218.86,82.0633333333335,25.96" CodeSchemaProperty_IsPrivate="True" CommonLabel="_vertices" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="_vertices" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/MainWindow.cs StartLineNumber=37 StartCharacterOffset=33 EndLineNumber=37 EndCharacterOffset=42)" />
+    <Node Id="@97" Category="CodeSchema_Property" Bounds="268.288932030179,61.04,143.009061454048,25" CodeSchemaProperty_IsPublic="True" CommonLabel="AnyChunksDirty" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Property" Label="AnyChunksDirty" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone/WorldStorage.cs StartLineNumber=124 StartCharacterOffset=20 EndLineNumber=124 EndCharacterOffset=34)" />
+    <Node Id="@98" Category="CodeSchema_Field" Bounds="-757.766796090536,-330.78,59.4400000000001,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="args" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="args" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/Program.cs StartLineNumber=11 StartCharacterOffset=31 EndLineNumber=11 EndCharacterOffset=35)" />
+    <Node Id="@99" Category="CodeSchema_Field" Bounds="159.133203909464,463.92,59.4400000000001,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="args" DelayedCrossGroupLinksState="Fetched" Icon="CodeSchema_Field" Label="args" SourceLocation="(Assembly=file:///C:/Users/Administrator/source/repos/ccraft/MCClone.TerrainGenTest/Program.cs StartLineNumber=12 StartCharacterOffset=31 EndLineNumber=12 EndCharacterOffset=35)" />
+  </Nodes>
+  <Links>
+    <Link Source="@10" Target="(@1 Namespace=MCClone.Client.Properties Type=Resources)" Category="Contains" FetchingParent="@10" />
+    <Link Source="@101" Target="@18" Category="References" Bounds="668.159051214109,270.353976045373,49.9135522096077,16.6460239546275" IsSourceVirtualized="True" Weight="2" />
+    <Link Source="@102" Target="@18" Category="References" Bounds="668.620696562194,235.309451873821,734.200209404892,8.64942480750616" IsSourceVirtualized="True" Weight="2" />
+    <Link Source="@106" Target="@110" Category="CodeSchema_Calls" Bounds="243.191758184487,30.4171474922364,964.653468484989,201.811799852563" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="1" />
+    <Link Source="@106" Target="@122" Category="CodeSchema_Calls" Bounds="1183.34090596708,244.500208286838,21.000000000002,1.33342475407972E-05" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="1" />
+    <Link Source="@106" Target="@20" Category="References" Bounds="1013.2523711937,238.174466377076,191.088534773389,4.77293656429666" IsSourceVirtualized="True" Weight="1" />
+    <Link Source="@106" Target="@25" Category="References" Bounds="524.110729601116,37.8432365299486,697.484952064219,194.156763470051" IsSourceVirtualized="True" Weight="4" />
+    <Link Source="@110" Target="@20" Category="References" Bounds="224.736056065274,31.04,456.329059727644,148.867725588477" IsSourceVirtualized="True" Weight="2" />
+    <Link Source="@115" Target="@141" Category="CodeSchema_FieldRead" Bounds="716.67728231095,-355.734061324702,49.1290716039124,25.8139070825373" Weight="2" />
+    <Link Source="@115" Target="@77" Category="CodeSchema_Calls" Bounds="670.828578433469,-407.118017094995,18.101560893137,77.197862852831" Weight="2" />
+    <Link Source="@118" Target="@119" Category="CodeSchema_FieldRead" Bounds="343.657684326172,-413.383697509766,141.07666015625,192.503341674805" IsSourceVirtualized="True" Weight="1" />
+    <Link Source="@118" Target="@121" Category="CodeSchema_Calls" Bounds="392.164659598671,-208.380358514625,21.0000000000002,0" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="3" />
+    <Link Source="@118" Target="@122" Category="CodeSchema_Calls" Bounds="507.728089050782,-195.88,582.069748235233,422.592438878534" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="1" />
+    <Link Source="@118" Target="@135" Category="CodeSchema_FieldRead" Bounds="196.255033043194,-195.88,258.779517941668,91.1804042741988" IsSourceVirtualized="True" Weight="2" />
+    <Link Source="@118" Target="@25" Category="References" Bounds="438.940437044796,-195.88,40.0356563874387,43.3858638086208" IsSourceVirtualized="True" Weight="3">
+      <Category Ref="CodeSchema_ReturnTypeLink" />
+    </Link>
+    <Link Source="@118" Target="@92" Category="CodeSchema_FieldRead" Bounds="448.130735904115,-407.078742841342,39.7140122751425,186.198384326717" IsSourceVirtualized="True" Weight="5">
+      <Category Ref="CodeSchema_FieldWrite" />
+    </Link>
+    <Link Source="@119" Target="@50" Category="References" Bounds="307.755968156065,-415.880000610352,744.983738467936,546.596156350143" Weight="1" />
+    <Link Source="@12" Target="@16" Category="Contains" FetchingParent="@12" />
+    <Link Source="@120" Target="@25" Category="References" Bounds="523.50468744314,82.6001263600593,188.649779516054,93.476420827861" Weight="1" />
+    <Link Source="@122" Target="@25" Category="References" Bounds="523.983274278666,48.8223641203612,552.60512052312,183.177635879639" IsSourceVirtualized="True" Weight="2" />
+    <Link Source="@133" Target="@130" Category="CodeSchema_Calls" Bounds="1112.02702326846,-261.304613885182,21.0000316698136,0.0678996746115104" IsSourceVirtualized="True" Weight="1" />
+    <Link Source="@134" Target="@103" Category="CodeSchema_FieldRead" Bounds="-1320.63032045,-149.586825127559,562.863534561325,3.40008184188034" Weight="8">
+      <Category Ref="CodeSchema_FieldWrite" />
+    </Link>
+    <Link Source="@134" Target="@104" Category="CodeSchema_FieldRead" Bounds="-1229.15772996306,-252.18588197525,471.411874458646,95.9721274256969" Weight="3" />
+    <Link Source="@134" Target="@105" Category="CodeSchema_FieldRead" Bounds="-1336.30952798133,-253.741575558359,578.542742092661,99.1582364741476" Weight="3" />
+    <Link Source="@134" Target="@126" Category="CodeSchema_FieldRead" Bounds="-1217.27784384976,-200.450255029406,459.511057961084,49.1398712414155" Weight="4">
+      <Category Ref="CodeSchema_FieldWrite" />
+    </Link>
+    <Link Source="@134" Target="@149" Category="CodeSchema_FieldRead" Bounds="-889.245562578292,-135.29311004593,131.540803252472,27.4578724826625" Weight="4">
+      <Category Ref="CodeSchema_FieldWrite" />
+    </Link>
+    <Link Source="@134" Target="@155" Category="CodeSchema_FieldWrite" Bounds="-917.892034135429,-245.030955044148,183.295327140187,86.1709577907301" Weight="1" />
+    <Link Source="@134" Target="@159" Category="CodeSchema_FieldRead" Bounds="-984.068421085374,-196.217795337106,226.301635196702,41.1125263154058" Weight="2" />
+    <Link Source="@134" Target="@175" Category="CodeSchema_FieldRead" Bounds="-1090.37971290398,-301.624565924289,351.440350850839,142.764568670871" Weight="1" />
+    <Link Source="@136" Target="@91" Category="CodeSchema_FieldRead" Bounds="-392.674878479004,-133.550303884552,65.4538620648129,26.6105004322513" Weight="2">
+      <Category Ref="CodeSchema_FieldWrite" />
+    </Link>
+    <Link Source="@14" Target="@37" Category="Contains" FetchingParent="@14" />
+    <Link Source="@147" Target="@34" Category="References" Bounds="596.306446708125,-239.535176087921,364.741171750915,133.804355989285" Weight="1" />
+    <Link Source="@148" Target="@179" Category="CodeSchema_Calls" Bounds="368.302175127145,-352.392528863356,7.58262982238352,21.5119703487304" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="2" />
+    <Link Source="@148" Target="@183" Category="CodeSchema_Calls" Bounds="299.701534480895,-356.991932636946,54.4994321650968,26.1113741223211" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="2" />
+    <Link Source="@153" Target="@151" Category="CodeSchema_FieldWrite" Bounds="-1316.61352213542,-84.6352549045507,191.458909837044,33.9004526585691" Weight="1" />
+    <Link Source="@153" Target="@173" Category="CodeSchema_Calls" Bounds="-1392.94602018106,-80.9800028991699,22.9674686697999,424.853106296012" Weight="1" />
+    <Link Source="@153" Target="@175" Category="CodeSchema_FieldRead" Bounds="-1349.6044921875,-302.502899169922,178.473754882813,195.562873840332" Weight="1" />
+    <Link Source="@153" Target="@59" Category="CodeSchema_Calls" Bounds="-1368.54444006405,-80.9800028991699,17.4298099846778,308.894286152082" Weight="1" />
+    <Link Source="@153" Target="@72" Category="CodeSchema_Calls" Bounds="-1317.33605041257,-136.403133179733,132.805734548204,30.5103836240312" Weight="1" />
+    <Link Source="@153" Target="@93" Category="CodeSchema_FieldRead" Bounds="-1356.60144042969,-241.660919189453,172.226806640625,134.720893859863" Weight="1" />
+    <Link Source="@153" Target="@94" Category="CodeSchema_FieldRead" Bounds="-1337.87170410156,-80.9800262451172,48.065673828125,81.7833828926086" Weight="1" />
+    <Link Source="@156" Target="@114" Category="CodeSchema_Calls" Bounds="857.281461342718,199.946484521643,231.340553034416,83.9823965907041" IsTargetVirtualized="True" Weight="1" />
+    <Link Source="@156" Target="@120" Category="CodeSchema_FieldRead" Bounds="775.931325819224,189.020235715088,21.0000105794271,0" Weight="5" />
+    <Link Source="@156" Target="@145" Category="CodeSchema_Calls" Bounds="449.589333394786,-20.5524283588491,354.207178346048,196.592425001916" IsTargetVirtualized="True" Weight="2" />
+    <Link Source="@156" Target="@146" Category="CodeSchema_Calls" Bounds="857.434680582682,188.596354237309,376.240502151413,0.392114396540705" IsTargetVirtualized="True" Weight="2" />
+    <Link Source="@156" Target="@176" Category="CodeSchema_FieldRead" Bounds="372.811936896061,-75.3932912775102,432.066083855274,251.433287920577" Weight="3" />
+    <Link Source="@156" Target="@178" Category="CodeSchema_Calls" Bounds="829.638058159807,202.000235715088,4.00164345033863,21.1568905732468" IsTargetVirtualized="True" Weight="2" />
+    <Link Source="@156" Target="@182" Category="CodeSchema_Calls" Bounds="768.93390705816,202.000235715088,38.3824606635699,25.0774391736112" IsTargetVirtualized="True" Weight="2" />
+    <Link Source="@156" Target="@61" Category="CodeSchema_Calls" Bounds="857.434680582682,189.019996643066,536.386270751953,2.8421709430404E-14" Weight="1" />
+    <Link Source="@156" Target="@77" Category="CodeSchema_Calls" Bounds="671.397377637974,-407.172363369469,152.393949811535,583.212360012536" Weight="1" />
+    <Link Source="@157" Target="@110" Category="CodeSchema_Calls" Bounds="215.00471496582,-79.9199600219727,31.7701873779297,81.334774017334" IsTargetVirtualized="True" Weight="1" />
+    <Link Source="@157" Target="@123" Category="CodeSchema_Calls" Bounds="274.729501629824,-79.9199977111816,633.799431504593,307.986405356668" IsTargetVirtualized="True" Weight="2" />
+    <Link Source="@157" Target="@145" Category="CodeSchema_Calls" Bounds="278.269864281547,-83.0953186375071,93.7989999334395,30.4004950102361" IsTargetVirtualized="True" Weight="2" />
+    <Link Source="@157" Target="@146" Category="CodeSchema_Calls" Bounds="278.269870402018,-84.7113041824856,957.878733318648,259.28407420424" IsTargetVirtualized="True" Weight="2" />
+    <Link Source="@157" Target="@156" Category="CodeSchema_Calls" Bounds="274.683780447512,-79.9199977111816,517.741443361859,252.020948482703" Weight="1" />
+    <Link Source="@157" Target="@176" Category="CodeSchema_FieldRead" Bounds="278.269864281547,-92.9000358762042,21.0000000000096,3.07094937852526E-05" Weight="2" />
+    <Link Source="@157" Target="@20" Category="References" Bounds="271.797643034309,-79.9199977111816,409.923935794885,223.756860694816" Weight="11" />
+    <Link Source="@158" Target="@122" Category="CodeSchema_Calls" Bounds="1091.4766730409,202.00016546083,11.8514771139044,22.0709355976816" IsTargetVirtualized="True" Weight="1" />
+    <Link Source="@158" Target="@124" Category="CodeSchema_Calls" Bounds="350.720545801249,-23.3804623968715,703.534562434428,203.643865318365" IsTargetVirtualized="True" Weight="1" />
+    <Link Source="@158" Target="@146" Category="CodeSchema_Calls" Bounds="1114.75842285156,165.905944824219,122.08154296875,16.0565643310547" IsTargetVirtualized="True" Weight="2" />
+    <Link Source="@158" Target="@157" Category="CodeSchema_Calls" Bounds="286.790941758906,-79.8325028744626,767.471744783126,258.659397646581" Weight="1" />
+    <Link Source="@158" Target="@25" Category="References" Bounds="524.124661579072,36.5448142693628,530.130446656606,144.243962492766" Weight="8" />
+    <Link Source="@16" Target="@107" Category="Contains" FetchingParent="@16" />
+    <Link Source="@16" Target="@108" Category="Contains" FetchingParent="@16" />
+    <Link Source="@16" Target="@109" Category="Contains" FetchingParent="@16" />
+    <Link Source="@16" Target="@111" Category="Contains" FetchingParent="@16" />
+    <Link Source="@16" Target="@112" Category="Contains" FetchingParent="@16" />
+    <Link Source="@16" Target="@113" Category="Contains" FetchingParent="@16" />
+    <Link Source="@16" Target="@117" Category="Contains" FetchingParent="@16" />
+    <Link Source="@16" Target="@136" Category="Contains" FetchingParent="@16" />
+    <Link Source="@16" Target="@138" Category="Contains" FetchingParent="@16" />
+    <Link Source="@16" Target="@165" Category="Contains" FetchingParent="@16" />
+    <Link Source="@16" Target="@166" Category="Contains" FetchingParent="@16" />
+    <Link Source="@16" Target="@167" Category="Contains" FetchingParent="@16" />
+    <Link Source="@16" Target="@58" Category="Contains" FetchingParent="@16" />
+    <Link Source="@16" Target="@76" Category="Contains" FetchingParent="@16" />
+    <Link Source="@16" Target="@84" Category="Contains" FetchingParent="@16" />
+    <Link Source="@16" Target="@88" Category="Contains" FetchingParent="@16" />
+    <Link Source="@16" Target="@91" Category="Contains" FetchingParent="@16" />
+    <Link Source="@160" Target="@126" Category="CodeSchema_FieldRead" Bounds="-1217.43420410156,-194.778381347656,272.024169921875,143.798500061035" Weight="1" />
+    <Link Source="@162" Target="@88" Category="CodeSchema_Calls" Bounds="-618.356798095703,-254.345453234721,386.544908594773,41.5606251629202" Weight="1" />
+    <Link Source="@163" Target="@142" Category="CodeSchema_FieldRead" Bounds="730.406127929688,-415.880340576172,24.0086059570313,137.267974853516" Weight="3" />
+    <Link Source="@164" Target="@42" Category="References" Bounds="437.469861784325,31.8195148362417,561.373788325001,157.18819351207" Weight="1" />
+    <Link Source="@173" Target="@132" Category="CodeSchema_FieldRead" Bounds="-1391.92382393718,378.8210722759,3.59679759280471,21.1277500996987" Weight="1" />
+    <Link Source="@176" Target="@50" Category="References" Bounds="375.594867004843,-80.2711144138828,650.259125932688,249.85939132438" Weight="1" />
+    <Link Source="@18" Target="(@3 @5 @17 Member=Type)" Category="Contains" FetchingParent="@18" />
+    <Link Source="@18" Target="@177" Category="Contains" FetchingParent="@18" />
+    <Link Source="@18" Target="@180" Category="Contains" FetchingParent="@18" />
+    <Link Source="@18" Target="@181" Category="Contains" FetchingParent="@18" />
+    <Link Source="@18" Target="@79" Category="Contains" FetchingParent="@18" />
+    <Link Source="@2" Target="@10" Category="Contains" FetchingParent="@2" />
+    <Link Source="@2" Target="@12" Category="Contains" FetchingParent="@2" />
+    <Link Source="@2" Target="@6" Category="Contains" FetchingParent="@2" />
+    <Link Source="@2" Target="@9" Category="Contains" FetchingParent="@2" />
+    <Link Source="@20" Target="@101" Category="Contains" FetchingParent="@20" />
+    <Link Source="@20" Target="@120" Category="Contains" FetchingParent="@20" />
+    <Link Source="@20" Target="@123" Category="Contains" FetchingParent="@20" />
+    <Link Source="@20" Target="@125" Category="Contains" FetchingParent="@20" />
+    <Link Source="@20" Target="@156" Category="Contains" FetchingParent="@20" />
+    <Link Source="@20" Target="@178" Category="Contains" FetchingParent="@20" />
+    <Link Source="@20" Target="@182" Category="Contains" FetchingParent="@20" />
+    <Link Source="@20" Target="@81" Category="Contains" FetchingParent="@20" />
+    <Link Source="@21" Target="(@1 @8 Type=CliUtil Member=(Name=ShouldLoadChunk OverloadingParameters=[@75,@75]))" Category="Contains" FetchingParent="@21" />
+    <Link Source="@21" Target="@59" Category="Contains" FetchingParent="@21" />
+    <Link Source="@23" Target="(@3 @5 @22 Member=Logging)" Category="Contains" FetchingParent="@23" />
+    <Link Source="@23" Target="(@3 @5 @22 Member=Threads)" Category="Contains" FetchingParent="@23" />
+    <Link Source="@23" Target="(@3 @5 @22 Member=Ver)" Category="Contains" FetchingParent="@23" />
+    <Link Source="@23" Target="@128" Category="Contains" FetchingParent="@23" />
+    <Link Source="@23" Target="@147" Category="Contains" FetchingParent="@23" />
+    <Link Source="@23" Target="@164" Category="Contains" FetchingParent="@23" />
+    <Link Source="@25" Target="(@3 @5 @24 Member=SpawnX)" Category="Contains" FetchingParent="@25" />
+    <Link Source="@25" Target="(@3 @5 @24 Member=SpawnY)" Category="Contains" FetchingParent="@25" />
+    <Link Source="@25" Target="(@3 @5 @24 Member=SpawnZ)" Category="Contains" FetchingParent="@25" />
+    <Link Source="@25" Target="@110" Category="Contains" FetchingParent="@25" />
+    <Link Source="@25" Target="@124" Category="Contains" FetchingParent="@25" />
+    <Link Source="@25" Target="@135" Category="Contains" FetchingParent="@25" />
+    <Link Source="@25" Target="@145" Category="Contains" FetchingParent="@25" />
+    <Link Source="@25" Target="@157" Category="Contains" FetchingParent="@25" />
+    <Link Source="@25" Target="@176" Category="Contains" FetchingParent="@25" />
+    <Link Source="@25" Target="@74" Category="Contains" FetchingParent="@25" />
+    <Link Source="@25" Target="@97" Category="Contains" FetchingParent="@25" />
+    <Link Source="@26" Target="@134" Category="Contains" FetchingParent="@26" />
+    <Link Source="@26" Target="@30" Category="InheritsFrom" Weight="1" />
+    <Link Source="@28" Target="(@3 @5 @27 Member=(Name=PostLog OverloadingParameters=[(@51 @52 Type=String)]))" Category="Contains" FetchingParent="@28" />
+    <Link Source="@28" Target="(@3 @5 @27 Member=maxSrcLength)" Category="Contains" FetchingParent="@28" />
+    <Link Source="@28" Target="(@3 @5 @27 Member=postaddr)" Category="Contains" FetchingParent="@28" />
+    <Link Source="@28" Target="@115" Category="Contains" FetchingParent="@28" />
+    <Link Source="@28" Target="@141" Category="Contains" FetchingParent="@28" />
+    <Link Source="@28" Target="@142" Category="Contains" FetchingParent="@28" />
+    <Link Source="@28" Target="@163" Category="Contains" FetchingParent="@28" />
+    <Link Source="@28" Target="@77" Category="Contains" FetchingParent="@28" />
+    <Link Source="@30" Target="@103" Category="Contains" FetchingParent="@30" />
+    <Link Source="@30" Target="@104" Category="Contains" FetchingParent="@30" />
+    <Link Source="@30" Target="@105" Category="Contains" FetchingParent="@30" />
+    <Link Source="@30" Target="@126" Category="Contains" FetchingParent="@30" />
+    <Link Source="@30" Target="@127" Category="Contains" FetchingParent="@30" />
+    <Link Source="@30" Target="@137" Category="Contains" FetchingParent="@30" />
+    <Link Source="@30" Target="@140" Category="Contains" FetchingParent="@30" />
+    <Link Source="@30" Target="@143" Category="Contains" FetchingParent="@30" />
+    <Link Source="@30" Target="@149" Category="Contains" FetchingParent="@30" />
+    <Link Source="@30" Target="@151" Category="Contains" FetchingParent="@30" />
+    <Link Source="@30" Target="@152" Category="Contains" FetchingParent="@30" />
+    <Link Source="@30" Target="@153" Category="Contains" FetchingParent="@30" />
+    <Link Source="@30" Target="@154" Category="Contains" FetchingParent="@30" />
+    <Link Source="@30" Target="@155" Category="Contains" FetchingParent="@30" />
+    <Link Source="@30" Target="@159" Category="Contains" FetchingParent="@30" />
+    <Link Source="@30" Target="@160" Category="Contains" FetchingParent="@30" />
+    <Link Source="@30" Target="@168" Category="Contains" FetchingParent="@30" />
+    <Link Source="@30" Target="@174" Category="Contains" FetchingParent="@30" />
+    <Link Source="@30" Target="@175" Category="Contains" FetchingParent="@30" />
+    <Link Source="@30" Target="@63" Category="Contains" FetchingParent="@30" />
+    <Link Source="@30" Target="@64" Category="Contains" FetchingParent="@30" />
+    <Link Source="@30" Target="@66" Category="Contains" FetchingParent="@30" />
+    <Link Source="@30" Target="@67" Category="Contains" FetchingParent="@30" />
+    <Link Source="@30" Target="@72" Category="Contains" FetchingParent="@30" />
+    <Link Source="@30" Target="@80" Category="Contains" FetchingParent="@30" />
+    <Link Source="@30" Target="@89" Category="Contains" FetchingParent="@30" />
+    <Link Source="@30" Target="@93" Category="Contains" FetchingParent="@30" />
+    <Link Source="@30" Target="@94" Category="Contains" FetchingParent="@30" />
+    <Link Source="@30" Target="@95" Category="Contains" FetchingParent="@30" />
+    <Link Source="@30" Target="@96" Category="Contains" FetchingParent="@30" />
+    <Link Source="@32" Target="(@3 @5 @31 @144)" Category="Contains" FetchingParent="@32" />
+    <Link Source="@32" Target="(@3 @5 @31 Member=Instance)" Category="Contains" FetchingParent="@32" />
+    <Link Source="@32" Target="(@3 @5 @31 Member=OnLoad)" Category="Contains" FetchingParent="@32" />
+    <Link Source="@32" Target="(@3 @5 @31 Member=OnRenderFrame)" Category="Contains" FetchingParent="@32" />
+    <Link Source="@32" Target="(@3 @5 @31 Member=OnResize)" Category="Contains" FetchingParent="@32" />
+    <Link Source="@32" Target="(@3 @5 @31 Member=OnUpdateFrame)" Category="Contains" FetchingParent="@32" />
+    <Link Source="@34" Target="(@3 @5 @33 @144)" Category="Contains" FetchingParent="@34" />
+    <Link Source="@34" Target="(@3 @5 @33 Member=CFPt)" Category="Contains" FetchingParent="@34" />
+    <Link Source="@34" Target="(@3 @5 @33 Member=CPos)" Category="Contains" FetchingParent="@34" />
+    <Link Source="@34" Target="(@3 @5 @33 Member=Flying)" Category="Contains" FetchingParent="@34" />
+    <Link Source="@34" Target="(@3 @5 @33 Member=InAir)" Category="Contains" FetchingParent="@34" />
+    <Link Source="@34" Target="(@3 @5 @33 Member=LX)" Category="Contains" FetchingParent="@34" />
+    <Link Source="@34" Target="(@3 @5 @33 Member=LY)" Category="Contains" FetchingParent="@34" />
+    <Link Source="@34" Target="(@3 @5 @33 Member=Y)" Category="Contains" FetchingParent="@34" />
+    <Link Source="@34" Target="(@3 @5 @33 Member=YV)" Category="Contains" FetchingParent="@34" />
+    <Link Source="@34" Target="@118" Category="Contains" FetchingParent="@34" />
+    <Link Source="@34" Target="@119" Category="Contains" FetchingParent="@34" />
+    <Link Source="@34" Target="@121" Category="Contains" FetchingParent="@34" />
+    <Link Source="@34" Target="@148" Category="Contains" FetchingParent="@34" />
+    <Link Source="@34" Target="@179" Category="Contains" FetchingParent="@34" />
+    <Link Source="@34" Target="@183" Category="Contains" FetchingParent="@34" />
+    <Link Source="@34" Target="@71" Category="Contains" FetchingParent="@34" />
+    <Link Source="@34" Target="@92" Category="Contains" FetchingParent="@34" />
+    <Link Source="@36" Target="@162" Category="Contains" FetchingParent="@36" />
+    <Link Source="@36" Target="@56" Category="Contains" FetchingParent="@36" />
+    <Link Source="@36" Target="@98" Category="Contains" FetchingParent="@36" />
+    <Link Source="@37" Target="@54" Category="Contains" FetchingParent="@37" />
+    <Link Source="@37" Target="@99" Category="Contains" FetchingParent="@37" />
+    <Link Source="@38" Target="@102" Category="Contains" FetchingParent="@38" />
+    <Link Source="@38" Target="@61" Category="Contains" FetchingParent="@38" />
+    <Link Source="@4" Target="@14" Category="Contains" FetchingParent="@4" />
+    <Link Source="@4" Target="@7" Category="Contains" FetchingParent="@4" />
+    <Link Source="@40" Target="@132" Category="Contains" FetchingParent="@40" />
+    <Link Source="@40" Target="@173" Category="Contains" FetchingParent="@40" />
+    <Link Source="@40" Target="@78" Category="Contains" FetchingParent="@40" />
+    <Link Source="@42" Target="@116" Category="Contains" FetchingParent="@42" />
+    <Link Source="@42" Target="@131" Category="Contains" FetchingParent="@42" />
+    <Link Source="@42" Target="@169" Category="Contains" FetchingParent="@42" />
+    <Link Source="@42" Target="@170" Category="Contains" FetchingParent="@42" />
+    <Link Source="@42" Target="@171" Category="Contains" FetchingParent="@42" />
+    <Link Source="@42" Target="@172" Category="Contains" FetchingParent="@42" />
+    <Link Source="@42" Target="@90" Category="Contains" FetchingParent="@42" />
+    <Link Source="@44" Target="(@3 @5 @43 Member=SWP_NOACTIVATE)" Category="Contains" FetchingParent="@44" />
+    <Link Source="@44" Target="(@3 @5 @43 Member=SWP_NOZORDER)" Category="Contains" FetchingParent="@44" />
+    <Link Source="@44" Target="@130" Category="Contains" FetchingParent="@44" />
+    <Link Source="@44" Target="@133" Category="Contains" FetchingParent="@44" />
+    <Link Source="@44" Target="@86" Category="Contains" FetchingParent="@44" />
+    <Link Source="@44" Target="@87" Category="Contains" FetchingParent="@44" />
+    <Link Source="@46" Target="(@3 @5 @45 Member=genDistance)" Category="Contains" FetchingParent="@46" />
+    <Link Source="@46" Target="@129" Category="Contains" FetchingParent="@46" />
+    <Link Source="@46" Target="@139" Category="Contains" FetchingParent="@46" />
+    <Link Source="@46" Target="@150" Category="Contains" FetchingParent="@46" />
+    <Link Source="@46" Target="@161" Category="Contains" FetchingParent="@46" />
+    <Link Source="@46" Target="@62" Category="Contains" FetchingParent="@46" />
+    <Link Source="@46" Target="@73" Category="Contains" FetchingParent="@46" />
+    <Link Source="@46" Target="@82" Category="Contains" FetchingParent="@46" />
+    <Link Source="@46" Target="@83" Category="Contains" FetchingParent="@46" />
+    <Link Source="@46" Target="@85" Category="Contains" FetchingParent="@46" />
+    <Link Source="@48" Target="(@3 @5 @47 Member=(Name=DegToRad OverloadingParameters=[@53]))" Category="Contains" FetchingParent="@48" />
+    <Link Source="@48" Target="(@3 @5 @47 Member=(Name=PlayerPosToChunkPos OverloadingParameters=[(@51 @52 Type=(Name=ValueTuple GenericParameterCount=2 GenericArguments=[@53,@53]))]))" Category="Contains" FetchingParent="@48" />
+    <Link Source="@48" Target="(@3 @5 @47 Member=(Name=TruncateHeight OverloadingParameters=[@68]))" Category="Contains" FetchingParent="@48" />
+    <Link Source="@48" Target="@100" Category="Contains" FetchingParent="@48" />
+    <Link Source="@48" Target="@70" Category="Contains" FetchingParent="@48" />
+    <Link Source="@50" Target="@106" Category="Contains" FetchingParent="@50" />
+    <Link Source="@50" Target="@114" Category="Contains" FetchingParent="@50" />
+    <Link Source="@50" Target="@122" Category="Contains" FetchingParent="@50" />
+    <Link Source="@50" Target="@146" Category="Contains" FetchingParent="@50" />
+    <Link Source="@50" Target="@158" Category="Contains" FetchingParent="@50" />
+    <Link Source="@50" Target="@69" Category="Contains" FetchingParent="@50" />
+    <Link Source="@54" Target="@122" Category="CodeSchema_Calls" Bounds="221.713210144043,259.681502277641,843.944912596414,263.412271903402" IsTargetVirtualized="True" Weight="1" />
+    <Link Source="@54" Target="@145" Category="CodeSchema_Calls" Bounds="195.630306125467,-16.567063847584,215.202729818165,536.447079716725" IsTargetVirtualized="True" Weight="2" />
+    <Link Source="@54" Target="@158" Category="CodeSchema_Calls" Bounds="221.100016545089,203.729997944593,825.156497579376,317.332559478276" Weight="1" />
+    <Link Source="@54" Target="@25" Category="References" Bounds="193.386088365108,114.81438027249,92.4622611564791,405.065635596651" Weight="4" />
+    <Link Source="@54" Target="@69" Category="CodeSchema_Calls" Bounds="221.586653733783,203.617496616474,915.172852820192,318.400358051624" Weight="1" />
+    <Link Source="@54" Target="@85" Category="CodeSchema_Calls" Bounds="209.671854223509,-242.9681587016,1131.26294291085,762.848174570741" Weight="1" />
+    <Link Source="@54" Target="@99" Category="CodeSchema_FieldWrite" Bounds="189.469775386658,498.877599111683,0.589271790578124,21.0036399603388" Weight="1" />
+    <Link Source="@56" Target="@162" Category="CodeSchema_Calls" Bounds="-670.162507613375,-304.82022430041,21.290440740529,23.3496472244051" Weight="1" />
+    <Link Source="@56" Target="@89" Category="CodeSchema_Calls" Bounds="-1062.53709709392,-304.820003051758,398.80938992753,193.943980423844" Weight="1" />
+    <Link Source="@56" Target="@98" Category="CodeSchema_FieldWrite" Bounds="-689.326783447265,-317.80022430041,21.000009765625,0" Weight="1" />
+    <Link Source="@6" Target="@26" Category="Contains" FetchingParent="@6" />
+    <Link Source="@6" Target="@30" Category="Contains" FetchingParent="@6" />
+    <Link Source="@6" Target="@36" Category="Contains" FetchingParent="@6" />
+    <Link Source="@61" Target="@101" Category="CodeSchema_Calls" Bounds="810.375263273647,196.518974352687,592.445688060988,94.2589181526931" IsTargetVirtualized="True" Weight="2" />
+    <Link Source="@61" Target="@18" Category="References" Bounds="668.609857625636,191.401186153323,734.211093709,37.0925549077946" Weight="4" />
+    <Link Source="@61" Target="@20" Category="References" Bounds="1013.23022122774,192.537342561088,389.590730106891,29.0733811366485" Weight="1" />
+    <Link Source="@62" Target="@145" Category="CodeSchema_Calls" Bounds="457.068358647172,-415.880000610352,857.709760172358,362.456688426322" IsTargetVirtualized="True" Weight="2" />
+    <Link Source="@62" Target="@146" Category="CodeSchema_Calls" Bounds="1289.75528768303,-415.880000610352,54.5244010522617,582.959109916406" IsTargetVirtualized="True" Weight="2" />
+    <Link Source="@62" Target="@150" Category="CodeSchema_FieldRead" Bounds="1360.24499511719,-415.880340576172,103.479248046875,81.7899475097656" Weight="1" />
+    <Link Source="@62" Target="@176" Category="CodeSchema_FieldRead" Bounds="385.351502544495,-416.140265651508,922.176644971937,308.960033725539" Weight="2" />
+    <Link Source="@62" Target="@25" Category="References" Bounds="523.803989956967,-415.880000610352,789.032137544671,313.606681884548" Weight="1" />
+    <Link Source="@62" Target="@85" Category="CodeSchema_Calls" Bounds="1368.70288085938,-415.880340576172,27.7735595703125,133.2333984375" Weight="1" />
+    <Link Source="@63" Target="@127" Category="CodeSchema_FieldRead" Bounds="-1197.3818359375,-248.860336303711,129.202880859375,86.8994445800781" Weight="1" />
+    <Link Source="@63" Target="@137" Category="CodeSchema_FieldRead" Bounds="-1218.27600097656,-248.860336303711,150.097045898438,134.743438720703" Weight="2">
+      <Category Ref="CodeSchema_FieldWrite" />
+    </Link>
+    <Link Source="@63" Target="@140" Category="CodeSchema_FieldRead" Bounds="-1032.04854941929,-301.205696106893,60.1630269408993,26.3853617442585" Weight="1" />
+    <Link Source="@63" Target="@143" Category="CodeSchema_FieldRead" Bounds="-1055.06814051156,-296.7922157546,11.133166699487,21.9718813919662" Weight="1" />
+    <Link Source="@63" Target="@149" Category="CodeSchema_FieldWrite" Bounds="-1061.03979492188,-248.860336303711,57.403564453125,139.10245513916" Weight="1" />
+    <Link Source="@63" Target="@151" Category="CodeSchema_FieldRead" Bounds="-1060.0732421875,-248.860336303711,22.54248046875,189.128845214844" Weight="1" />
+    <Link Source="@63" Target="@152" Category="CodeSchema_FieldRead" Bounds="-1053.6435878533,-248.860334362634,48.267437448704,78.2989703388109" Weight="1" />
+    <Link Source="@63" Target="@173" Category="CodeSchema_Calls" Bounds="-1383.04506512277,-248.86001159668,314.524316896337,593.766882796601" Weight="1" />
+    <Link Source="@63" Target="@175" Category="CodeSchema_FieldRead" Bounds="-1107.32538320767,-299.129155305697,29.7792590912125,24.3088209430627" Weight="5" />
+    <Link Source="@63" Target="@78" Category="CodeSchema_Calls" Bounds="-1291.81156355692,-248.86001159668,225.23880947551,593.305916950604" Weight="1" />
+    <Link Source="@63" Target="@93" Category="CodeSchema_FieldRead" Bounds="-1121.4901300727,-261.840331965778,21.0000150553381,1.2957658555024E-06" Weight="2">
+      <Category Ref="CodeSchema_FieldWrite" />
+    </Link>
+    <Link Source="@63" Target="@94" Category="CodeSchema_FieldRead" Bounds="-1320.37927246094,-248.860336303711,252.200317382813,249.59967315197" Weight="2">
+      <Category Ref="CodeSchema_FieldWrite" />
+    </Link>
+    <Link Source="@63" Target="@95" Category="CodeSchema_FieldRead" Bounds="-1166.20104980469,-248.860336303711,132.141723632813,247.317739009857" Weight="3">
+      <Category Ref="CodeSchema_FieldWrite" />
+    </Link>
+    <Link Source="@63" Target="@96" Category="CodeSchema_FieldRead" Bounds="-1343.89221191406,-248.860336303711,249.277465820313,26.4813842773438" Weight="2" />
+    <Link Source="@64" Target="@104" Category="CodeSchema_FieldWrite" Bounds="-1239.93601523325,-245.125068951734,57.5766625481292,26.2648412276332" Weight="1" />
+    <Link Source="@64" Target="@105" Category="CodeSchema_FieldWrite" Bounds="-1336.43603044919,-250.357573932411,140.227212963277,34.169201014981" Weight="1" />
+    <Link Source="@64" Target="@143" Category="CodeSchema_FieldRead" Bounds="-1144.99475097656,-300.437957763672,80.5260009765625,81.5777282714844" Weight="1" />
+    <Link Source="@66" Target="@127" Category="CodeSchema_FieldRead" Bounds="-1347.17932128906,-130.699584960938,74.26416015625,79.7196578979492" Weight="2" />
+    <Link Source="@66" Target="@143" Category="CodeSchema_FieldRead" Bounds="-1339.41845703125,-301.274963378906,267.297973632813,250.295036315918" Weight="2" />
+    <Link Source="@66" Target="@153" Category="CodeSchema_Calls" Bounds="-1366.01701465387,-72.0782668178733,3.14313035403052,21.0983390937728" Weight="1" />
+    <Link Source="@66" Target="@154" Category="CodeSchema_FieldWrite" Bounds="-1432.07434082031,-298.232543945313,43.0234375,247.252616882324" Weight="1" />
+    <Link Source="@67" Target="@103" Category="CodeSchema_FieldRead" Bounds="-1340.28186035156,-133.048461914063,97.0665283203125,82.0685348510742" Weight="3" />
+    <Link Source="@67" Target="@134" Category="CodeSchema_Calls" Bounds="-1148.610167299,-133.088403517057,382.188743158611,82.2551171656882" Weight="1" />
+    <Link Source="@67" Target="@137" Category="CodeSchema_FieldRead" Bounds="-1223.95812717848,-72.7788422025548,9.85281628674852,21.7989144784543" Weight="1" />
+    <Link Source="@67" Target="@143" Category="CodeSchema_FieldRead" Bounds="-1198.31372070313,-296.111755371094,179.235900878906,245.131828308105" Weight="1" />
+    <Link Source="@67" Target="@151" Category="CodeSchema_FieldRead" Bounds="-1146.53685872396,-37.9999019872217,21.0001082356778,8.75952414958192E-06" Weight="1" />
+    <Link Source="@67" Target="@152" Category="CodeSchema_FieldRead" Bounds="-1198.31372070313,-134.677474975586,147.179809570313,83.6975479125977" Weight="1" />
+    <Link Source="@67" Target="@154" Category="CodeSchema_FieldRead" Bounds="-1365.47387695313,-300.916229248047,122.258544921875,249.936302185059" Weight="2" />
+    <Link Source="@67" Target="@175" Category="CodeSchema_FieldRead" Bounds="-1211.15173339844,-302.506744384766,40.01953125,251.526817321777" Weight="2" />
+    <Link Source="@69" Target="@122" Category="CodeSchema_Calls" Bounds="1135.63144056435,202.000068817764,28.0141616128149,24.1269754940379" IsTargetVirtualized="True" Weight="1" />
+    <Link Source="@69" Target="@25" Category="References" Bounds="524.187171011645,30.3896059551249,620.571353565178,150.400322913165" Weight="3" />
+    <Link Source="@69" Target="@74" Category="CodeSchema_Calls" Bounds="239.040659652118,-24.4451554785288,905.717864924704,205.750876923145" Weight="1" />
+    <Link Source="@7" Target="@18" Category="Contains" FetchingParent="@7" />
+    <Link Source="@7" Target="@20" Category="Contains" FetchingParent="@7" />
+    <Link Source="@7" Target="@23" Category="Contains" FetchingParent="@7" />
+    <Link Source="@7" Target="@25" Category="Contains" FetchingParent="@7" />
+    <Link Source="@7" Target="@28" Category="Contains" FetchingParent="@7" />
+    <Link Source="@7" Target="@32" Category="Contains" FetchingParent="@7" />
+    <Link Source="@7" Target="@34" Category="Contains" FetchingParent="@7" />
+    <Link Source="@7" Target="@38" Category="Contains" FetchingParent="@7" />
+    <Link Source="@7" Target="@42" Category="Contains" FetchingParent="@7" />
+    <Link Source="@7" Target="@44" Category="Contains" FetchingParent="@7" />
+    <Link Source="@7" Target="@46" Category="Contains" FetchingParent="@7" />
+    <Link Source="@7" Target="@48" Category="Contains" FetchingParent="@7" />
+    <Link Source="@7" Target="@50" Category="Contains" FetchingParent="@7" />
+    <Link Source="@70" Target="@100" Category="CodeSchema_FieldRead" Bounds="1200.55074153956,-71.5715288294824,8.7190613844632,21.6516000415256" Weight="3" />
+    <Link Source="@70" Target="@128" Category="CodeSchema_FieldRead" Bounds="975.709418097761,-26.981636433556,186.532408074114,35.5479337931881" Weight="3" />
+    <Link Source="@71" Target="@119" Category="CodeSchema_FieldWrite" Bounds="205.756535092309,-428.860760234491,20.9999999999999,4.28393832407892E-07" Weight="1" />
+    <Link Source="@71" Target="@50" Category="References" Bounds="191.769161775438,-415.880000610352,843.190261870906,547.021896924475" Weight="1" />
+    <Link Source="@74" Target="@135" Category="CodeSchema_FieldWrite" Bounds="170.898380146054,-71.5073497844204,8.20584322224957,21.5873888564419" Weight="1" />
+    <Link Source="@74" Target="@145" Category="CodeSchema_Calls" Bounds="230.309875488281,-60.0541687011719,137.280456542969,14.4220275878906" IsTargetVirtualized="True" Weight="1" />
+    <Link Source="@74" Target="@176" Category="CodeSchema_FieldWrite" Bounds="220.846481187953,-78.0021523564356,79.6345896452726,28.0821914284571" Weight="1" />
+    <Link Source="@74" Target="@20" Category="References" Bounds="215.79356655411,-23.959998626709,465.49684196931,190.271793025187" Weight="2" />
+    <Link Source="@74" Target="@50" Category="References" Bounds="229.364447639697,-24.7739679932098,796.198365844507,213.707860786059" Weight="1" />
+    <Link Source="@76" Target="@108" Category="CodeSchema_FieldWrite" Bounds="-414.591735839844,-244.811157226563,84.3304443359375,193.831489562988" Weight="1" />
+    <Link Source="@76" Target="@112" Category="CodeSchema_FieldWrite" Bounds="-367.378601074219,-243.949645996094,37.7786560058594,192.96997833252" Weight="1" />
+    <Link Source="@76" Target="@117" Category="CodeSchema_FieldWrite" Bounds="-350.222778320313,-187.949279785156,20.7874145507813,136.969612121582" Weight="1" />
+    <Link Source="@76" Target="@138" Category="CodeSchema_FieldWrite" Bounds="-432.661102294922,-299.505859375,103.082794189453,248.526191711426" Weight="1" />
+    <Link Source="@76" Target="@165" Category="CodeSchema_FieldWrite" Bounds="-278.405731201172,-239.945785522461,226.540096282959,188.966117858887" Weight="1" />
+    <Link Source="@76" Target="@166" Category="CodeSchema_FieldWrite" Bounds="-380.161499023438,-298.743103027344,50.3851928710938,247.76343536377" Weight="1" />
+    <Link Source="@76" Target="@167" Category="CodeSchema_FieldWrite" Bounds="-391.360809326172,-133.955947875977,62.1814880371094,82.9762802124023" Weight="1" />
+    <Link Source="@76" Target="@91" Category="CodeSchema_FieldWrite" Bounds="-329.011840820313,-131.757339477539,16.2681579589844,80.7776718139648" Weight="1" />
+    <Link Source="@78" Target="@132" Category="CodeSchema_FieldRead" Bounds="-1357.4583953529,378.8210722759,37.8848454137383,25.0378479644305" Weight="6">
+      <Category Ref="CodeSchema_FieldWrite" />
+    </Link>
+    <Link Source="@79" Target="@177" Category="CodeSchema_Calls" Bounds="533.399950957983,202.000439072022,44.062917088102,25.4929493981459" IsTargetVirtualized="True" Weight="1" />
+    <Link Source="@79" Target="@180" Category="CodeSchema_Calls" Bounds="543.126525675455,188.750991260536,21.0001271663785,0.106438061959807" IsTargetVirtualized="True" Weight="1" />
+    <Link Source="@79" Target="@181" Category="CodeSchema_Calls" Bounds="511.078221439297,202.000439072022,0.183409960365282,21.0004432231576" IsTargetVirtualized="True" Weight="1" />
+    <Link Source="@80" Target="@103" Category="CodeSchema_FieldRead" Bounds="-1350.26342773438,-304.820434570313,34.582763671875,136.693542480469" Weight="2" />
+    <Link Source="@81" Target="@120" Category="CodeSchema_FieldWrite" Bounds="775.36962890625,197.495300292969,112.065063476563,14.6391143798828" Weight="1" />
+    <Link Source="@81" Target="@178" Category="CodeSchema_Calls" Bounds="864.273501143064,202.000235715088,38.2407086458855,25.0662167759503" IsTargetVirtualized="True" Weight="1" />
+    <Link Source="@81" Target="@18" Category="References" Bounds="668.55299002622,193.342983122296,218.881658004379,27.1266409700679" Weight="2" />
+    <Link Source="@81" Target="@182" Category="CodeSchema_Calls" Bounds="782.914734022552,199.740092267413,104.612598047244,32.2352440452649" IsTargetVirtualized="True" Weight="1" />
+    <Link Source="@81" Target="@25" Category="References" Bounds="523.948425996187,51.603468200844,364.113623857166,125.600560607719" Weight="1" />
+    <Link Source="@82" Target="@101" Category="CodeSchema_Calls" Bounds="778.070752342719,-359.920009155273,795.649867201326,641.272269713714" IsTargetVirtualized="True" Weight="2" />
+    <Link Source="@82" Target="@123" Category="CodeSchema_Calls" Bounds="961.969730900852,-359.920009155273,614.243297089035,585.709135122443" IsTargetVirtualized="True" Weight="2" />
+    <Link Source="@82" Target="@125" Category="CodeSchema_Calls" Bounds="902.227517200422,-359.920009155273,673.944754725976,640.718866563033" IsTargetVirtualized="True" Weight="1" />
+    <Link Source="@82" Target="@139" Category="CodeSchema_FieldRead" Bounds="1496.15128433811,-412.384606273102,62.8798975516395,26.5043794687876" Weight="2">
+      <Category Ref="CodeSchema_FieldWrite" />
+    </Link>
+    <Link Source="@82" Target="@18" Category="References" Bounds="667.376499976844,-359.920009155273,900.407511870835,530.243416024723" Weight="6">
+      <Category Ref="CodeSchema_ReturnTypeLink" />
+    </Link>
+    <Link Source="@82" Target="@20" Category="CodeSchema_ReturnTypeLink" Bounds="973.838191227523,-359.920009155273,600.099311648664,490.266243886133" Weight="1" />
+    <Link Source="@82" Target="@25" Category="References" Bounds="524.113263903056,-360.586201699132,1021.29541661305,283.137552093583" Weight="1" />
+    <Link Source="@82" Target="@73" Category="CodeSchema_Calls" Bounds="1523.29368326823,-372.900226804314,21.0000284830728,0" Weight="1" />
+    <Link Source="@82" Target="@79" Category="CodeSchema_Calls" Bounds="543.868046806398,-359.920009155273,1021.03632969416,531.802517545325" Weight="2" />
+    <Link Source="@82" Target="@81" Category="CodeSchema_Calls" Bounds="944.620536745035,-359.920009155273,629.785800603583,530.16394826805" Weight="1" />
+    <Link Source="@83" Target="@101" Category="CodeSchema_Calls" Bounds="772.564168996897,-359.920009155273,565.882544447588,640.176804803365" IsTargetVirtualized="True" Weight="1" />
+    <Link Source="@83" Target="@102" Category="CodeSchema_Calls" Bounds="1351.998188098,-359.920009155273,93.3319732807279,583.033154469092" IsTargetVirtualized="True" Weight="1" />
+    <Link Source="@83" Target="@110" Category="CodeSchema_Calls" Bounds="232.104096127608,-359.920009155273,1079.23500950929,363.090174352923" IsTargetVirtualized="True" Weight="2" />
+    <Link Source="@83" Target="@129" Category="CodeSchema_FieldRead" Bounds="1393.86297171437,-416.022026698387,126.373831663054,31.9961280583031" Weight="2" />
+    <Link Source="@83" Target="@139" Category="CodeSchema_FieldRead" Bounds="1374.77235909132,-411.713767857458,49.461896750304,25.8335410531442" Weight="10">
+      <Category Ref="CodeSchema_FieldWrite" />
+    </Link>
+    <Link Source="@83" Target="@145" Category="CodeSchema_Calls" Bounds="462.343969463252,-359.920009155273,851.56597738254,306.948150757162" IsTargetVirtualized="True" Weight="3" />
+    <Link Source="@83" Target="@146" Category="CodeSchema_Calls" Bounds="1290.1228370888,-359.920009155273,58.360142884241,527.014689068206" IsTargetVirtualized="True" Weight="3" />
+    <Link Source="@83" Target="@161" Category="CodeSchema_FieldRead" Bounds="1362.72827148438,-359.920227050781,117.702880859375,83.1750183105469" Weight="1" />
+    <Link Source="@83" Target="@176" Category="CodeSchema_FieldRead" Bounds="385.857691294391,-360.850845169183,920.720433068841,255.96082216287" Weight="3" />
+    <Link Source="@83" Target="@177" Category="CodeSchema_Calls" Bounds="628.824952129595,-359.920009155273,705.473526013234,586.168352074611" IsTargetVirtualized="True" Weight="1" />
+    <Link Source="@83" Target="@18" Category="References" Bounds="666.760677315768,-359.920009155273,666.249071180215,511.390052644107" Weight="9">
+      <Category Ref="CodeSchema_ReturnTypeLink" />
+    </Link>
+    <Link Source="@83" Target="@180" Category="CodeSchema_Calls" Bounds="629.422816354464,-359.920009155273,703.291065862811,530.539946749499" IsTargetVirtualized="True" Weight="1" />
+    <Link Source="@83" Target="@181" Category="CodeSchema_Calls" Bounds="535.672484929145,-359.920009155273,796.620146761935,586.583574760765" IsTargetVirtualized="True" Weight="1" />
+    <Link Source="@83" Target="@20" Category="References" Bounds="933.881543373742,-359.920009155273,405.281697869882,489.030741187293" Weight="8">
+      <Category Ref="CodeSchema_ReturnTypeLink" />
+    </Link>
+    <Link Source="@83" Target="@25" Category="References" Bounds="523.957182409449,-359.920009155273,787.965404232824,269.168242541727" Weight="1" />
+    <Link Source="@83" Target="@38" Category="References" Bounds="1352.16127916426,-359.920009155273,84.0938222111643,487.091426895416" Weight="1" />
+    <Link Source="@83" Target="@77" Category="CodeSchema_Calls" Bounds="702.573757409288,-425.846575499715,603.176591711806,49.3338959984839" Weight="1" />
+    <Link Source="@83" Target="@81" Category="CodeSchema_Calls" Bounds="937.643850114549,-359.920009155273,402.399113774574,528.797892775109" Weight="1" />
+    <Link Source="@83" Target="@82" Category="CodeSchema_Calls" Bounds="1394.09033203125,-364.34033203125,142.097045898438,14.5542907714844" Weight="1" />
+    <Link Source="@85" Target="@110" Category="CodeSchema_Calls" Bounds="242.25745037563,-247.999995727539,1070.53564031657,253.326731336319" IsTargetVirtualized="True" Weight="1" />
+    <Link Source="@85" Target="@115" Category="CodeSchema_Calls" Bounds="755.059681753552,-311.715155147248,550.690703988635,45.6089335351733" Weight="1" />
+    <Link Source="@85" Target="@20" Category="References" Bounds="956.529576661668,-247.999995727539,397.46172004497,377.839423249103" Weight="1" />
+    <Link Source="@85" Target="@25" Category="References" Bounds="524.212621079677,-247.999995727539,786.838885684784,180.464193666741" Weight="1" />
+    <Link Source="@85" Target="@83" Category="CodeSchema_Calls" Bounds="1353.38382205915,-351.03101478472,12.2058938813238,77.0709879804054" Weight="1" />
+    <Link Source="@86" Target="@133" Category="CodeSchema_Calls" Bounds="1066.46875020867,-303.960073146889,72.4670410191984,26.8710302967675" IsTargetVirtualized="True" Weight="1" />
+    <Link Source="@86" Target="@87" Category="CodeSchema_Calls" Bounds="1021.93562763068,-406.930299364016,8.15374973007999,77.0102262171272" Weight="1" />
+    <Link Source="@88" Target="@107" Category="CodeSchema_FieldRead" Bounds="-255.107650756836,-297.087249755859,52.9314422607422,78.2272491455078" Weight="5">
+      <Category Ref="CodeSchema_FieldWrite" />
+    </Link>
+    <Link Source="@88" Target="@108" Category="CodeSchema_FieldRead" Bounds="-392.220381626387,-250.645007554785,169.528688213846,33.7844472864613" Weight="3" />
+    <Link Source="@88" Target="@109" Category="CodeSchema_FieldRead" Bounds="-184.326025677237,-240.746220575224,10.5044080186667,21.8862180501061" Weight="3">
+      <Category Ref="CodeSchema_FieldWrite" />
+    </Link>
+    <Link Source="@88" Target="@111" Category="CodeSchema_FieldRead" Bounds="-159.551023987399,-297.169276637627,48.5105614893386,78.3092741125091" Weight="2" />
+    <Link Source="@88" Target="@112" Category="CodeSchema_FieldRead" Bounds="-278.492875666884,-245.811170011133,74.8516443939844,26.9511674860152" Weight="1" />
+    <Link Source="@88" Target="@113" Category="CodeSchema_FieldRead" Bounds="-385.4189453125,-197.091613769531,162.555480957031,14.3258056640625" Weight="2">
+      <Category Ref="CodeSchema_FieldWrite" />
+    </Link>
+    <Link Source="@88" Target="@117" Category="CodeSchema_FieldRead" Bounds="-243.863448994955,-205.879989469447,20.999985453288,4.96038776987007E-06" Weight="1" />
+    <Link Source="@88" Target="@136" Category="CodeSchema_Calls" Bounds="-354.090454101563,-192.900009155273,176.409957885742,84.1075210571289" Weight="1" />
+    <Link Source="@88" Target="@165" Category="CodeSchema_FieldRead" Bounds="-143.350213805533,-244.611778796734,48.0942853370336,25.7517762716159" Weight="1" />
+    <Link Source="@88" Target="@166" Category="CodeSchema_FieldRead" Bounds="-304.342010498047,-301.339935302734,102.165802001953,82.4799346923828" Weight="4" />
+    <Link Source="@88" Target="@167" Category="CodeSchema_FieldRead" Bounds="-369.871354693283,-194.466018156382,147.372803139761,30.6357729802616" Weight="3" />
+    <Link Source="@88" Target="@175" Category="CodeSchema_FieldRead" Bounds="-1087.83364715316,-312.87435006426,864.970183611497,100.568046289367" Weight="5" />
+    <Link Source="@88" Target="@58" Category="CodeSchema_Calls" Bounds="-231.847669256634,-192.900002525118,55.1479342216916,78.5930002627618" Weight="2" />
+    <Link Source="@88" Target="@84" Category="CodeSchema_Calls" Bounds="-157.774470644396,-192.900002525118,17.2612588350782,22.8220122685612" Weight="2" />
+    <Link Source="@89" Target="@127" Category="CodeSchema_FieldWrite" Bounds="-1208.34605188983,-133.893997810486,74.9373681437658,26.9540115076457" Weight="1" />
+    <Link Source="@89" Target="@168" Category="CodeSchema_FieldWrite" Bounds="-1220.60729980469,-295.999847412109,88.1202392578125,189.059860229492" Weight="1" />
+    <Link Source="@89" Target="@174" Category="CodeSchema_FieldWrite" Bounds="-1090.43176269531,-193.035140991211,118.856201171875,86.0951538085938" Weight="1" />
+    <Link Source="@89" Target="@96" Category="CodeSchema_FieldWrite" Bounds="-1331.11962890625,-194.076080322266,198.632568359375,87.1360931396484" Weight="1" />
+    <Link Source="@9" Target="@21" Category="Contains" FetchingParent="@9" />
+    <Link Source="@9" Target="@40" Category="Contains" FetchingParent="@9" />
+    <Link Source="@90" Target="@116" Category="CodeSchema_FieldRead" Bounds="204.889681643549,204.196437924108,68.5694156851712,27.8041011479139" Weight="4">
+      <Category Ref="CodeSchema_FieldWrite" />
+    </Link>
+    <Link Source="@90" Target="@131" Category="CodeSchema_FieldRead" Bounds="274.315321597073,208.818923366253,19.9718117287846,23.1816157057685" Weight="4">
+      <Category Ref="CodeSchema_FieldWrite" />
+    </Link>
+    <Link Source="@90" Target="@169" Category="CodeSchema_FieldRead" Bounds="228.711150763984,257.960539072022,51.1532706063736,25.9307784369501" Weight="3">
+      <Category Ref="CodeSchema_FieldWrite" />
+    </Link>
+    <Link Source="@90" Target="@170" Category="CodeSchema_FieldWrite" Bounds="318.63155055879,208.320021187107,24.0119564855131,23.6805178849144" Weight="2" />
+    <Link Source="@90" Target="@171" Category="CodeSchema_FieldRead" Bounds="314.777296198434,257.960539072022,16.2672585859104,22.6861024229606" Weight="3">
+      <Category Ref="CodeSchema_FieldWrite" />
+    </Link>
+    <Link Source="@90" Target="@172" Category="CodeSchema_FieldWrite" Bounds="237.283205159505,244.980539072022,21.0000073242188,0" Weight="2" />
+    <Link Source="@92" Target="@25" Category="References" Bounds="358.351939998866,-415.880000610352,81.1056472296262,261.40430865337" Weight="1" />
+    <Link Source="@93" Target="@40" Category="References" Bounds="-1321.33562224492,-248.86001159668,148.614083345028,553.029494328073" Weight="1" />
+    <Link Source="@97" Target="@110" Category="CodeSchema_Calls" Bounds="229.748926628595,34.0781133691577,75.186770488732,26.9619872030468" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="1" />
+    <Link Source="@97" Target="@123" Category="CodeSchema_Calls" Bounds="383.850102543469,86.04,509.765137362477,144.63345929113" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="2" />
+    <Link Source="@97" Target="@124" Category="CodeSchema_Calls" Bounds="309.337505887897,-16.3954818056545,26.2229330671494,77.435582377859" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="1" />
+    <Link Source="@97" Target="@20" Category="References" Bounds="379.29556022726,86.04,301.745123746156,95.4838929676077" IsSourceVirtualized="True" Weight="8" />
+  </Links>
+  <Categories>
+    <Category Id="CodeMap_WpfProject" Label="WPF Project" CanBeDataDriven="True" IsProviderRoot="False" NavigationActionLabel="WPF Projects" />
+    <Category Id="CodeSchema_Assembly" Label="Assembly" BasedOn="File" CanBeDataDriven="True" DefaultAction="Microsoft.Contains" Icon="CodeSchema_Assembly" NavigationActionLabel="Assemblies" />
+    <Category Id="CodeSchema_Calls" Label="Calls" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Called By" OutgoingActionLabel="Calls" />
+    <Category Id="CodeSchema_Class" Label="Class" BasedOn="CodeSchema_Type" CanBeDataDriven="True" DefaultAction="Node:Both:CodeSchema_Member" Icon="CodeSchema_Class" NavigationActionLabel="Classes" />
+    <Category Id="CodeSchema_Field" Label="Field" BasedOn="CodeSchema_Member" CanBeDataDriven="True" DefaultAction="Microsoft.Contains" Icon="CodeSchema_Field" NavigationActionLabel="Fields" />
+    <Category Id="CodeSchema_FieldRead" Label="Field Read" BasedOn="CodeSchema_FieldReference" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Read By" OutgoingActionLabel="Reads Fields" />
+    <Category Id="CodeSchema_FieldReference" Label="Field Reference" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Referenced By" OutgoingActionLabel="References Fields" />
+    <Category Id="CodeSchema_FieldWrite" Label="Field Write" BasedOn="CodeSchema_FieldReference" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Written By" OutgoingActionLabel="Writes Fields" />
+    <Category Id="CodeSchema_Member" Label="Member" CanBeDataDriven="True" DefaultAction="Microsoft.Contains" Icon="CodeSchema_Field" NavigationActionLabel="Members" />
+    <Category Id="CodeSchema_Method" Label="Method" BasedOn="CodeSchema_Member" CanBeDataDriven="True" DefaultAction="Link:Forward:CodeSchema_Calls" Icon="CodeSchema_Method" NavigationActionLabel="Methods" />
+    <Category Id="CodeSchema_Namespace" Label="Namespace" CanBeDataDriven="True" DefaultAction="Node:Both:CodeSchema_Type" Icon="CodeSchema_Namespace" NavigationActionLabel="Namespaces" />
+    <Category Id="CodeSchema_Property" Label="Property" BasedOn="CodeSchema_Member" CanBeDataDriven="True" DefaultAction="Microsoft.Contains" Icon="CodeSchema_Property" NavigationActionLabel="Properties" />
+    <Category Id="CodeSchema_ReturnTypeLink" Label="Return" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Return types" OutgoingActionLabel="Return types" />
+    <Category Id="CodeSchema_Type" Label="Type" CanBeDataDriven="True" DefaultAction="Node:Both:CodeSchema_Member" Icon="CodeSchema_Class" NavigationActionLabel="Types" />
+    <Category Id="Contains" Label="Contains" Description="Whether the source of the link contains the target object" CanBeDataDriven="False" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Contained By" IsContainment="True" OutgoingActionLabel="Contains" />
+    <Category Id="File" Label="File" CanBeDataDriven="True" DefaultAction="Microsoft.Contains" Icon="File" NavigationActionLabel="Files" />
+    <Category Id="FileSystem.Category.FileOfType.exe" BasedOn="CodeSchema_Assembly" CanBeDataDriven="True" IsProviderRoot="False" />
+    <Category Id="InheritsFrom" Label="Inherits From" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Inherited By" OutgoingActionLabel="Inherits From" />
+    <Category Id="References" Label="References" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Referenced By" OutgoingActionLabel="References" />
+  </Categories>
+  <Properties>
+    <Property Id="AssemblyTimestamp" DataType="System.DateTime" />
+    <Property Id="Bounds" DataType="System.Windows.Rect" />
+    <Property Id="CanBeDataDriven" Label="CanBeDataDriven" Description="CanBeDataDriven" DataType="System.Boolean" />
+    <Property Id="CanLinkedNodesBeDataDriven" Label="CanLinkedNodesBeDataDriven" Description="CanLinkedNodesBeDataDriven" DataType="System.Boolean" />
+    <Property Id="CodeSchemaProperty_IsAbstract" Label="Is Abstract" Description="Flag to indicate member is 'Abstract' does not provide a full implementation" DataType="System.Boolean" />
+    <Property Id="CodeSchemaProperty_IsCompilerGenerated" Label="Is Compiler Generated" Description="Flag indicating whether the code representing this node was compiler generated" DataType="System.Boolean" />
+    <Property Id="CodeSchemaProperty_IsConstructor" Label="Is Constructor" Description="Flag to indicate the method is a constructor" DataType="System.Boolean" />
+    <Property Id="CodeSchemaProperty_IsFinal" Label="Is Final" Description="Flag to indicate the member is 'Final' and cannot be derived from" DataType="System.Boolean" />
+    <Property Id="CodeSchemaProperty_IsGeneratedCode" Label="Is Generated Code" Description="Flag indicating whether the code representing this node was generated" DataType="System.Boolean" />
+    <Property Id="CodeSchemaProperty_IsInternal" Label="Is Internal" Description="Flag to indicate the method is 'Internal'" DataType="System.Boolean" />
+    <Property Id="CodeSchemaProperty_IsPrivate" Label="Is Private" Description="Flag to indicate the scope is Private" DataType="System.Boolean" />
+    <Property Id="CodeSchemaProperty_IsProtected" Label="Is Protected" Description="Flag to indicate the scope is Protected" DataType="System.Boolean" />
+    <Property Id="CodeSchemaProperty_IsPublic" Label="Is Public" Description="Flag to indicate the scope is Public" DataType="System.Boolean" />
+    <Property Id="CodeSchemaProperty_IsSpecialName" Label="Is Special Name" Description="Flag to indicate the method is treated in a special way by some compilers" DataType="System.Boolean" />
+    <Property Id="CodeSchemaProperty_IsStatic" Label="Is Static" Description="Flag to indicate the member is a static member" DataType="System.Boolean" />
+    <Property Id="CodeSchemaProperty_IsVirtual" Label="Is Virtual" Description="Flag to indicate the method can be overridden" DataType="System.Boolean" />
+    <Property Id="CodeSchemaProperty_StrongName" Label="StrongName" Description="StrongName" DataType="System.String" />
+    <Property Id="CommonLabel" DataType="System.String" />
+    <Property Id="DataVirtualized" Label="Data Virtualized" Description="If true, the graph can contain nodes and links that represent data for virtualized nodes/links (i.e. not actually created in the graph)." DataType="System.Boolean" />
+    <Property Id="DefaultAction" Label="DefaultAction" Description="DefaultAction" DataType="System.String" />
+    <Property Id="DelayedChildNodesState" Label="Delayed Child Nodes State" Description="Unspecified if the delayed child nodes state is not specified. NotFetched if the group contains child nodes that are not fetched into the graph yet. Fetched if the group has all its delayed child nodes already fetched." DataType="Microsoft.VisualStudio.GraphModel.DelayedDataState" />
+    <Property Id="DelayedCrossGroupLinksState" Label="Delayed Cross-Group Links State" Description="Unspecified if the delayed cross-group links state is not specified. NotFetched if delayed cross-group links on this node are not fetched into the graph yet. Fetched if all delayed cross-group links have already fetched." DataType="Microsoft.VisualStudio.GraphModel.DelayedDataState" />
+    <Property Id="Expression" DataType="System.String" />
+    <Property Id="FetchingParent" DataType="Microsoft.VisualStudio.GraphModel.GraphNodeId" />
+    <Property Id="FilePath" Label="File Path" Description="File Path" DataType="System.String" />
+    <Property Id="Group" Label="Group" Description="Display the node as a group" DataType="Microsoft.VisualStudio.GraphModel.GraphGroupStyle" />
+    <Property Id="GroupLabel" DataType="System.String" />
+    <Property Id="Icon" Label="Icon" DataType="System.String" />
+    <Property Id="IncomingActionLabel" Label="IncomingActionLabel" Description="IncomingActionLabel" DataType="System.String" />
+    <Property Id="IsContainment" DataType="System.Boolean" />
+    <Property Id="IsEnabled" DataType="System.Boolean" />
+    <Property Id="IsOverloaded" Label="IsOverloaded" Description="IsOverloaded" DataType="System.Boolean" />
+    <Property Id="IsProviderRoot" Label="IsProviderRoot" Description="IsProviderRoot" DataType="System.Boolean" />
+    <Property Id="IsSourceVirtualized" Label="Link Source Virtualized" Description="If true, the link source end contains data for virtualized nodes/links (i.e. not actually created in the graph)." DataType="System.Boolean" />
+    <Property Id="IsTargetVirtualized" Label="Link Target Virtualized" Description="If true, the link target end contains data for virtualized nodes/links (i.e. not actually created in the graph)." DataType="System.Boolean" />
+    <Property Id="Label" Label="Label" Description="Displayable label of an Annotatable object" DataType="System.String" />
+    <Property Id="Layout" DataType="System.String" />
+    <Property Id="NavigationActionLabel" Label="NavigationActionLabel" Description="NavigationActionLabel" DataType="System.String" />
+    <Property Id="OutgoingActionLabel" Label="OutgoingActionLabel" Description="OutgoingActionLabel" DataType="System.String" />
+    <Property Id="SourceLocation" Label="Start Line Number" DataType="Microsoft.VisualStudio.GraphModel.CodeSchema.SourceLocation" />
+    <Property Id="TargetType" DataType="System.Type" />
+    <Property Id="Value" DataType="System.String" />
+    <Property Id="ValueLabel" DataType="System.String" />
+    <Property Id="Visibility" Label="Visibility" Description="Defines whether a node in the graph is visible or not" DataType="System.Windows.Visibility" />
+    <Property Id="Weight" Label="Weight" Description="Weight" DataType="System.Double" />
+    <Property Id="ZoomLevel" DataType="System.String" />
+  </Properties>
+  <QualifiedNames>
+    <Name Id="ArrayRank" Label="Array Rank" ValueType="System.String" />
+    <Name Id="Assembly" Label="Assembly" ValueType="Uri" />
+    <Name Id="GenericArguments" Label="Generic Arguments" ValueType="Microsoft.VisualStudio.GraphModel.GraphNodeIdCollection" />
+    <Name Id="GenericParameterCount" Label="Generic Parameter Count" ValueType="System.String" />
+    <Name Id="Member" Label="Member" ValueType="System.Object" />
+    <Name Id="Name" Label="Name" ValueType="System.String" />
+    <Name Id="Namespace" Label="Namespace" ValueType="System.String" />
+    <Name Id="OverloadingParameters" Label="Parameter" ValueType="Microsoft.VisualStudio.GraphModel.GraphNodeIdCollection" Formatter="NameValueNoEscape" />
+    <Name Id="ParentType" Label="Parent Type" ValueType="System.Object" />
+    <Name Id="Type" Label="Type" ValueType="System.Object" />
+  </QualifiedNames>
+  <IdentifierAliases>
+    <Alias n="1" Uri="Assembly=$(192b2333-3878-4f56-9a42-7e655ec8f196.OutputPathUri)" />
+    <Alias n="2" Id="(@1)" />
+    <Alias n="3" Uri="Assembly=$(a4433377-c9fd-4f96-b845-8abf3ba91d64.OutputPathUri)" />
+    <Alias n="4" Id="(@3)" />
+    <Alias n="5" Id="Namespace=MCClone" />
+    <Alias n="6" Id="(@1 @5)" />
+    <Alias n="7" Id="(@3 @5)" />
+    <Alias n="8" Id="Namespace=MCClone.Client" />
+    <Alias n="9" Id="(@1 @8)" />
+    <Alias n="10" Id="(@1 Namespace=MCClone.Client.Properties)" />
+    <Alias n="11" Id="Namespace=MCClone.Client.UI" />
+    <Alias n="12" Id="(@1 @11)" />
+    <Alias n="13" Id="Namespace=MCClone.TerrainGenTest" />
+    <Alias n="14" Id="(@3 @13)" />
+    <Alias n="15" Id="Type=ActivityViewer" />
+    <Alias n="16" Id="(@1 @11 @15)" />
+    <Alias n="17" Id="Type=Block" />
+    <Alias n="18" Id="(@3 @5 @17)" />
+    <Alias n="19" Id="Type=Chunk" />
+    <Alias n="20" Id="(@3 @5 @19)" />
+    <Alias n="21" Id="(@1 @8 Type=CliUtil)" />
+    <Alias n="22" Id="Type=DataStore" />
+    <Alias n="23" Id="(@3 @5 @22)" />
+    <Alias n="24" Id="Type=Dimension" />
+    <Alias n="25" Id="(@3 @5 @24)" />
+    <Alias n="26" Id="(@1 @5 Type=Input)" />
+    <Alias n="27" Id="Type=Logger" />
+    <Alias n="28" Id="(@3 @5 @27)" />
+    <Alias n="29" Id="Type=MainWindow" />
+    <Alias n="30" Id="(@1 @5 @29)" />
+    <Alias n="31" Id="Type=ModData" />
+    <Alias n="32" Id="(@3 @5 @31)" />
+    <Alias n="33" Id="Type=Player" />
+    <Alias n="34" Id="(@3 @5 @33)" />
+    <Alias n="35" Id="Type=Program" />
+    <Alias n="36" Id="(@1 @5 @35)" />
+    <Alias n="37" Id="(@3 @13 @35)" />
+    <Alias n="38" Id="(@3 @5 Type=SaveChunk)" />
+    <Alias n="39" Id="Type=Shader" />
+    <Alias n="40" Id="(@1 @8 @39)" />
+    <Alias n="41" Id="Type=SystemInfo" />
+    <Alias n="42" Id="(@3 @5 @41)" />
+    <Alias n="43" Id="Type=SystemUtils" />
+    <Alias n="44" Id="(@3 @5 @43)" />
+    <Alias n="45" Id="Type=TerrainGen" />
+    <Alias n="46" Id="(@3 @5 @45)" />
+    <Alias n="47" Id="Type=Util" />
+    <Alias n="48" Id="(@3 @5 @47)" />
+    <Alias n="49" Id="Type=World" />
+    <Alias n="50" Id="(@3 @5 @49)" />
+    <Alias n="51" Uri="Assembly=$(FxReferenceAssembliesUri)/.NETFramework/v4.7.2/mscorlib.dll" />
+    <Alias n="52" Id="Namespace=System" />
+    <Alias n="53" Id="(@51 @52 Type=Double)" />
+    <Alias n="54" Id="(@3 @13 @35 Member=(Name=Main OverloadingParameters=[(@51 @52 Type=(Name=String ArrayRank=1 ParentType=String))]))" />
+    <Alias n="55" Uri="Assembly=$(FxReferenceAssembliesUri)/.NETFramework/v4.8/mscorlib.dll" />
+    <Alias n="56" Id="(@1 @5 @35 Member=(Name=Main OverloadingParameters=[(@55 @52 Type=(Name=String ArrayRank=1 ParentType=String))]))" />
+    <Alias n="57" Uri="Assembly=$(FxReferenceAssembliesUri)/.NETFramework/v4.8/System.Drawing.dll" />
+    <Alias n="58" Id="(@1 @11 @15 Member=(Name=BitmapToImageSource OverloadingParameters=[(@57 Namespace=System.Drawing Type=Bitmap)]))" />
+    <Alias n="59" Id="(@1 @8 Type=CliUtil Member=(Name=ShouldRenderChunk OverloadingParameters=[(@1 @5 @19)]))" />
+    <Alias n="60" Id="Name=.ctor" />
+    <Alias n="61" Id="(@3 @5 Type=SaveChunk Member=(@60 OverloadingParameters=[@20]))" />
+    <Alias n="62" Id="(@3 @5 @45 Member=(Name=Initialize OverloadingParameters=[@25]))" />
+    <Alias n="63" Id="(@1 @5 @29 Member=(Name=OnLoad OverloadingParameters=[(@55 @52 Type=EventArgs)]))" />
+    <Alias n="64" Id="(@1 @5 @29 Member=(Name=OnResize OverloadingParameters=[(@55 @52 Type=EventArgs)]))" />
+    <Alias n="65" Uri="Assembly=$(VsSolutionUri)/packages/OpenTK.3.1.0/lib/net20/OpenTK.dll" />
+    <Alias n="66" Id="(@1 @5 @29 Member=(Name=OnRenderFrame OverloadingParameters=[(@65 Namespace=OpenTK Type=FrameEventArgs)]))" />
+    <Alias n="67" Id="(@1 @5 @29 Member=(Name=OnUpdateFrame OverloadingParameters=[(@65 Namespace=OpenTK Type=FrameEventArgs)]))" />
+    <Alias n="68" Id="(@51 @52 Type=Int32)" />
+    <Alias n="69" Id="(@3 @5 @49 Member=(@60 OverloadingParameters=[(@51 @52 Type=String)]))" />
+    <Alias n="70" Id="(@3 @5 @47 Member=(Name=GetGameArg OverloadingParameters=[(@51 @52 Type=String)]))" />
+    <Alias n="71" Id="(@3 @5 @33 Member=(@60 OverloadingParameters=[@50]))" />
+    <Alias n="72" Id="(@1 @5 @29 Member=(Name=RenderCube OverloadingParameters=[(@1 @5 @19),(@1 @5 @17)]))" />
+    <Alias n="73" Id="(@3 @5 @45 Member=(Name=GetHeight OverloadingParameters=[@68,@68]))" />
+    <Alias n="74" Id="(@3 @5 @24 Member=(@60 OverloadingParameters=[@50,@68]))" />
+    <Alias n="75" Id="(@55 @52 Type=Int32)" />
+    <Alias n="76" Id="(@1 @11 @15 Member=(Name=System.Windows.Markup.IComponentConnector.Connect OverloadingParameters=[@75,(@55 @52 Type=Object)]))" />
+    <Alias n="77" Id="(@3 @5 @27 Member=(Name=Log OverloadingParameters=[(@51 @52 Type=String),(@51 @52 Type=String)]))" />
+    <Alias n="78" Id="(@1 @8 @39 Member=(@60 OverloadingParameters=[(@55 @52 Type=String),(@55 @52 Type=String)]))" />
+    <Alias n="79" Id="(@3 @5 @17 Member=(@60 OverloadingParameters=[(@51 @52 Type=Byte),(@51 @52 Type=Byte),(@51 @52 Type=Byte)]))" />
+    <Alias n="80" Id="(@1 @5 @29 Member=(Name=Dot OverloadingParameters=[(@55 @52 Type=Double),(@55 @52 Type=Double),(@55 @52 Type=Double)]))" />
+    <Alias n="81" Id="(@3 @5 @19 Member=(@60 OverloadingParameters=[@25,@68,@68]))" />
+    <Alias n="82" Id="(@3 @5 @45 Member=(Name=GenChunk OverloadingParameters=[@25,@68,@68]))" />
+    <Alias n="83" Id="(@3 @5 @45 Member=(Name=GetChunk OverloadingParameters=[@25,@68,@68]))" />
+    <Alias n="84" Id="(@1 @11 @15 Member=(Name=TranslateCoordinate OverloadingParameters=[(@57 Namespace=System.Drawing Type=Bitmap),@75,@75]))" />
+    <Alias n="85" Id="(@3 @5 @45 Member=(Name=GenerateAround OverloadingParameters=[@25,@68,@68,@53]))" />
+    <Alias n="86" Id="(@3 @5 @43 Member=(Name=SetWindowPosition OverloadingParameters=[@68,@68,@68,@68]))" />
+    <Alias n="87" Id="(@3 @5 @43 Member=(Name=SetWindowPos OverloadingParameters=[(@51 @52 Type=IntPtr),(@51 @52 Type=IntPtr),@68,@68,@68,@68,@68]))" />
+    <Alias n="88" Id="(@1 @11 @15 Member=.ctor)" />
+    <Alias n="89" Id="(@1 @5 @29 Member=.ctor)" />
+    <Alias n="90" Id="(@3 @5 @41 Member=.ctor)" />
+    <Alias n="91" Id="(@1 @11 @15 Member=_contentLoaded)" />
+    <Alias n="92" Id="(@3 @5 @33 Member=_CurrentDimension)" />
+    <Alias n="93" Id="(@1 @5 @29 Member=_shader)" />
+    <Alias n="94" Id="(@1 @5 @29 Member=_vertexArrayObject)" />
+    <Alias n="95" Id="(@1 @5 @29 Member=_vertexBufferObject)" />
+    <Alias n="96" Id="(@1 @5 @29 Member=_vertices)" />
+    <Alias n="97" Id="(@3 @5 @24 Member=AnyChunksDirty)" />
+    <Alias n="98" Id="(@1 @5 @35 Member=args)" />
+    <Alias n="99" Id="(@3 @13 @35 Member=args)" />
+    <Alias n="100" Id="(@3 @5 @47 Member=args)" />
+    <Alias n="101" Id="(@3 @5 @19 Member=Blocks)" />
+    <Alias n="102" Id="(@3 @5 Type=SaveChunk Member=Blocks)" />
+    <Alias n="103" Id="(@1 @5 @29 Member=brightness)" />
+    <Alias n="104" Id="(@1 @5 @29 Member=centerX)" />
+    <Alias n="105" Id="(@1 @5 @29 Member=centerY)" />
+    <Alias n="106" Id="(@3 @5 @49 Member=ChunkCount)" />
+    <Alias n="107" Id="(@1 @11 @15 Member=chunkMap)" />
+    <Alias n="108" Id="(@1 @11 @15 Member=ChunkMap)" />
+    <Alias n="109" Id="(@1 @11 @15 Member=chunkMapG)" />
+    <Alias n="110" Id="(@3 @5 @24 Member=Chunks)" />
+    <Alias n="111" Id="(@1 @11 @15 Member=chunkView)" />
+    <Alias n="112" Id="(@1 @11 @15 Member=ChunkView)" />
+    <Alias n="113" Id="(@1 @11 @15 Member=chunkViewG)" />
+    <Alias n="114" Id="(@3 @5 @49 Member=CompressionLevel)" />
+    <Alias n="115" Id="(@3 @5 @27 Member=CompressLog)" />
+    <Alias n="116" Id="(@3 @5 @41 Member=CPU)" />
+    <Alias n="117" Id="(@1 @11 @15 Member=CurrentChunk)" />
+    <Alias n="118" Id="(@3 @5 @33 Member=CurrentDimension)" />
+    <Alias n="119" Id="(@3 @5 @33 Member=CurrentWorld)" />
+    <Alias n="120" Id="(@3 @5 @19 Member=dim)" />
+    <Alias n="121" Id="(@3 @5 @33 Member=DimensionId)" />
+    <Alias n="122" Id="(@3 @5 @49 Member=Dimensions)" />
+    <Alias n="123" Id="(@3 @5 @19 Member=Dirty)" />
+    <Alias n="124" Id="(@3 @5 @24 Member=Dirty)" />
+    <Alias n="125" Id="(@3 @5 @19 Member=Finished)" />
+    <Alias n="126" Id="(@1 @5 @29 Member=focussed)" />
+    <Alias n="127" Id="(@1 @5 @29 Member=frameTime)" />
+    <Alias n="128" Id="(@3 @5 @22 Member=GameArgs)" />
+    <Alias n="129" Id="(@3 @5 @45 Member=GenTime)" />
+    <Alias n="130" Id="(@3 @5 @43 Member=GetConsoleWindow)" />
+    <Alias n="131" Id="(@3 @5 @41 Member=GPU)" />
+    <Alias n="132" Id="(@1 @8 @39 Member=Handle)" />
+    <Alias n="133" Id="(@3 @5 @43 Member=Handle)" />
+    <Alias n="134" Id="(@1 @5 Type=Input Member=HandleInput)" />
+    <Alias n="135" Id="(@3 @5 @24 Member=Id)" />
+    <Alias n="136" Id="(@1 @11 @15 Member=InitializeComponent)" />
+    <Alias n="137" Id="(@1 @5 @29 Member=LoadedMods)" />
+    <Alias n="138" Id="(@1 @11 @15 Member=LogBox)" />
+    <Alias n="139" Id="(@3 @5 @45 Member=LogEntry)" />
+    <Alias n="140" Id="(@1 @5 @29 Member=logger)" />
+    <Alias n="141" Id="(@3 @5 @27 Member=LogQueue)" />
+    <Alias n="142" Id="(@3 @5 @27 Member=logQueueThread)" />
+    <Alias n="143" Id="(@1 @5 @29 Member=Mods)" />
+    <Alias n="144" Id="Member=Name" />
+    <Alias n="145" Id="(@3 @5 @24 @144)" />
+    <Alias n="146" Id="(@3 @5 @49 @144)" />
+    <Alias n="147" Id="(@3 @5 @22 Member=Players)" />
+    <Alias n="148" Id="(@3 @5 @33 Member=pos)" />
+    <Alias n="149" Id="(@1 @5 @29 Member=renderDistance)" />
+    <Alias n="150" Id="(@3 @5 @45 Member=renderDistance)" />
+    <Alias n="151" Id="(@1 @5 @29 Member=RenderedChunks)" />
+    <Alias n="152" Id="(@1 @5 @29 Member=RenderErrors)" />
+    <Alias n="153" Id="(@1 @5 @29 Member=RenderWorld)" />
+    <Alias n="154" Id="(@1 @5 @29 Member=rt)" />
+    <Alias n="155" Id="(@1 @5 @29 Member=running)" />
+    <Alias n="156" Id="(@3 @5 @19 Member=Save)" />
+    <Alias n="157" Id="(@3 @5 @24 Member=Save)" />
+    <Alias n="158" Id="(@3 @5 @49 Member=Save)" />
+    <Alias n="159" Id="(@1 @5 @29 Member=sensitivity)" />
+    <Alias n="160" Id="(@1 @5 @29 Member=SetGameStateMW)" />
+    <Alias n="161" Id="(@3 @5 @45 Member=ShouldLoadChunks)" />
+    <Alias n="162" Id="(@1 @5 @35 Member=ShowActivityViewer)" />
+    <Alias n="163" Id="(@3 @5 @27 Member=Start)" />
+    <Alias n="164" Id="(@3 @5 @22 Member=SystemInfo)" />
+    <Alias n="165" Id="(@1 @11 @15 Member=ThreadLabel)" />
+    <Alias n="166" Id="(@1 @11 @15 Member=ThreadList)" />
+    <Alias n="167" Id="(@1 @11 @15 Member=ThreadStateList)" />
+    <Alias n="168" Id="(@1 @5 @29 Member=Time)" />
+    <Alias n="169" Id="(@3 @5 @41 Member=TotalCPUCores)" />
+    <Alias n="170" Id="(@3 @5 @41 Member=TotalCPUs)" />
+    <Alias n="171" Id="(@3 @5 @41 Member=TotalCPUThreads)" />
+    <Alias n="172" Id="(@3 @5 @41 Member=TotalGPUs)" />
+    <Alias n="173" Id="(@1 @8 @39 Member=Use)" />
+    <Alias n="174" Id="(@1 @5 @29 Member=Username)" />
+    <Alias n="175" Id="(@1 @5 @29 Member=world)" />
+    <Alias n="176" Id="(@3 @5 @24 Member=World)" />
+    <Alias n="177" Id="(@3 @5 @17 Member=X)" />
+    <Alias n="178" Id="(@3 @5 @19 Member=X)" />
+    <Alias n="179" Id="(@3 @5 @33 Member=X)" />
+    <Alias n="180" Id="(@3 @5 @17 Member=Y)" />
+    <Alias n="181" Id="(@3 @5 @17 Member=Z)" />
+    <Alias n="182" Id="(@3 @5 @19 Member=Z)" />
+    <Alias n="183" Id="(@3 @5 @33 Member=Z)" />
+  </IdentifierAliases>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="Results" ValueLabel="True">
+      <Condition Expression="HasCategory('QueryResult')" />
+      <Setter Property="Background" Value="#FFBCFFBE" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Test Project" ValueLabel="Test Project">
+      <Condition Expression="HasCategory('CodeMap_TestProject')" />
+      <Setter Property="Icon" Value="CodeMap_TestProject" />
+      <Setter Property="Background" Value="#FF307A69" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Web Project" ValueLabel="Web Project">
+      <Condition Expression="HasCategory('CodeMap_WebProject')" />
+      <Setter Property="Icon" Value="CodeMap_WebProject" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Windows Store Project" ValueLabel="Windows Store Project">
+      <Condition Expression="HasCategory('CodeMap_WindowsStoreProject')" />
+      <Setter Property="Icon" Value="CodeMap_WindowsStoreProject" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Phone Project" ValueLabel="Phone Project">
+      <Condition Expression="HasCategory('CodeMap_PhoneProject')" />
+      <Setter Property="Icon" Value="CodeMap_PhoneProject" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Portable Library" ValueLabel="Portable Library">
+      <Condition Expression="HasCategory('CodeMap_PortableLibraryProject')" />
+      <Setter Property="Icon" Value="CodeMap_PortableLibraryProject" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="WPF Project" ValueLabel="WPF Project">
+      <Condition Expression="HasCategory('CodeMap_WpfProject')" />
+      <Setter Property="Icon" Value="CodeMap_WpfProject" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="VSIX Project" ValueLabel="VSIX Project">
+      <Condition Expression="HasCategory('CodeMap_VsixProject')" />
+      <Setter Property="Icon" Value="CodeMap_VsixProject" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Modeling Project" ValueLabel="Modeling Project">
+      <Condition Expression="HasCategory('CodeMap_ModelingProject')" />
+      <Setter Property="Icon" Value="CodeMap_ModelingProject" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Assembly" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Assembly')" />
+      <Setter Property="Background" Value="#FF094167" />
+      <Setter Property="Stroke" Value="#FF094167" />
+      <Setter Property="Icon" Value="CodeSchema_Assembly" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Namespace" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Namespace')" />
+      <Setter Property="Background" Value="#FF0E619A" />
+      <Setter Property="Stroke" Value="#FF0E619A" />
+      <Setter Property="Icon" Value="CodeSchema_Namespace" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Interface" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Interface')" />
+      <Setter Property="Background" Value="#FF1382CE" />
+      <Setter Property="Stroke" Value="#FF1382CE" />
+      <Setter Property="Icon" Value="CodeSchema_Interface" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Struct" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Struct')" />
+      <Setter Property="Background" Value="#FF1382CE" />
+      <Setter Property="Stroke" Value="#FF1382CE" />
+      <Setter Property="Icon" Value="CodeSchema_Struct" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Enumeration" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Enum')" />
+      <Setter Property="Background" Value="#FF1382CE" />
+      <Setter Property="Stroke" Value="#FF1382CE" />
+      <Setter Property="Icon" Value="CodeSchema_Enum" />
+      <Setter Property="LayoutSettings" Value="List" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Delegate" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Delegate')" />
+      <Setter Property="Background" Value="#FF1382CE" />
+      <Setter Property="Stroke" Value="#FF1382CE" />
+      <Setter Property="Icon" Value="CodeSchema_Delegate" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Class" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Type')" />
+      <Setter Property="Background" Value="#FF0E70C0" />
+      <Setter Property="Stroke" Value="#FF0E70C0" />
+      <Setter Property="Icon" Value="CodeSchema_Class" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Property" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Property')" />
+      <Setter Property="Background" Value="#FFE0E0E0" />
+      <Setter Property="Stroke" Value="#FFE0E0E0" />
+      <Setter Property="Icon" Value="CodeSchema_Property" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Method" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Method') Or HasCategory('CodeSchema_CallStackUnresolvedMethod')" />
+      <Setter Property="Background" Value="#FFE0E0E0" />
+      <Setter Property="Stroke" Value="#FFE0E0E0" />
+      <Setter Property="Icon" Value="CodeSchema_Method" />
+      <Setter Property="LayoutSettings" Value="List" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Event" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Event')" />
+      <Setter Property="Background" Value="#FFE0E0E0" />
+      <Setter Property="Stroke" Value="#FFE0E0E0" />
+      <Setter Property="Icon" Value="CodeSchema_Event" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Field" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Field')" />
+      <Setter Property="Background" Value="#FFE0E0E0" />
+      <Setter Property="Stroke" Value="#FFE0E0E0" />
+      <Setter Property="Icon" Value="CodeSchema_Field" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Out Parameter" ValueLabel="Has category">
+      <Condition Expression="CodeSchemaProperty_IsOut = 'True'" />
+      <Setter Property="Icon" Value="CodeSchema_OutParameter" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Parameter" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Parameter')" />
+      <Setter Property="Icon" Value="CodeSchema_Parameter" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Local Variable" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_LocalExpression')" />
+      <Setter Property="Icon" Value="CodeSchema_LocalExpression" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Externals" ValueLabel="Has category">
+      <Condition Expression="HasCategory('Externals')" />
+      <Setter Property="Background" Value="#FF424242" />
+      <Setter Property="Stroke" Value="#FF424242" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Inherits From" ValueLabel="True">
+      <Condition Expression="HasCategory('InheritsFrom')" />
+      <Setter Property="Stroke" Value="#FF00A600" />
+      <Setter Property="StrokeDashArray" Value="2 0" />
+      <Setter Property="DrawArrow" Value="true" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Implements" ValueLabel="True">
+      <Condition Expression="HasCategory('Implements')" />
+      <Setter Property="Stroke" Value="#8000A600" />
+      <Setter Property="StrokeDashArray" Value="2 2" />
+      <Setter Property="DrawArrow" Value="true" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Calls" ValueLabel="True">
+      <Condition Expression="HasCategory('CodeSchema_Calls')" />
+      <Setter Property="Stroke" Value="#FFFF00FF" />
+      <Setter Property="StrokeDashArray" Value="2 0" />
+      <Setter Property="DrawArrow" Value="true" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Function Pointer" ValueLabel="True">
+      <Condition Expression="HasCategory('CodeSchema_FunctionPointer')" />
+      <Setter Property="Stroke" Value="#FFFF00FF" />
+      <Setter Property="StrokeDashArray" Value="2 2" />
+      <Setter Property="DrawArrow" Value="true" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Field Read" ValueLabel="True">
+      <Condition Expression="HasCategory('CodeSchema_FieldRead')" />
+      <Setter Property="Stroke" Value="#FF00AEEF" />
+      <Setter Property="StrokeDashArray" Value="2 2" />
+      <Setter Property="DrawArrow" Value="true" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Field Write" ValueLabel="True">
+      <Condition Expression="HasCategory('CodeSchema_FieldWrite')" />
+      <Setter Property="Stroke" Value="#FF00AEEF" />
+      <Setter Property="DrawArrow" Value="true" />
+      <Setter Property="IsHidden" Value="false" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Inherits From" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="HasCategory('InheritsFrom') And Target.HasCategory('CodeSchema_Class')" />
+      <Setter Property="TargetDecorator" Value="OpenArrow" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Implements" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="HasCategory('Implements') And Target.HasCategory('CodeSchema_Interface')" />
+      <Setter Property="TargetDecorator" Value="OpenArrow" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Comment Link" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="Source.HasCategory('Comment')" />
+      <Setter Property="Stroke" Value="#FFE5C365" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Cursor Location Changed" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="IsCursorLocation" />
+      <Setter Property="IndicatorWest" Value="WestIndicator" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Disabled Breakpoint Location Changed" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="DisabledBreakpointCount" />
+      <Setter Property="IndicatorWest" Value="WestIndicator" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Enabled Breakpoint Location Changed" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="EnabledBreakpointCount" />
+      <Setter Property="IndicatorWest" Value="WestIndicator" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Instruction Pointer Location Changed" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="IsInstructionPointerLocation" />
+      <Setter Property="IndicatorWest" Value="WestIndicator" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Current Callstack Changed" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="IsCurrentCallstackFrame" />
+      <Setter Property="IndicatorWest" Value="WestIndicator" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Return" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="HasCategory('CodeSchema_ReturnTypeLink')" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="References" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="HasCategory('References')" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Uses Attribute" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="HasCategory('CodeSchema_AttributeUse')" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Solution Folder" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="HasCategory('CodeMap_SolutionFolder')" />
+      <Setter Property="Background" Value="#FFDEBA83" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Project Reference" ValueLabel="Project Reference">
+      <Condition Expression="HasCategory('CodeMap_ProjectReference')" />
+      <Setter Property="Stroke" Value="#9A9A9A" />
+      <Setter Property="StrokeDashArray" Value="2 2" />
+      <Setter Property="DrawArrow" Value="true" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="External Reference" ValueLabel="External Reference">
+      <Condition Expression="HasCategory('CodeMap_ExternalReference')" />
+      <Setter Property="Stroke" Value="#9A9A9A" />
+      <Setter Property="StrokeDashArray" Value="2 2" />
+      <Setter Property="DrawArrow" Value="true" />
+    </Style>
+  </Styles>
+  <Paths>
+    <Path Id="192b2333-3878-4f56-9a42-7e655ec8f196.OutputPath" Value="C:\Users\Administrator\source\repos\ccraft\MCClone.Client\bin\Debug NoDiscord\MCClone.exe" />
+    <Path Id="192b2333-3878-4f56-9a42-7e655ec8f196.OutputPathUri" Value="file:///C:/Users/Administrator/source/repos/ccraft/MCClone.Client/bin/Debug NoDiscord/MCClone.exe" />
+    <Path Id="a4433377-c9fd-4f96-b845-8abf3ba91d64.OutputPath" Value="C:\Users\Administrator\source\repos\ccraft\MCClone.TerrainGenTest\bin\Debug\MCClone.TerrainGenTest.exe" />
+    <Path Id="a4433377-c9fd-4f96-b845-8abf3ba91d64.OutputPathUri" Value="file:///C:/Users/Administrator/source/repos/ccraft/MCClone.TerrainGenTest/bin/Debug/MCClone.TerrainGenTest.exe" />
+    <Path Id="FxReferenceAssembliesUri" Value="file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework" />
+    <Path Id="VsSolutionUri" Value="file:///C:/Users/Administrator/source/repos/ccraft" />
+  </Paths>
+</DirectedGraph>

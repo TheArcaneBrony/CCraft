@@ -1,4 +1,4 @@
-﻿using MCClone.TerrainGenTest;
+﻿//using MCClone.TerrainGenTest;
 using System;
 using System.Runtime.InteropServices;
 
@@ -6,6 +6,7 @@ namespace MCClone
 {
     internal class Util
     {
+        public static string[] args;
         public static double DegToRad(double deg)
         {
             return (Math.PI * deg) / 180;
@@ -20,7 +21,7 @@ namespace MCClone
         }
         public static string GetGameArg(string key)
         {
-            int ArgIndex = Array.FindIndex(Program.args, (string s) =>
+            int ArgIndex = Array.FindIndex(args, (string s) =>
             {
                 if (s == $"-{key}")
                 {
@@ -33,8 +34,8 @@ namespace MCClone
             });
             if (ArgIndex != -1)
             {
-                DataStore.GameArgs.Add(key, Program.args[ArgIndex + 1]);
-                return Program.args[ArgIndex + 1];
+                DataStore.GameArgs.Add(key, args[ArgIndex + 1]);
+                return args[ArgIndex + 1];
             }
             else
             {

@@ -25,7 +25,7 @@ namespace MCClone
                     //(int, int) pos = ((int)(DataStore.Player.X / 16 + x * Math.Sin(Util.DegToRad(z))), (int)(DataStore.Player.Z / 16 + x * Math.Cos(Util.DegToRad(z))));
                     (int, int) pos = ((int)(X + x), (int)(Z + z));
                     if (!dim.Chunks.ContainsKey(pos))
-                        new Task(() => GetChunk(dim, pos.Item1, pos.Item2)).Start();
+                        GetChunk(dim, pos.Item1, pos.Item2);
                         
                 }
             }
@@ -76,7 +76,6 @@ namespace MCClone
                 chunk.Save();
                 LogEntry += $"Chunk {X}/{Z} saved in: {GenTimer.ElapsedTicks / 10000d} ms, {chunk.Blocks.Count} blocks.\n";
             });*/
-
             return chunk;
         }
         static String LogEntry = "";
@@ -90,8 +89,7 @@ namespace MCClone
             {
                 return ch;
             }
-            
-            
+
             if (ShouldLoadChunks && File.Exists($"Worlds/{dim.World.Name}/{dim.Name}/ChunkData/{X}.{Z}.gz"))
             {
                 LogEntry += $"Found chunk file for {X}/{Z}, loading...\n";
