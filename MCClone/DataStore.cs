@@ -1,8 +1,8 @@
 ﻿#if CLIENT
-using MCClone.Client.UI;
+//using MCClone.Client.UI;
 #endif
 using System.Collections.Generic;
-using System.Management;
+//using System.Management;
 using System.Reflection;
 using System.Threading;
 
@@ -21,7 +21,7 @@ namespace MCClone
         public static readonly List<Player> Players = new List<Player>();
         public static readonly Dictionary<string, string> GameArgs = new Dictionary<string, string>();
 #if CLIENT
-        public static ActivityViewer activityViewer;
+        //public static ActivityViewer activityViewer;
         public static Player Player;
 #endif
     }
@@ -38,8 +38,8 @@ namespace MCClone
     {
         public SystemInfo()
         {
-            int i = 0;
-            ManagementObjectSearcher mos = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_Processor");
+            /*int i = 0;
+            //ManagementObjectSearcher mos = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_Processor");
             CPU = "";
             foreach (ManagementObject mo in mos.Get())
             {
@@ -57,7 +57,7 @@ namespace MCClone
                 GPU += $"GPU{i++}: {(mo["Name"])} (Driver: {mo["DriverVersion"]})\n";
             }
             TotalGPUs = i++;
-            mos.Dispose();
+            mos.Dispose();*/
         }
         public string CPU = "Unknown";
         public int TotalCPUs = 0;

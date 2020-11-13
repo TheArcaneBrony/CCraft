@@ -17,23 +17,23 @@ namespace MCClone
             while (true)
             {
                 //string log = "";
-                    while (LogQueue.Count > 0)
+                while (LogQueue.Count > 0)
+                {
+                    try
                     {
-                        try
-                        {
-                            PostLog(LogQueue.Dequeue().Replace("\n\n", "\n").TrimEnd());
-                            /*Task.Run(() => { if (LogQueue.Count != 0) try { */
-                           // log += LogQueue.Dequeue() + '\n';
-                           // if (log.Length >= 1024) { PostLog(log.Replace("\n\n", "\n").TrimEnd()); log = ""; }
-                            /*
-                            } catch { Debug.WriteLine("Failed to post log"); } });*/
-                        }
-                        catch
-                        {
-                            Debug.WriteLine("Failed to post log");
-                        }
+                        PostLog(LogQueue.Dequeue().Replace("\n\n", "\n").TrimEnd());
+                        /*Task.Run(() => { if (LogQueue.Count != 0) try { */
+                        // log += LogQueue.Dequeue() + '\n';
+                        // if (log.Length >= 1024) { PostLog(log.Replace("\n\n", "\n").TrimEnd()); log = ""; }
+                        /*
+                        } catch { Debug.WriteLine("Failed to post log"); } });*/
                     }
-                    //if (log.Length >= 5) PostLog(log.Replace("\n\n", "\n"));
+                    catch
+                    {
+                        Debug.WriteLine("Failed to post log");
+                    }
+                }
+                //if (log.Length >= 5) PostLog(log.Replace("\n\n", "\n"));
                 Thread.Sleep(250);
             }
         });
@@ -62,7 +62,7 @@ namespace MCClone
         {
             //if (Debugger.IsAttached) Debug.WriteLine(log);
 #if CLIENT
-            if (DataStore.activityViewer != null) DataStore.activityViewer.Dispatcher.Invoke(() => { DataStore.activityViewer.LogBox.AppendText(log + "\n"); });
+            //if (DataStore.activityViewer != null) DataStore.activityViewer.Dispatcher.Invoke(() => { DataStore.activityViewer.LogBox.AppendText(log + "\n"); });
 #endif
 #if TERRAIN_GEN_TEST
             Debug.WriteLine(log);
@@ -75,6 +75,7 @@ namespace MCClone
         }
         public static void Start()
         {
+            return;
             logQueueThread.IsBackground = true;
             logQueueThread.Priority = ThreadPriority.Lowest;
             logQueueThread.Start();
@@ -84,26 +85,27 @@ namespace MCClone
         {/*
             Thread thr = new Thread(async () =>
             {*/
-                if (Log == null) Log = "Corrupted log entry?";
+            return;
+            if (Log == null) Log = "Corrupted log entry?";
 
-                if (DataStore.Logging)
-                {
-                    HttpWebRequest request = WebRequest.CreateHttp(postaddr);
-                    request.Method = "POST";
-                    byte[] byteArray = Encoding.UTF8.GetBytes(Log);
-                    request.ContentLength = byteArray.Length;
-                    Stream dataStream =  request.GetRequestStream();
-                    dataStream.Write(byteArray, 0, byteArray.Length);
-                    dataStream.Close();
-                    /*WebResponse response = request.GetResponse();
-                    dataStream = response.GetResponseStream();
-                    StreamReader reader = new StreamReader(dataStream);
-                    string responseFromServer = reader.ReadToEnd();
-                    Debug.WriteLine(responseFromServer);
-                    reader.Close();
-                    dataStream.Close();
-                    response.Close();*/
-                }
+            if (DataStore.Logging)
+            {
+                HttpWebRequest request = WebRequest.CreateHttp(postaddr);
+                request.Method = "POST";
+                byte[] byteArray = Encoding.UTF8.GetBytes(Log);
+                request.ContentLength = byteArray.Length;
+                Stream dataStream = request.GetRequestStream();
+                dataStream.Write(byteArray, 0, byteArray.Length);
+                dataStream.Close();
+                /*WebResponse response = request.GetResponse();
+                dataStream = response.GetResponseStream();
+                StreamReader reader = new StreamReader(dataStream);
+                string responseFromServer = reader.ReadToEnd();
+                Debug.WriteLine(responseFromServer);
+                reader.Close();
+                dataStream.Close();
+                response.Close();*/
+            }
             /*});
             thr.Name = "Log thread, " + Log.Replace("\n", "");
             thr.Start();

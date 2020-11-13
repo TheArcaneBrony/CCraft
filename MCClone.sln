@@ -13,11 +13,12 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MCClone", "MCClone\MCClone.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MCClone.TerrainGenTest", "MCClone.TerrainGenTest\MCClone.TerrainGenTest.csproj", "{A4433377-C9FD-4F96-B845-8ABF3BA91D64}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MCClone.Client.Core", "MCClone.Client.Core\MCClone.Client.Core.csproj", "{7A4317C5-5BC2-4799-ABF6-2FC6723601FF}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		MCClone\MCClone.projitems*{192b2333-3878-4f56-9a42-7e655ec8f196}*SharedItemsImports = 4
-		MCClone\MCClone.projitems*{4735e265-cca6-45cf-a2fd-b41190787a5b}*SharedItemsImports = 4
 		MCClone\MCClone.projitems*{69f021a0-a1b0-46ff-99a0-f0b8f13deef0}*SharedItemsImports = 13
+		MCClone\MCClone.projitems*{7a4317c5-5bc2-4799-abf6-2fc6723601ff}*SharedItemsImports = 5
 		MCClone\MCClone.projitems*{9879fac4-ec1e-4aa5-aae3-c14cb9703812}*SharedItemsImports = 4
 		MCClone\MCClone.projitems*{a4433377-c9fd-4f96-b845-8abf3ba91d64}*SharedItemsImports = 4
 	EndGlobalSection
@@ -105,6 +106,24 @@ Global
 		{A4433377-C9FD-4F96-B845-8ABF3BA91D64}.Release|x64.Build.0 = Release|Any CPU
 		{A4433377-C9FD-4F96-B845-8ABF3BA91D64}.Release|x86.ActiveCfg = Release|Any CPU
 		{A4433377-C9FD-4F96-B845-8ABF3BA91D64}.Release|x86.Build.0 = Release|Any CPU
+		{7A4317C5-5BC2-4799-ABF6-2FC6723601FF}.Debug NoDiscord|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A4317C5-5BC2-4799-ABF6-2FC6723601FF}.Debug NoDiscord|Any CPU.Build.0 = Debug|Any CPU
+		{7A4317C5-5BC2-4799-ABF6-2FC6723601FF}.Debug NoDiscord|x64.ActiveCfg = Debug|Any CPU
+		{7A4317C5-5BC2-4799-ABF6-2FC6723601FF}.Debug NoDiscord|x64.Build.0 = Debug|Any CPU
+		{7A4317C5-5BC2-4799-ABF6-2FC6723601FF}.Debug NoDiscord|x86.ActiveCfg = Debug|Any CPU
+		{7A4317C5-5BC2-4799-ABF6-2FC6723601FF}.Debug NoDiscord|x86.Build.0 = Debug|Any CPU
+		{7A4317C5-5BC2-4799-ABF6-2FC6723601FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A4317C5-5BC2-4799-ABF6-2FC6723601FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A4317C5-5BC2-4799-ABF6-2FC6723601FF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7A4317C5-5BC2-4799-ABF6-2FC6723601FF}.Debug|x64.Build.0 = Debug|Any CPU
+		{7A4317C5-5BC2-4799-ABF6-2FC6723601FF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7A4317C5-5BC2-4799-ABF6-2FC6723601FF}.Debug|x86.Build.0 = Debug|Any CPU
+		{7A4317C5-5BC2-4799-ABF6-2FC6723601FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A4317C5-5BC2-4799-ABF6-2FC6723601FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A4317C5-5BC2-4799-ABF6-2FC6723601FF}.Release|x64.ActiveCfg = Release|Any CPU
+		{7A4317C5-5BC2-4799-ABF6-2FC6723601FF}.Release|x64.Build.0 = Release|Any CPU
+		{7A4317C5-5BC2-4799-ABF6-2FC6723601FF}.Release|x86.ActiveCfg = Release|Any CPU
+		{7A4317C5-5BC2-4799-ABF6-2FC6723601FF}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
